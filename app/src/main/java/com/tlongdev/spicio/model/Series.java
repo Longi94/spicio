@@ -16,7 +16,7 @@ public class Series {
     private String overView;
     private DateTime firstAired;
     private String imdbId;
-    private int zapt2itId;
+    private String zapt2itId;
     private String netWork;
 
     private List<String> actors;
@@ -86,11 +86,11 @@ public class Series {
         this.imdbId = imdbId;
     }
 
-    public int getZapt2itId() {
+    public String getZapt2itId() {
         return zapt2itId;
     }
 
-    public void setZapt2itId(int zapt2itId) {
+    public void setZapt2itId(String zapt2itId) {
         this.zapt2itId = zapt2itId;
     }
 
@@ -110,11 +110,12 @@ public class Series {
         this.actors = actors;
     }
 
+    @DayEnum.Day
     public int getAirsDayOfWeek() {
         return AirsDayOfWeek;
     }
 
-    public void setAirsDayOfWeek(int airsDayOfWeek) {
+    public void setAirsDayOfWeek(@DayEnum.Day int airsDayOfWeek) {
         AirsDayOfWeek = airsDayOfWeek;
     }
 
@@ -166,11 +167,12 @@ public class Series {
         this.runTime = runTime;
     }
 
+    @StatusEnum.Status
     public int getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(@StatusEnum.Status int status) {
         this.status = status;
     }
 
