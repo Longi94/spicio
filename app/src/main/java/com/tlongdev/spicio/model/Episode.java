@@ -1,28 +1,58 @@
 package com.tlongdev.spicio.model;
 
-import org.joda.time.DateTime;
-
-import java.util.List;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 /**
  * Created by Long on 2016. 02. 23..
  */
+@Root(name = "Episode", strict = false)
 public class Episode {
+
+    @Element(name = "id")
     private int id;
+
+    @Element(name = "seasonid")
     private int seasonId;
+
+    @Element(name = "EpisodeNumber")
     private int episodeNumber;
-    private int episodeName;
-    private DateTime firstAired;
-    private List<String> guestStars;
+
+    @Element(name = "EpisodeName")
+    private String episodeName;
+
+    @Element(name = "FirstAired")
+    private String firstAired;
+
+    @Element(name = "GuestStars")
+    private String guestStars;
+
+    @Element(name = "Director")
     private String director;
-    private List<String> writers;
+
+    @Element(name = "Writer")
+    private String writers;
+
+    @Element(name = "Overview")
     private String overView;
+
+    @Element(name = "SeasonNumber")
     private int seasonNumber;
+
+    @Element(name = "absolute_number")
     private int absoluteNumber;
+
+    @Element(name = "filename")
     private String fileName;
+
+    @Element(name = "seriesid")
     private int seriesId;
+
+    @Element(name = "IMDB_ID")
     private String imdbId;
-    private double rating;
+
+    @Element(name = "Rating")
+    private double tvdbRating;
 
     public int getId() {
         return id;
@@ -48,27 +78,27 @@ public class Episode {
         this.episodeNumber = episodeNumber;
     }
 
-    public int getEpisodeName() {
+    public String getEpisodeName() {
         return episodeName;
     }
 
-    public void setEpisodeName(int episodeName) {
+    public void setEpisodeName(String episodeName) {
         this.episodeName = episodeName;
     }
 
-    public DateTime getFirstAired() {
+    public String getFirstAired() {
         return firstAired;
     }
 
-    public void setFirstAired(DateTime firstAired) {
+    public void setFirstAired(String firstAired) {
         this.firstAired = firstAired;
     }
 
-    public List<String> getGuestStars() {
+    public String getGuestStars() {
         return guestStars;
     }
 
-    public void setGuestStars(List<String> guestStars) {
+    public void setGuestStars(String guestStars) {
         this.guestStars = guestStars;
     }
 
@@ -80,11 +110,11 @@ public class Episode {
         this.director = director;
     }
 
-    public List<String> getWriters() {
+    public String getWriters() {
         return writers;
     }
 
-    public void setWriters(List<String> writers) {
+    public void setWriters(String writers) {
         this.writers = writers;
     }
 
@@ -136,11 +166,11 @@ public class Episode {
         this.imdbId = imdbId;
     }
 
-    public double getRating() {
-        return rating;
+    public double getTvdbRating() {
+        return tvdbRating;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setTvdbRating(double tvdbRating) {
+        this.tvdbRating = tvdbRating;
     }
 }

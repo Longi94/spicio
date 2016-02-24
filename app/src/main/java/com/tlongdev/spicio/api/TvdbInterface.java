@@ -1,6 +1,6 @@
 package com.tlongdev.spicio.api;
 
-import com.tlongdev.spicio.model.Episode;
+import com.tlongdev.spicio.model.EpisodeData;
 import com.tlongdev.spicio.model.Series;
 import com.tlongdev.spicio.model.SeriesData;
 
@@ -23,10 +23,10 @@ public interface TvdbInterface {
     Call<SeriesData> getSeriesRecord(@Path("apiKey") String apiKey, @Path("id") int seriesId);
 
     @GET("api/{apiKey}/series/{id}/default/{season}/{episode}")
-    Call<Episode> getEpisode(@Path("apiKey") String apiKey, @Path("id") int seriesId,
+    Call<EpisodeData> getEpisode(@Path("apiKey") String apiKey, @Path("id") int seriesId,
                              @Path("season") int season, @Path("episode") int episode);
 
     @GET("api/{apiKey}/series/{id}/absolute/{episode}")
-    Call<Episode> getEpisode(@Path("apiKey") String apiKey, @Path("id") int seriesId,
-                             @Path("episode") int absoluteEpisode);
+    Call<EpisodeData> getEpisode(@Path("apiKey") String apiKey, @Path("id") int seriesId,
+                                 @Path("episode") int absoluteEpisode);
 }

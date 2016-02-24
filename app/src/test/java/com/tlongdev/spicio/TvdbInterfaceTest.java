@@ -1,6 +1,8 @@
 package com.tlongdev.spicio;
 
 import com.tlongdev.spicio.api.TvdbInterface;
+import com.tlongdev.spicio.model.Episode;
+import com.tlongdev.spicio.model.EpisodeData;
 import com.tlongdev.spicio.model.Series;
 import com.tlongdev.spicio.model.SeriesData;
 import com.tlongdev.spicio.network.TestInterceptor;
@@ -84,5 +86,53 @@ public class TvdbInterfaceTest {
         Assert.assertEquals("graphical/121361-g37.jpg", series.getBannerPath());
         Assert.assertEquals("posters/121361-34.jpg", series.getPoster());
         Assert.assertEquals(null, series.getZapt2itId());
+    }
+
+    @Test
+    public void testGetEpisodeParser() throws IOException {
+
+        Assert.assertNotNull(RuntimeEnvironment.application);
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("get_episode_mock.xml");
+        Assert.assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        Assert.assertNotNull(dummyResponse);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new TestInterceptor(dummyResponse, "xml"))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RuntimeEnvironment.application.getString(R.string.api_tvdb_link))
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .client(client)
+                .build();
+
+        TvdbInterface service = retrofit.create(TvdbInterface.class);
+
+        Response<EpisodeData> response = service.getEpisode("", 0, 0).execute();
+
+        EpisodeData episodeData = response.body();
+        Assert.assertNotNull(episodeData);
+
+        Episode episode = episodeData.getEpisode();
+        Assert.assertNotNull(episode);
+
+        Assert.assertEquals(3254641, episode.getId());
+        Assert.assertEquals(364731, episode.getSeasonId());
+        Assert.assertEquals(1, episode.getEpisodeNumber());
+        Assert.assertEquals("Winter Is Coming", episode.getEpisodeName());
+        Assert.assertEquals("2011-04-17", episode.getFirstAired());
+        Assert.assertEquals("|Donald Sumpter|Jamie Sives|Ron Donachie|Joseph Mawle|Roger Allam|Dar Salim|Esmé Bianco|Susan Brown|Bronson Webb|John Standing|Rob Ostlere|Dermot Keaney|Art Parkinson|Callum Wharry|Aimee Richardson|Kristian Nairn|Rania Zouari|Ian Whyte|Spencer Wilding|", episode.getGuestStars());
+        Assert.assertEquals("Tim Van Patten", episode.getDirector());
+        Assert.assertEquals("|David Benioff|D. B. Weiss|", episode.getWriters());
+        Assert.assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverView());
+        Assert.assertEquals(1, episode.getAbsoluteNumber());
+        Assert.assertEquals("episodes/121361/3254641.jpg", episode.getFileName());
+        Assert.assertEquals(121361, episode.getSeriesId());
+        Assert.assertEquals("tt1480055", episode.getImdbId());
+        Assert.assertEquals(7.9, episode.getTvdbRating(), 0);
+        Assert.assertEquals(1, episode.getSeasonNumber());
     }
 }
