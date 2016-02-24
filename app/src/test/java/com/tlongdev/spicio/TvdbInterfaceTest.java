@@ -65,7 +65,7 @@ public class TvdbInterfaceTest {
         SeriesData seriesData = response.body();
         Assert.assertNotNull(seriesData);
 
-        Series series = seriesData.getSeries();
+        Series series = seriesData.getSeries().get(0);
         Assert.assertNotNull(series);
 
         Assert.assertEquals(121361, series.getId());
@@ -134,5 +134,67 @@ public class TvdbInterfaceTest {
         Assert.assertEquals("tt1480055", episode.getImdbId());
         Assert.assertEquals(7.9, episode.getTvdbRating(), 0);
         Assert.assertEquals(1, episode.getSeasonNumber());
+    }
+
+    @Test
+    public void testSearchEpisodeParser() throws IOException {
+
+        Assert.assertNotNull(RuntimeEnvironment.application);
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("search_series_mock.xml");
+        Assert.assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        Assert.assertNotNull(dummyResponse);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new TestInterceptor(dummyResponse, "xml"))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RuntimeEnvironment.application.getString(R.string.api_tvdb_link))
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .client(client)
+                .build();
+
+        TvdbInterface service = retrofit.create(TvdbInterface.class);
+
+        Response<SeriesData> response = service.getSeries("thrones").execute();
+
+        SeriesData seriesData = response.body();
+        Assert.assertNotNull(seriesData);
+
+        Series series = seriesData.getSeries().get(0);
+        Assert.assertNotNull(series);
+
+        Assert.assertEquals(273385, series.getId());
+        Assert.assertEquals(null, series.getFirstAired());
+        Assert.assertEquals("HBO", series.getNetWork());
+        Assert.assertEquals("KING OF THRONES follows Hoxie Homes and Remodeling, a northern Minnesota-based crew of contractors, carpenters and designers who’ve built a “crap-load” of high-end bathrooms featuring giant flat-screen TVs, heated toilets, body dryers and even shower jets for a dog. Led by Jeff Hoxie and his partner Dave Koob, the team will stop at nothing to meet their clients’ imaginative needs.", series.getOverView());
+        Assert.assertEquals("King of Thrones", series.getName());
+        Assert.assertEquals("graphical/273385-g.jpg", series.getBannerPath());
+        Assert.assertEquals(null, series.getImdbId());
+
+        series = seriesData.getSeries().get(1);
+        Assert.assertNotNull(series);
+
+        Assert.assertEquals(121361, series.getId());
+        Assert.assertEquals("2011-04-17", series.getFirstAired());
+        Assert.assertEquals("HBO", series.getNetWork());
+        Assert.assertEquals("Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and the icy horrors beyond.", series.getOverView());
+        Assert.assertEquals("Game of Thrones", series.getName());
+        Assert.assertEquals("graphical/121361-g37.jpg", series.getBannerPath());
+        Assert.assertEquals("tt0944947", series.getImdbId());
+
+        series = seriesData.getSeries().get(2);
+        Assert.assertNotNull(series);
+
+        Assert.assertEquals(268310, series.getId());
+        Assert.assertEquals("2013-03-10", series.getFirstAired());
+        Assert.assertEquals("YouTube", series.getNetWork());
+        Assert.assertEquals("Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and the icy horrors beyond.", series.getOverView());
+        Assert.assertEquals("School of Thrones", series.getName());
+        Assert.assertEquals("graphical/268310-g.jpg", series.getBannerPath());
+        Assert.assertEquals("tt2781552", series.getImdbId());
     }
 }

@@ -1,10 +1,7 @@
 package com.tlongdev.spicio.api;
 
 import com.tlongdev.spicio.model.EpisodeData;
-import com.tlongdev.spicio.model.Series;
 import com.tlongdev.spicio.model.SeriesData;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,7 +14,7 @@ import retrofit2.http.Query;
 public interface TvdbInterface {
 
     @GET("api/GetSeries.php")
-    Call<List<Series>> getSeries(@Query("seriesname") String seriesName);
+    Call<SeriesData> getSeries(@Query("seriesname") String seriesName);
 
     @GET("api/{apiKey}/series/{id}")
     Call<SeriesData> getSeriesRecord(@Path("apiKey") String apiKey, @Path("id") int seriesId);

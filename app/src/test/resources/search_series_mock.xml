@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Data>
+    <Series>
+        <seriesid>273385</seriesid>
+        <language>en</language>
+        <SeriesName>King of Thrones</SeriesName>
+        <banner>graphical/273385-g.jpg</banner>
+        <Overview>KING OF THRONES follows Hoxie Homes and Remodeling, a northern Minnesota-based crew of contractors, carpenters and designers who’ve built a “crap-load” of high-end bathrooms featuring giant flat-screen TVs, heated toilets, body dryers and even shower jets for a dog. Led by Jeff Hoxie and his partner Dave Koob, the team will stop at nothing to meet their clients’ imaginative needs.</Overview>
+        <Network>Destination America</Network>
+        <id>273385</id>
+    </Series>
+    <Series>
+        <seriesid>121361</seriesid>
+        <language>en</language>
+        <SeriesName>Game of Thrones</SeriesName>
+        <banner>graphical/121361-g37.jpg</banner>
+        <Overview>Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and the icy horrors beyond.</Overview>
+        <FirstAired>2011-04-17</FirstAired>
+        <Network>HBO</Network>
+        <IMDB_ID>tt0944947</IMDB_ID>
+        <id>121361</id>
+    </Series>
+    <Series>
+        <seriesid>268310</seriesid>
+        <language>en</language>
+        <SeriesName>School of Thrones</SeriesName>
+        <banner>graphical/268310-g.jpg</banner>
+        <FirstAired>2013-03-10</FirstAired>
+        <Network>YouTube</Network>
+        <IMDB_ID>tt2781552</IMDB_ID>
+        <id>268310</id>
+    </Series>
+</Data>
