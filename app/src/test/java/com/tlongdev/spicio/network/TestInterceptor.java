@@ -9,7 +9,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * Created by Long on 2016. 02. 24..
+ * @author Long
+ * @since 2016. 02. 24.
  */
 public class TestInterceptor implements Interceptor {
 

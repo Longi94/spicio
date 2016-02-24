@@ -6,7 +6,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Created by Long on 2016. 02. 23..
+ * Series status enumeration.
+ *
+ * @author Long
+ * @since 2016. 02. 23.
  */
 public abstract class StatusEnum {
 

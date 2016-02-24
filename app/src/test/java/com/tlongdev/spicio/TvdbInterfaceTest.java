@@ -26,7 +26,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
- * Created by Long on 2016. 02. 24..
+ * Tests for the TVDb api interface.
+ *
+ * @author Long
+ * @since 2016. 02. 24.
  */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class)

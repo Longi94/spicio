@@ -4,7 +4,8 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 /**
- * Created by Long on 2016. 02. 24..
+ * @author Long
+ * @since 2016. 02. 24.
  */
 public class TestUtils {
 

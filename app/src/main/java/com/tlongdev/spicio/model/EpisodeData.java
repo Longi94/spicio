@@ -4,7 +4,10 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
- * Created by Long on 2016. 02. 24..
+ * A wrapper class required for XML parsing.
+ *
+ * @author Long
+ * @since 2016. 02. 24.
  */
 @Root(name = "Data", strict = false)
 public class EpisodeData {

@@ -4,7 +4,10 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
- * Created by Long on 2016. 02. 23..
+ * Represents a single series.
+ *
+ * @author Long
+ * @since 2016. 02. 23.
  */
 @Root(name = "Series", strict = false)
 public class Series {
