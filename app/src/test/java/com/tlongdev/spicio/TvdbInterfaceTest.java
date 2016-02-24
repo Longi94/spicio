@@ -79,7 +79,7 @@ public class TvdbInterfaceTest {
         Assert.assertEquals("HBO", series.getNetWork());
         Assert.assertEquals("Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and the icy horrors beyond.", series.getOverView());
         Assert.assertEquals(9.5, series.getTvdbRating(), 0);
-        Assert.assertEquals(1260, series.getTvdbRatingCount());
+        Assert.assertEquals(1268, series.getTvdbRatingCount());
         Assert.assertEquals(60, series.getRunTime());
         Assert.assertEquals("Game of Thrones", series.getName());
         Assert.assertEquals("Continuing", series.getStatus());
@@ -168,12 +168,12 @@ public class TvdbInterfaceTest {
         Assert.assertNotNull(series);
 
         Assert.assertEquals(273385, series.getId());
-        Assert.assertEquals(null, series.getFirstAired());
-        Assert.assertEquals("HBO", series.getNetWork());
+        Assert.assertNull(series.getFirstAired());
+        Assert.assertEquals("Destination America", series.getNetWork());
         Assert.assertEquals("KING OF THRONES follows Hoxie Homes and Remodeling, a northern Minnesota-based crew of contractors, carpenters and designers who’ve built a “crap-load” of high-end bathrooms featuring giant flat-screen TVs, heated toilets, body dryers and even shower jets for a dog. Led by Jeff Hoxie and his partner Dave Koob, the team will stop at nothing to meet their clients’ imaginative needs.", series.getOverView());
         Assert.assertEquals("King of Thrones", series.getName());
         Assert.assertEquals("graphical/273385-g.jpg", series.getBannerPath());
-        Assert.assertEquals(null, series.getImdbId());
+        Assert.assertNull(series.getImdbId());
 
         series = seriesData.getSeries().get(1);
         Assert.assertNotNull(series);
@@ -192,7 +192,7 @@ public class TvdbInterfaceTest {
         Assert.assertEquals(268310, series.getId());
         Assert.assertEquals("2013-03-10", series.getFirstAired());
         Assert.assertEquals("YouTube", series.getNetWork());
-        Assert.assertEquals("Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and the icy horrors beyond.", series.getOverView());
+        Assert.assertNull(series.getOverView());
         Assert.assertEquals("School of Thrones", series.getName());
         Assert.assertEquals("graphical/268310-g.jpg", series.getBannerPath());
         Assert.assertEquals("tt2781552", series.getImdbId());

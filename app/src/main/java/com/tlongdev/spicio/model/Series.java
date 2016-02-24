@@ -12,58 +12,58 @@ public class Series {
     @Element(name = "id")
     private int id;
 
-    @Element(name = "Actors")
+    @Element(name = "Actors", required = false)
     private String actors;
 
-    @Element(name = "Airs_DayOfWeek")
+    @Element(name = "Airs_DayOfWeek", required = false)
     private String AirsDayOfWeek;
 
-    @Element(name = "Airs_Time")
+    @Element(name = "Airs_Time", required = false)
     private String AirsTime;
 
-    @Element(name = "ContentRating")
+    @Element(name = "ContentRating", required = false)
     private String contentRating;
 
-    @Element(name = "FirstAired")
+    @Element(name = "FirstAired", required = false)
     private String firstAired;
 
-    @Element(name = "Genre")
+    @Element(name = "Genre", required = false)
     private String genres;
 
-    @Element(name = "IMDB_ID")
+    @Element(name = "IMDB_ID", required = false)
     private String imdbId;
 
-    @Element(name = "Network")
+    @Element(name = "Network", required = false)
     private String netWork;
 
-    @Element(name = "Overview")
+    @Element(name = "Overview", required = false)
     private String overView;
 
-    @Element(name = "Rating")
+    @Element(name = "Rating", required = false)
     private double tvdbRating;
 
-    @Element(name = "RatingCount")
+    @Element(name = "RatingCount", required = false)
     private int tvdbRatingCount;
 
-    @Element(name = "Runtime")
+    @Element(name = "Runtime", required = false)
     private int runTime;
 
-    @Element(name = "SeriesName")
+    @Element(name = "SeriesName", required = false)
     private String name;
 
-    @Element(name = "Status")
+    @Element(name = "Status", required = false)
     private String status;
 
-    @Element(name = "banner")
+    @Element(name = "banner", required = false)
     private String bannerPath;
 
-    @Element(name = "poster")
+    @Element(name = "poster", required = false)
     private String poster;
 
-    @Element(name = "zap2it_id")
+    @Element(name = "zap2it_id", required = false)
     private String zapt2itId;
 
-    @Element(name = "AliasNames")
+    @Element(name = "AliasNames", required = false)
     private String aliases;
 
     public int getId() {
