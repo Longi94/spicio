@@ -1,34 +1,70 @@
 package com.tlongdev.spicio.model;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
-
-import java.util.List;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 /**
  * Created by Long on 2016. 02. 23..
  */
+@Root(name = "Series", strict = false)
 public class Series {
+
+    @Element(name = "id")
     private int id;
-    private String name;
-    private String aliases;
-    private String bannerPath;
-    private String overView;
-    private DateTime firstAired;
+
+    @Element(name = "Actors")
+    private String actors;
+
+    @Element(name = "Airs_DayOfWeek")
+    private String AirsDayOfWeek;
+
+    @Element(name = "Airs_Time")
+    private String AirsTime;
+
+    @Element(name = "ContentRating")
+    private String contentRating;
+
+    @Element(name = "FirstAired")
+    private String firstAired;
+
+    @Element(name = "Genre")
+    private String genres;
+
+    @Element(name = "IMDB_ID")
     private String imdbId;
-    private String zapt2itId;
+
+    @Element(name = "Network")
     private String netWork;
 
-    private List<String> actors;
-    private int AirsDayOfWeek;
-    private LocalTime AirsTime;
-    private String contentRating;
-    private List<String> genres;
-    private double rating;
-    private double ratingCuont;
+    @Element(name = "Overview")
+    private String overView;
+
+    @Element(name = "Rating")
+    private double tvdbRating;
+
+    @Element(name = "RatingCount")
+    private int tvdbRatingCount;
+
+    @Element(name = "Runtime")
     private int runTime;
-    private int status;
+
+    @Element(name = "SeriesName")
+    private String name;
+
+    @Element(name = "Status")
+    private String status;
+
+    @Element(name = "banner")
+    private String bannerPath;
+
+    @Element(name = "poster")
     private String poster;
+
+    @Element(name = "zap2it_id")
+    private String zapt2itId;
+
+    @Element(name = "AliasNames")
+    private String aliases;
 
     public int getId() {
         return id;
@@ -70,11 +106,11 @@ public class Series {
         this.overView = overView;
     }
 
-    public DateTime getFirstAired() {
+    public String getFirstAired() {
         return firstAired;
     }
 
-    public void setFirstAired(DateTime firstAired) {
+    public void setFirstAired(String firstAired) {
         this.firstAired = firstAired;
     }
 
@@ -102,28 +138,27 @@ public class Series {
         this.netWork = netWork;
     }
 
-    public List<String> getActors() {
+    public String getActors() {
         return actors;
     }
 
-    public void setActors(List<String> actors) {
+    public void setActors(String actors) {
         this.actors = actors;
     }
 
-    @DayEnum.Day
-    public int getAirsDayOfWeek() {
+    public String getAirsDayOfWeek() {
         return AirsDayOfWeek;
     }
 
-    public void setAirsDayOfWeek(@DayEnum.Day int airsDayOfWeek) {
+    public void setAirsDayOfWeek(String airsDayOfWeek) {
         AirsDayOfWeek = airsDayOfWeek;
     }
 
-    public LocalTime getAirsTime() {
+    public String getAirsTime() {
         return AirsTime;
     }
 
-    public void setAirsTime(LocalTime airsTime) {
+    public void setAirsTime(String airsTime) {
         AirsTime = airsTime;
     }
 
@@ -135,28 +170,28 @@ public class Series {
         this.contentRating = contentRating;
     }
 
-    public List<String> getGenres() {
+    public String getGenres() {
         return genres;
     }
 
-    public void setGenres(List<String> genres) {
+    public void setGenres(String genres) {
         this.genres = genres;
     }
 
-    public double getRating() {
-        return rating;
+    public double getTvdbRating() {
+        return tvdbRating;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setTvdbRating(double tvdbRating) {
+        this.tvdbRating = tvdbRating;
     }
 
-    public double getRatingCuont() {
-        return ratingCuont;
+    public int getTvdbRatingCount() {
+        return tvdbRatingCount;
     }
 
-    public void setRatingCuont(double ratingCuont) {
-        this.ratingCuont = ratingCuont;
+    public void setTvdbRatingCount(int tvdbRatingCount) {
+        this.tvdbRatingCount = tvdbRatingCount;
     }
 
     public int getRunTime() {
@@ -167,12 +202,11 @@ public class Series {
         this.runTime = runTime;
     }
 
-    @StatusEnum.Status
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(@StatusEnum.Status int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

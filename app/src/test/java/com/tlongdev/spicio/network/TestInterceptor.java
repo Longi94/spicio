@@ -1,4 +1,4 @@
-package com.tlongdev.spicio;
+package com.tlongdev.spicio.network;
 
 import java.io.IOException;
 

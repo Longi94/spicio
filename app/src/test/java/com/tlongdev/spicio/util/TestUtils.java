@@ -1,4 +1,4 @@
-package com.tlongdev.spicio;
+package com.tlongdev.spicio.util;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class TestUtils {
 
-    static String convertStreamToString(InputStream is) {
+    public static String convertStreamToString(InputStream is) {
         Scanner s = new Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
