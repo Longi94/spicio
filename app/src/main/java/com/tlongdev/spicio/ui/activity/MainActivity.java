@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +18,7 @@ import android.view.View;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.presenter.MainPresenter;
+import com.tlongdev.spicio.ui.fragment.SearchSeriesFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +34,18 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @Bind(R.id.nav_view) NavigationView mNavigationView;
     @Bind(R.id.toolbar) Toolbar mToolbar;
+
+    /**
+     * Remember the position of the selected item.
+     */
+    private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
+
+    public static final String FRAGMENT_TAG_SEARCH_SERIES = "search_series";
+
+    /**
+     * The index of the current fragment.
+     */
+    private int mCurrentSelectedPosition = -1;
 
     private MainPresenter presenter;
 
@@ -51,6 +67,8 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         mNavigationView.setNavigationItemSelectedListener(this);
+
+        switchFragment(0);
     }
 
     @Override
@@ -124,5 +142,39 @@ public class MainActivity extends AppCompatActivity
     public void fabClick(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+    }
+
+    /**
+     * Switches to another fragment.
+     *
+     * @param position the position of the clicked item in the navigation view
+     */
+    public void switchFragment(int position) {
+        if (mCurrentSelectedPosition == position) {
+            return;
+        }
+
+        mCurrentSelectedPosition = position;
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mNavigationView);
+        }
+
+        //Start handling fragment transactions
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment newFragment;
+
+        switch (position) {
+            case 0:
+                newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_SEARCH_SERIES);
+                if (newFragment == null) {
+                    newFragment = new SearchSeriesFragment();
+                }
+                transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_SEARCH_SERIES);
+                break;
+        }
+
+        //Commit the transaction
+        transaction.commit();
     }
 }
