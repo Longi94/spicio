@@ -2,6 +2,11 @@ package com.tlongdev.spicio;
 
 import android.app.Application;
 
+import com.tlongdev.spicio.component.DaggerNetworkComponent;
+import com.tlongdev.spicio.component.NetworkComponent;
+import com.tlongdev.spicio.module.NetworkModule;
+import com.tlongdev.spicio.module.SpicioAppModule;
+
 import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
@@ -12,10 +17,20 @@ import net.danlew.android.joda.JodaTimeAndroid;
  */
 public class SpicioApplication extends Application {
 
+    private NetworkComponent mNetworkComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
         JodaTimeAndroid.init(this);
+
+        mNetworkComponent = DaggerNetworkComponent.builder()
+                .spicioAppModule(new SpicioAppModule(this))
+                .networkModule(new NetworkModule(this))
+                .build();
     }
 
+    public NetworkComponent getNetWorkComponent() {
+        return mNetworkComponent;
+    }
 }

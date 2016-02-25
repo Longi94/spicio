@@ -2,6 +2,9 @@
 <manifest package="com.tlongdev.spicio"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--Safe permissions-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".SpicioApplication"
         android:allowBackup="true"
