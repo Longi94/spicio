@@ -1,14 +1,15 @@
 package com.tlongdev.spicio.ui.activity;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +23,6 @@ import com.tlongdev.spicio.ui.fragment.SearchSeriesFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * @author Long
@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity
 
     @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @Bind(R.id.nav_view) NavigationView mNavigationView;
-    @Bind(R.id.toolbar) Toolbar mToolbar;
 
     /**
      * Remember the position of the selected item.
@@ -42,12 +41,16 @@ public class MainActivity extends AppCompatActivity
 
     public static final String FRAGMENT_TAG_SEARCH_SERIES = "search_series";
 
+    public static final int NAV_SEARCH_SERIES = 0;
+
     /**
      * The index of the current fragment.
      */
     private int mCurrentSelectedPosition = -1;
 
     private MainPresenter presenter;
+
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +62,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        setSupportActionBar(mToolbar);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
-
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        switchFragment(0);
+        switchFragment(NAV_SEARCH_SERIES);
     }
 
     @Override
@@ -96,17 +92,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setSupportActionBar(Toolbar toolbar) {
+        super.setSupportActionBar(toolbar);
+        //Since each fragment has it's own toolbar we need to re add the drawer toggle everytime we
+        //switch fragments
+        restoreNavigationIcon(toolbar);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Forward the new configuration the drawer toggle component.
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -114,18 +115,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_search_series:
+                switchFragment(NAV_SEARCH_SERIES);
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -136,12 +129,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Context getContext() {
         return this;
-    }
-
-    @OnClick(R.id.fab)
-    public void fabClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
     }
 
     /**
@@ -165,7 +152,7 @@ public class MainActivity extends AppCompatActivity
         Fragment newFragment;
 
         switch (position) {
-            case 0:
+            case NAV_SEARCH_SERIES:
                 newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_SEARCH_SERIES);
                 if (newFragment == null) {
                     newFragment = new SearchSeriesFragment();
@@ -176,5 +163,46 @@ public class MainActivity extends AppCompatActivity
 
         //Commit the transaction
         transaction.commit();
+    }
+
+    /**
+     * Restores the navigation icon of the toolbar.
+     */
+    private void restoreNavigationIcon(Toolbar toolbar) {
+        // set up the drawer's list view with items and click listener
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the navigation drawer and the action bar app icon.
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                             /* host Activity */
+                mDrawerLayout,                    /* DrawerLayout object */
+                toolbar,
+                R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
+                R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
+        ) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                //Notify the listeners
+                /*if (drawerListener != null) {
+                    drawerListener.onDrawerOpened();
+                }*/
+            }
+        };
+
+        // Defer code dependent on restoration of previous instance state.
+        mDrawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerToggle.syncState();
+            }
+        });
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 }
