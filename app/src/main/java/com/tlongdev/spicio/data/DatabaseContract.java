@@ -29,7 +29,7 @@ public class DatabaseContract {
     public static final String PATH_FEED = "feed";
     public static final String PATH_FRIENDS = "friends";
 
-    public static final class ShowsEntry implements BaseColumns {
+    public static final class SeriesEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_SERIES).build();
 
