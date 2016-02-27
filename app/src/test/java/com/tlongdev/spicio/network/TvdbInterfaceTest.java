@@ -1,5 +1,7 @@
-package com.tlongdev.spicio;
+package com.tlongdev.spicio.network;
 
+import com.tlongdev.spicio.BuildConfig;
+import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.api.TvdbInterface;
 import com.tlongdev.spicio.model.Episode;
 import com.tlongdev.spicio.model.EpisodeData;

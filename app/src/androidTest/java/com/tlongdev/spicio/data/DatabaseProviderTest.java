@@ -1,29 +1,22 @@
-package com.tlongdev.spicio;
+package com.tlongdev.spicio.data;
 
-import android.app.Application;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.net.Uri;
-import android.test.ApplicationTestCase;
+import android.test.AndroidTestCase;
 
-import com.tlongdev.spicio.data.DatabaseContract;
 import com.tlongdev.spicio.data.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.data.DatabaseContract.FeedEntry;
 import com.tlongdev.spicio.data.DatabaseContract.FriendsEntry;
 import com.tlongdev.spicio.data.DatabaseContract.SeriesEntry;
-import com.tlongdev.spicio.data.DatabaseProvider;
 
 /**
  * @author Long
  * @since 2016. 02. 26.
  */
-public class DatabaseProviderTest extends ApplicationTestCase<Application> {
-
-    public DatabaseProviderTest() {
-        super(Application.class);
-    }
+public class DatabaseProviderTest extends AndroidTestCase {
 
     // Since we want each test to start with a clean slate, run deleteAllRecords
     // in setUp (called by the test runner before each test).
