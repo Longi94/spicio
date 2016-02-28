@@ -3,7 +3,7 @@ package com.tlongdev.spicio.presenter;
 import com.tlongdev.spicio.ui.activity.MainView;
 
 /**
- * Outer layer, Presenter.
+ * Middle layer, Presenter.
  *
  * @author Long
  * @since 2016. 02. 23.

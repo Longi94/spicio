@@ -13,7 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Outer layer, Presenter.
+ * Middle layer, Presenter.
  *
  * @author Long
  * @since 2016. 02. 24.
