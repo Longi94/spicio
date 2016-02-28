@@ -52,7 +52,7 @@ public class TvdbInterfaceTest {
         Assert.assertNotNull(dummyResponse);
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new TestInterceptor(dummyResponse, "xml"))
+                .addInterceptor(new FakeInterceptor(dummyResponse, "xml"))
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -103,7 +103,7 @@ public class TvdbInterfaceTest {
         Assert.assertNotNull(dummyResponse);
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new TestInterceptor(dummyResponse, "xml"))
+                .addInterceptor(new FakeInterceptor(dummyResponse, "xml"))
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -151,7 +151,7 @@ public class TvdbInterfaceTest {
         Assert.assertNotNull(dummyResponse);
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new TestInterceptor(dummyResponse, "xml"))
+                .addInterceptor(new FakeInterceptor(dummyResponse, "xml"))
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

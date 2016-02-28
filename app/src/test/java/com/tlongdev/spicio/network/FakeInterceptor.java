@@ -12,12 +12,12 @@ import okhttp3.ResponseBody;
  * @author Long
  * @since 2016. 02. 24.
  */
-public class TestInterceptor implements Interceptor {
+public class FakeInterceptor implements Interceptor {
 
     private String responseBody;
     private String contentType;
 
-    public TestInterceptor(String responseBody, String contentType) {
+    public FakeInterceptor(String responseBody, String contentType) {
         this.responseBody = responseBody;
         this.contentType = contentType;
     }
