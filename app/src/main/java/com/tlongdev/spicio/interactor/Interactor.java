@@ -2,6 +2,8 @@ package com.tlongdev.spicio.interactor;
 
 
 /**
+ * Inner Layer, Interactor.
+ *
  * This is the main interface of an interactor. Each interactor serves a specific use case.
  */
 public interface Interactor {

@@ -3,6 +3,8 @@ package com.tlongdev.spicio.executor;
 import com.tlongdev.spicio.interactor.AbstractInteractor;
 
 /**
+ * Inner Layer, Executor.
+ *
  * This executor is responsible for running interactors on background threads.
  * <p/>
  */

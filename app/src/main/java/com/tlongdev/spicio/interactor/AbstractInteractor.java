@@ -4,6 +4,8 @@ import com.tlongdev.spicio.executor.Executor;
 import com.tlongdev.spicio.executor.MainThread;
 
 /**
+ * Inner Layer, Interactor.
+ *
  * Created by dmilicic on 8/4/15.
  * <p/>
  * This abstract class implements some common methods for all interactors. Cancelling an interactor, check if its running

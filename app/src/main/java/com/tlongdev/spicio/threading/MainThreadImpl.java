@@ -7,6 +7,8 @@ import com.tlongdev.spicio.executor.MainThread;
 
 
 /**
+ * Inner Layer, Executor.
+ *
  * This class makes sure that the runnable we provide will be run on the main UI thread.
  */
 public class MainThreadImpl implements MainThread {
