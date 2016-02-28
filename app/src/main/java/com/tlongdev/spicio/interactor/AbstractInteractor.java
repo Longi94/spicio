@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.interactor;
 
 import com.tlongdev.spicio.executor.Executor;
-import com.tlongdev.spicio.executor.MainThread;
+import com.tlongdev.spicio.threading.MainThread;
 
 /**
  * Inner Layer, Interactor.

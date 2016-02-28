@@ -3,8 +3,6 @@ package com.tlongdev.spicio.threading;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.tlongdev.spicio.executor.MainThread;
-
 
 /**
  * Inner Layer, Executor.
