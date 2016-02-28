@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.adapter;
+package com.tlongdev.spicio.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

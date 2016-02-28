@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.adapter.SearchSeriesAdapter;
+import com.tlongdev.spicio.ui.adapter.SearchSeriesAdapter;
 import com.tlongdev.spicio.network.model.SeriesApi;
 import com.tlongdev.spicio.presenter.SearchSeriesPresenter;
 
