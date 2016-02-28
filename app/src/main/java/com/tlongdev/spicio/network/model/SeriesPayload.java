@@ -6,6 +6,7 @@ import org.simpleframework.xml.Root;
 import java.util.List;
 
 /**
+ * Outer layer, Network.
  * A wrapper class required for XML parsing.
  *
  * @author Long

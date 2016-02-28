@@ -27,7 +27,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Outer Layer, UI.
  *
  * @author Long
  * @since 2016. 02. 24.

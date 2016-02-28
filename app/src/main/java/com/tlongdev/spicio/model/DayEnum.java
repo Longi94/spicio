@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
+ * Inner Layer, Model.
  * Days of the week.
  *
  * @author Long

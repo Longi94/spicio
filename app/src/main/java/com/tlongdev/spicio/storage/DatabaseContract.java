@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
+ * Outer Layer, Storage.
+ *
  * @author Long
  * @since 2016. 02. 26.
  */

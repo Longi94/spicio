@@ -1,6 +1,8 @@
 package com.tlongdev.spicio.model;
 
 /**
+ * Inner Layer, Model.
+ *
  * @author Long
  * @since 2016. 02. 25.
  */

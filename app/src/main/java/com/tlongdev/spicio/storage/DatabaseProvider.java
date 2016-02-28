@@ -13,6 +13,12 @@ import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 
+/**
+ * Outer Layer, Storage.
+ *
+ * @author Long
+ * @since 2016. 02. 26.
+ */
 public class DatabaseProvider extends ContentProvider {
 
     public static final int SERIES = 100;

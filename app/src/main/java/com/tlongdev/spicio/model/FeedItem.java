@@ -4,6 +4,8 @@ import com.tlongdev.spicio.network.model.EpisodeApi;
 import com.tlongdev.spicio.network.model.SeriesApi;
 
 /**
+ * Inner Layer, Model.
+ *
  * @author Long
  * @since 2016. 02. 26.
  */

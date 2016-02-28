@@ -15,6 +15,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * Outer Layer, UI.
+ *
  * @author Long
  * @since 2016. 02. 25.
  */

@@ -4,6 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
+ * Outer layer, Network.
  * Represents a single series.
  *
  * @author Long

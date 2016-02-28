@@ -9,6 +9,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
+ * Outer layer, Network.
  * Retrofit interface for using the TVDb api.
  *
  * http://www.thetvdb.com/wiki/index.php/Programmers_API

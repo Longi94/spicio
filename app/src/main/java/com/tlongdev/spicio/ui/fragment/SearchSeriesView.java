@@ -6,6 +6,8 @@ import com.tlongdev.spicio.ui.BaseView;
 import java.util.List;
 
 /**
+ * Outer Layer, UI.
+ *
  * @author Long
  * @since 2016. 02. 24.
  */

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.tlongdev.spicio.storage.DatabaseContract.*;
 
 /**
+ * Outer Layer, Storage.
+ *
  * @author Long
  * @since 2016. 02. 26.
  */

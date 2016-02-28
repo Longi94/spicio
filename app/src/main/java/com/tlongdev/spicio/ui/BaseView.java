@@ -3,6 +3,7 @@ package com.tlongdev.spicio.ui;
 import android.content.Context;
 
 /**
+ * Outer Layer, UI.
  * The base view interface of the MVP architecture.
  *
  * @author Long
