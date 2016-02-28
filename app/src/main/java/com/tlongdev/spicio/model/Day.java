@@ -12,11 +12,11 @@ import java.lang.annotation.RetentionPolicy;
  * @author Long
  * @since 2016. 02. 23.
  */
-public abstract class DayEnum {
+public abstract class Day {
 
     @IntDef({MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface Day {}
+    public @interface Enum {}
 
     public static final int MONDAY = 0;
     public static final int TUESDAY = 1;

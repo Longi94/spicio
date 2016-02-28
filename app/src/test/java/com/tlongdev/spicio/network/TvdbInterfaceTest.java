@@ -90,7 +90,7 @@ public class TvdbInterfaceTest {
         assertEquals("Game of Thrones", series.getName());
         assertEquals("Continuing", series.getStatus());
         assertEquals("graphical/121361-g37.jpg", series.getBannerPath());
-        assertEquals("posters/121361-34.jpg", series.getPoster());
+        assertEquals("posters/121361-34.jpg", series.getPosterPath());
         assertEquals(null, series.getZapt2itId());
     }
 

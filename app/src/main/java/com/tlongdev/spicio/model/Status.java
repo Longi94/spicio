@@ -12,11 +12,11 @@ import java.lang.annotation.RetentionPolicy;
  * @author Long
  * @since 2016. 02. 23.
  */
-public abstract class StatusEnum {
+public abstract class Status {
 
     @IntDef({NULL, ENDED, CONTINUING})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface Status{}
+    public @interface Enum {}
 
     public static final int NULL = 0;
     public static final int ENDED = 1;

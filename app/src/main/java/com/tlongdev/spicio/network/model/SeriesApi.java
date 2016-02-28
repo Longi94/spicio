@@ -62,7 +62,7 @@ public class SeriesApi {
     private String bannerPath;
 
     @Element(name = "poster", required = false)
-    private String poster;
+    private String posterPath;
 
     @Element(name = "zap2it_id", required = false)
     private String zapt2itId;
@@ -142,7 +142,7 @@ public class SeriesApi {
         return status;
     }
 
-    public String getPoster() {
-        return poster;
+    public String getPosterPath() {
+        return posterPath;
     }
 }
