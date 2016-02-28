@@ -42,30 +42,32 @@ public class TvdbModelConverter {
             converted.setActors(series.getActors().split("|"));
         }
 
-        switch (series.getAirsDayOfWeek()) {
-            case "Monday":
-                converted.setAirsDayOfWeek(Day.MONDAY);
-                break;
-            case "Tuesday":
-                converted.setAirsDayOfWeek(Day.TUESDAY);
-                break;
-            case "Wednesday":
-                converted.setAirsDayOfWeek(Day.WEDNESDAY);
-                break;
-            case "Thursday":
-                converted.setAirsDayOfWeek(Day.THURSDAY);
-                break;
-            case "Friday":
-                converted.setAirsDayOfWeek(Day.FRIDAY);
-                break;
-            case "Saturday":
-                converted.setAirsDayOfWeek(Day.SATURDAY);
-                break;
-            case "Sunday":
-                converted.setAirsDayOfWeek(Day.SUNDAY);
-                break;
-            default:
-                throw new IllegalStateException("Airs_DayOfWeek is set to something else then a day: " + series.getAirsDayOfWeek());
+        if (series.getAirsDayOfWeek() != null) {
+            switch (series.getAirsDayOfWeek()) {
+                case "Monday":
+                    converted.setAirsDayOfWeek(Day.MONDAY);
+                    break;
+                case "Tuesday":
+                    converted.setAirsDayOfWeek(Day.TUESDAY);
+                    break;
+                case "Wednesday":
+                    converted.setAirsDayOfWeek(Day.WEDNESDAY);
+                    break;
+                case "Thursday":
+                    converted.setAirsDayOfWeek(Day.THURSDAY);
+                    break;
+                case "Friday":
+                    converted.setAirsDayOfWeek(Day.FRIDAY);
+                    break;
+                case "Saturday":
+                    converted.setAirsDayOfWeek(Day.SATURDAY);
+                    break;
+                case "Sunday":
+                    converted.setAirsDayOfWeek(Day.SUNDAY);
+                    break;
+                default:
+                    throw new IllegalStateException("Airs_DayOfWeek is set to something else then a day: " + series.getAirsDayOfWeek());
+            }
         }
 
         if (series.getAirsTime() != null) {
@@ -86,16 +88,18 @@ public class TvdbModelConverter {
         converted.setRunTime(series.getRunTime());
         converted.setName(series.getName());
 
-        switch (series.getStatus()) {
-            case "Continuing":
-                converted.setStatus(Status.CONTINUING);
-                break;
-            case "Ended":
-                converted.setStatus(Status.ENDED);
-                break;
-            default:
-                converted.setStatus(Status.NULL);
-                break;
+        if (series.getStatus() != null) {
+            switch (series.getStatus()) {
+                case "Continuing":
+                    converted.setStatus(Status.CONTINUING);
+                    break;
+                case "Ended":
+                    converted.setStatus(Status.ENDED);
+                    break;
+                default:
+                    converted.setStatus(Status.NULL);
+                    break;
+            }
         }
 
         converted.setBannerPath(series.getBannerPath());
