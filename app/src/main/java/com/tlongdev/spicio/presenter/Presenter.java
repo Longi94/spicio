@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.presenter;
 
 /**
- * Middle layer, Presenter.
+ * Outer layer, Presenter.
  * The base presenter interface for the MVP architecture.
  *
  * @author Long
