@@ -17,9 +17,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.ui.adapter.SearchSeriesAdapter;
-import com.tlongdev.spicio.network.model.SeriesApi;
+import com.tlongdev.spicio.executor.ThreadExecutor;
+import com.tlongdev.spicio.model.Series;
 import com.tlongdev.spicio.presenter.SearchSeriesPresenter;
+import com.tlongdev.spicio.repository.TvdbServiceRepository;
+import com.tlongdev.spicio.threading.MainThreadImpl;
+import com.tlongdev.spicio.ui.adapter.SearchSeriesAdapter;
 
 import java.util.List;
 
@@ -48,7 +51,11 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SearchSeriesPresenter();
+        presenter = new SearchSeriesPresenter(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                new TvdbServiceRepository(getActivity())
+        );
         presenter.attachView(this);
     }
 
@@ -88,7 +95,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
     }
 
     @Override
-    public void showSearchResult(List<SeriesApi> series) {
+    public void showSearchResult(List<Series> series) {
         adapter.setDataSet(series);
     }
 

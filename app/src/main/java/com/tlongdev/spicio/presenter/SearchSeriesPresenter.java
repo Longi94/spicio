@@ -1,16 +1,14 @@
 package com.tlongdev.spicio.presenter;
 
-import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.network.TvdbInterface;
-import com.tlongdev.spicio.network.model.SeriesPayload;
-import com.tlongdev.spicio.ui.activity.MainActivity;
+import com.tlongdev.spicio.executor.Executor;
+import com.tlongdev.spicio.interactor.TvdbSearchInteractor;
+import com.tlongdev.spicio.interactor.TvdbSearchInteractorInstance;
+import com.tlongdev.spicio.model.Series;
+import com.tlongdev.spicio.repository.TvdbRepository;
+import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.ui.fragment.SearchSeriesView;
 
-import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
 
 /**
  * Middle layer, Presenter.
@@ -18,17 +16,20 @@ import retrofit2.Response;
  * @author Long
  * @since 2016. 02. 24.
  */
-public class SearchSeriesPresenter implements Presenter<SearchSeriesView> {
-
-    @Inject TvdbInterface tvdbInterface;
+public class SearchSeriesPresenter extends AbstractPresenter implements Presenter<SearchSeriesView>, TvdbSearchInteractor.Callback {
 
     private SearchSeriesView view;
+
+    private TvdbRepository mRepository;
+
+    public SearchSeriesPresenter(Executor executor, MainThread mainThread, TvdbRepository repository) {
+        super(executor, mainThread);
+        mRepository = repository;
+    }
 
     @Override
     public void attachView(SearchSeriesView view) {
         this.view = view;
-        ((SpicioApplication)((MainActivity)view.getContext()).getApplication())
-                .getNetWorkComponent().inject(this);
     }
 
     @Override
@@ -37,20 +38,23 @@ public class SearchSeriesPresenter implements Presenter<SearchSeriesView> {
     }
 
     public void searchForSeries(String query) {
-        tvdbInterface.getSeries(query).enqueue(new Callback<SeriesPayload>() {
-            @Override
-            public void onResponse(Call<SeriesPayload> call, Response<SeriesPayload> response) {
-                if (view != null) {
-                    view.showSearchResult(response.body().getSeries());
-                }
-            }
+        TvdbSearchInteractor interactor = new TvdbSearchInteractorInstance(
+                mExecutor,
+                mMainThread,
+                query,
+                this,
+                mRepository
+        );
+        interactor.execute();
+    }
 
-            @Override
-            public void onFailure(Call<SeriesPayload> call, Throwable t) {
-                if (view != null) {
-                    view.showErrorMessage();
-                }
-            }
-        });
+    @Override
+    public void onSearchResult(List<Series> series) {
+        view.showSearchResult(series);
+    }
+
+    @Override
+    public void onSearchFailed() {
+        view.showErrorMessage();
     }
 }
