@@ -2,12 +2,10 @@ package com.tlongdev.spicio.network;
 
 import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.api.TvdbInterface;
 import com.tlongdev.spicio.model.Episode;
 import com.tlongdev.spicio.model.EpisodeData;
 import com.tlongdev.spicio.model.Series;
 import com.tlongdev.spicio.model.SeriesData;
-import com.tlongdev.spicio.network.TestInterceptor;
 import com.tlongdev.spicio.util.TestUtils;
 
 import org.junit.Assert;

@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.api;
+package com.tlongdev.spicio.network;
 
 import com.tlongdev.spicio.model.EpisodeData;
 import com.tlongdev.spicio.model.SeriesData;

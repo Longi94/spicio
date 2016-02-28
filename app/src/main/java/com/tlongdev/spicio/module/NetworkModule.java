@@ -3,7 +3,7 @@ package com.tlongdev.spicio.module;
 import android.content.Context;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.api.TvdbInterface;
+import com.tlongdev.spicio.network.TvdbInterface;
 
 import javax.inject.Singleton;
 

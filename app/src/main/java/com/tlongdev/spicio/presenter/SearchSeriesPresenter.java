@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.presenter;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.api.TvdbInterface;
+import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.model.SeriesData;
 import com.tlongdev.spicio.ui.activity.MainActivity;
 import com.tlongdev.spicio.ui.fragment.SearchSeriesView;
