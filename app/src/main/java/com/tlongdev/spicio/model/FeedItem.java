@@ -1,5 +1,8 @@
 package com.tlongdev.spicio.model;
 
+import com.tlongdev.spicio.network.model.EpisodeApi;
+import com.tlongdev.spicio.network.model.SeriesApi;
+
 /**
  * @author Long
  * @since 2016. 02. 26.
@@ -11,8 +14,8 @@ public class FeedItem {
     private long timestamp;
     private User culprit;
     private User victim;
-    private Series series;
-    private Episode episode;
+    private SeriesApi series;
+    private EpisodeApi episode;
 
     public int getId() {
         return id;
@@ -54,19 +57,19 @@ public class FeedItem {
         this.victim = victim;
     }
 
-    public Series getSeries() {
+    public SeriesApi getSeries() {
         return series;
     }
 
-    public void setSeries(Series series) {
+    public void setSeries(SeriesApi series) {
         this.series = series;
     }
 
-    public Episode getEpisode() {
+    public EpisodeApi getEpisode() {
         return episode;
     }
 
-    public void setEpisode(Episode episode) {
+    public void setEpisode(EpisodeApi episode) {
         this.episode = episode;
     }
 }

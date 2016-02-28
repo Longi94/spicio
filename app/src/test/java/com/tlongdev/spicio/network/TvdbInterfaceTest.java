@@ -2,10 +2,10 @@ package com.tlongdev.spicio.network;
 
 import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.model.Episode;
-import com.tlongdev.spicio.model.EpisodeData;
-import com.tlongdev.spicio.model.Series;
-import com.tlongdev.spicio.model.SeriesData;
+import com.tlongdev.spicio.network.model.EpisodeApi;
+import com.tlongdev.spicio.network.model.EpisodePayload;
+import com.tlongdev.spicio.network.model.SeriesApi;
+import com.tlongdev.spicio.network.model.SeriesPayload;
 import com.tlongdev.spicio.util.TestUtils;
 
 import org.junit.Assert;
@@ -63,12 +63,12 @@ public class TvdbInterfaceTest {
 
         TvdbInterface service = retrofit.create(TvdbInterface.class);
 
-        Response<SeriesData> response = service.getSeriesRecord("", 0).execute();
+        Response<SeriesPayload> response = service.getSeriesRecord("", 0).execute();
 
-        SeriesData seriesData = response.body();
-        Assert.assertNotNull(seriesData);
+        SeriesPayload seriesPayload = response.body();
+        Assert.assertNotNull(seriesPayload);
 
-        Series series = seriesData.getSeries().get(0);
+        SeriesApi series = seriesPayload.getSeries().get(0);
         Assert.assertNotNull(series);
 
         Assert.assertEquals(121361, series.getId());
@@ -114,12 +114,12 @@ public class TvdbInterfaceTest {
 
         TvdbInterface service = retrofit.create(TvdbInterface.class);
 
-        Response<EpisodeData> response = service.getEpisode("", 0, 0).execute();
+        Response<EpisodePayload> response = service.getEpisode("", 0, 0).execute();
 
-        EpisodeData episodeData = response.body();
-        Assert.assertNotNull(episodeData);
+        EpisodePayload episodePayload = response.body();
+        Assert.assertNotNull(episodePayload);
 
-        Episode episode = episodeData.getEpisode();
+        EpisodeApi episode = episodePayload.getEpisode();
         Assert.assertNotNull(episode);
 
         Assert.assertEquals(3254641, episode.getId());
@@ -162,12 +162,12 @@ public class TvdbInterfaceTest {
 
         TvdbInterface service = retrofit.create(TvdbInterface.class);
 
-        Response<SeriesData> response = service.getSeries("thrones").execute();
+        Response<SeriesPayload> response = service.getSeries("thrones").execute();
 
-        SeriesData seriesData = response.body();
-        Assert.assertNotNull(seriesData);
+        SeriesPayload seriesPayload = response.body();
+        Assert.assertNotNull(seriesPayload);
 
-        Series series = seriesData.getSeries().get(0);
+        SeriesApi series = seriesPayload.getSeries().get(0);
         Assert.assertNotNull(series);
 
         Assert.assertEquals(273385, series.getId());
@@ -177,8 +177,9 @@ public class TvdbInterfaceTest {
         Assert.assertEquals("King of Thrones", series.getName());
         Assert.assertEquals("graphical/273385-g.jpg", series.getBannerPath());
         Assert.assertNull(series.getImdbId());
+        Assert.assertNull(series.getAliases());
 
-        series = seriesData.getSeries().get(1);
+        series = seriesPayload.getSeries().get(1);
         Assert.assertNotNull(series);
 
         Assert.assertEquals(121361, series.getId());
@@ -188,8 +189,9 @@ public class TvdbInterfaceTest {
         Assert.assertEquals("Game of Thrones", series.getName());
         Assert.assertEquals("graphical/121361-g37.jpg", series.getBannerPath());
         Assert.assertEquals("tt0944947", series.getImdbId());
+        Assert.assertNull(series.getAliases());
 
-        series = seriesData.getSeries().get(2);
+        series = seriesPayload.getSeries().get(2);
         Assert.assertNotNull(series);
 
         Assert.assertEquals(268310, series.getId());
@@ -199,5 +201,6 @@ public class TvdbInterfaceTest {
         Assert.assertEquals("School of Thrones", series.getName());
         Assert.assertEquals("graphical/268310-g.jpg", series.getBannerPath());
         Assert.assertEquals("tt2781552", series.getImdbId());
+        Assert.assertNull(series.getAliases());
     }
 }

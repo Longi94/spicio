@@ -2,7 +2,7 @@ package com.tlongdev.spicio.presenter;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.network.TvdbInterface;
-import com.tlongdev.spicio.model.SeriesData;
+import com.tlongdev.spicio.network.model.SeriesPayload;
 import com.tlongdev.spicio.ui.activity.MainActivity;
 import com.tlongdev.spicio.ui.fragment.SearchSeriesView;
 
@@ -35,16 +35,16 @@ public class SearchSeriesPresenter implements Presenter<SearchSeriesView> {
     }
 
     public void searchForSeries(String query) {
-        tvdbInterface.getSeries(query).enqueue(new Callback<SeriesData>() {
+        tvdbInterface.getSeries(query).enqueue(new Callback<SeriesPayload>() {
             @Override
-            public void onResponse(Call<SeriesData> call, Response<SeriesData> response) {
+            public void onResponse(Call<SeriesPayload> call, Response<SeriesPayload> response) {
                 if (view != null) {
                     view.showSearchResult(response.body().getSeries());
                 }
             }
 
             @Override
-            public void onFailure(Call<SeriesData> call, Throwable t) {
+            public void onFailure(Call<SeriesPayload> call, Throwable t) {
                 if (view != null) {
                     view.showErrorMessage();
                 }

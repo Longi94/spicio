@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.model;
+package com.tlongdev.spicio.network.model;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -10,16 +10,12 @@ import org.simpleframework.xml.Root;
  * @since 2016. 02. 24.
  */
 @Root(name = "Data", strict = false)
-public class EpisodeData {
+public class EpisodePayload {
 
     @Element(name = "Episode")
-    private Episode episode;
+    private EpisodeApi episode;
 
-    public Episode getEpisode() {
+    public EpisodeApi getEpisode() {
         return episode;
-    }
-
-    public void setEpisode(Episode episode) {
-        this.episode = episode;
     }
 }

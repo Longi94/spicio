@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.adapter.SearchSeriesAdapter;
-import com.tlongdev.spicio.model.Series;
+import com.tlongdev.spicio.network.model.SeriesApi;
 import com.tlongdev.spicio.presenter.SearchSeriesPresenter;
 
 import java.util.List;
@@ -88,7 +88,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
     }
 
     @Override
-    public void showSearchResult(List<Series> series) {
+    public void showSearchResult(List<SeriesApi> series) {
         adapter.setDataSet(series);
     }
 
