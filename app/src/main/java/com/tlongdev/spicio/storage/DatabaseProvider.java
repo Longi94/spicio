@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.data;
+package com.tlongdev.spicio.storage;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -8,10 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.tlongdev.spicio.data.DatabaseContract.EpisodesEntry;
-import com.tlongdev.spicio.data.DatabaseContract.FeedEntry;
-import com.tlongdev.spicio.data.DatabaseContract.FriendsEntry;
-import com.tlongdev.spicio.data.DatabaseContract.SeriesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 
 public class DatabaseProvider extends ContentProvider {
 

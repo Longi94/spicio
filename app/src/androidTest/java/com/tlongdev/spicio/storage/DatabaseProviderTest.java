@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.data;
+package com.tlongdev.spicio.storage;
 
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
@@ -7,10 +7,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
-import com.tlongdev.spicio.data.DatabaseContract.EpisodesEntry;
-import com.tlongdev.spicio.data.DatabaseContract.FeedEntry;
-import com.tlongdev.spicio.data.DatabaseContract.FriendsEntry;
-import com.tlongdev.spicio.data.DatabaseContract.SeriesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 
 /**
  * @author Long

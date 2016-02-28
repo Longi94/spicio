@@ -24,7 +24,7 @@
         </activity>
 
         <provider
-            android:name=".data.DatabaseProvider"
+            android:name=".storage.DatabaseProvider"
             android:authorities="com.tlongdev.spicio"
             android:enabled="true"
             android:exported="false">

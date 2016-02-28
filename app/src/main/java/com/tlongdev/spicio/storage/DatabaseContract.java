@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.data;
+package com.tlongdev.spicio.storage;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

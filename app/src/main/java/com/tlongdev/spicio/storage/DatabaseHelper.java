@@ -1,10 +1,10 @@
-package com.tlongdev.spicio.data;
+package com.tlongdev.spicio.storage;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.tlongdev.spicio.data.DatabaseContract.*;
+import com.tlongdev.spicio.storage.DatabaseContract.*;
 
 /**
  * @author Long
