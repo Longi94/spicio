@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context="com.tlongdev.spicio.ui.fragment.SearchSeriesFragment">
+    tools:context=".presentation.ui.fragment.SearchSeriesFragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"

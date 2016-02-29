@@ -2,7 +2,7 @@ package com.tlongdev.spicio.component;
 
 import com.tlongdev.spicio.module.NetworkModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
-import com.tlongdev.spicio.repository.TvdbServiceRepository;
+import com.tlongdev.spicio.domain.repository.TvdbServiceRepository;
 
 import javax.inject.Singleton;
 

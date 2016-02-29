@@ -1,9 +1,9 @@
 package com.tlongdev.spicio.network.converter;
 
-import com.tlongdev.spicio.model.Day;
-import com.tlongdev.spicio.model.Episode;
-import com.tlongdev.spicio.model.Series;
-import com.tlongdev.spicio.model.Status;
+import com.tlongdev.spicio.domain.model.Day;
+import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.Status;
 import com.tlongdev.spicio.network.model.EpisodeApi;
 import com.tlongdev.spicio.network.model.EpisodePayload;
 import com.tlongdev.spicio.network.model.SeriesApi;
