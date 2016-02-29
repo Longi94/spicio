@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Locale;
+
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -35,6 +37,8 @@ public class TvdbModelConverterTest {
         when(seriesApi.getGenres()).thenReturn("|Adventure|Drama|Fantasy|");
         when(seriesApi.getStatus()).thenReturn("Continuing");
 
+        // TODO: 2016. 02. 29. throws a non-critical exception because joda-time is not initiated 
+        // Using robolectric doesn't work: https://github.com/dlew/joda-time-android/issues/37
         Series series = TvdbModelConverter.convertToDomainModel(seriesApi);
 
         assertNotNull(series);
@@ -46,7 +50,7 @@ public class TvdbModelConverterTest {
         assertEquals("Nikolaj Coster-Waldau", series.getActors()[3]);
         assertEquals(Day.SUNDAY, series.getAirsDayOfWeek());
 
-        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm a");
+        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm a").withLocale(Locale.US);
         assertEquals("9:00 PM", timeFormatter.print(series.getAirsTime()));
 
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");

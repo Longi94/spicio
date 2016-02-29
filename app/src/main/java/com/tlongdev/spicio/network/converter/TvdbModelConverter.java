@@ -15,6 +15,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Middle Layer, Converter.
@@ -33,7 +34,7 @@ public class TvdbModelConverter {
     public static Series convertToDomainModel(SeriesApi series) {
 
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm a");
+        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm a").withLocale(Locale.US);
 
         Series converted = new Series();
 
