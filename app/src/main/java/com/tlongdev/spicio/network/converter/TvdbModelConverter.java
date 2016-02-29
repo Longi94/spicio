@@ -39,7 +39,7 @@ public class TvdbModelConverter {
 
         converted.setId(series.getId());
         if (series.getActors() != null) {
-            converted.setActors(series.getActors().split("|"));
+            converted.setActors(series.getActors().replaceAll("^\\|", "").split("\\|"));
         }
 
         if (series.getAirsDayOfWeek() != null) {
@@ -78,7 +78,7 @@ public class TvdbModelConverter {
             converted.setFirstAired(dateFormatter.parseDateTime(series.getFirstAired()));
         }
         if (series.getGenres() != null) {
-            converted.setGenres(series.getGenres().split("|"));
+            converted.setGenres(series.getGenres().replaceAll("^\\|", "").split("\\|"));
         }
         converted.setImdbId(series.getImdbId());
         converted.setNetWork(series.getNetWork());
@@ -106,7 +106,7 @@ public class TvdbModelConverter {
         converted.setPosterPath(series.getPosterPath());
         converted.setZapt2itId(series.getZapt2itId());
         if (series.getAliases() != null) {
-            converted.setAliases(series.getAliases().split("|"));
+            converted.setAliases(series.getAliases().replaceAll("^\\|", "").split("\\|"));
         }
 
         return converted;
@@ -135,11 +135,11 @@ public class TvdbModelConverter {
             converted.setFirstAired(dateFormatter.parseDateTime(episode.getFirstAired()));
         }
         if (episode.getGuestStars() != null) {
-            converted.setGuestStars(episode.getGuestStars().split("|"));
+            converted.setGuestStars(episode.getGuestStars().replaceAll("^\\|", "").split("\\|"));
         }
         converted.setDirector(episode.getDirector());
         if (episode.getWriters() != null) {
-            converted.setWriters(episode.getWriters().split("|"));
+            converted.setWriters(episode.getWriters().replaceAll("^\\|", "").split("\\|"));
         }
         converted.setOverView(episode.getOverView());
         converted.setSeasonNumber(episode.getSeasonNumber());
