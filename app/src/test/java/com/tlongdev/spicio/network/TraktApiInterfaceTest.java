@@ -141,6 +141,15 @@ public class TraktApiInterfaceTest {
         assertEquals("2016-03-01T11:33:10.000Z", series.getUpdatedAt());
         assertEquals("en", series.getLanguage());
 
+        TraktIds ids = series.getIds();
+        assertNotNull(ids);
+        assertEquals(1390, ids.getTrakt());
+        assertEquals("game-of-thrones", ids.getSlug());
+        assertEquals(121361, ids.getTvdb());
+        assertEquals("tt0944947", ids.getImdb());
+        assertEquals(1399, ids.getTmdb());
+        assertEquals(24493, ids.getTvrage());
+
         List<String> availableTranslations = series.getAvailableTranslations();
         assertArrayEquals(new String[]{
                 "en",
@@ -186,5 +195,74 @@ public class TraktApiInterfaceTest {
         }, genres.toArray(new String[genres.size()]));
 
         assertEquals(50, series.getAiredEpisodes());
+    }
+
+    @Test
+    public void testSeriesImagesParsing() throws IOException {
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_series_images_mock.json");
+        assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        assertNotNull(dummyResponse);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new FakeInterceptor(dummyResponse, "json"))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TraktApiInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        TraktApiInterface service = retrofit.create(TraktApiInterface.class);
+
+        Response<TraktSeries> response = service.getSeriesImages("game-of-thrones").execute();
+
+        TraktSeries series = response.body();
+        assertNotNull(series);
+        assertEquals("Game of Thrones", series.getTitle());
+        assertEquals(2011, series.getYear());
+
+        TraktIds ids = series.getIds();
+        assertNotNull(ids);
+        assertEquals(1390, ids.getTrakt());
+        assertEquals("game-of-thrones", ids.getSlug());
+        assertEquals(121361, ids.getTvdb());
+        assertEquals("tt0944947", ids.getImdb());
+        assertEquals(1399, ids.getTmdb());
+        assertEquals(24493, ids.getTvrage());
+
+        TraktImages images = series.getImages();
+        assertNotNull(images);
+
+        TraktImage poster = images.getPoster();
+        assertNotNull(poster);
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/posters/original/93df9cd612.jpg", poster.getFull());
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/posters/medium/93df9cd612.jpg", poster.getMedium());
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/posters/thumb/93df9cd612.jpg", poster.getThumb());
+
+        TraktImage fanart = images.getFanart();
+        assertNotNull(fanart);
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/fanarts/original/76d5df8aed.jpg", fanart.getFull());
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/fanarts/medium/76d5df8aed.jpg", fanart.getMedium());
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/fanarts/thumb/76d5df8aed.jpg", fanart.getThumb());
+
+        TraktImage logo = images.getLogo();
+        assertNotNull(logo);
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/logos/original/13b614ad43.png", logo.getFull());
+
+        TraktImage clearart = images.getClearart();
+        assertNotNull(clearart);
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/cleararts/original/5cbde9e647.png", clearart.getFull());
+
+        TraktImage banner = images.getBanner();
+        assertNotNull(banner);
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/banners/original/9fefff703d.jpg", banner.getFull());
+
+        TraktImage thumb = images.getThumb();
+        assertNotNull(thumb);
+        assertEquals("https://walter.trakt.us/images/shows/000/001/390/thumbs/original/7beccbd5a1.jpg", thumb.getFull());
     }
 }
