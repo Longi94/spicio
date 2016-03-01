@@ -1,0 +1,19 @@
+{
+  "season": 1,
+  "number": 1,
+  "title": "Winter Is Coming",
+  "ids": {
+    "trakt": 73640,
+    "tvdb": 3254641,
+    "imdb": "tt1480055",
+    "tmdb": 63056,
+    "tvrage": 1065008299
+  },
+  "number_abs": null,
+  "overview": "Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.",
+  "rating": 8.56194,
+  "votes": 3778,
+  "first_aired": "2011-04-18T01:00:00.000Z",
+  "updated_at": "2016-03-01T22:03:25.000Z",
+  "available_translations": []
+}

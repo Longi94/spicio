@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.network;
 
 import com.tlongdev.spicio.network.model.TraktAirTime;
+import com.tlongdev.spicio.network.model.TraktEpisode;
 import com.tlongdev.spicio.network.model.TraktIds;
 import com.tlongdev.spicio.network.model.TraktImage;
 import com.tlongdev.spicio.network.model.TraktImages;
@@ -371,5 +372,100 @@ public class TraktApiInterfaceTest {
         TraktImage thumb = images.getThumb();
         assertNotNull(thumb);
         assertEquals("https://walter.trakt.us/images/seasons/000/003/962/thumbs/original/c41b46dd09.jpg", thumb.getFull());
+    }
+
+    @Test
+    public void testEpisodeDetailParsing() throws IOException {
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_episode_detail_mock.json");
+        assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        assertNotNull(dummyResponse);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new FakeInterceptor(dummyResponse, "json"))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TraktApiInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        TraktApiInterface service = retrofit.create(TraktApiInterface.class);
+
+        Response<TraktEpisode> response = service.getSingleEpisodeDetails("game-of-thrones", 1, 1).execute();
+
+        TraktEpisode episode = response.body();
+        assertNotNull(episode);
+        assertEquals(1, episode.getSeason());
+        assertEquals(1, episode.getNumber());
+        assertEquals("Winter Is Coming", episode.getTitle());
+        assertNull(episode.getNumberAbs());
+        assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverview());
+        assertEquals(8.56194, episode.getRating(), 0);
+        assertEquals(3778, episode.getVotes());
+        assertEquals("2011-04-18T01:00:00.000Z", episode.getFirstAired());
+        assertEquals("2016-03-01T22:03:25.000Z", episode.getUpdatedAt());
+        assertEquals(0, episode.getAvailableTranslations().size());
+
+        TraktIds ids = episode.getIds();
+        assertNotNull(ids);
+        assertEquals(73640, ids.getTrakt().intValue());
+        assertEquals(3254641, ids.getTvdb().intValue());
+        assertEquals("tt1480055", ids.getImdb());
+        assertEquals(63056, ids.getTmdb().intValue());
+        assertEquals(1065008299, ids.getTvrage().intValue());
+    }
+
+    @Test
+    public void testEpisodeImagesParsing() throws IOException {
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_episodes_images_mock.json");
+        assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        assertNotNull(dummyResponse);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new FakeInterceptor(dummyResponse, "json"))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TraktApiInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        TraktApiInterface service = retrofit.create(TraktApiInterface.class);
+
+        Response<List<TraktEpisode>> response = service.getSeasonEpisodes("game-of-thrones", 1).execute();
+
+        List<TraktEpisode> episodes = response.body();
+        assertNotNull(episodes);
+        assertEquals(10, episodes.size());
+
+        TraktEpisode episode = episodes.get(0);
+        assertEquals(1, episode.getSeason());
+        assertEquals(1, episode.getNumber());
+        assertEquals("Winter Is Coming", episode.getTitle());
+
+        TraktIds ids = episode.getIds();
+        assertNotNull(ids);
+        assertEquals(73640, ids.getTrakt().intValue());
+        assertEquals(3254641, ids.getTvdb().intValue());
+        assertEquals("tt1480055", ids.getImdb());
+        assertEquals(63056, ids.getTmdb().intValue());
+        assertEquals(1065008299, ids.getTvrage().intValue());
+
+        TraktImages images = episode.getImages();
+        assertNotNull(images);
+
+        TraktImage screenshot = images.getScreenshot();
+        assertNotNull(screenshot);
+        assertEquals("https://walter.trakt.us/images/episodes/000/073/640/screenshots/original/dd3fc55725.jpg", screenshot.getFull());
+        assertEquals("https://walter.trakt.us/images/episodes/000/073/640/screenshots/medium/dd3fc55725.jpg", screenshot.getMedium());
+        assertEquals("https://walter.trakt.us/images/episodes/000/073/640/screenshots/thumb/dd3fc55725.jpg", screenshot.getThumb());
     }
 }

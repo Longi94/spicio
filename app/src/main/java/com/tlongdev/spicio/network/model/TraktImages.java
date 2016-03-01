@@ -26,6 +26,9 @@ public class TraktImages {
     @SerializedName("thumb")
     private TraktImage thumb;
 
+    @SerializedName("screenshot")
+    private TraktImage screenshot;
+
     public TraktImage getFanart() {
         return fanart;
     }
@@ -48,5 +51,9 @@ public class TraktImages {
 
     public TraktImage getThumb() {
         return thumb;
+    }
+
+    public TraktImage getScreenshot() {
+        return screenshot;
     }
 }
