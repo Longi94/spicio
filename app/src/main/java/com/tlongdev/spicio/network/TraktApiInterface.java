@@ -96,6 +96,17 @@ public interface TraktApiInterface {
      * @param episode the episode number
      * @return the single episode
      */
-    @GET("shows/{id}/seasons/{season}/episodes/{episode}")
-    Call<TraktEpisode> getSingleEpisode(@Path("id") String id, @Path("season") int season, @Path("episode") int episode);
+    @GET("shows/{id}/seasons/{season}/episodes/{episode}?extended=full")
+    Call<TraktEpisode> getSingleEpisodeDetails(@Path("id") String id, @Path("season") int season, @Path("episode") int episode);
+
+    /**
+     * Get a images for an episode of a season of a series.
+     *
+     * @param id      the id of the series, can be trakt.tv ID, trakt.tv slug or IMDB ID
+     * @param season  the season number
+     * @param episode the episode number
+     * @return the images for the episode
+     */
+    @GET("shows/{id}/seasons/{season}/episodes/{episode}?extended=full")
+    Call<TraktEpisode> getSingleEpisodeImages(@Path("id") String id, @Path("season") int season, @Path("episode") int episode);
 }
