@@ -16,4 +16,16 @@ public class TraktSearchResult {
 
     @SerializedName("show")
     private TraktSeries series;
+
+    public String getType() {
+        return type;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public TraktSeries getSeries() {
+        return series;
+    }
 }

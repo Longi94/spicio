@@ -72,7 +72,7 @@ public class TraktSeries {
     private int airedEpisodes;
 
     @SerializedName("images")
-    private TraktImage images;
+    private TraktImages images;
 
     public String getTitle() {
         return title;
@@ -154,7 +154,7 @@ public class TraktSeries {
         return airedEpisodes;
     }
 
-    public TraktImage getImages() {
+    public TraktImages getImages() {
         return images;
     }
 }
