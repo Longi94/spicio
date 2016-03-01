@@ -4,10 +4,10 @@ import com.tlongdev.spicio.domain.model.Day;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.Status;
-import com.tlongdev.spicio.network.model.EpisodeApi;
-import com.tlongdev.spicio.network.model.EpisodePayload;
-import com.tlongdev.spicio.network.model.SeriesApi;
-import com.tlongdev.spicio.network.model.SeriesPayload;
+import com.tlongdev.spicio.network.model.TvdbEpisode;
+import com.tlongdev.spicio.network.model.TvdbEpisodePayload;
+import com.tlongdev.spicio.network.model.TvdbSeries;
+import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
 
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
@@ -26,12 +26,12 @@ import java.util.Locale;
 public class TvdbModelConverter {
 
     /**
-     * Convert a SeriesApi object to a Series object.
+     * Convert a TvdbSeries object to a Series object.
      *
      * @param series the object to convert
      * @return the result object
      */
-    public static Series convertToDomainModel(SeriesApi series) {
+    public static Series convertToDomainModel(TvdbSeries series) {
 
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm a").withLocale(Locale.US);
@@ -113,17 +113,17 @@ public class TvdbModelConverter {
         return converted;
     }
 
-    public static List<Series> convertToDomainModel(SeriesPayload seriesPayload) {
+    public static List<Series> convertToDomainModel(TvdbSeriesPayload tvdbSeriesPayload) {
         List<Series> resultList = new LinkedList<>();
 
-        for (SeriesApi series : seriesPayload.getSeries()) {
+        for (TvdbSeries series : tvdbSeriesPayload.getSeries()) {
             resultList.add(convertToDomainModel(series));
         }
 
         return resultList;
     }
 
-    public static Episode convertToDomainModel(EpisodeApi episode) {
+    public static Episode convertToDomainModel(TvdbEpisode episode) {
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
         Episode converted = new Episode();
@@ -152,7 +152,7 @@ public class TvdbModelConverter {
         return converted;
     }
 
-    public static Episode convertToDomainModel(EpisodePayload episodePayload) {
-        return convertToDomainModel(episodePayload.getEpisode());
+    public static Episode convertToDomainModel(TvdbEpisodePayload tvdbEpisodePayload) {
+        return convertToDomainModel(tvdbEpisodePayload.getEpisode());
     }
 }

@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.network;
 
-import com.tlongdev.spicio.network.model.EpisodePayload;
-import com.tlongdev.spicio.network.model.SeriesPayload;
+import com.tlongdev.spicio.network.model.TvdbEpisodePayload;
+import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -26,7 +26,7 @@ public interface TvdbInterface {
      * @return the search result
      */
     @GET("api/GetSeries.php")
-    Call<SeriesPayload> getSeries(@Query("seriesname") String seriesName);
+    Call<TvdbSeriesPayload> getSeries(@Query("seriesname") String seriesName);
 
     /**
      * Gets more information about a series.
@@ -37,7 +37,7 @@ public interface TvdbInterface {
      * @return more information about the series
      */
     @GET("api/{apiKey}/series/{id}")
-    Call<SeriesPayload> getSeriesRecord(@Path("apiKey") String apiKey, @Path("id") int seriesId);
+    Call<TvdbSeriesPayload> getSeriesRecord(@Path("apiKey") String apiKey, @Path("id") int seriesId);
 
     /**
      * Gets information about an episode.
@@ -50,8 +50,8 @@ public interface TvdbInterface {
      * @return the episode
      */
     @GET("api/{apiKey}/series/{id}/default/{season}/{episode}")
-    Call<EpisodePayload> getEpisode(@Path("apiKey") String apiKey, @Path("id") int seriesId,
-                                    @Path("season") int season, @Path("episode") int episode);
+    Call<TvdbEpisodePayload> getEpisode(@Path("apiKey") String apiKey, @Path("id") int seriesId,
+                                        @Path("season") int season, @Path("episode") int episode);
 
     /**
      * Gets information about an episode.
@@ -63,6 +63,6 @@ public interface TvdbInterface {
      * @return the episode
      */
     @GET("api/{apiKey}/series/{id}/absolute/{episode}")
-    Call<EpisodePayload> getEpisode(@Path("apiKey") String apiKey, @Path("id") int seriesId,
-                                    @Path("episode") int absoluteEpisode);
+    Call<TvdbEpisodePayload> getEpisode(@Path("apiKey") String apiKey, @Path("id") int seriesId,
+                                        @Path("episode") int absoluteEpisode);
 }

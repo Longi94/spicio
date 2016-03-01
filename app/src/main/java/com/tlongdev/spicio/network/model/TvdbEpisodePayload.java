@@ -1,9 +1,7 @@
 package com.tlongdev.spicio.network.model;
 
-import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-
-import java.util.List;
 
 /**
  * Outer layer, Network.
@@ -13,12 +11,12 @@ import java.util.List;
  * @since 2016. 02. 24.
  */
 @Root(name = "Data", strict = false)
-public class SeriesPayload {
+public class TvdbEpisodePayload {
 
-    @ElementList(name = "Series", inline = true)
-    private List<SeriesApi> series;
+    @Element(name = "Episode")
+    private TvdbEpisode episode;
 
-    public List<SeriesApi> getSeries() {
-        return series;
+    public TvdbEpisode getEpisode() {
+        return episode;
     }
 }

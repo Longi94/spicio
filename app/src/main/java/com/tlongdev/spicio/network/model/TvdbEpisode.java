@@ -11,7 +11,7 @@ import org.simpleframework.xml.Root;
  * @since 2016. 02. 23.
  */
 @Root(name = "Episode", strict = false)
-public class EpisodeApi {
+public class TvdbEpisode {
 
     @Element(name = "id")
     private int id;

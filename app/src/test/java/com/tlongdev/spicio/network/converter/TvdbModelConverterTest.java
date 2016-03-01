@@ -3,7 +3,7 @@ package com.tlongdev.spicio.network.converter;
 import com.tlongdev.spicio.domain.model.Day;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.Status;
-import com.tlongdev.spicio.network.model.SeriesApi;
+import com.tlongdev.spicio.network.model.TvdbSeries;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -26,20 +26,20 @@ import static org.mockito.Mockito.when;
 public class TvdbModelConverterTest {
 
     @Mock
-    SeriesApi seriesApi;
+    TvdbSeries tvdbSeries;
 
     @Test
     public void testSeriesConversion() {
-        when(seriesApi.getActors()).thenReturn("|Emilia Clarke|Peter Dinklage|Kit Harington|Nikolaj Coster-Waldau|");
-        when(seriesApi.getAirsDayOfWeek()).thenReturn("Sunday");
-        when(seriesApi.getAirsTime()).thenReturn("9:00 PM");
-        when(seriesApi.getFirstAired()).thenReturn("2011-04-17");
-        when(seriesApi.getGenres()).thenReturn("|Adventure|Drama|Fantasy|");
-        when(seriesApi.getStatus()).thenReturn("Continuing");
+        when(tvdbSeries.getActors()).thenReturn("|Emilia Clarke|Peter Dinklage|Kit Harington|Nikolaj Coster-Waldau|");
+        when(tvdbSeries.getAirsDayOfWeek()).thenReturn("Sunday");
+        when(tvdbSeries.getAirsTime()).thenReturn("9:00 PM");
+        when(tvdbSeries.getFirstAired()).thenReturn("2011-04-17");
+        when(tvdbSeries.getGenres()).thenReturn("|Adventure|Drama|Fantasy|");
+        when(tvdbSeries.getStatus()).thenReturn("Continuing");
 
         // TODO: 2016. 02. 29. throws a non-critical exception because joda-time is not initiated 
         // Using robolectric doesn't work: https://github.com/dlew/joda-time-android/issues/37
-        Series series = TvdbModelConverter.convertToDomainModel(seriesApi);
+        Series series = TvdbModelConverter.convertToDomainModel(tvdbSeries);
 
         assertNotNull(series);
 

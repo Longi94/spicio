@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.domain.model;
 
-import com.tlongdev.spicio.network.model.EpisodeApi;
-import com.tlongdev.spicio.network.model.SeriesApi;
+import com.tlongdev.spicio.network.model.TvdbEpisode;
+import com.tlongdev.spicio.network.model.TvdbSeries;
 
 /**
  * Inner Layer, Model.
@@ -16,8 +16,8 @@ public class FeedItem {
     private long timestamp;
     private User culprit;
     private User victim;
-    private SeriesApi series;
-    private EpisodeApi episode;
+    private TvdbSeries series;
+    private TvdbEpisode episode;
 
     public int getId() {
         return id;
@@ -59,19 +59,19 @@ public class FeedItem {
         this.victim = victim;
     }
 
-    public SeriesApi getSeries() {
+    public TvdbSeries getSeries() {
         return series;
     }
 
-    public void setSeries(SeriesApi series) {
+    public void setSeries(TvdbSeries series) {
         this.series = series;
     }
 
-    public EpisodeApi getEpisode() {
+    public TvdbEpisode getEpisode() {
         return episode;
     }
 
-    public void setEpisode(EpisodeApi episode) {
+    public void setEpisode(TvdbEpisode episode) {
         this.episode = episode;
     }
 }

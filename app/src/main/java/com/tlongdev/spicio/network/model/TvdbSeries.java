@@ -11,7 +11,7 @@ import org.simpleframework.xml.Root;
  * @since 2016. 02. 23.
  */
 @Root(name = "Series", strict = false)
-public class SeriesApi {
+public class TvdbSeries {
 
     @Element(name = "id")
     private int id;

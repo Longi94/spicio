@@ -7,7 +7,7 @@ import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.network.converter.TvdbModelConverter;
-import com.tlongdev.spicio.network.model.SeriesPayload;
+import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
 import com.tlongdev.spicio.presentation.ui.activity.MainActivity;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class TvdbServiceRepository implements TvdbRepository {
     @Override
     public List<Series> searchSeries(String query) {
         try {
-            SeriesPayload payload = tvdbInterface.getSeries(query).execute().body();
+            TvdbSeriesPayload payload = tvdbInterface.getSeries(query).execute().body();
             return TvdbModelConverter.convertToDomainModel(payload);
         } catch (IOException e) {
             e.printStackTrace();
