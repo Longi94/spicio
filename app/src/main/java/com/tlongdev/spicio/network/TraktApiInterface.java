@@ -30,7 +30,7 @@ public interface TraktApiInterface {
      * @return the search result
      */
     @GET("search")
-    Call<TraktSearchResult> searchByText(@Query("query") String query, @Query("type") String type);
+    Call<List<TraktSearchResult>> searchByText(@Query("query") String query, @Query("type") String type);
 
     /**
      * Search trakt.tv database by id. Narrow down search result with the type parameter.
@@ -40,7 +40,7 @@ public interface TraktApiInterface {
      * @return the search result
      */
     @GET("search")
-    Call<TraktSearchResult> searchById(@Query("id_type") String idType, @Query("id") String id);
+    Call<List<TraktSearchResult>> searchById(@Query("id_type") String idType, @Query("id") String id);
 
     /**
      * Get the details of a series.
