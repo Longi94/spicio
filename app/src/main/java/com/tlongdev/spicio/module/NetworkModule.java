@@ -2,7 +2,6 @@ package com.tlongdev.spicio.module;
 
 import android.content.Context;
 
-import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.network.TvdbInterface;
 
 import javax.inject.Singleton;
@@ -44,7 +43,7 @@ public class NetworkModule {
     TvdbInterface provideTvdbInterface(SimpleXmlConverterFactory xmlConverter, OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(xmlConverter)
-                .baseUrl(mContext.getString(R.string.api_tvdb_link))
+                .baseUrl(TvdbInterface.BASE_URL)
                 .client(okHttpClient)
                 .build();
 
