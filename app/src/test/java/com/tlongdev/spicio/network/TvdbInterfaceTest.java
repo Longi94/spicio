@@ -1,6 +1,5 @@
 package com.tlongdev.spicio.network;
 
-import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.network.model.TvdbEpisode;
 import com.tlongdev.spicio.network.model.TvdbEpisodePayload;
 import com.tlongdev.spicio.network.model.TvdbSeries;
@@ -105,7 +104,7 @@ public class TvdbInterfaceTest {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RuntimeEnvironment.application.getString(R.string.api_tvdb_link))
+                .baseUrl(TvdbInterface.BASE_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .client(client)
                 .build();
@@ -153,7 +152,7 @@ public class TvdbInterfaceTest {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RuntimeEnvironment.application.getString(R.string.api_tvdb_link))
+                .baseUrl(TvdbInterface.BASE_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .client(client)
                 .build();
