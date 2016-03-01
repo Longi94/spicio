@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,8 +90,6 @@ public class TvdbInterfaceTest {
     @Test
     public void testGetEpisodeParser() throws IOException {
 
-        assertNotNull(RuntimeEnvironment.application);
-
         InputStream is = getClass().getClassLoader().getResourceAsStream("get_episode_mock.xml");
         assertNotNull(is);
 
@@ -138,8 +135,6 @@ public class TvdbInterfaceTest {
 
     @Test
     public void testSearchEpisodeParser() throws IOException {
-
-        assertNotNull(RuntimeEnvironment.application);
 
         InputStream is = getClass().getClassLoader().getResourceAsStream("search_series_mock.xml");
         assertNotNull(is);
