@@ -76,6 +76,7 @@ task jacocoFullReport(type: JacocoReport, group: 'Coverage reports') {
     //noinspection GrUnresolvedAccess
     dependsOn(subprojects.jacocoReport)
 
+    additionalSourceDirs = project.files(subprojects.jacocoReport.sourceDirectories)
     sourceDirectories = project.files(subprojects.jacocoReport.sourceDirectories)
     classDirectories = project.files(subprojects.jacocoReport.classDirectories)
     executionData = project.files(subprojects.jacocoReport.executionData)

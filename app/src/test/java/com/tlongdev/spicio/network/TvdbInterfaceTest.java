@@ -1,6 +1,5 @@
 package com.tlongdev.spicio.network;
 
-import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.network.model.TvdbEpisode;
 import com.tlongdev.spicio.network.model.TvdbEpisodePayload;
@@ -12,9 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +32,7 @@ import static org.junit.Assert.assertNull;
  * @author Long
  * @since 2016. 02. 24.
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(MockitoJUnitRunner.class)
 public class TvdbInterfaceTest {
 
     @Before
@@ -45,8 +42,6 @@ public class TvdbInterfaceTest {
 
     @Test
     public void testGetSeriesRecordParser() throws IOException {
-
-        assertNotNull(RuntimeEnvironment.application);
 
         InputStream is = getClass().getClassLoader().getResourceAsStream("get_series_mock.xml");
         assertNotNull(is);
@@ -59,7 +54,7 @@ public class TvdbInterfaceTest {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RuntimeEnvironment.application.getString(R.string.api_tvdb_link))
+                .baseUrl(TvdbInterface.BASE_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .client(client)
                 .build();

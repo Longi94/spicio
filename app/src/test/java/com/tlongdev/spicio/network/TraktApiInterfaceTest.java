@@ -1,6 +1,5 @@
 package com.tlongdev.spicio.network;
 
-import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.network.model.TraktIds;
 import com.tlongdev.spicio.network.model.TraktImage;
 import com.tlongdev.spicio.network.model.TraktImages;
@@ -12,8 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,8 +29,7 @@ import static org.junit.Assert.assertNotNull;
  * @author Long
  * @since 2016. 03. 01.
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class)
+@RunWith(MockitoJUnitRunner.class)
 public class TraktApiInterfaceTest {
 
     @Before

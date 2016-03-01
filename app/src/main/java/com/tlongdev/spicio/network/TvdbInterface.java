@@ -18,6 +18,8 @@ import retrofit2.http.Query;
  */
 public interface TvdbInterface {
 
+    String BASE_URL = "http://thetvdb.com/";
+
     /**
      * Searches for series using the api.
      * http://www.thetvdb.com/wiki/index.php?title=API:GetSeries

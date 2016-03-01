@@ -20,7 +20,7 @@ import retrofit2.http.Query;
  */
 public interface TraktApiInterface {
 
-    public static final String BASE_URL = "https://api-v2launch.trakt.tv/";
+    String BASE_URL = "https://api-v2launch.trakt.tv/";
 
     /**
      * Search trakt.tv database by text. Narrow down search result with the type paramater.
