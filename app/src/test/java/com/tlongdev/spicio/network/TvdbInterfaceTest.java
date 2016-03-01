@@ -9,7 +9,6 @@ import com.tlongdev.spicio.util.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class TvdbInterfaceTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+
     }
 
     @Test
