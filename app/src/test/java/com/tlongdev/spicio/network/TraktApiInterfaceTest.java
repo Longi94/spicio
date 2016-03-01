@@ -1,9 +1,11 @@
 package com.tlongdev.spicio.network;
 
+import com.tlongdev.spicio.network.model.TraktAirTime;
 import com.tlongdev.spicio.network.model.TraktIds;
 import com.tlongdev.spicio.network.model.TraktImage;
 import com.tlongdev.spicio.network.model.TraktImages;
 import com.tlongdev.spicio.network.model.TraktSearchResult;
+import com.tlongdev.spicio.network.model.TraktSeason;
 import com.tlongdev.spicio.network.model.TraktSeries;
 import com.tlongdev.spicio.util.TestUtils;
 
@@ -25,6 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Long
@@ -94,12 +97,12 @@ public class TraktApiInterfaceTest {
 
         TraktIds ids = series.getIds();
         assertNotNull(ids);
-        assertEquals(1390, ids.getTrakt());
+        assertEquals(1390, ids.getTrakt().intValue());
         assertEquals("game-of-thrones", ids.getSlug());
-        assertEquals(121361, ids.getTvdb());
+        assertEquals(121361, ids.getTvdb().intValue());
         assertEquals("tt0944947", ids.getImdb());
-        assertEquals(1399, ids.getTmdb());
-        assertEquals(24493, ids.getTvrage());
+        assertEquals(1399, ids.getTmdb().intValue());
+        assertEquals(24493, ids.getTvrage().intValue());
     }
 
     @Test
@@ -133,6 +136,8 @@ public class TraktApiInterfaceTest {
         assertEquals("2011-04-17T07:00:00.000Z", series.getFirstAired());
         assertEquals(60, series.getRuntime());
         assertEquals("TV-MA", series.getCertification());
+        assertEquals("HBO", series.getNetwork());
+        assertEquals("us", series.getCountry());
         assertEquals("http://youtube.com/watch?v=F9Bo89m2f6g", series.getTrailer());
         assertEquals("http://www.hbo.com/game-of-thrones", series.getHomepage());
         assertEquals("returning series", series.getStatus());
@@ -141,14 +146,20 @@ public class TraktApiInterfaceTest {
         assertEquals("2016-03-01T11:33:10.000Z", series.getUpdatedAt());
         assertEquals("en", series.getLanguage());
 
+        TraktAirTime airTime = series.getAirs();
+        assertNotNull(airTime);
+        assertEquals("Sunday", airTime.getDay());
+        assertEquals("21:00", airTime.getTime());
+        assertEquals("America/New_York", airTime.getTimezone());
+
         TraktIds ids = series.getIds();
         assertNotNull(ids);
-        assertEquals(1390, ids.getTrakt());
+        assertEquals(1390, ids.getTrakt().intValue());
         assertEquals("game-of-thrones", ids.getSlug());
-        assertEquals(121361, ids.getTvdb());
+        assertEquals(121361, ids.getTvdb().intValue());
         assertEquals("tt0944947", ids.getImdb());
-        assertEquals(1399, ids.getTmdb());
-        assertEquals(24493, ids.getTvrage());
+        assertEquals(1399, ids.getTmdb().intValue());
+        assertEquals(24493, ids.getTvrage().intValue());
 
         List<String> availableTranslations = series.getAvailableTranslations();
         assertArrayEquals(new String[]{
@@ -227,12 +238,12 @@ public class TraktApiInterfaceTest {
 
         TraktIds ids = series.getIds();
         assertNotNull(ids);
-        assertEquals(1390, ids.getTrakt());
+        assertEquals(1390, ids.getTrakt().intValue());
         assertEquals("game-of-thrones", ids.getSlug());
-        assertEquals(121361, ids.getTvdb());
+        assertEquals(121361, ids.getTvdb().intValue());
         assertEquals("tt0944947", ids.getImdb());
-        assertEquals(1399, ids.getTmdb());
-        assertEquals(24493, ids.getTvrage());
+        assertEquals(1399, ids.getTmdb().intValue());
+        assertEquals(24493, ids.getTvrage().intValue());
 
         TraktImages images = series.getImages();
         assertNotNull(images);
@@ -264,5 +275,101 @@ public class TraktApiInterfaceTest {
         TraktImage thumb = images.getThumb();
         assertNotNull(thumb);
         assertEquals("https://walter.trakt.us/images/shows/000/001/390/thumbs/original/7beccbd5a1.jpg", thumb.getFull());
+    }
+
+    @Test
+    public void testSeasonParsing() throws IOException {
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_seasons_mock.json");
+        assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        assertNotNull(dummyResponse);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new FakeInterceptor(dummyResponse, "json"))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TraktApiInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        TraktApiInterface service = retrofit.create(TraktApiInterface.class);
+
+        Response<List<TraktSeason>> response = service.getSeasonsDetails("game-of-thrones").execute();
+
+        List<TraktSeason> seasons = response.body();
+        assertNotNull(seasons);
+        assertEquals(7, seasons.size());
+
+        TraktSeason season = seasons.get(0);
+        assertNotNull(season);
+        assertEquals(0, season.getNumber());
+        assertEquals(9.0, season.getRating(), 0);
+        assertEquals(62, season.getVotes());
+        assertEquals(14, season.getEpisodeCount());
+        assertEquals(14, season.getAiredEpisodes());
+        assertNull(season.getOverview());
+
+        TraktIds ids = season.getIds();
+        assertNotNull(ids);
+        assertEquals(3962, ids.getTrakt().intValue());
+        assertEquals(137481, ids.getTvdb().intValue());
+        assertEquals(null, ids.getTmdb());
+        assertEquals(null, ids.getTvrage());
+    }
+
+    @Test
+    public void testSeasonImagesParsing() throws IOException {
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_seasons_images_mock.json");
+        assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        assertNotNull(dummyResponse);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new FakeInterceptor(dummyResponse, "json"))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TraktApiInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        TraktApiInterface service = retrofit.create(TraktApiInterface.class);
+
+        Response<List<TraktSeason>> response = service.getSeasonsImages("game-of-thrones").execute();
+
+        List<TraktSeason> seasons = response.body();
+        assertNotNull(seasons);
+        assertEquals(7, seasons.size());
+
+        TraktSeason season = seasons.get(0);
+        assertNotNull(season);
+        assertEquals(0, season.getNumber());
+
+        TraktIds ids = season.getIds();
+        assertNotNull(ids);
+        assertEquals(3962, ids.getTrakt().intValue());
+        assertEquals(137481, ids.getTvdb().intValue());
+        assertEquals(null, ids.getTmdb());
+        assertEquals(null, ids.getTvrage());
+
+        TraktImages images = season.getImages();
+        assertNotNull(images);
+
+        TraktImage poster = images.getPoster();
+        assertNotNull(poster);
+        assertEquals("https://walter.trakt.us/images/seasons/000/003/962/posters/original/41221f3712.jpg", poster.getFull());
+        assertEquals("https://walter.trakt.us/images/seasons/000/003/962/posters/medium/41221f3712.jpg", poster.getMedium());
+        assertEquals("https://walter.trakt.us/images/seasons/000/003/962/posters/thumb/41221f3712.jpg", poster.getThumb());
+
+        TraktImage thumb = images.getThumb();
+        assertNotNull(thumb);
+        assertEquals("https://walter.trakt.us/images/seasons/000/003/962/thumbs/original/c41b46dd09.jpg", thumb.getFull());
     }
 }

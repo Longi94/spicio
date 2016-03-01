@@ -9,24 +9,24 @@ import com.google.gson.annotations.SerializedName;
 public class TraktIds {
 
     @SerializedName("trakt")
-    private int trakt;
+    private Integer trakt;
 
     @SerializedName("slug")
     private String slug;
 
     @SerializedName("tvdb")
-    private int tvdb;
+    private Integer tvdb;
 
     @SerializedName("imdb")
     private String imdb;
 
     @SerializedName("tmdb")
-    private int tmdb;
+    private Integer tmdb;
 
     @SerializedName("tvrage")
-    private int tvrage;
+    private Integer tvrage;
 
-    public int getTrakt() {
+    public Integer getTrakt() {
         return trakt;
     }
 
@@ -34,7 +34,7 @@ public class TraktIds {
         return slug;
     }
 
-    public int getTvdb() {
+    public Integer getTvdb() {
         return tvdb;
     }
 
@@ -42,11 +42,11 @@ public class TraktIds {
         return imdb;
     }
 
-    public int getTmdb() {
+    public Integer getTmdb() {
         return tmdb;
     }
 
-    public int getTvrage() {
+    public Integer getTvrage() {
         return tvrage;
     }
 }

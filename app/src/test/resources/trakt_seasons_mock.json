@@ -1,0 +1,100 @@
+[
+  {
+    "number": 0,
+    "ids": {
+      "trakt": 3962,
+      "tvdb": 137481,
+      "tmdb": null,
+      "tvrage": null
+    },
+    "rating": 9.0,
+    "votes": 62,
+    "episode_count": 14,
+    "aired_episodes": 14,
+    "overview": null
+  },
+  {
+    "number": 1,
+    "ids": {
+      "trakt": 3963,
+      "tvdb": 364731,
+      "tmdb": null,
+      "tvrage": null
+    },
+    "rating": 9.14527,
+    "votes": 1067,
+    "episode_count": 10,
+    "aired_episodes": 10,
+    "overview": null
+  },
+  {
+    "number": 2,
+    "ids": {
+      "trakt": 3964,
+      "tvdb": 473271,
+      "tmdb": null,
+      "tvrage": null
+    },
+    "rating": 9.096,
+    "votes": 875,
+    "episode_count": 10,
+    "aired_episodes": 10,
+    "overview": null
+  },
+  {
+    "number": 3,
+    "ids": {
+      "trakt": 3965,
+      "tvdb": 488434,
+      "tmdb": null,
+      "tvrage": null
+    },
+    "rating": 9.22518,
+    "votes": 826,
+    "episode_count": 10,
+    "aired_episodes": 10,
+    "overview": null
+  },
+  {
+    "number": 4,
+    "ids": {
+      "trakt": 3966,
+      "tvdb": 522882,
+      "tmdb": null,
+      "tvrage": null
+    },
+    "rating": 9.15006,
+    "votes": 833,
+    "episode_count": 10,
+    "aired_episodes": 10,
+    "overview": null
+  },
+  {
+    "number": 5,
+    "ids": {
+      "trakt": 3967,
+      "tvdb": null,
+      "tmdb": null,
+      "tvrage": null
+    },
+    "rating": 8.43778,
+    "votes": 884,
+    "episode_count": 10,
+    "aired_episodes": 10,
+    "overview": null
+  },
+  {
+    "number": 6,
+    "ids": {
+      "trakt": 114727,
+      "tvdb": null,
+      "tmdb": 71881,
+      "tvrage": null
+    },
+    "rating": 8.91489,
+    "votes": 141,
+    "episode_count": 10,
+    "aired_episodes": 0,
+    "overview": null
+  }
+]
