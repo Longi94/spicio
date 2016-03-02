@@ -56,7 +56,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 new TvdbServiceRepository(((SpicioApplication)getActivity().getApplication())
-                        .getNetWorkComponent())
+                        .getNetworkComponent())
         );
         presenter.attachView(this);
     }

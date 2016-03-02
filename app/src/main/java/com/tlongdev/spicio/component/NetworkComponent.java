@@ -1,8 +1,7 @@
 package com.tlongdev.spicio.component;
 
-import com.tlongdev.spicio.module.NetworkModule;
-import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.domain.repository.TvdbServiceRepository;
+import com.tlongdev.spicio.module.NetworkModule;
 
 import javax.inject.Singleton;
 
@@ -13,7 +12,7 @@ import dagger.Component;
  * @since 2016. 02. 25.
  */
 @Singleton
-@Component(modules = {SpicioAppModule.class, NetworkModule.class})
+@Component(modules = {NetworkModule.class})
 public interface NetworkComponent {
     void inject(TvdbServiceRepository TvdbServiceRepository);
 }
