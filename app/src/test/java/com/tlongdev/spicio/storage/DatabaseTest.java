@@ -13,7 +13,7 @@ import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
  * @author Long
  * @since 2016. 02. 27.
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class DatabaseTest {
 
