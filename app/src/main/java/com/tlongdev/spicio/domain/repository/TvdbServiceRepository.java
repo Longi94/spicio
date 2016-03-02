@@ -1,19 +1,19 @@
 package com.tlongdev.spicio.domain.repository;
 
-import android.content.Context;
-
-import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.network.converter.TvdbModelConverter;
 import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
-import com.tlongdev.spicio.presentation.ui.activity.MainActivity;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+
+import retrofit2.Retrofit;
 
 /**
  * @author Long
@@ -21,11 +21,13 @@ import javax.inject.Inject;
  */
 public class TvdbServiceRepository implements TvdbRepository {
 
-    @Inject TvdbInterface tvdbInterface;
+    @Inject @Named("tvdb") Retrofit retrofit;
 
-    public TvdbServiceRepository(Context context) {
-        ((SpicioApplication)((MainActivity)context).getApplication())
-                .getNetWorkComponent().inject(this);
+    TvdbInterface tvdbInterface;
+
+    public TvdbServiceRepository(NetworkComponent networkComponent) {
+        networkComponent.inject(this);
+        tvdbInterface = retrofit.create(TvdbInterface.class);
     }
 
     @Override

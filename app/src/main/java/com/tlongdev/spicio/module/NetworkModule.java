@@ -1,15 +1,17 @@
 package com.tlongdev.spicio.module;
 
-import android.content.Context;
-
+import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.TvdbInterface;
+import com.tlongdev.spicio.network.interceptor.TraktApiInterceptor;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
@@ -19,34 +21,51 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 @Module
 public class NetworkModule {
 
-    private Context mContext;
+    public NetworkModule() {
 
-    // Constructor needs one parameter to instantiate.
-    public NetworkModule(Context context) {
-        mContext = context;
     }
 
     @Provides
+    @Singleton
+    TraktApiInterceptor provideTraktApiInterceptor() {
+        return new TraktApiInterceptor("KEY_HERE"); // TODO: 2016. 03. 02.
+    }
+
+    @Provides
+    @Named("non_intercepted")
     @Singleton
     OkHttpClient provideOkHttpClient() {
         return new OkHttpClient.Builder().build();
     }
 
     @Provides
+    @Named("intercepted")
     @Singleton
-    SimpleXmlConverterFactory provideXmlConverter() {
-        return SimpleXmlConverterFactory.create();
+    OkHttpClient provideInterceptedOkHttpClient(TraktApiInterceptor interceptor) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
     }
 
     @Provides
+    @Named("tvdb")
     @Singleton
-    TvdbInterface provideTvdbInterface(SimpleXmlConverterFactory xmlConverter, OkHttpClient okHttpClient) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(xmlConverter)
+    Retrofit provideTvdbRetrofit(@Named("intercepted") OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .addConverterFactory(SimpleXmlConverterFactory.create())
                 .baseUrl(TvdbInterface.BASE_URL)
                 .client(okHttpClient)
                 .build();
+    }
 
-        return retrofit.create(TvdbInterface.class);
+    @Provides
+    @Named("trakt")
+    @Singleton
+    Retrofit provideTraktRetrofit(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(TraktApiInterface.BASE_URL)
+                .client(okHttpClient)
+                .build();
     }
 }

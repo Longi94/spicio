@@ -17,12 +17,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tlongdev.spicio.R;
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.presenter.SearchSeriesPresenter;
 import com.tlongdev.spicio.domain.repository.TvdbServiceRepository;
-import com.tlongdev.spicio.threading.MainThreadImpl;
+import com.tlongdev.spicio.presentation.presenter.SearchSeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.adapter.SearchSeriesAdapter;
+import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.util.List;
 
@@ -54,7 +55,8 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
         presenter = new SearchSeriesPresenter(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                new TvdbServiceRepository(getActivity())
+                new TvdbServiceRepository(((SpicioApplication)getActivity().getApplication())
+                        .getNetWorkComponent())
         );
         presenter.attachView(this);
     }
