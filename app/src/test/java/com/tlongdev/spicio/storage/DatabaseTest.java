@@ -1,28 +1,46 @@
 package com.tlongdev.spicio.storage;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.test.AndroidTestCase;
 
+import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+
 import java.util.HashSet;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Long
  * @since 2016. 02. 27.
  */
-public class DatabaseTest extends AndroidTestCase {
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
+public class DatabaseTest {
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    private Context mContext;
+
+    @Before
+    public void setUp() throws Exception {
+        assertNotNull(RuntimeEnvironment.application);
+
+        mContext = RuntimeEnvironment.application;
         mContext.deleteDatabase(DatabaseHelper.DATABASE_NAME);
     }
 
+    @Test
     public void testCreateDatabase() {
 
         final HashSet<String> tableNameHashSet = new HashSet<String>();
@@ -83,7 +101,7 @@ public class DatabaseTest extends AndroidTestCase {
         do {
             String columnName = columns.getString(columnNameIndex);
             columnHashSet.remove(columnName);
-        } while(columns.moveToNext());
+        } while (columns.moveToNext());
 
         columns.close();
 
@@ -115,7 +133,7 @@ public class DatabaseTest extends AndroidTestCase {
         do {
             String columnName = columns.getString(columnNameIndex);
             columnHashSet.remove(columnName);
-        } while(columns.moveToNext());
+        } while (columns.moveToNext());
 
         columns.close();
 
@@ -147,7 +165,7 @@ public class DatabaseTest extends AndroidTestCase {
         do {
             String columnName = columns.getString(columnNameIndex);
             columnHashSet.remove(columnName);
-        } while(columns.moveToNext());
+        } while (columns.moveToNext());
 
         columns.close();
 
@@ -169,7 +187,7 @@ public class DatabaseTest extends AndroidTestCase {
         do {
             String columnName = columns.getString(columnNameIndex);
             columnHashSet.remove(columnName);
-        } while(columns.moveToNext());
+        } while (columns.moveToNext());
 
         columns.close();
 
