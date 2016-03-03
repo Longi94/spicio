@@ -3,7 +3,7 @@ package com.tlongdev.spicio.presentation.presenter;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractor;
 import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractorInstance;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesView;
@@ -49,7 +49,7 @@ public class SearchSeriesPresenter extends AbstractPresenter implements Presente
     }
 
     @Override
-    public void onSearchResult(List<Series> series) {
+    public void onSearchResult(List<TvdbSeriesOld> series) {
         view.showSearchResult(series);
     }
 

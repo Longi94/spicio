@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbServiceRepository;
 import com.tlongdev.spicio.presentation.presenter.SearchSeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.adapter.SearchSeriesAdapter;
@@ -97,7 +97,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
     }
 
     @Override
-    public void showSearchResult(List<Series> series) {
+    public void showSearchResult(List<TvdbSeriesOld> series) {
         adapter.setDataSet(series);
     }
 

@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.domain.interactor;
 
 import com.tlongdev.spicio.domain.executor.Executor;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
@@ -48,9 +48,9 @@ public class TvdbSearchInteractorTest {
 
         String searchQuery = "thrones";
 
-        List<Series> seriesList = new LinkedList<>();
+        List<TvdbSeriesOld> seriesList = new LinkedList<>();
         for (int i = 0; i < 5; i++) {
-            seriesList.add(mock(Series.class));
+            seriesList.add(mock(TvdbSeriesOld.class));
         }
 
         when(mRepository.searchSeries(searchQuery)).thenReturn(seriesList);

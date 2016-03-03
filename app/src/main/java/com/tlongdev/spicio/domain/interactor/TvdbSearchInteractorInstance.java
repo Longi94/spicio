@@ -2,7 +2,7 @@ package com.tlongdev.spicio.domain.interactor;
 
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class TvdbSearchInteractorInstance extends AbstractInteractor implements 
 
     @Override
     public void run() {
-        List<Series> searchResult = mRepository.searchSeries(mSearchQuery);
+        List<TvdbSeriesOld> searchResult = mRepository.searchSeries(mSearchQuery);
 
         if (searchResult == null) {
             postError();
@@ -47,7 +47,7 @@ public class TvdbSearchInteractorInstance extends AbstractInteractor implements 
         });
     }
 
-    private void postResult(final List<Series> searchResult) {
+    private void postResult(final List<TvdbSeriesOld> searchResult) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

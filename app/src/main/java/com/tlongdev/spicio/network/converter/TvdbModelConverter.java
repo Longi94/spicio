@@ -1,8 +1,8 @@
 package com.tlongdev.spicio.network.converter;
 
 import com.tlongdev.spicio.domain.model.Day;
-import com.tlongdev.spicio.domain.model.Episode;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.TvdbEpisodeOld;
+import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.model.Status;
 import com.tlongdev.spicio.network.model.TvdbEpisode;
 import com.tlongdev.spicio.network.model.TvdbEpisodePayload;
@@ -31,12 +31,12 @@ public class TvdbModelConverter {
      * @param series the object to convert
      * @return the result object
      */
-    public static Series convertToDomainModel(TvdbSeries series) {
+    public static TvdbSeriesOld convertToDomainModel(TvdbSeries series) {
 
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm a").withLocale(Locale.US);
 
-        Series converted = new Series();
+        TvdbSeriesOld converted = new TvdbSeriesOld();
 
         converted.setId(series.getId());
         if (series.getActors() != null) {
@@ -113,8 +113,8 @@ public class TvdbModelConverter {
         return converted;
     }
 
-    public static List<Series> convertToDomainModel(TvdbSeriesPayload tvdbSeriesPayload) {
-        List<Series> resultList = new LinkedList<>();
+    public static List<TvdbSeriesOld> convertToDomainModel(TvdbSeriesPayload tvdbSeriesPayload) {
+        List<TvdbSeriesOld> resultList = new LinkedList<>();
 
         for (TvdbSeries series : tvdbSeriesPayload.getSeries()) {
             resultList.add(convertToDomainModel(series));
@@ -123,10 +123,10 @@ public class TvdbModelConverter {
         return resultList;
     }
 
-    public static Episode convertToDomainModel(TvdbEpisode episode) {
+    public static TvdbEpisodeOld convertToDomainModel(TvdbEpisode episode) {
         DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-        Episode converted = new Episode();
+        TvdbEpisodeOld converted = new TvdbEpisodeOld();
 
         converted.setId(episode.getId());
         converted.setSeasonId(episode.getSeasonId());
@@ -152,7 +152,7 @@ public class TvdbModelConverter {
         return converted;
     }
 
-    public static Episode convertToDomainModel(TvdbEpisodePayload tvdbEpisodePayload) {
+    public static TvdbEpisodeOld convertToDomainModel(TvdbEpisodePayload tvdbEpisodePayload) {
         return convertToDomainModel(tvdbEpisodePayload.getEpisode());
     }
 }

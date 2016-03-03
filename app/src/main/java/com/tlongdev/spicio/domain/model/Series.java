@@ -1,109 +1,99 @@
 package com.tlongdev.spicio.domain.model;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 
+import java.util.List;
+
 /**
- * Inner Layer, Model.
- *
  * @author Long
- * @since 2016. 02. 28.
+ * @since 2016. 03. 03.
  */
 public class Series {
 
-    private int id;
+    private String title;
 
-    private String[] actors;
+    private int year;
 
-    private int AirsDayOfWeek;
+    private int traktId;
 
-    private LocalTime AirsTime;
+    private String slugName;
 
-    private String contentRating;
-
-    private DateTime firstAired;
-
-    private String[] genres;
+    private int tvdbId;
 
     private String imdbId;
 
-    private String netWork;
+    private int tmdbId;
 
-    private String overView;
+    private int tvRageId;
 
-    private double tvdbRating;
+    private String overview;
 
-    private int tvdbRatingCount;
+    private DateTime firstAired;
+
+    private int dayOfAiring;
+
+    private LocalTime timeOfAiring;
+
+    private DateTimeZone airTimeZone;
 
     private int runTime;
 
-    private String name;
+    private String certification;
+
+    private String network;
+
+    private String trailer;
 
     private int status;
 
-    private String bannerPath;
+    private double traktRating;
 
-    private String posterPath;
+    private int traktRatingCount;
 
-    private String zapt2itId;
+    private List<String> genres;
 
-    private String[] aliases;
+    private Images images;
 
-    public int getId() {
-        return id;
+    public String getTitle() {
+        return title;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String[] getActors() {
-        return actors;
+    public int getYear() {
+        return year;
     }
 
-    public void setActors(String[] actors) {
-        this.actors = actors;
+    public void setYear(int year) {
+        this.year = year;
     }
 
-    @Day.Enum
-    public int getAirsDayOfWeek() {
-        return AirsDayOfWeek;
+    public int getTraktId() {
+        return traktId;
     }
 
-    public void setAirsDayOfWeek(@Day.Enum int airsDayOfWeek) {
-        AirsDayOfWeek = airsDayOfWeek;
+    public void setTraktId(int traktId) {
+        this.traktId = traktId;
     }
 
-    public LocalTime getAirsTime() {
-        return AirsTime;
+    public String getSlugName() {
+        return slugName;
     }
 
-    public void setAirsTime(LocalTime airsTime) {
-        AirsTime = airsTime;
+    public void setSlugName(String slugName) {
+        this.slugName = slugName;
     }
 
-    public String getContentRating() {
-        return contentRating;
+    public int getTvdbId() {
+        return tvdbId;
     }
 
-    public void setContentRating(String contentRating) {
-        this.contentRating = contentRating;
-    }
-
-    public DateTime getFirstAired() {
-        return firstAired;
-    }
-
-    public void setFirstAired(DateTime firstAired) {
-        this.firstAired = firstAired;
-    }
-
-    public String[] getGenres() {
-        return genres;
-    }
-
-    public void setGenres(String[] genres) {
-        this.genres = genres;
+    public void setTvdbId(int tvdbId) {
+        this.tvdbId = tvdbId;
     }
 
     public String getImdbId() {
@@ -114,36 +104,60 @@ public class Series {
         this.imdbId = imdbId;
     }
 
-    public String getNetWork() {
-        return netWork;
+    public int getTmdbId() {
+        return tmdbId;
     }
 
-    public void setNetWork(String netWork) {
-        this.netWork = netWork;
+    public void setTmdbId(int tmdbId) {
+        this.tmdbId = tmdbId;
     }
 
-    public String getOverView() {
-        return overView;
+    public int getTvRageId() {
+        return tvRageId;
     }
 
-    public void setOverView(String overView) {
-        this.overView = overView;
+    public void setTvRageId(int tvRageId) {
+        this.tvRageId = tvRageId;
     }
 
-    public double getTvdbRating() {
-        return tvdbRating;
+    public String getOverview() {
+        return overview;
     }
 
-    public void setTvdbRating(double tvdbRating) {
-        this.tvdbRating = tvdbRating;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
-    public int getTvdbRatingCount() {
-        return tvdbRatingCount;
+    public DateTime getFirstAired() {
+        return firstAired;
     }
 
-    public void setTvdbRatingCount(int tvdbRatingCount) {
-        this.tvdbRatingCount = tvdbRatingCount;
+    public void setFirstAired(DateTime firstAired) {
+        this.firstAired = firstAired;
+    }
+
+    public int getDayOfAiring() {
+        return dayOfAiring;
+    }
+
+    public void setDayOfAiring(int dayOfAiring) {
+        this.dayOfAiring = dayOfAiring;
+    }
+
+    public LocalTime getTimeOfAiring() {
+        return timeOfAiring;
+    }
+
+    public void setTimeOfAiring(LocalTime timeOfAiring) {
+        this.timeOfAiring = timeOfAiring;
+    }
+
+    public DateTimeZone getAirTimeZone() {
+        return airTimeZone;
+    }
+
+    public void setAirTimeZone(DateTimeZone airTimeZone) {
+        this.airTimeZone = airTimeZone;
     }
 
     public int getRunTime() {
@@ -154,52 +168,67 @@ public class Series {
         this.runTime = runTime;
     }
 
-    public String getName() {
-        return name;
+    public String getCertification() {
+        return certification;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCertification(String certification) {
+        this.certification = certification;
     }
 
-    @Status.Enum
+    public String getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(String network) {
+        this.network = network;
+    }
+
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
+    }
+
     public int getStatus() {
         return status;
     }
 
-    public void setStatus(@Status.Enum int status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public String getBannerPath() {
-        return bannerPath;
+    public double getTraktRating() {
+        return traktRating;
     }
 
-    public void setBannerPath(String bannerPath) {
-        this.bannerPath = bannerPath;
+    public void setTraktRating(double traktRating) {
+        this.traktRating = traktRating;
     }
 
-    public String getPosterPath() {
-        return posterPath;
+    public int getTraktRatingCount() {
+        return traktRatingCount;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+    public void setTraktRatingCount(int traktRatingCount) {
+        this.traktRatingCount = traktRatingCount;
     }
 
-    public String getZapt2itId() {
-        return zapt2itId;
+    public List<String> getGenres() {
+        return genres;
     }
 
-    public void setZapt2itId(String zapt2itId) {
-        this.zapt2itId = zapt2itId;
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 
-    public String[] getAliases() {
-        return aliases;
+    public Images getImages() {
+        return images;
     }
 
-    public void setAliases(String[] aliases) {
-        this.aliases = aliases;
+    public void setImages(Images images) {
+        this.images = images;
     }
 }

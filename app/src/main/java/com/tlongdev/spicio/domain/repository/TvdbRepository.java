@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.domain.repository;
 
-import com.tlongdev.spicio.domain.model.Episode;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.TvdbEpisodeOld;
+import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface TvdbRepository {
      * @param query the query to search for
      * @return series matching the query
      */
-    List<Series> searchSeries(String query);
+    List<TvdbSeriesOld> searchSeries(String query);
 
     /**
      * Finds a series by their ID.
@@ -27,7 +27,7 @@ public interface TvdbRepository {
      * @param id the ID of the series
      * @return the series
      */
-    Series getSeries(int id);
+    TvdbSeriesOld getSeries(int id);
 
     /**
      * Gets an episode.
@@ -37,7 +37,7 @@ public interface TvdbRepository {
      * @param episodeNumber the number of the episode in the season
      * @return the episode
      */
-    Episode getEpisode(int seriesId, int season, int episodeNumber);
+    TvdbEpisodeOld getEpisode(int seriesId, int season, int episodeNumber);
 
     /**
      * Gets an episode.
@@ -46,5 +46,5 @@ public interface TvdbRepository {
      * @param absoluteNumber the absolute number of the episode
      * @return the episode
      */
-    Episode getEpisode(int seriesId, int absoluteNumber);
+    TvdbEpisodeOld getEpisode(int seriesId, int absoluteNumber);
 }

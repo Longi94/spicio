@@ -1,8 +1,8 @@
 package com.tlongdev.spicio.domain.repository;
 
 import com.tlongdev.spicio.component.NetworkComponent;
-import com.tlongdev.spicio.domain.model.Episode;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.TvdbEpisodeOld;
+import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.network.converter.TvdbModelConverter;
 import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
@@ -31,7 +31,7 @@ public class TvdbServiceRepository implements TvdbRepository {
     }
 
     @Override
-    public List<Series> searchSeries(String query) {
+    public List<TvdbSeriesOld> searchSeries(String query) {
         try {
             TvdbSeriesPayload payload = tvdbInterface.getSeries(query).execute().body();
             return TvdbModelConverter.convertToDomainModel(payload);
@@ -42,19 +42,19 @@ public class TvdbServiceRepository implements TvdbRepository {
     }
 
     @Override
-    public Series getSeries(int id) {
+    public TvdbSeriesOld getSeries(int id) {
         // TODO: 2016. 02. 28.  
         return null;
     }
 
     @Override
-    public Episode getEpisode(int seriesId, int season, int episodeNumber) {
+    public TvdbEpisodeOld getEpisode(int seriesId, int season, int episodeNumber) {
         // TODO: 2016. 02. 28.  
         return null;
     }
 
     @Override
-    public Episode getEpisode(int seriesId, int absoluteNumber) {
+    public TvdbEpisodeOld getEpisode(int seriesId, int absoluteNumber) {
         // TODO: 2016. 02. 28.  
         return null;
     }

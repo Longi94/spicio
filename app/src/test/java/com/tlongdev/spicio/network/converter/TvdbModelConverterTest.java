@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.network.converter;
 
 import com.tlongdev.spicio.domain.model.Day;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.model.Status;
 import com.tlongdev.spicio.network.model.TvdbSeries;
 
@@ -39,7 +39,7 @@ public class TvdbModelConverterTest {
 
         // TODO: 2016. 02. 29. throws a non-critical exception because joda-time is not initiated 
         // Using robolectric doesn't work: https://github.com/dlew/joda-time-android/issues/37
-        Series series = TvdbModelConverter.convertToDomainModel(tvdbSeries);
+        TvdbSeriesOld series = TvdbModelConverter.convertToDomainModel(tvdbSeries);
 
         assertNotNull(series);
 
