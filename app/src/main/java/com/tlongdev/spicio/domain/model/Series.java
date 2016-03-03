@@ -136,11 +136,12 @@ public class Series {
         this.firstAired = firstAired;
     }
 
+    @Day.Enum
     public int getDayOfAiring() {
         return dayOfAiring;
     }
 
-    public void setDayOfAiring(int dayOfAiring) {
+    public void setDayOfAiring(@Day.Enum int dayOfAiring) {
         this.dayOfAiring = dayOfAiring;
     }
 
@@ -192,11 +193,12 @@ public class Series {
         this.trailer = trailer;
     }
 
+    @Status.Enum
     public int getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(@Status.Enum int status) {
         this.status = status;
     }
 
