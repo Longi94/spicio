@@ -1,14 +1,15 @@
 package com.tlongdev.spicio.domain.interactor;
 
 import com.tlongdev.spicio.domain.executor.Executor;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
+import com.tlongdev.spicio.threading.MainThread;
 
 import java.util.List;
 
 /**
  * Inner Layer, Interactor
+ *
  * @author Long
  * @since 2016. 02. 28.
  */
@@ -33,9 +34,9 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
 
         if (searchResult == null) {
             postError();
+        } else {
+            postResult(searchResult);
         }
-
-        postResult(searchResult);
     }
 
     private void postError() {

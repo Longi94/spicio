@@ -5,52 +5,52 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.threading.MainThread;
 
-import java.util.List;
-
 /**
  * @author Long
  * @since 2016. 03. 04.
  */
-public class TraktSearchInteractorImpl extends AbstractInteractor implements TraktSearchInteractor {
+public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor implements TraktSeriesDetailsInteractor {
 
-    private String mSearchQuery;
     private TraktRepository mRepository;
     private Callback mCallback;
+    private int mTraktId;
 
-    public TraktSearchInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                     String searchQuery, TraktRepository repository,
-                                     Callback callback) {
+    public TraktSeriesDetailsInteractorImpl(Executor threadExecutor, MainThread mainThread,
+                                            int traktId, TraktRepository repository,
+                                            Callback callback) {
         super(threadExecutor, mainThread);
-        mSearchQuery = searchQuery;
         mRepository = repository;
         mCallback = callback;
+        mTraktId = traktId;
     }
 
     @Override
     public void run() {
-        List<Series> searchResult = mRepository.searchSeries(mSearchQuery);
+        Series series = mRepository.getSeriesDetails(mTraktId);
 
-        if (searchResult == null) {
+        if (series == null) {
             postError();
         } else {
-            postResult(searchResult);
+            postResult(series);
         }
+
     }
+
 
     private void postError() {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onSearchFailed();
+                mCallback.onFail();
             }
         });
     }
 
-    private void postResult(final List<Series> searchResult) {
+    private void postResult(final Series series) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onSearchResult(searchResult);
+                mCallback.onResult(series);
             }
         });
     }

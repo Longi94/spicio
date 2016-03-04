@@ -23,3 +23,7 @@
   **[] $VALUES;
   public *;
 }
+
+#Others
+-dontwarn okio.**
+-dontwarn org.simpleframework.**
