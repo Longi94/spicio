@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class SearchSeriesPresenter extends AbstractPresenter implements Presenter<SearchSeriesView>, TraktSearchInteractor.Callback {
 
-    private SearchSeriesView view;
+    private SearchSeriesView mView;
 
     private TraktRepository mRepository;
 
@@ -29,12 +29,12 @@ public class SearchSeriesPresenter extends AbstractPresenter implements Presente
 
     @Override
     public void attachView(SearchSeriesView view) {
-        this.view = view;
+        this.mView = view;
     }
 
     @Override
     public void detachView() {
-        view = null;
+        mView = null;
     }
 
     public void searchForSeries(String query) {
@@ -50,11 +50,11 @@ public class SearchSeriesPresenter extends AbstractPresenter implements Presente
 
     @Override
     public void onSearchResult(List<Series> series) {
-        view.showSearchResult(series);
+        mView.showSearchResult(series);
     }
 
     @Override
     public void onSearchFailed() {
-        view.showErrorMessage();
+        mView.showErrorMessage();
     }
 }

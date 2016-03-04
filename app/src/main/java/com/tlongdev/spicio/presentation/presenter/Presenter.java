@@ -1,5 +1,7 @@
 package com.tlongdev.spicio.presentation.presenter;
 
+import com.tlongdev.spicio.presentation.ui.BaseView;
+
 /**
  * Middle layer, Presenter.
  * The base presenter interface for the MVP architecture.
@@ -7,7 +9,7 @@ package com.tlongdev.spicio.presentation.presenter;
  * @author Long
  * @since 2016. 02. 23.
  */
-public interface Presenter<V> {
+public interface Presenter<V extends BaseView> {
     void attachView(V view);
     void detachView();
 }

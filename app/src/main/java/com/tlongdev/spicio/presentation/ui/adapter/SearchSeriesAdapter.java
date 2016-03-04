@@ -29,6 +29,8 @@ public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapte
 
     private Context mContext;
 
+    private OnItemSelectedListener listener;
+
     public SearchSeriesAdapter(Context context) {
         this.mContext = context;
     }
@@ -42,7 +44,7 @@ public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mDataSet != null) {
-            Series series = mDataSet.get(position);
+            final Series series = mDataSet.get(position);
 
             holder.text.setText(series.getTitle());
 
@@ -50,6 +52,15 @@ public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapte
                     .load(series.getImages().getPoster().getFull())
                     .error(R.drawable.ic_movie)
                     .into(holder.poster);
+
+            holder.root.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onItemSelected(series);
+                    }
+                }
+            });
         }
     }
 
@@ -63,14 +74,25 @@ public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapte
         notifyDataSetChanged();
     }
 
+    public void setListener(OnItemSelectedListener listener) {
+        this.listener = listener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.text) TextView text;
         @Bind(R.id.poster) ImageView poster;
 
+        View root;
+
         public ViewHolder(View view) {
             super(view);
+            root = view;
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnItemSelectedListener {
+        void onItemSelected(Series series);
     }
 }

@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.presentation.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepositoryImpl;
 import com.tlongdev.spicio.presentation.presenter.SearchSeriesPresenter;
+import com.tlongdev.spicio.presentation.ui.activity.SeriesDetailsActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SearchSeriesAdapter;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
@@ -36,7 +38,7 @@ import butterknife.ButterKnife;
  * @author Long
  * @since 2016. 02. 24.
  */
-public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
+public class SearchSeriesFragment extends Fragment implements SearchSeriesView, SearchSeriesAdapter.OnItemSelectedListener {
 
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
     @Bind(R.id.search) EditText mSearchText;
@@ -72,6 +74,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
         adapter = new SearchSeriesAdapter(getActivity());
+        adapter.setListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(adapter);
@@ -104,5 +107,12 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
     @Override
     public void showErrorMessage() {
         adapter.setDataSet(null);
+    }
+
+    @Override
+    public void onItemSelected(Series series) {
+        Intent intent = new Intent(getActivity(), SeriesDetailsActivity.class);
+        intent.putExtra(SeriesDetailsActivity.EXTRA_TRAKT_ID, series.getTraktId());
+        startActivity(intent);
     }
 }

@@ -18,8 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tlongdev.spicio.R;
+import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.presentation.presenter.MainPresenter;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
+import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new MainPresenter();
+        presenter = new MainPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance());
         presenter.attachView(this);
 
         setContentView(R.layout.activity_main);

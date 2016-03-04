@@ -15,6 +15,7 @@
         <activity
             android:name=".presentation.ui.activity.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,6 +30,16 @@
             android:enabled="true"
             android:exported="false">
         </provider>
+
+        <activity
+            android:name=".presentation.ui.activity.SeriesDetailsActivity"
+            android:label="@string/title_activity_series_details"
+            android:parentActivityName=".presentation.ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
