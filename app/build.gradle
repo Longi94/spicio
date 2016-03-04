@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+def getKey(Properties properties, String name) {
+    return properties.containsKey(name) ? properties.getProperty(name) : "DUMMY_KEY"
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -11,6 +15,11 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        Properties keys = new Properties()
+        keys.load(project.rootProject.file('keys.properties').newDataInputStream())
+
+        buildConfigField("String", "TRAKT_API_KEY", "\"${getKey(keys, "TRAKT_API_KEY")}\"")
     }
     buildTypes {
         release {

@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.module;
 
+import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.network.interceptor.TraktApiInterceptor;
@@ -28,7 +29,7 @@ public class NetworkModule {
     @Provides
     @Singleton
     TraktApiInterceptor provideTraktApiInterceptor() {
-        return new TraktApiInterceptor("KEY_HERE"); // TODO: 2016. 03. 02.
+        return new TraktApiInterceptor(BuildConfig.TRAKT_API_KEY); // TODO: 2016. 03. 02.
     }
 
     @Provides
