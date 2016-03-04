@@ -55,7 +55,7 @@ public class TvdbSearchInteractorTest {
 
         when(mRepository.searchSeries(searchQuery)).thenReturn(seriesList);
 
-        TvdbSearchInteractorInstance interactor = new TvdbSearchInteractorInstance(
+        TvdbSearchInteractorImpl interactor = new TvdbSearchInteractorImpl(
                 mExecutor, mMainThread, searchQuery, mMockedCallback, mRepository
         );
         interactor.run();
@@ -70,7 +70,7 @@ public class TvdbSearchInteractorTest {
 
         when(mRepository.searchSeries(searchQuery)).thenReturn(null);
 
-        TvdbSearchInteractorInstance interactor = new TvdbSearchInteractorInstance(
+        TvdbSearchInteractorImpl interactor = new TvdbSearchInteractorImpl(
                 mExecutor, mMainThread, searchQuery, mMockedCallback, mRepository
         );
         interactor.run();

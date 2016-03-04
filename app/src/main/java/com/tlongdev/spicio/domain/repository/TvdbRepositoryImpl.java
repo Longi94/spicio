@@ -19,13 +19,13 @@ import retrofit2.Retrofit;
  * @author Long
  * @since 2016. 02. 28.
  */
-public class TvdbServiceRepository implements TvdbRepository {
+public class TvdbRepositoryImpl implements TvdbRepository {
 
     @Inject @Named("tvdb") Retrofit retrofit;
 
-    TvdbInterface tvdbInterface;
+    private TvdbInterface tvdbInterface;
 
-    public TvdbServiceRepository(NetworkComponent networkComponent) {
+    public TvdbRepositoryImpl(NetworkComponent networkComponent) {
         networkComponent.inject(this);
         tvdbInterface = retrofit.create(TvdbInterface.class);
     }

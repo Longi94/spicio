@@ -2,7 +2,7 @@ package com.tlongdev.spicio.presentation.presenter;
 
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractor;
-import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractorInstance;
+import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
 import com.tlongdev.spicio.threading.MainThread;
@@ -38,7 +38,7 @@ public class SearchSeriesPresenter extends AbstractPresenter implements Presente
     }
 
     public void searchForSeries(String query) {
-        TvdbSearchInteractor interactor = new TvdbSearchInteractorInstance(
+        TvdbSearchInteractor interactor = new TvdbSearchInteractorImpl(
                 mExecutor,
                 mMainThread,
                 query,

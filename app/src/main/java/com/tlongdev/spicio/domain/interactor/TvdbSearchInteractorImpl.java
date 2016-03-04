@@ -12,15 +12,15 @@ import java.util.List;
  * @author Long
  * @since 2016. 02. 28.
  */
-public class TvdbSearchInteractorInstance extends AbstractInteractor implements TvdbSearchInteractor {
+public class TvdbSearchInteractorImpl extends AbstractInteractor implements TvdbSearchInteractor {
 
     private String mSearchQuery;
     private TvdbSearchInteractor.Callback mCallback;
     private TvdbRepository mRepository;
 
-    public TvdbSearchInteractorInstance(Executor threadExecutor, MainThread mainThread,
-                                        String query, TvdbSearchInteractor.Callback callback,
-                                        TvdbRepository repository) {
+    public TvdbSearchInteractorImpl(Executor threadExecutor, MainThread mainThread,
+                                    String query, TvdbSearchInteractor.Callback callback,
+                                    TvdbRepository repository) {
         super(threadExecutor, mainThread);
         mSearchQuery = query;
         mCallback = callback;

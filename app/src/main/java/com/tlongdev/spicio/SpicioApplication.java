@@ -3,8 +3,12 @@ package com.tlongdev.spicio;
 import android.app.Application;
 
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
+import com.tlongdev.spicio.component.DaggerNetworkRepositoryComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
+import com.tlongdev.spicio.component.NetworkRepositoryComponent;
 import com.tlongdev.spicio.module.NetworkModule;
+import com.tlongdev.spicio.module.NetworkRepositoryModule;
+import com.tlongdev.spicio.module.SpicioAppModule;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -18,6 +22,8 @@ public class SpicioApplication extends Application {
 
     private NetworkComponent mNetworkComponent;
 
+    private NetworkRepositoryComponent mNetworkRepositoryComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,9 +32,18 @@ public class SpicioApplication extends Application {
         mNetworkComponent = DaggerNetworkComponent.builder()
                 .networkModule(new NetworkModule())
                 .build();
+
+        mNetworkRepositoryComponent = DaggerNetworkRepositoryComponent.builder()
+                .spicioAppModule(new SpicioAppModule(this))
+                .networkRepositoryModule(new NetworkRepositoryModule())
+                .build();
     }
 
     public NetworkComponent getNetworkComponent() {
         return mNetworkComponent;
+    }
+
+    public NetworkRepositoryComponent getNetworkRepositoryComponent() {
+        return mNetworkRepositoryComponent;
     }
 }

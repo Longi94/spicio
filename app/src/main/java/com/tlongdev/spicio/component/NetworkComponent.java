@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.component;
 
-import com.tlongdev.spicio.domain.repository.TvdbServiceRepository;
+import com.tlongdev.spicio.domain.repository.TraktRepositoryImpl;
+import com.tlongdev.spicio.domain.repository.TvdbRepositoryImpl;
 import com.tlongdev.spicio.module.NetworkModule;
 
 import javax.inject.Singleton;
@@ -14,5 +15,6 @@ import dagger.Component;
 @Singleton
 @Component(modules = {NetworkModule.class})
 public interface NetworkComponent {
-    void inject(TvdbServiceRepository TvdbServiceRepository);
+    void inject(TvdbRepositoryImpl tvdbServiceRepository);
+    void inject(TraktRepositoryImpl traktRepository);
 }
