@@ -48,6 +48,7 @@ public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapte
 
             Glide.with(mContext)
                     .load(series.getImages().getPoster().getFull())
+                    .error(R.drawable.ic_movie)
                     .into(holder.poster);
         }
     }

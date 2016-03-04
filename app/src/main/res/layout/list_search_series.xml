@@ -13,9 +13,10 @@
 
         <ImageView
             android:id="@+id/poster"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             app:layout_aspectRatio="200%"
-            app:layout_widthPercent="100%"/>
+            app:layout_widthPercent="100%"
+            app:srcCompat="@drawable/ic_movie"/>
 
     </android.support.percent.PercentFrameLayout>
 

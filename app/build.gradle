@@ -16,6 +16,8 @@ android {
         versionCode 1
         versionName "1.0"
 
+        vectorDrawables.useSupportLibrary = true
+
         Properties keys = new Properties()
         keys.load(project.rootProject.file('keys.properties').newDataInputStream())
 
