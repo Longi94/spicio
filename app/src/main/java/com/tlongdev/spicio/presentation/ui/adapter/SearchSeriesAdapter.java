@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
+import com.tlongdev.spicio.domain.model.Series;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  */
 public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapter.ViewHolder> {
 
-    List<TvdbSeriesOld> mDataSet;
+    private List<Series> mDataSet;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -33,9 +33,9 @@ public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mDataSet != null) {
-            TvdbSeriesOld series = mDataSet.get(position);
+            Series series = mDataSet.get(position);
 
-            holder.text.setText(series.getName());
+            holder.text.setText(series.getTitle());
         }
     }
 
@@ -44,7 +44,7 @@ public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapte
         return mDataSet == null ? 0 : mDataSet.size();
     }
 
-    public void setDataSet(List<TvdbSeriesOld> dataSet) {
+    public void setDataSet(List<Series> dataSet) {
         this.mDataSet = dataSet;
         notifyDataSetChanged();
     }
