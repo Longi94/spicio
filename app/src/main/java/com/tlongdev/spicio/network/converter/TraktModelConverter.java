@@ -119,7 +119,7 @@ public class TraktModelConverter {
             }
 
             if (traktSeries.getFirstAired() != null) {
-                DateTimeFormatter dateFormatter = ISODateTimeFormat.basicDateTime(); //yyyyMMdd'T'HHmmss.SSSZ
+                DateTimeFormatter dateFormatter = ISODateTimeFormat.dateTime(); //yyyyMMdd'T'HHmmss.SSSZ
                 series.setFirstAired(dateFormatter.parseDateTime(traktSeries.getFirstAired()));
             }
         }

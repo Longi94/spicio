@@ -113,6 +113,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
     public void onItemSelected(Series series) {
         Intent intent = new Intent(getActivity(), SeriesDetailsActivity.class);
         intent.putExtra(SeriesDetailsActivity.EXTRA_TRAKT_ID, series.getTraktId());
+        intent.putExtra(SeriesDetailsActivity.EXTRA_POSTER, series.getImages().getPoster().getFull());
         startActivity(intent);
     }
 }

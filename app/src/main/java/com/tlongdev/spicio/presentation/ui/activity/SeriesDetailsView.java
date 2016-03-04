@@ -9,4 +9,5 @@ import com.tlongdev.spicio.presentation.ui.BaseView;
  */
 public interface SeriesDetailsView extends BaseView {
     void showDetails(Series series);
+    void reportError();
 }

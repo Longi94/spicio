@@ -16,8 +16,7 @@
             android:id="@+id/poster"
             android:scaleType="fitCenter"
             app:layout_aspectRatio="200%"
-            app:layout_widthPercent="100%"
-            app:srcCompat="@drawable/ic_movie"/>
+            app:layout_widthPercent="100%"/>
 
     </android.support.percent.PercentFrameLayout>
 
