@@ -71,7 +71,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView {
         //Set the toolbar to the main activity's action bar
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
-        adapter = new SearchSeriesAdapter();
+        adapter = new SearchSeriesAdapter(getActivity());
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(adapter);
