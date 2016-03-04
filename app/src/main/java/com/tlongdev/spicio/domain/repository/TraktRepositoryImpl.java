@@ -6,6 +6,7 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
 import com.tlongdev.spicio.network.model.TraktSearchResult;
+import com.tlongdev.spicio.network.model.TraktSeries;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -53,6 +55,14 @@ public class TraktRepositoryImpl implements TraktRepository {
 
     @Override
     public Series getSeriesDetails(int traktId) {
+        try {
+            Response<TraktSeries> response = traktInterface.getSeriesDetails(String.valueOf(traktId)).execute();
+
+            return TraktModelConverter.convertToSeries(response.body());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
