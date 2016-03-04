@@ -17,4 +17,5 @@ after_success:
   - codecov
 
 notifications:
-  email: false
+  email:
+    on_failure: change
