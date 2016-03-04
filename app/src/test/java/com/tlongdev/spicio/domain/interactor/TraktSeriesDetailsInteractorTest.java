@@ -12,9 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -25,8 +22,7 @@ import static org.mockito.Mockito.when;
  * @since 2016. 03. 04.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TraktSearchInteractorTest {
-
+public class TraktSeriesDetailsInteractorTest {
     @Mock
     private TraktRepository mRepository;
 
@@ -34,7 +30,7 @@ public class TraktSearchInteractorTest {
     private Executor mExecutor;
 
     @Mock
-    private TraktSearchInteractor.Callback mMockedCallback;
+    private TraktSeriesDetailsInteractor.Callback mMockedCallback;
 
     private MainThread mMainThread;
 
@@ -46,38 +42,30 @@ public class TraktSearchInteractorTest {
     @Test
     public void testSearchResult() {
 
-        String searchQuery = "thrones";
+        Series series = mock(Series.class);
+        when(mRepository.getSeriesDetails(0)).thenReturn(series);
 
-        List<Series> seriesList = new LinkedList<>();
-        for (int i = 0; i < 5; i++) {
-            seriesList.add(mock(Series.class));
-        }
-
-        when(mRepository.searchSeries(searchQuery)).thenReturn(seriesList);
-
-        TraktSearchInteractorImpl interactor = new TraktSearchInteractorImpl(
-                mExecutor, mMainThread, searchQuery, mRepository, mMockedCallback
+        TraktSeriesDetailsInteractorImpl interactor = new TraktSeriesDetailsInteractorImpl(
+                mExecutor, mMainThread, 0, mRepository, mMockedCallback
         );
         interactor.run();
-        verify(mRepository).searchSeries(searchQuery);
+        verify(mRepository).getSeriesDetails(0);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onSearchResult(seriesList);
+        verify(mMockedCallback).onResult(series);
     }
 
     @Test
     public void testSearchFail() {
 
-        String searchQuery = "thrones";
+        when(mRepository.getSeriesDetails(0)).thenReturn(null);
 
-        when(mRepository.searchSeries(searchQuery)).thenReturn(null);
-
-        TraktSearchInteractorImpl interactor = new TraktSearchInteractorImpl(
-                mExecutor, mMainThread, searchQuery, mRepository, mMockedCallback
+        TraktSeriesDetailsInteractorImpl interactor = new TraktSeriesDetailsInteractorImpl(
+                mExecutor, mMainThread, 0, mRepository, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).searchSeries(searchQuery);
+        verify(mRepository).getSeriesDetails(0);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onSearchFailed();
+        verify(mMockedCallback).onFail();
     }
 }
