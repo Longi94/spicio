@@ -1,35 +1,34 @@
 package com.tlongdev.spicio.domain.interactor;
 
 import com.tlongdev.spicio.domain.executor.Executor;
+import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
-import com.tlongdev.spicio.domain.repository.TvdbRepository;
 
 import java.util.List;
 
 /**
- * Inner Layer, Interactor
  * @author Long
- * @since 2016. 02. 28.
+ * @since 2016. 03. 04.
  */
-public class TvdbSearchInteractorImpl extends AbstractInteractor implements TvdbSearchInteractor {
+public class TraktSearchInteractorImpl extends AbstractInteractor implements TraktSearchInteractor {
 
     private String mSearchQuery;
+    private TraktRepository mRepository;
     private Callback mCallback;
-    private TvdbRepository mRepository;
 
-    public TvdbSearchInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                    String query, Callback callback,
-                                    TvdbRepository repository) {
+    public TraktSearchInteractorImpl(Executor threadExecutor, MainThread mainThread,
+                                     String searchQuery, TraktRepository repository,
+                                     Callback callback) {
         super(threadExecutor, mainThread);
-        mSearchQuery = query;
-        mCallback = callback;
+        mSearchQuery = searchQuery;
         mRepository = repository;
+        mCallback = callback;
     }
 
     @Override
     public void run() {
-        List<TvdbSeriesOld> searchResult = mRepository.searchSeries(mSearchQuery);
+        List<Series> searchResult = mRepository.searchSeries(mSearchQuery);
 
         if (searchResult == null) {
             postError();
@@ -47,7 +46,7 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
         });
     }
 
-    private void postResult(final List<TvdbSeriesOld> searchResult) {
+    private void postResult(final List<Series> searchResult) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

@@ -50,7 +50,7 @@ public class NetworkModule {
     @Provides
     @Named("tvdb")
     @Singleton
-    Retrofit provideTvdbRetrofit(@Named("intercepted") OkHttpClient okHttpClient) {
+    Retrofit provideTvdbRetrofit(@Named("non_intercepted") OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .baseUrl(TvdbInterface.BASE_URL)
@@ -61,7 +61,7 @@ public class NetworkModule {
     @Provides
     @Named("trakt")
     @Singleton
-    Retrofit provideTraktRetrofit(OkHttpClient okHttpClient) {
+    Retrofit provideTraktRetrofit(@Named("intercepted") OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(TraktApiInterface.BASE_URL)
