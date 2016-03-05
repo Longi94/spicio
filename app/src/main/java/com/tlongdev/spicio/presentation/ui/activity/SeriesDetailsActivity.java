@@ -22,9 +22,11 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
 import com.tlongdev.spicio.presentation.presenter.SeriesDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
+import com.tlongdev.spicio.storage.dao.impl.SeriesDaoImpl;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,6 +50,8 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
 
     private String trailerUrl;
 
+    private Series mSeries;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +60,9 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 new TraktRepositoryImpl(((SpicioApplication)getApplication())
-                        .getNetworkComponent()));
+                        .getNetworkComponent()),
+                new SeriesDaoImpl(((SpicioApplication)getApplication())
+                        .getStorageComponent()));
 
         presenter.attachView(this);
 
@@ -88,6 +94,8 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
 
     @Override
     public void showDetails(final Series series) {
+        mSeries = series;
+
         Glide.with(this)
                 .load(getIntent().getStringExtra(EXTRA_POSTER))
                 .error(R.drawable.ic_movie)
@@ -95,7 +103,7 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
 
         title.setText(series.getTitle());
         overview.setText(series.getOverview());
-        genres.setText(String.format("Genres: %s", series.getGenres().toString()));
+        genres.setText(String.format("Genres: %s", Arrays.toString(series.getGenres())));
 
         trailerUrl = series.getTrailer();
         if (trailerUrl == null) {
@@ -114,9 +122,19 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
         progressBar.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onSeriesSaved() {
+        finish();
+    }
+
     @OnClick(R.id.trailer)
     public void openTrailer(Button button) {
         Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl));
         startActivity(myIntent);
+    }
+
+    @OnClick(R.id.save)
+    public void saveSeries(Button button) {
+        presenter.saveSeries(mSeries);
     }
 }
