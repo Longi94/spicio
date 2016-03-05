@@ -4,12 +4,15 @@ import android.app.Application;
 
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
 import com.tlongdev.spicio.component.DaggerNetworkRepositoryComponent;
+import com.tlongdev.spicio.component.DaggerReportingComponent;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.component.NetworkRepositoryComponent;
+import com.tlongdev.spicio.component.ReportingComponent;
 import com.tlongdev.spicio.component.StorageComponent;
 import com.tlongdev.spicio.module.NetworkModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
+import com.tlongdev.spicio.module.ReportingModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.module.StorageModule;
 
@@ -29,6 +32,8 @@ public class SpicioApplication extends Application {
 
     private StorageComponent mStorageComponent;
 
+    private ReportingComponent mReportingComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -47,6 +52,10 @@ public class SpicioApplication extends Application {
                 .spicioAppModule(new SpicioAppModule(this))
                 .storageModule(new StorageModule())
                 .build();
+
+        mReportingComponent = DaggerReportingComponent.builder()
+                .reportingModule(new ReportingModule())
+                .build();
     }
 
     public NetworkComponent getNetworkComponent() {
@@ -59,5 +68,9 @@ public class SpicioApplication extends Application {
 
     public StorageComponent getStorageComponent() {
         return mStorageComponent;
+    }
+
+    public ReportingComponent getReportingComponent() {
+        return mReportingComponent;
     }
 }
