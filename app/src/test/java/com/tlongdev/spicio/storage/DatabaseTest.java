@@ -81,6 +81,7 @@ public class DatabaseTest {
         columnHashSet.add(SeriesEntry.COLUMN_TRAKT_ID);
         columnHashSet.add(SeriesEntry.COLUMN_TVDB_ID);
         columnHashSet.add(SeriesEntry.COLUMN_IMDB_ID);
+        columnHashSet.add(SeriesEntry.COLUMN_TMDB_ID);
         columnHashSet.add(SeriesEntry.COLUMN_TV_RAGE_ID);
         columnHashSet.add(SeriesEntry.COLUMN_SLUG);
         columnHashSet.add(SeriesEntry.COLUMN_OVERVIEW);
@@ -119,19 +120,21 @@ public class DatabaseTest {
 
         //Check for table columns
         columnHashSet.clear();
-        columnHashSet.add(EpisodesEntry.COLUMN_ABSOLUTE_NUMBER);
-        columnHashSet.add(EpisodesEntry.COLUMN_DIRECTOR);
-        columnHashSet.add(EpisodesEntry.COLUMN_EPISODE_ID);
-        columnHashSet.add(EpisodesEntry.COLUMN_EPISODE_NAME);
+        columnHashSet.add(EpisodesEntry.COLUMN_SEASON);
         columnHashSet.add(EpisodesEntry.COLUMN_EPISODE_NUMBER);
-        columnHashSet.add(EpisodesEntry.COLUMN_GUEST_STARS);
-        columnHashSet.add(EpisodesEntry.COLUMN_IMAGE);
+        columnHashSet.add(EpisodesEntry.COLUMN_TITLE);
+        columnHashSet.add(EpisodesEntry.COLUMN_TRAKT_ID);
+        columnHashSet.add(EpisodesEntry.COLUMN_TVDB_ID);
         columnHashSet.add(EpisodesEntry.COLUMN_IMDB_ID);
+        columnHashSet.add(EpisodesEntry.COLUMN_TMDB_ID);
+        columnHashSet.add(EpisodesEntry.COLUMN_TV_RAGE_ID);
+        columnHashSet.add(EpisodesEntry.COLUMN_SLUG);
+        columnHashSet.add(EpisodesEntry.COLUMN_ABSOLUTE_NUMBER);
         columnHashSet.add(EpisodesEntry.COLUMN_OVERVIEW);
-        columnHashSet.add(EpisodesEntry.COLUMN_SEASON_ID);
-        columnHashSet.add(EpisodesEntry.COLUMN_SEASON_NUMBER);
+        columnHashSet.add(EpisodesEntry.COLUMN_TRAKT_RATING);
+        columnHashSet.add(EpisodesEntry.COLUMN_TRAKT_RATING_COUNT);
+        columnHashSet.add(EpisodesEntry.COLUMN_SERIES_TRAKT_ID);
         columnHashSet.add(EpisodesEntry.COLUMN_TVDB_RATING);
-        columnHashSet.add(EpisodesEntry.COLUMN_WRITERS);
 
         do {
             String columnName = columns.getString(columnNameIndex);

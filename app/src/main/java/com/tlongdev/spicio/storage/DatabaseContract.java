@@ -42,6 +42,7 @@ public class DatabaseContract {
         public static final String COLUMN_TRAKT_ID = "trakt_id";
         public static final String COLUMN_TVDB_ID = "tvdb_id";
         public static final String COLUMN_IMDB_ID = "imdb_id";
+        public static final String COLUMN_TMDB_ID = "tmdb_id";
         public static final String COLUMN_TV_RAGE_ID = "tv_rage_id";
         public static final String COLUMN_SLUG = "slug";
         public static final String COLUMN_OVERVIEW = "overview";
@@ -72,19 +73,21 @@ public class DatabaseContract {
 
         public static final String TABLE_NAME = "episodes";
 
-        public static final String COLUMN_EPISODE_ID = "episode_id";
-        public static final String COLUMN_SEASON_ID = "season_id";
+        public static final String COLUMN_SEASON = "season";
         public static final String COLUMN_EPISODE_NUMBER = "episode_number";
-        public static final String COLUMN_EPISODE_NAME = "episode_name";
-        public static final String COLUMN_GUEST_STARS = "guest_stars";
-        public static final String COLUMN_DIRECTOR = "director";
-        public static final String COLUMN_WRITERS = "writers";
-        public static final String COLUMN_OVERVIEW = "overview";
-        public static final String COLUMN_SEASON_NUMBER = "season_number";
-        public static final String COLUMN_ABSOLUTE_NUMBER = "absolute_number";
-        public static final String COLUMN_IMAGE = "image";
-        public static final String COLUMN_SERIES_ID = "series_id";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_TRAKT_ID = "trakt_id";
+        public static final String COLUMN_TVDB_ID = "tvdb_id";
         public static final String COLUMN_IMDB_ID = "imdb_id";
+        public static final String COLUMN_TMDB_ID = "tmdb_id";
+        public static final String COLUMN_TV_RAGE_ID = "tv_rage_id";
+        public static final String COLUMN_SLUG = "slug";
+        public static final String COLUMN_ABSOLUTE_NUMBER = "absolute_number";
+        public static final String COLUMN_OVERVIEW = "overview";
+        public static final String COLUMN_TRAKT_RATING = "trakt_rating";
+        public static final String COLUMN_TRAKT_RATING_COUNT = "trakt_rating_count";
+
+        public static final String COLUMN_SERIES_TRAKT_ID = "series_trakt_id";
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";
 
         public static Uri buildUri(long id) {

@@ -31,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 SeriesEntry.COLUMN_TRAKT_ID + " INTEGER NOT NULL, " +
                 SeriesEntry.COLUMN_TVDB_ID + " INTEGER, " +
                 SeriesEntry.COLUMN_IMDB_ID + " TEXT, " +
+                SeriesEntry.COLUMN_TMDB_ID + " INTEGER, " +
                 SeriesEntry.COLUMN_TV_RAGE_ID + " INTEGER, " +
                 SeriesEntry.COLUMN_SLUG + " TEXT, " +
                 SeriesEntry.COLUMN_OVERVIEW + " TEXT, " +
@@ -54,27 +55,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_EPISODES_TABLE = "CREATE TABLE " + EpisodesEntry.TABLE_NAME + " (" +
                 EpisodesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-                EpisodesEntry.COLUMN_EPISODE_ID + " INTEGER NOT NULL, " +
-                EpisodesEntry.COLUMN_SEASON_ID + " INTEGER NOT NULL, " +
+                EpisodesEntry.COLUMN_SEASON + " INTEGER, " +
                 EpisodesEntry.COLUMN_EPISODE_NUMBER + " INTEGER, " +
-                EpisodesEntry.COLUMN_EPISODE_NAME + " TEXT, " +
-                EpisodesEntry.COLUMN_GUEST_STARS + " TEXT, " +
-                EpisodesEntry.COLUMN_DIRECTOR + " TEXT, " +
-                EpisodesEntry.COLUMN_WRITERS + " TEXT, " +
-                EpisodesEntry.COLUMN_OVERVIEW + " TEXT, " +
-                EpisodesEntry.COLUMN_SEASON_NUMBER + " INTEGER, " +
-                EpisodesEntry.COLUMN_ABSOLUTE_NUMBER + " INTEGER NOT NULL, " +
-                EpisodesEntry.COLUMN_IMAGE + " TEXT, " +
-                EpisodesEntry.COLUMN_SERIES_ID + " TEXT NOT NULL, " +
+                EpisodesEntry.COLUMN_TITLE + " TEXT, " +
+                EpisodesEntry.COLUMN_TRAKT_ID + " INTEGER NOT NULL, " +
+                EpisodesEntry.COLUMN_TVDB_ID + " INTEGER, " +
                 EpisodesEntry.COLUMN_IMDB_ID + " TEXT, " +
+                EpisodesEntry.COLUMN_TMDB_ID + " INTEGER, " +
+                EpisodesEntry.COLUMN_TV_RAGE_ID + " INTEGER, " +
+                EpisodesEntry.COLUMN_SLUG + " TEXT, " +
+                EpisodesEntry.COLUMN_ABSOLUTE_NUMBER + " INTEGER, " +
+                EpisodesEntry.COLUMN_OVERVIEW + " TEXT, " +
+                EpisodesEntry.COLUMN_TRAKT_RATING + " REAL, " +
+                EpisodesEntry.COLUMN_TRAKT_RATING_COUNT + " INTEGER, " +
+                EpisodesEntry.COLUMN_SERIES_TRAKT_ID + " INTEGER, " +
                 EpisodesEntry.COLUMN_TVDB_RATING + " REAL, " +
 
-                "UNIQUE (" + EpisodesEntry.COLUMN_EPISODE_ID + ") ON CONFLICT REPLACE," +
-                "UNIQUE (" + EpisodesEntry.COLUMN_EPISODE_NUMBER + ", " +
-                EpisodesEntry.COLUMN_SEASON_NUMBER + ", " +
-                EpisodesEntry.COLUMN_SERIES_ID + ") ON CONFLICT REPLACE," +
-                "UNIQUE (" + EpisodesEntry.COLUMN_ABSOLUTE_NUMBER + ", " +
-                EpisodesEntry.COLUMN_SERIES_ID + ") ON CONFLICT REPLACE);";
+                "UNIQUE (" + EpisodesEntry.COLUMN_TRAKT_ID + ") ON CONFLICT REPLACE);";
 
         final String SQL_CREATE_FEED_TABLE = "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
                 FeedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
