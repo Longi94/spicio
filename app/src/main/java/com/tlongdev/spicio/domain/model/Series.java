@@ -38,7 +38,7 @@ public class Series {
 
     private DateTimeZone airTimeZone;
 
-    private int runTime;
+    private int runtime;
 
     private String certification;
 
@@ -161,12 +161,12 @@ public class Series {
         this.airTimeZone = airTimeZone;
     }
 
-    public int getRunTime() {
-        return runTime;
+    public int getRuntime() {
+        return runtime;
     }
 
-    public void setRunTime(int runTime) {
-        this.runTime = runTime;
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 
     public String getCertification() {

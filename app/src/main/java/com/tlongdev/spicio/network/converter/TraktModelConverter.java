@@ -66,7 +66,7 @@ public class TraktModelConverter {
         series.setYear(traktSeries.getYear());
         series.setOverview(traktSeries.getOverview());
         series.setTitle(traktSeries.getTitle());
-        series.setRunTime(traktSeries.getRuntime());
+        series.setRuntime(traktSeries.getRuntime());
         series.setTrailer(traktSeries.getTrailer());
         series.setTraktRating(traktSeries.getRating());
         series.setTraktRatingCount(traktSeries.getVotes());

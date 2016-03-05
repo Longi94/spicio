@@ -76,25 +76,28 @@ public class DatabaseTest {
 
         //Check for table columns
         final HashSet<String> columnHashSet = new HashSet<String>();
-        columnHashSet.add(SeriesEntry.COLUMN_ACTORS);
-        columnHashSet.add(SeriesEntry.COLUMN_AIRS_DAY);
-        columnHashSet.add(SeriesEntry.COLUMN_AIRS_TIME);
-        columnHashSet.add(SeriesEntry.COLUMN_ALIAS_NAMES);
-        columnHashSet.add(SeriesEntry.COLUMN_BANNER);
-        columnHashSet.add(SeriesEntry.COLUMN_CONTENT_RATING);
-        columnHashSet.add(SeriesEntry.COLUMN_FIRST_AIRED);
-        columnHashSet.add(SeriesEntry.COLUMN_GENRE);
+        columnHashSet.add(SeriesEntry.COLUMN_TITLE);
+        columnHashSet.add(SeriesEntry.COLUMN_YEAR);
+        columnHashSet.add(SeriesEntry.COLUMN_TRAKT_ID);
+        columnHashSet.add(SeriesEntry.COLUMN_TVDB_ID);
         columnHashSet.add(SeriesEntry.COLUMN_IMDB_ID);
-        columnHashSet.add(SeriesEntry.COLUMN_NAME);
-        columnHashSet.add(SeriesEntry.COLUMN_NETWORK);
+        columnHashSet.add(SeriesEntry.COLUMN_TV_RAGE_ID);
+        columnHashSet.add(SeriesEntry.COLUMN_SLUG);
         columnHashSet.add(SeriesEntry.COLUMN_OVERVIEW);
-        columnHashSet.add(SeriesEntry.COLUMN_POSTER);
+        columnHashSet.add(SeriesEntry.COLUMN_FIRST_AIRED);
+        columnHashSet.add(SeriesEntry.COLUMN_DAY_OF_AIR);
+        columnHashSet.add(SeriesEntry.COLUMN_TIME_OF_AIR);
+        columnHashSet.add(SeriesEntry.COLUMN_AIR_TIME_ZONE);
         columnHashSet.add(SeriesEntry.COLUMN_RUNTIME);
-        columnHashSet.add(SeriesEntry.COLUMN_SERIES_ID);
+        columnHashSet.add(SeriesEntry.COLUMN_CONTENT_RATING);
+        columnHashSet.add(SeriesEntry.COLUMN_NETWORK);
+        columnHashSet.add(SeriesEntry.COLUMN_TRAILER);
         columnHashSet.add(SeriesEntry.COLUMN_STATUS);
+        columnHashSet.add(SeriesEntry.COLUMN_TRAKT_RATING);
+        columnHashSet.add(SeriesEntry.COLUMN_TRAKT_RATING_COUNT);
+        columnHashSet.add(SeriesEntry.COLUMN_GENRES);
         columnHashSet.add(SeriesEntry.COLUMN_TVDB_RATING);
         columnHashSet.add(SeriesEntry.COLUMN_TVDB_RATING_COUNT);
-        columnHashSet.add(SeriesEntry.COLUMN_ZAPT2IT_ID);
 
         int columnNameIndex = columns.getColumnIndex("name");
 

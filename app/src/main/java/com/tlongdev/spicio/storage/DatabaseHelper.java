@@ -26,27 +26,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_SERIES_TABLE = "CREATE TABLE " + SeriesEntry.TABLE_NAME + " (" +
                 SeriesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-                SeriesEntry.COLUMN_SERIES_ID + " INTEGER NOT NULL, " +
-                SeriesEntry.COLUMN_ACTORS + " TEXT, " +
-                SeriesEntry.COLUMN_AIRS_DAY + " INTEGER, " +
-                SeriesEntry.COLUMN_AIRS_TIME + " INTEGER, " +
-                SeriesEntry.COLUMN_CONTENT_RATING + " TEXT, " +
-                SeriesEntry.COLUMN_FIRST_AIRED + " INTEGER, " +
-                SeriesEntry.COLUMN_GENRE + " TEXT, " +
+                SeriesEntry.COLUMN_TITLE + " TEXT, " +
+                SeriesEntry.COLUMN_YEAR + " INTEGER, " +
+                SeriesEntry.COLUMN_TRAKT_ID + " INTEGER NOT NULL, " +
+                SeriesEntry.COLUMN_TVDB_ID + " INTEGER, " +
                 SeriesEntry.COLUMN_IMDB_ID + " TEXT, " +
-                SeriesEntry.COLUMN_NETWORK + " TEXT, " +
+                SeriesEntry.COLUMN_TV_RAGE_ID + " INTEGER, " +
+                SeriesEntry.COLUMN_SLUG + " TEXT, " +
                 SeriesEntry.COLUMN_OVERVIEW + " TEXT, " +
+                SeriesEntry.COLUMN_FIRST_AIRED + " INTEGER, " +
+                SeriesEntry.COLUMN_DAY_OF_AIR + " INTEGER, " +
+                SeriesEntry.COLUMN_TIME_OF_AIR + " INTEGER, " +
+                SeriesEntry.COLUMN_AIR_TIME_ZONE + " TEXT, " +
+                SeriesEntry.COLUMN_RUNTIME + " INTEGER, " +
+                SeriesEntry.COLUMN_CONTENT_RATING + " TEXT, " +
+                SeriesEntry.COLUMN_NETWORK + " TEXT, " +
+                SeriesEntry.COLUMN_TRAILER + " TEXT, " +
+                SeriesEntry.COLUMN_STATUS + " INTEGER, " +
+                SeriesEntry.COLUMN_TRAKT_RATING + " REAL, " +
+                SeriesEntry.COLUMN_TRAKT_RATING_COUNT + " INTEGER, " +
+                SeriesEntry.COLUMN_GENRES + " TEXT, " +
                 SeriesEntry.COLUMN_TVDB_RATING + " REAL, " +
                 SeriesEntry.COLUMN_TVDB_RATING_COUNT + " INTEGER, " +
-                SeriesEntry.COLUMN_RUNTIME + " INTEGER, " +
-                SeriesEntry.COLUMN_NAME + " TEXT, " +
-                SeriesEntry.COLUMN_STATUS + " INTEGER, " +
-                SeriesEntry.COLUMN_BANNER + " TEXT, " +
-                SeriesEntry.COLUMN_POSTER + " TEXT, " +
-                SeriesEntry.COLUMN_ZAPT2IT_ID + " TEXT, " +
-                SeriesEntry.COLUMN_ALIAS_NAMES + " TEXT, " +
 
-                "UNIQUE (" + SeriesEntry.COLUMN_SERIES_ID + ") ON CONFLICT REPLACE);";
+                "UNIQUE (" + SeriesEntry.COLUMN_TRAKT_ID + ") ON CONFLICT REPLACE);";
 
         final String SQL_CREATE_EPISODES_TABLE = "CREATE TABLE " + EpisodesEntry.TABLE_NAME + " (" +
                 EpisodesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

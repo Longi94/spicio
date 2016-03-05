@@ -37,25 +37,29 @@ public class DatabaseContract {
 
         public static final String TABLE_NAME = "series";
 
-        public static final String COLUMN_SERIES_ID = "series_id";
-        public static final String COLUMN_ACTORS = "actors";
-        public static final String COLUMN_AIRS_DAY = "airs_day";
-        public static final String COLUMN_AIRS_TIME = "airs_time";
-        public static final String COLUMN_CONTENT_RATING = "content_rating";
-        public static final String COLUMN_FIRST_AIRED = "first_aired";
-        public static final String COLUMN_GENRE = "genre";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_YEAR = "year";
+        public static final String COLUMN_TRAKT_ID = "trakt_id";
+        public static final String COLUMN_TVDB_ID = "tvdb_id";
         public static final String COLUMN_IMDB_ID = "imdb_id";
-        public static final String COLUMN_NETWORK = "network";
+        public static final String COLUMN_TV_RAGE_ID = "tv_rage_id";
+        public static final String COLUMN_SLUG = "slug";
         public static final String COLUMN_OVERVIEW = "overview";
+        public static final String COLUMN_FIRST_AIRED = "first_aired";
+        public static final String COLUMN_DAY_OF_AIR = "day_of_air";
+        public static final String COLUMN_TIME_OF_AIR = "time_of_air";
+        public static final String COLUMN_AIR_TIME_ZONE = "air_time_zone";
+        public static final String COLUMN_RUNTIME = "runtime";
+        public static final String COLUMN_CONTENT_RATING = "content_rating";
+        public static final String COLUMN_NETWORK = "network";
+        public static final String COLUMN_TRAILER = "trailer";
+        public static final String COLUMN_STATUS = "status";
+        public static final String COLUMN_TRAKT_RATING = "trakt_rating";
+        public static final String COLUMN_TRAKT_RATING_COUNT = "trakt_rating_count";
+        public static final String COLUMN_GENRES = "genres";
+
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";
         public static final String COLUMN_TVDB_RATING_COUNT = "tvdb_rating_count";
-        public static final String COLUMN_RUNTIME = "runtime";
-        public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_STATUS = "status";
-        public static final String COLUMN_BANNER = "banner";
-        public static final String COLUMN_POSTER = "poster";
-        public static final String COLUMN_ZAPT2IT_ID = "zapt2it_id";
-        public static final String COLUMN_ALIAS_NAMES = "alias_names";
 
         public static Uri buildUri(long id) {
             return CONTENT_URI.buildUpon().appendPath("id").appendPath("" + id).build();
