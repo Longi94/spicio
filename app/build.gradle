@@ -19,7 +19,9 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         Properties keys = new Properties()
-        keys.load(project.rootProject.file('keys.properties').newDataInputStream())
+        if (file('keys.properties').exists()) {
+            keys.load(project.rootProject.file('keys.properties').newDataInputStream())
+        }
 
         buildConfigField("String", "TRAKT_API_KEY", "\"${getKey(keys, "TRAKT_API_KEY")}\"")
     }

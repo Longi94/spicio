@@ -12,7 +12,7 @@ before_install:
   - pip install --user codecov
 
 script:
-  - ./gradlew jacocoFullReport
+  - ./gradlew jacocoFullReport --stacktrace
 
 after_success:
   - codecov
