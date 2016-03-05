@@ -5,7 +5,7 @@ import com.tlongdev.spicio.domain.interactor.TraktSearchInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
-import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesView;
+import com.tlongdev.spicio.presentation.ui.view.fragment.SearchSeriesView;
 import com.tlongdev.spicio.threading.MainThread;
 
 import java.util.List;

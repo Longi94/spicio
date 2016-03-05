@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.presentation.ui;
+package com.tlongdev.spicio.presentation.ui.view;
 
 import android.content.Context;
 

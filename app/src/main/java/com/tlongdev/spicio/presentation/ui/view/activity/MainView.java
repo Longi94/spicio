@@ -1,6 +1,6 @@
-package com.tlongdev.spicio.presentation.ui.activity;
+package com.tlongdev.spicio.presentation.ui.view.activity;
 
-import com.tlongdev.spicio.presentation.ui.BaseView;
+import com.tlongdev.spicio.presentation.ui.view.BaseView;
 
 /**
  * Outer Layer, UI.

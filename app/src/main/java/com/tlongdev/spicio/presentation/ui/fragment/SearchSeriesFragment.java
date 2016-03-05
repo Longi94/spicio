@@ -25,6 +25,7 @@ import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
 import com.tlongdev.spicio.presentation.presenter.SearchSeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesDetailsActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SearchSeriesAdapter;
+import com.tlongdev.spicio.presentation.ui.view.fragment.SearchSeriesView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.util.List;

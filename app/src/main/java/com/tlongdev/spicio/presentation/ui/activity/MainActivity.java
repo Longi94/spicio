@@ -21,6 +21,7 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.presentation.presenter.MainPresenter;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
+import com.tlongdev.spicio.presentation.ui.view.activity.MainView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import butterknife.Bind;

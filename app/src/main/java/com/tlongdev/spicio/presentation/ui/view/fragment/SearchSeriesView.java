@@ -1,7 +1,7 @@
-package com.tlongdev.spicio.presentation.ui.fragment;
+package com.tlongdev.spicio.presentation.ui.view.fragment;
 
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.ui.BaseView;
+import com.tlongdev.spicio.presentation.ui.view.BaseView;
 
 import java.util.List;
 

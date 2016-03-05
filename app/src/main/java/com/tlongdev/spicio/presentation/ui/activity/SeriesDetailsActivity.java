@@ -21,6 +21,7 @@ import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
 import com.tlongdev.spicio.presentation.presenter.SeriesDetailsPresenter;
+import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.text.DecimalFormat;

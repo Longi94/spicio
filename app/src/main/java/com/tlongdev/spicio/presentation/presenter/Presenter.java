@@ -1,6 +1,6 @@
 package com.tlongdev.spicio.presentation.presenter;
 
-import com.tlongdev.spicio.presentation.ui.BaseView;
+import com.tlongdev.spicio.presentation.ui.view.BaseView;
 
 /**
  * Middle layer, Presenter.
