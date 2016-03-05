@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.domain.interactor;
 
 import com.tlongdev.spicio.domain.executor.Executor;
+import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.threading.MainThread;

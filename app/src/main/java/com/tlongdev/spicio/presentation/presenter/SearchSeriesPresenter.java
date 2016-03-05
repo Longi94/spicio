@@ -2,7 +2,7 @@ package com.tlongdev.spicio.presentation.presenter;
 
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.TraktSearchInteractor;
-import com.tlongdev.spicio.domain.interactor.TraktSearchInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesView;

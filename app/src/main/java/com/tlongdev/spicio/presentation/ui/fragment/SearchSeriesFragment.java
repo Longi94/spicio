@@ -21,7 +21,7 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.domain.repository.TraktRepositoryImpl;
+import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
 import com.tlongdev.spicio.presentation.presenter.SearchSeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesDetailsActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SearchSeriesAdapter;

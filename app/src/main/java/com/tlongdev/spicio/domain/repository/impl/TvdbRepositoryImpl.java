@@ -1,8 +1,9 @@
-package com.tlongdev.spicio.domain.repository;
+package com.tlongdev.spicio.domain.repository.impl;
 
 import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.domain.model.TvdbEpisodeOld;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
+import com.tlongdev.spicio.domain.repository.TvdbRepository;
 import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.network.converter.TvdbModelConverter;
 import com.tlongdev.spicio.network.model.TvdbSeriesPayload;

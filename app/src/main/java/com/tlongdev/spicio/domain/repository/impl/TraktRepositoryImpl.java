@@ -1,8 +1,9 @@
-package com.tlongdev.spicio.domain.repository;
+package com.tlongdev.spicio.domain.repository.impl;
 
 import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
 import com.tlongdev.spicio.network.model.TraktSearchResult;

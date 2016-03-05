@@ -1,5 +1,7 @@
 package com.tlongdev.spicio.storage.dao;
 
+import android.net.Uri;
+
 import com.tlongdev.spicio.domain.model.Series;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public interface SeriesDao {
      *
      * @param series the series to delete
      */
-    void insertSeries(Series series);
+    Uri insertSeries(Series series);
 
     /**
      * Deletes a series from the database

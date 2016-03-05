@@ -2,7 +2,7 @@ package com.tlongdev.spicio.module;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
-import com.tlongdev.spicio.domain.repository.TvdbRepositoryImpl;
+import com.tlongdev.spicio.domain.repository.impl.TvdbRepositoryImpl;
 
 import javax.inject.Singleton;
 

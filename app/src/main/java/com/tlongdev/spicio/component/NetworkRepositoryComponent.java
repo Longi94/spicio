@@ -1,6 +1,6 @@
 package com.tlongdev.spicio.component;
 
-import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TvdbSearchInteractorImpl;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
 

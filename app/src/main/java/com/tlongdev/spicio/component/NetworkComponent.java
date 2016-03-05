@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.component;
 
-import com.tlongdev.spicio.domain.repository.TraktRepositoryImpl;
-import com.tlongdev.spicio.domain.repository.TvdbRepositoryImpl;
+import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
+import com.tlongdev.spicio.domain.repository.impl.TvdbRepositoryImpl;
 import com.tlongdev.spicio.module.NetworkModule;
 
 import javax.inject.Singleton;

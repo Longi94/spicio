@@ -4,11 +4,14 @@ import android.app.Application;
 
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
 import com.tlongdev.spicio.component.DaggerNetworkRepositoryComponent;
+import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.component.NetworkRepositoryComponent;
+import com.tlongdev.spicio.component.StorageComponent;
 import com.tlongdev.spicio.module.NetworkModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
+import com.tlongdev.spicio.module.StorageModule;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -24,6 +27,8 @@ public class SpicioApplication extends Application {
 
     private NetworkRepositoryComponent mNetworkRepositoryComponent;
 
+    private StorageComponent mStorageComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,6 +42,11 @@ public class SpicioApplication extends Application {
                 .spicioAppModule(new SpicioAppModule(this))
                 .networkRepositoryModule(new NetworkRepositoryModule())
                 .build();
+
+        mStorageComponent = DaggerStorageComponent.builder()
+                .spicioAppModule(new SpicioAppModule(this))
+                .storageModule(new StorageModule())
+                .build();
     }
 
     public NetworkComponent getNetworkComponent() {
@@ -45,5 +55,9 @@ public class SpicioApplication extends Application {
 
     public NetworkRepositoryComponent getNetworkRepositoryComponent() {
         return mNetworkRepositoryComponent;
+    }
+
+    public StorageComponent getStorageComponent() {
+        return mStorageComponent;
     }
 }
