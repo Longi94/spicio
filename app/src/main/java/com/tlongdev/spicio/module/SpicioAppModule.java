@@ -1,6 +1,6 @@
 package com.tlongdev.spicio.module;
 
-import com.tlongdev.spicio.SpicioApplication;
+import android.app.Application;
 
 import javax.inject.Singleton;
 
@@ -14,15 +14,15 @@ import dagger.Provides;
 @Module
 public class SpicioAppModule {
 
-    private SpicioApplication mApplication;
+    private Application mApplication;
 
-    public SpicioAppModule(SpicioApplication application) {
+    public SpicioAppModule(Application application) {
         this.mApplication = application;
     }
 
     @Provides
     @Singleton
-    SpicioApplication provideApplication() {
+    Application provideApplication() {
         return mApplication;
     }
 }

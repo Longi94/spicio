@@ -4,8 +4,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 
-import java.util.List;
-
 /**
  * @author Long
  * @since 2016. 03. 03.
@@ -52,7 +50,7 @@ public class Series {
 
     private int traktRatingCount;
 
-    private List<String> genres;
+    private String[] genres;
 
     private Images images;
 
@@ -218,11 +216,11 @@ public class Series {
         this.traktRatingCount = traktRatingCount;
     }
 
-    public List<String> getGenres() {
+    public String[] getGenres() {
         return genres;
     }
 
-    public void setGenres(List<String> genres) {
+    public void setGenres(String[] genres) {
         this.genres = genres;
     }
 

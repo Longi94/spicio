@@ -14,7 +14,6 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.InputStream;
-import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -67,7 +66,6 @@ public class TraktModelConverterTest {
         assertEquals(1399, series.getTmdbId());
         assertEquals(24493, series.getTvRageId());
 
-        List<String> genres = series.getGenres();
         assertArrayEquals(new String[]{
                 "drama",
                 "fantasy",
@@ -75,6 +73,6 @@ public class TraktModelConverterTest {
                 "history",
                 "adventure",
                 "action"
-        }, genres.toArray(new String[genres.size()]));
+        }, series.getGenres());
     }
 }

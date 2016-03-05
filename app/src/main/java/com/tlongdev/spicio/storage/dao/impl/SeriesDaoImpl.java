@@ -2,6 +2,7 @@ package com.tlongdev.spicio.storage.dao.impl;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 
 import com.tlongdev.spicio.component.StorageComponent;
@@ -9,6 +10,10 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.util.Utility;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalTime;
 
 import java.util.List;
 
@@ -22,12 +27,106 @@ public class SeriesDaoImpl implements SeriesDao {
 
     @Inject ContentResolver mContentResolver;
 
+    public static final String[] PROJECTION = {
+            SeriesEntry._ID,
+            SeriesEntry.COLUMN_TITLE,
+            SeriesEntry.COLUMN_YEAR,
+            SeriesEntry.COLUMN_TRAKT_ID,
+            SeriesEntry.COLUMN_TVDB_ID,
+            SeriesEntry.COLUMN_IMDB_ID,
+            SeriesEntry.COLUMN_TMDB_ID,
+            SeriesEntry.COLUMN_TV_RAGE_ID,
+            SeriesEntry.COLUMN_SLUG,
+            SeriesEntry.COLUMN_OVERVIEW,
+            SeriesEntry.COLUMN_FIRST_AIRED,
+            SeriesEntry.COLUMN_DAY_OF_AIR,
+            SeriesEntry.COLUMN_TIME_OF_AIR,
+            SeriesEntry.COLUMN_AIR_TIME_ZONE,
+            SeriesEntry.COLUMN_RUNTIME,
+            SeriesEntry.COLUMN_CONTENT_RATING,
+            SeriesEntry.COLUMN_NETWORK,
+            SeriesEntry.COLUMN_TRAILER,
+            SeriesEntry.COLUMN_STATUS,
+            SeriesEntry.COLUMN_TRAKT_RATING,
+            SeriesEntry.COLUMN_TRAKT_RATING_COUNT,
+            SeriesEntry.COLUMN_GENRES,
+            SeriesEntry.COLUMN_TVDB_RATING,
+            SeriesEntry.COLUMN_TVDB_RATING_COUNT,
+    };
+
+    public static final int COLUMN_ID = 0;
+    public static final int COLUMN_TITLE = 1;
+    public static final int COLUMN_YEAR = 2;
+    public static final int COLUMN_TRAKT_ID = 3;
+    public static final int COLUMN_TVDB_ID = 4;
+    public static final int COLUMN_IMDB_ID = 5;
+    public static final int COLUMN_TMDB_ID = 6;
+    public static final int COLUMN_TV_RAGE_ID = 7;
+    public static final int COLUMN_SLUG = 8;
+    public static final int COLUMN_OVERVIEW = 9;
+    public static final int COLUMN_FIRST_AIRED = 10;
+    public static final int COLUMN_DAY_OF_AIR = 11;
+    public static final int COLUMN_TIME_OF_AIR = 12;
+    public static final int COLUMN_AIR_TIME_ZONE = 13;
+    public static final int COLUMN_RUNTIME = 14;
+    public static final int COLUMN_CONTENT_RATING = 15;
+    public static final int COLUMN_NETWORK = 16;
+    public static final int COLUMN_TRAILER = 17;
+    public static final int COLUMN_STATUS = 18;
+    public static final int COLUMN_TRAKT_RATING = 19;
+    public static final int COLUMN_TRAKT_RATING_COUNT = 20;
+    public static final int COLUMN_GENRES = 21;
+    public static final int COLUMN_TVDB_RATING = 22;
+    public static final int COLUMN_TVDB_RATING_COUNT = 23;
+
     public SeriesDaoImpl(StorageComponent storageComponent) {
         storageComponent.inject(this);
     }
 
+    @SuppressWarnings("WrongConstant")
     @Override
-    public Series getSeries(int seriesId) {
+    public Series getSeries(int traktId) {
+        Cursor cursor = mContentResolver.query(
+                SeriesEntry.CONTENT_URI,
+                PROJECTION,
+                SeriesEntry.COLUMN_TRAKT_ID + " = ?",
+                new String[]{String.valueOf(traktId)},
+                null
+        );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                Series series = new Series();
+
+                series.setTitle(cursor.getString(COLUMN_TITLE));
+                series.setYear(cursor.getInt(COLUMN_YEAR));
+                series.setTraktId(cursor.getInt(COLUMN_TRAKT_ID));
+                series.setTvdbId(cursor.getInt(COLUMN_TVDB_ID));
+                series.setImdbId(cursor.getString(COLUMN_IMDB_ID));
+                series.setTmdbId(cursor.getInt(COLUMN_TMDB_ID));
+                series.setTvRageId(cursor.getInt(COLUMN_TV_RAGE_ID));
+                series.setSlugName(cursor.getString(COLUMN_SLUG));
+                series.setOverview(cursor.getString(COLUMN_OVERVIEW));
+                series.setFirstAired(new DateTime(cursor.getLong(COLUMN_FIRST_AIRED)));
+                series.setDayOfAiring(cursor.getInt(COLUMN_DAY_OF_AIR));
+                series.setTimeOfAiring(LocalTime.fromMillisOfDay(cursor.getLong(COLUMN_TIME_OF_AIR)));
+                series.setAirTimeZone(DateTimeZone.forID(cursor.getString(COLUMN_AIR_TIME_ZONE)));
+                series.setRuntime(cursor.getInt(COLUMN_RUNTIME));
+                series.setCertification(cursor.getString(COLUMN_CONTENT_RATING));
+                series.setNetwork(cursor.getString(COLUMN_NETWORK));
+                series.setTrailer(cursor.getString(COLUMN_TRAILER));
+                series.setStatus(cursor.getInt(COLUMN_STATUS));
+                series.setTraktRating(cursor.getDouble(COLUMN_TRAKT_RATING));
+                series.setTraktRatingCount(cursor.getInt(COLUMN_TRAKT_RATING_COUNT));
+                series.setGenres(cursor.getString(COLUMN_GENRES).split("\\|"));
+
+                // TODO: 2016. 03. 05. tvdb ratings
+
+                return series;
+            }
+
+            cursor.close();
+        }
         return null;
     }
 

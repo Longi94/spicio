@@ -15,6 +15,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -63,7 +64,8 @@ public class TraktModelConverter {
         Series series = new Series();
 
         series.setCertification(traktSeries.getCertification());
-        series.setGenres(traktSeries.getGenres());
+        List<String> genres = traktSeries.getGenres();
+        series.setGenres(genres.toArray(new String[genres.size()]));
         series.setYear(traktSeries.getYear());
         series.setOverview(traktSeries.getOverview());
         series.setTitle(traktSeries.getTitle());
