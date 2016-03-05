@@ -4,6 +4,7 @@ import com.tlongdev.spicio.domain.model.Day;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.Status;
 import com.tlongdev.spicio.network.model.TraktImage;
 import com.tlongdev.spicio.network.model.TraktImages;
 import com.tlongdev.spicio.network.model.TraktSeries;
@@ -70,6 +71,7 @@ public class TraktModelConverter {
         series.setTrailer(traktSeries.getTrailer());
         series.setTraktRating(traktSeries.getRating());
         series.setTraktRatingCount(traktSeries.getVotes());
+        series.setNetwork(traktSeries.getNetwork());
 
         series.setImages(convertToImages(traktSeries.getImages()));
 
@@ -79,6 +81,15 @@ public class TraktModelConverter {
         series.setTvdbId(traktSeries.getIds().getTvdb() == null ? -1 : traktSeries.getIds().getTvdb());
         series.setTvRageId(traktSeries.getIds().getTvrage() == null ? -1 : traktSeries.getIds().getTvrage());
         series.setSlugName(traktSeries.getIds().getSlug());
+
+        switch (traktSeries.getStatus()) { // TODO: 2016. 03. 05. other status codes
+            case "returning series":
+                series.setStatus(Status.CONTINUING);
+                break;
+            default:
+                series.setStatus(Status.NULL);
+                break;
+        }
 
         if (traktSeries.getAirs() != null) {
             if (traktSeries.getAirs().getDay() != null) {
