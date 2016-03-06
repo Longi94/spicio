@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractor;
@@ -9,6 +10,8 @@ import com.tlongdev.spicio.threading.MainThread;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Inner Layer, Interactor
  *
@@ -17,17 +20,19 @@ import java.util.List;
  */
 public class TvdbSearchInteractorImpl extends AbstractInteractor implements TvdbSearchInteractor {
 
+    @Inject TvdbRepository mRepository;
+
     private String mSearchQuery;
     private Callback mCallback;
-    private TvdbRepository mRepository;
 
     public TvdbSearchInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                    String query, Callback callback,
-                                    TvdbRepository repository) {
+                                    SpicioApplication app,
+                                    String query, Callback callback) {
         super(threadExecutor, mainThread);
+        app.getNetworkComponent().inject(this);
+
         mSearchQuery = query;
         mCallback = callback;
-        mRepository = repository;
     }
 
     @Override

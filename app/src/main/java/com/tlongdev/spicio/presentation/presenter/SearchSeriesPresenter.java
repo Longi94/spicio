@@ -4,7 +4,6 @@ import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.TraktSearchInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SearchSeriesView;
 import com.tlongdev.spicio.threading.MainThread;
 
@@ -20,11 +19,8 @@ public class SearchSeriesPresenter extends AbstractPresenter implements Presente
 
     private SearchSeriesView mView;
 
-    private TraktRepository mRepository;
-
-    public SearchSeriesPresenter(Executor executor, MainThread mainThread, TraktRepository repository) {
+    public SearchSeriesPresenter(Executor executor, MainThread mainThread) {
         super(executor, mainThread);
-        mRepository = repository;
     }
 
     @Override
@@ -41,8 +37,8 @@ public class SearchSeriesPresenter extends AbstractPresenter implements Presente
         TraktSearchInteractor interactor = new TraktSearchInteractorImpl(
                 mExecutor,
                 mMainThread,
+                mView.getSpicioApplication(),
                 query,
-                mRepository,
                 this
         );
         interactor.execute();

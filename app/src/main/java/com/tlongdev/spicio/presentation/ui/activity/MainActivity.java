@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tlongdev.spicio.R;
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.presentation.presenter.MainPresenter;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
@@ -134,6 +135,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public SpicioApplication getSpicioApplication() {
+        return (SpicioApplication) getApplication();
     }
 
     /**

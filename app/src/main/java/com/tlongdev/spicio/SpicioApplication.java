@@ -3,11 +3,9 @@ package com.tlongdev.spicio;
 import android.app.Application;
 
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
-import com.tlongdev.spicio.component.DaggerNetworkRepositoryComponent;
 import com.tlongdev.spicio.component.DaggerReportingComponent;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
-import com.tlongdev.spicio.component.NetworkRepositoryComponent;
 import com.tlongdev.spicio.component.ReportingComponent;
 import com.tlongdev.spicio.component.StorageComponent;
 import com.tlongdev.spicio.module.NetworkModule;
@@ -28,8 +26,6 @@ public class SpicioApplication extends Application {
 
     private NetworkComponent mNetworkComponent;
 
-    private NetworkRepositoryComponent mNetworkRepositoryComponent;
-
     private StorageComponent mStorageComponent;
 
     private ReportingComponent mReportingComponent;
@@ -41,10 +37,6 @@ public class SpicioApplication extends Application {
 
         mNetworkComponent = DaggerNetworkComponent.builder()
                 .networkModule(new NetworkModule())
-                .build();
-
-        mNetworkRepositoryComponent = DaggerNetworkRepositoryComponent.builder()
-                .spicioAppModule(new SpicioAppModule(this))
                 .networkRepositoryModule(new NetworkRepositoryModule())
                 .build();
 
@@ -60,10 +52,6 @@ public class SpicioApplication extends Application {
 
     public NetworkComponent getNetworkComponent() {
         return mNetworkComponent;
-    }
-
-    public NetworkRepositoryComponent getNetworkRepositoryComponent() {
-        return mNetworkRepositoryComponent;
     }
 
     public StorageComponent getStorageComponent() {

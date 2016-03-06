@@ -21,7 +21,6 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
 import com.tlongdev.spicio.presentation.presenter.SearchSeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesDetailsActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SearchSeriesAdapter;
@@ -57,8 +56,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
         super.onCreate(savedInstanceState);
         presenter = new SearchSeriesPresenter(
                 ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                new TraktRepositoryImpl((SpicioApplication)getActivity().getApplication())
+                MainThreadImpl.getInstance()
         );
         presenter.attachView(this);
     }
@@ -115,5 +113,10 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
         intent.putExtra(SeriesDetailsActivity.EXTRA_TRAKT_ID, series.getTraktId());
         intent.putExtra(SeriesDetailsActivity.EXTRA_POSTER, series.getImages().getPoster().getFull());
         startActivity(intent);
+    }
+
+    @Override
+    public SpicioApplication getSpicioApplication() {
+        return (SpicioApplication) getActivity().getApplication();
     }
 }

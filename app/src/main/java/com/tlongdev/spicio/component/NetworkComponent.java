@@ -1,8 +1,13 @@
 package com.tlongdev.spicio.component;
 
+import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TvdbSearchInteractorImpl;
 import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
 import com.tlongdev.spicio.domain.repository.impl.TvdbRepositoryImpl;
 import com.tlongdev.spicio.module.NetworkModule;
+import com.tlongdev.spicio.module.NetworkRepositoryModule;
+import com.tlongdev.spicio.module.SpicioAppModule;
 
 import javax.inject.Singleton;
 
@@ -13,8 +18,11 @@ import dagger.Component;
  * @since 2016. 02. 25.
  */
 @Singleton
-@Component(modules = {NetworkModule.class})
+@Component(modules = {SpicioAppModule.class, NetworkModule.class, NetworkRepositoryModule.class})
 public interface NetworkComponent {
     void inject(TvdbRepositoryImpl tvdbServiceRepository);
     void inject(TraktRepositoryImpl traktRepository);
+    void inject(TvdbSearchInteractorImpl tvdbSearchInteractorInstance);
+    void inject(TraktSearchInteractorImpl traktSearchInteractor);
+    void inject(TraktSeriesDetailsInteractorImpl traktSeriesDetailsInteractor);
 }

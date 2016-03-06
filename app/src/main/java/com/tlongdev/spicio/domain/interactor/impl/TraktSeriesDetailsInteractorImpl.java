@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktSeriesDetailsInteractor;
@@ -7,21 +8,25 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.threading.MainThread;
 
+import javax.inject.Inject;
+
 /**
  * @author Long
  * @since 2016. 03. 04.
  */
 public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor implements TraktSeriesDetailsInteractor {
 
-    private TraktRepository mRepository;
+    @Inject TraktRepository mRepository;
+
     private Callback mCallback;
     private int mTraktId;
 
     public TraktSeriesDetailsInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                            int traktId, TraktRepository repository,
+                                            SpicioApplication app, int traktId,
                                             Callback callback) {
         super(threadExecutor, mainThread);
-        mRepository = repository;
+        app.getNetworkComponent().inject(this);
+
         mCallback = callback;
         mTraktId = traktId;
     }

@@ -19,7 +19,6 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
 import com.tlongdev.spicio.presentation.presenter.SeriesDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
 import com.tlongdev.spicio.storage.dao.impl.SeriesDaoImpl;
@@ -59,7 +58,6 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
         presenter = new SeriesDetailsPresenter(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                new TraktRepositoryImpl((SpicioApplication)getApplication()),
                 new SeriesDaoImpl((SpicioApplication)getApplication()));
 
         presenter.attachView(this);
@@ -88,6 +86,11 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public SpicioApplication getSpicioApplication() {
+        return (SpicioApplication) getApplication();
     }
 
     @Override

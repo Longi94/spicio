@@ -1,9 +1,14 @@
 package com.tlongdev.spicio.domain.interactor;
 
+import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.component.DaggerNetworkComponent;
+import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
+import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
+import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
 
@@ -24,6 +29,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class TraktSeriesDetailsInteractorTest {
+
     @Mock
     private TraktRepository mRepository;
 
@@ -33,11 +39,24 @@ public class TraktSeriesDetailsInteractorTest {
     @Mock
     private TraktSeriesDetailsInteractor.Callback mMockedCallback;
 
+    @Mock
+    private SpicioApplication mApp;
+
     private MainThread mMainThread;
 
     @Before
     public void setUp() {
         mMainThread = new TestMainThread();
+
+        FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
+        networkRepositoryModule.setTraktRepository(mRepository);
+
+        NetworkComponent component = DaggerNetworkComponent.builder()
+                .spicioAppModule(new SpicioAppModule(mApp))
+                .networkRepositoryModule(networkRepositoryModule)
+                .build();
+
+        when(mApp.getNetworkComponent()).thenReturn(component);
     }
 
     @Test
@@ -47,7 +66,7 @@ public class TraktSeriesDetailsInteractorTest {
         when(mRepository.getSeriesDetails(0)).thenReturn(series);
 
         TraktSeriesDetailsInteractorImpl interactor = new TraktSeriesDetailsInteractorImpl(
-                mExecutor, mMainThread, 0, mRepository, mMockedCallback
+                mExecutor, mMainThread, mApp, 0, mMockedCallback
         );
         interactor.run();
         verify(mRepository).getSeriesDetails(0);
@@ -61,7 +80,7 @@ public class TraktSeriesDetailsInteractorTest {
         when(mRepository.getSeriesDetails(0)).thenReturn(null);
 
         TraktSeriesDetailsInteractorImpl interactor = new TraktSeriesDetailsInteractorImpl(
-                mExecutor, mMainThread, 0, mRepository, mMockedCallback
+                mExecutor, mMainThread, mApp, 0, mMockedCallback
         );
         interactor.run();
 

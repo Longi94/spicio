@@ -22,14 +22,10 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 @Module
 public class NetworkModule {
 
-    public NetworkModule() {
-
-    }
-
     @Provides
     @Singleton
     TraktApiInterceptor provideTraktApiInterceptor() {
-        return new TraktApiInterceptor(BuildConfig.TRAKT_API_KEY); // TODO: 2016. 03. 02.
+        return new TraktApiInterceptor(BuildConfig.TRAKT_API_KEY);
     }
 
     @Provides
