@@ -41,7 +41,7 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
 
     @Override
     public void run() {
-        logger.verbose(LOG_TAG, "started");
+        logger.debug(LOG_TAG, "started");
 
         List<TvdbSeriesOld> searchResult = mRepository.searchSeries(mSearchQuery);
 
@@ -51,7 +51,7 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
             postResult(searchResult);
         }
 
-        logger.verbose(LOG_TAG, "finished");
+        logger.debug(LOG_TAG, "finished");
     }
 
     private void postError() {

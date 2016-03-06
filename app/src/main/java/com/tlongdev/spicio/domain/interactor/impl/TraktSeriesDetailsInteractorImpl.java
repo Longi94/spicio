@@ -37,7 +37,7 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
 
     @Override
     public void run() {
-        logger.verbose(LOG_TAG, "started");
+        logger.debug(LOG_TAG, "started");
 
         Series series = mRepository.getSeriesDetails(mTraktId);
 
@@ -47,7 +47,7 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
             postResult(series);
         }
 
-        logger.verbose(LOG_TAG, "finished");
+        logger.debug(LOG_TAG, "finished");
     }
 
 

@@ -45,7 +45,7 @@ public class TraktRepositoryImpl implements TraktRepository {
 
             Call<List<TraktSearchResult>> call = traktInterface.searchByText(query, "show");
 
-            logger.verbose(LOG_TAG, "calling " + call.request().url().toString());
+            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktSearchResult>> response = call.execute();
 
             if (response.body() == null) {
@@ -54,13 +54,13 @@ public class TraktRepositoryImpl implements TraktRepository {
             } else {
                 List<Series> series = new LinkedList<>();
 
-                logger.verbose(LOG_TAG, "converting search result result");
+                logger.debug(LOG_TAG, "converting search result result");
 
                 for (TraktSearchResult result : response.body()) {
                     series.add(TraktModelConverter.convertToSeries(result.getSeries()));
                 }
 
-                logger.verbose(LOG_TAG, "search API returned " + series.size() + " items");
+                logger.debug(LOG_TAG, "search API returned " + series.size() + " items");
 
                 return series;
             }
@@ -76,14 +76,14 @@ public class TraktRepositoryImpl implements TraktRepository {
         try {
             Call<TraktSeries> call = traktInterface.getSeriesDetails(String.valueOf(traktId));
 
-            logger.verbose(LOG_TAG, "calling " + call.request().url().toString());
+            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<TraktSeries> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
                 logger.error(LOG_TAG, "call returned null with code " + code);
             } else {
-                logger.verbose(LOG_TAG, "converting traktseries object");
+                logger.debug(LOG_TAG, "converting traktseries object");
                 return TraktModelConverter.convertToSeries(response.body());
             }
         } catch (IOException e) {

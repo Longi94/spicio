@@ -36,8 +36,8 @@ public class TraktApiInterceptor implements Interceptor {
                 .addHeader("trakt-api-key", apiKey)
                 .build();
 
-        logger.verbose(LOG_TAG, "intercepted call " + originalRequest.url());
-        logger.verbose(LOG_TAG, "added headers:\n" + newRequest.headers().toString());
+        logger.debug(LOG_TAG, "intercepted call " + originalRequest.url());
+        logger.debug(LOG_TAG, "added headers:\n" + newRequest.headers().toString());
         return chain.proceed(newRequest);
     }
 }

@@ -39,7 +39,7 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
 
     @Override
     public void run() {
-        logger.verbose(LOG_TAG, "started");
+        logger.debug(LOG_TAG, "started");
 
         List<Series> searchResult = mRepository.searchSeries(mSearchQuery);
 
@@ -49,7 +49,7 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
             postResult(searchResult);
         }
 
-        logger.verbose(LOG_TAG, "finished");
+        logger.debug(LOG_TAG, "finished");
     }
 
     private void postError() {

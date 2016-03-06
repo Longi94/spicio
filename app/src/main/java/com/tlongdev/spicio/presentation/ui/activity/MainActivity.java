@@ -22,6 +22,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.presentation.presenter.MainPresenter;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
+import com.tlongdev.spicio.presentation.ui.fragment.SeriesFragment;
 import com.tlongdev.spicio.presentation.ui.view.activity.MainView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
@@ -48,8 +49,10 @@ public class MainActivity extends AppCompatActivity
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
     public static final String FRAGMENT_TAG_SEARCH_SERIES = "search_series";
+    public static final String FRAGMENT_TAG_SERIES = "series";
 
-    public static final int NAV_SEARCH_SERIES = 0;
+    public static final int NAV_SERIES = 0;
+    public static final int NAV_SEARCH_SERIES = 1;
 
     /**
      * The index of the current fragment.
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity
 
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        switchFragment(NAV_SEARCH_SERIES);
+        switchFragment(NAV_SERIES);
     }
 
     @Override
@@ -127,6 +130,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_search_series:
                 switchFragment(NAV_SEARCH_SERIES);
                 break;
+            case R.id.nav_series:
+                switchFragment(NAV_SERIES);
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -171,6 +177,13 @@ public class MainActivity extends AppCompatActivity
                     newFragment = new SearchSeriesFragment();
                 }
                 transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_SEARCH_SERIES);
+                break;
+            case NAV_SERIES:
+                newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_SERIES);
+                if (newFragment == null) {
+                    newFragment = new SeriesFragment();
+                }
+                transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_SERIES);
                 break;
         }
 

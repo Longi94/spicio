@@ -54,6 +54,11 @@ dependencies {
 
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile('com.squareup.retrofit2:converter-simplexml:2.0.0-beta4') {
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'com.android.support:support-v4:23.2.0'
@@ -64,11 +69,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.okhttp3:okhttp:3.1.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-    compile ('com.squareup.retrofit2:converter-simplexml:2.0.0-beta4'){
-        exclude group: 'xpp3', module: 'xpp3'
-        exclude group: 'stax', module: 'stax-api'
-        exclude group: 'stax', module: 'stax'
-    }
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'net.danlew:android.joda:2.9.2'
 }

@@ -42,14 +42,14 @@ public class TvdbRepositoryImpl implements TvdbRepository {
         try {
             Call<TvdbSeriesPayload> call = tvdbInterface.getSeries(query);
 
-            logger.verbose(LOG_TAG, "calling " + call.request().url());
+            logger.debug(LOG_TAG, "calling " + call.request().url());
             Response<TvdbSeriesPayload> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
                 logger.error(LOG_TAG, "call returned null with code " + code);
             } else {
-                logger.verbose(LOG_TAG, "converting tvdbseries object");
+                logger.debug(LOG_TAG, "converting tvdbseries object");
                 return TvdbModelConverter.convertToDomainModel(response.body());
             }
         } catch (IOException e) {
