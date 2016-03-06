@@ -21,7 +21,6 @@ import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.SeriesDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
-import com.tlongdev.spicio.storage.dao.impl.SeriesDaoImpl;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.text.DecimalFormat;
@@ -57,8 +56,8 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
 
         presenter = new SeriesDetailsPresenter(
                 ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                new SeriesDaoImpl((SpicioApplication)getApplication()));
+                MainThreadImpl.getInstance()
+        );
 
         presenter.attachView(this);
 

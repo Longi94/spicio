@@ -7,7 +7,6 @@ import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
-import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
 
 /**
@@ -18,12 +17,8 @@ public class SeriesDetailsPresenter extends AbstractPresenter implements Present
 
     private SeriesDetailsView mView;
 
-    private SeriesDao mSeriesDao;
-
-    public SeriesDetailsPresenter(Executor executor, MainThread mainThread,
-                                  SeriesDao seriesDao) {
+    public SeriesDetailsPresenter(Executor executor, MainThread mainThread) {
         super(executor, mainThread);
-        mSeriesDao = seriesDao;
     }
 
     @Override
@@ -56,7 +51,7 @@ public class SeriesDetailsPresenter extends AbstractPresenter implements Present
 
     public void saveSeries(Series series) {
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
-                mExecutor, mMainThread, series, mSeriesDao, this
+                mExecutor, mMainThread, mView.getSpicioApplication(), series, this
         );
 
         interactor.execute();
