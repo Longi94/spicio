@@ -2,6 +2,8 @@ package com.tlongdev.spicio.network.interceptor;
 
 import android.support.annotation.NonNull;
 
+import com.tlongdev.spicio.util.Logger;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -14,10 +16,14 @@ import okhttp3.Response;
  */
 public class TraktApiInterceptor implements Interceptor {
 
-    private String apiKey;
+    private static final String LOG_TAG = TraktApiInterceptor.class.getSimpleName();
 
-    public TraktApiInterceptor(@NonNull String apiKey) {
+    private String apiKey;
+    private Logger logger;
+
+    public TraktApiInterceptor(Logger logger, @NonNull String apiKey) {
         this.apiKey = apiKey;
+        this.logger = logger;
     }
 
     @Override
@@ -30,6 +36,8 @@ public class TraktApiInterceptor implements Interceptor {
                 .addHeader("trakt-api-key", apiKey)
                 .build();
 
+        logger.verbose(LOG_TAG, "intercepted call " + originalRequest.url());
+        logger.verbose(LOG_TAG, "added headers:\n" + newRequest.headers().toString());
         return chain.proceed(newRequest);
     }
 }

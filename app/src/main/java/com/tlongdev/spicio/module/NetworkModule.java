@@ -4,6 +4,7 @@ import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.network.interceptor.TraktApiInterceptor;
+import com.tlongdev.spicio.util.Logger;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -24,8 +25,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    TraktApiInterceptor provideTraktApiInterceptor() {
-        return new TraktApiInterceptor(BuildConfig.TRAKT_API_KEY);
+    TraktApiInterceptor provideTraktApiInterceptor(Logger logger) {
+        return new TraktApiInterceptor(logger, BuildConfig.TRAKT_API_KEY);
     }
 
     @Provides

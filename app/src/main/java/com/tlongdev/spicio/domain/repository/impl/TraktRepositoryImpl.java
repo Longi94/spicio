@@ -8,6 +8,7 @@ import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
 import com.tlongdev.spicio.network.model.TraktSearchResult;
 import com.tlongdev.spicio.network.model.TraktSeries;
+import com.tlongdev.spicio.util.Logger;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -25,7 +27,10 @@ import retrofit2.Retrofit;
  */
 public class TraktRepositoryImpl implements TraktRepository {
 
+    private static final String LOG_TAG = TraktRepositoryImpl.class.getSimpleName();
+
     @Inject @Named("trakt") Retrofit retrofit;
+    @Inject Logger logger;
 
     TraktApiInterface traktInterface;
 
@@ -38,28 +43,49 @@ public class TraktRepositoryImpl implements TraktRepository {
     public List<Series> searchSeries(String query) {
         try {
 
-            List<TraktSearchResult> results = traktInterface.searchByText(query, "show").execute().body();
-            List<Series> series = new LinkedList<>();
+            Call<List<TraktSearchResult>> call = traktInterface.searchByText(query, "show");
 
-            for (TraktSearchResult result : results) {
-                series.add(TraktModelConverter.convertToSeries(result.getSeries()));
+            logger.verbose(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<TraktSearchResult>> response = call.execute();
+
+            if (response.body() == null) {
+                int code = response.raw().code();
+                logger.error(LOG_TAG, "call returned null with code " + code);
+            } else {
+                List<Series> series = new LinkedList<>();
+
+                logger.verbose(LOG_TAG, "converting search result result");
+
+                for (TraktSearchResult result : response.body()) {
+                    series.add(TraktModelConverter.convertToSeries(result.getSeries()));
+                }
+
+                logger.verbose(LOG_TAG, "search API returned " + series.size() + " items");
+
+                return series;
             }
-
-            return series;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
     @Override
     public Series getSeriesDetails(int traktId) {
         try {
-            Response<TraktSeries> response = traktInterface.getSeriesDetails(String.valueOf(traktId)).execute();
+            Call<TraktSeries> call = traktInterface.getSeriesDetails(String.valueOf(traktId));
 
-            return TraktModelConverter.convertToSeries(response.body());
+            logger.verbose(LOG_TAG, "calling " + call.request().url().toString());
+            Response<TraktSeries> response = call.execute();
+
+            if (response.body() == null) {
+                int code = response.raw().code();
+                logger.error(LOG_TAG, "call returned null with code " + code);
+            } else {
+                logger.verbose(LOG_TAG, "converting traktseries object");
+                return TraktModelConverter.convertToSeries(response.body());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

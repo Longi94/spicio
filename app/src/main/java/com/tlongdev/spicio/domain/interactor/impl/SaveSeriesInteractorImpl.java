@@ -7,6 +7,7 @@ import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
+import com.tlongdev.spicio.util.Logger;
 
 import javax.inject.Inject;
 
@@ -16,7 +17,11 @@ import javax.inject.Inject;
  */
 public class SaveSeriesInteractorImpl extends AbstractInteractor implements SaveSeriesInteractor {
 
+    private static final String LOG_TAG = SaveSeriesInteractorImpl.class.getSimpleName();
+
     @Inject SeriesDao mSeriesDao;
+    @Inject Logger logger;
+
     private Series mSeries;
     private Callback mCallback;
 
@@ -32,9 +37,12 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
 
     @Override
     public void run() {
+        logger.verbose(LOG_TAG, "tarted");
         // TODO: 2016. 03. 05. send to server, don't insert on failure
         // TODO: 2016. 03. 05. get image links and staffs
         mSeriesDao.insertSeries(mSeries);
         mCallback.onFinish();
+
+        logger.verbose(LOG_TAG, "finished");
     }
 }

@@ -7,6 +7,7 @@ import com.tlongdev.spicio.domain.interactor.TraktSearchInteractor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.threading.MainThread;
+import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
 
@@ -18,7 +19,10 @@ import javax.inject.Inject;
  */
 public class TraktSearchInteractorImpl extends AbstractInteractor implements TraktSearchInteractor {
 
+    private static final String LOG_TAG = TraktSearchInteractorImpl.class.getSimpleName();
+
     @Inject TraktRepository mRepository;
+    @Inject Logger logger;
 
     private String mSearchQuery;
     private Callback mCallback;
@@ -35,6 +39,8 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
 
     @Override
     public void run() {
+        logger.verbose(LOG_TAG, "started");
+
         List<Series> searchResult = mRepository.searchSeries(mSearchQuery);
 
         if (searchResult == null) {
@@ -42,6 +48,8 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
         } else {
             postResult(searchResult);
         }
+
+        logger.verbose(LOG_TAG, "finished");
     }
 
     private void postError() {

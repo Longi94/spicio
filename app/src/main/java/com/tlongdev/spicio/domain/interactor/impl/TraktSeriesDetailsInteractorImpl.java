@@ -7,6 +7,7 @@ import com.tlongdev.spicio.domain.interactor.TraktSeriesDetailsInteractor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.threading.MainThread;
+import com.tlongdev.spicio.util.Logger;
 
 import javax.inject.Inject;
 
@@ -16,7 +17,10 @@ import javax.inject.Inject;
  */
 public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor implements TraktSeriesDetailsInteractor {
 
+    private static final String LOG_TAG = TraktSeriesDetailsInteractorImpl.class.getSimpleName();
+
     @Inject TraktRepository mRepository;
+    @Inject Logger logger;
 
     private Callback mCallback;
     private int mTraktId;
@@ -33,6 +37,8 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
 
     @Override
     public void run() {
+        logger.verbose(LOG_TAG, "started");
+
         Series series = mRepository.getSeriesDetails(mTraktId);
 
         if (series == null) {
@@ -41,6 +47,7 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
             postResult(series);
         }
 
+        logger.verbose(LOG_TAG, "finished");
     }
 
 

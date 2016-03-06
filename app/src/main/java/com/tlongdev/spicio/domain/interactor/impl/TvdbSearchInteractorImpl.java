@@ -7,6 +7,7 @@ import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractor;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
 import com.tlongdev.spicio.threading.MainThread;
+import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
 
@@ -20,7 +21,10 @@ import javax.inject.Inject;
  */
 public class TvdbSearchInteractorImpl extends AbstractInteractor implements TvdbSearchInteractor {
 
+    private static final String LOG_TAG = TvdbSearchInteractorImpl.class.getSimpleName();
+
     @Inject TvdbRepository mRepository;
+    @Inject Logger logger;
 
     private String mSearchQuery;
     private Callback mCallback;
@@ -37,6 +41,8 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
 
     @Override
     public void run() {
+        logger.verbose(LOG_TAG, "started");
+
         List<TvdbSeriesOld> searchResult = mRepository.searchSeries(mSearchQuery);
 
         if (searchResult == null) {
@@ -44,6 +50,8 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
         } else {
             postResult(searchResult);
         }
+
+        logger.verbose(LOG_TAG, "finished");
     }
 
     private void postError() {

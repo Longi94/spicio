@@ -2,6 +2,9 @@ package com.tlongdev.spicio.module;
 
 import android.app.Application;
 
+import com.tlongdev.spicio.util.AndroidLogger;
+import com.tlongdev.spicio.util.Logger;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -24,5 +27,11 @@ public class SpicioAppModule {
     @Singleton
     Application provideApplication() {
         return mApplication;
+    }
+
+    @Provides
+    @Singleton
+    Logger provideLogger() {
+        return new AndroidLogger();
     }
 }
