@@ -4,7 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.tlongdev.spicio.storage.DatabaseContract.*;
+import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.ImagesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 
 /**
  * Outer Layer, Storage.
@@ -101,10 +105,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 "UNIQUE (" + FriendsEntry.COLUMN_USER_ID + ") ON CONFLICT REPLACE);";
 
+        final String SQL_CREATE_IMAGES_TABLE = "CREATE TABLE " + ImagesEntry.TABLE_NAME + " (" +
+                ImagesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+
+                ImagesEntry.COLUMN_ITEM_ID + " INTEGER NOT NULL, " +
+                ImagesEntry.COLUMN_SIZE + " TEXT NOT NULL, " +
+                ImagesEntry.COLUMN_TYPE + " TEXT NOT NULL, " +
+                ImagesEntry.COLUMN_URL + " TEXT NOT NULL, " +
+
+                "UNIQUE (" + ImagesEntry.COLUMN_ITEM_ID + ", " + ImagesEntry.COLUMN_SIZE  + ", " +
+                ImagesEntry.COLUMN_TYPE + ") ON CONFLICT REPLACE);";
+
         db.execSQL(SQL_CREATE_SERIES_TABLE);
         db.execSQL(SQL_CREATE_EPISODES_TABLE);
         db.execSQL(SQL_CREATE_FEED_TABLE);
         db.execSQL(SQL_CREATE_FRIENDS_TABLE);
+        db.execSQL(SQL_CREATE_IMAGES_TABLE);
     }
 
     @Override
@@ -113,6 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + EpisodesEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + FriendsEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ImagesEntry.TABLE_NAME);
 
         onCreate(db);
     }

@@ -30,6 +30,7 @@ public class DatabaseContract {
     public static final String PATH_EPISODES = "episodes";
     public static final String PATH_FEED = "feed";
     public static final String PATH_FRIENDS = "friends";
+    public static final String PATH_IMAGES = "IMAGES";
 
     public static final class SeriesEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
@@ -89,6 +90,23 @@ public class DatabaseContract {
 
         public static final String COLUMN_SERIES_TRAKT_ID = "series_trakt_id";
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";
+
+        public static Uri buildUri(long id) {
+            return CONTENT_URI.buildUpon().appendPath("id").appendPath("" + id).build();
+        }
+    }
+
+    public static final class ImagesEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_IMAGES).build();
+
+        public static final String TABLE_NAME = "images";
+
+        public static final String COLUMN_ITEM_ID = "item_id";
+        public static final String COLUMN_SIZE = "size";
+        public static final String COLUMN_TYPE = "type";
+        public static final String COLUMN_URL = "url";
 
         public static Uri buildUri(long id) {
             return CONTENT_URI.buildUpon().appendPath("id").appendPath("" + id).build();

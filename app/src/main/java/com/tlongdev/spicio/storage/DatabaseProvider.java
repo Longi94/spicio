@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.ImagesEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 
 /**
@@ -25,6 +26,7 @@ public class DatabaseProvider extends ContentProvider {
     public static final int EPISODES = 101;
     public static final int FEED = 102;
     public static final int FRIENDS = 103;
+    public static final int IMAGES = 104;
 
     /**
      * The URI Matcher used by this content provider
@@ -56,6 +58,7 @@ public class DatabaseProvider extends ContentProvider {
         matcher.addURI(authority, DatabaseContract.PATH_EPISODES, EPISODES);
         matcher.addURI(authority, DatabaseContract.PATH_FEED, FEED);
         matcher.addURI(authority, DatabaseContract.PATH_FRIENDS, FRIENDS);
+        matcher.addURI(authority, DatabaseContract.PATH_IMAGES, IMAGES);
 
         return matcher;
     }
@@ -86,6 +89,9 @@ public class DatabaseProvider extends ContentProvider {
                 break;
             case FRIENDS:
                 tableName = FriendsEntry.TABLE_NAME;
+                break;
+            case IMAGES:
+                tableName = ImagesEntry.TABLE_NAME;
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -130,6 +136,10 @@ public class DatabaseProvider extends ContentProvider {
                 _id = db.insert(FriendsEntry.TABLE_NAME, null, values);
                 returnUri = FriendsEntry.buildUri(_id);
                 break;
+            case IMAGES:
+                _id = db.insert(ImagesEntry.TABLE_NAME, null, values);
+                returnUri = FriendsEntry.buildUri(_id);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -158,6 +168,9 @@ public class DatabaseProvider extends ContentProvider {
                 break;
             case FRIENDS:
                 rowsUpdated = db.update(FriendsEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case IMAGES:
+                rowsUpdated = db.update(ImagesEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -189,6 +202,9 @@ public class DatabaseProvider extends ContentProvider {
             case FRIENDS:
                 rowsDeleted = db.delete(FriendsEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case IMAGES:
+                rowsDeleted = db.delete(ImagesEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -219,6 +235,9 @@ public class DatabaseProvider extends ContentProvider {
                 break;
             case FRIENDS:
                 tableName = FriendsEntry.TABLE_NAME;
+                break;
+            case IMAGES:
+                tableName = ImagesEntry.TABLE_NAME;
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -255,6 +274,8 @@ public class DatabaseProvider extends ContentProvider {
                 return "vnd.android.cursor.dir/" + DatabaseContract.CONTENT_AUTHORITY + "/" + DatabaseContract.PATH_FEED;
             case FRIENDS:
                 return "vnd.android.cursor.dir/" + DatabaseContract.CONTENT_AUTHORITY + "/" + DatabaseContract.PATH_FRIENDS;
+            case IMAGES:
+                return "vnd.android.cursor.dir/" + DatabaseContract.CONTENT_AUTHORITY + "/" + DatabaseContract.PATH_IMAGES;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
