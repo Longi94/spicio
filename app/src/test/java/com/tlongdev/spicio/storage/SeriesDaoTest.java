@@ -11,8 +11,8 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.StorageComponent;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeStorageModule;
-import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
 import com.tlongdev.spicio.network.model.TraktSeries;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
@@ -63,7 +63,7 @@ public class SeriesDaoTest {
         when(mockApplication.getContentResolver()).thenReturn(mContentResolver);
 
         StorageComponent storageComponent = DaggerStorageComponent.builder()
-                .spicioAppModule(new SpicioAppModule(mockApplication))
+                .spicioAppModule(new FakeAppModule(mockApplication))
                 .storageModule(new FakeStorageModule())
                 .build();
 

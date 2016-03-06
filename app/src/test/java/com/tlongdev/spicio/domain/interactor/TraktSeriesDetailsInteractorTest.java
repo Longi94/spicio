@@ -7,8 +7,8 @@ import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
+import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
-import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
 
@@ -52,7 +52,7 @@ public class TraktSeriesDetailsInteractorTest {
         networkRepositoryModule.setTraktRepository(mRepository);
 
         NetworkComponent component = DaggerNetworkComponent.builder()
-                .spicioAppModule(new SpicioAppModule(mApp))
+                .spicioAppModule(new FakeAppModule(mApp))
                 .networkRepositoryModule(networkRepositoryModule)
                 .build();
 

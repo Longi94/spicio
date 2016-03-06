@@ -6,8 +6,8 @@ import com.tlongdev.spicio.component.StorageComponent;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeStorageModule;
-import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
@@ -52,7 +52,7 @@ public class SaveSeriesInteractorTest {
         storageModule.setSeriesDao(mSeriesDao);
 
         StorageComponent component = DaggerStorageComponent.builder()
-                .spicioAppModule(new SpicioAppModule(mApp))
+                .spicioAppModule(new FakeAppModule(mApp))
                 .storageModule(storageModule)
                 .build();
 

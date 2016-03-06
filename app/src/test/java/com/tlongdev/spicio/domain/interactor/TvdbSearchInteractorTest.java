@@ -7,8 +7,8 @@ import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.TvdbSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
+import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
-import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
 
@@ -55,7 +55,7 @@ public class TvdbSearchInteractorTest {
         networkRepositoryModule.setTvdbRepository(mRepository);
 
         NetworkComponent component = DaggerNetworkComponent.builder()
-                .spicioAppModule(new SpicioAppModule(mApp))
+                .spicioAppModule(new FakeAppModule(mApp))
                 .networkRepositoryModule(networkRepositoryModule)
                 .build();
 
