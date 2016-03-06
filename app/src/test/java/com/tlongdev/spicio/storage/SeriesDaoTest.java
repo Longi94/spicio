@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.tlongdev.spicio.BuildConfig;
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.StorageComponent;
 import com.tlongdev.spicio.domain.model.Series;
@@ -66,7 +67,9 @@ public class SeriesDaoTest {
                 .storageModule(new FakeStorageModule())
                 .build();
 
-        mSeriesDao = new SeriesDaoImpl(storageComponent);
+        ((SpicioApplication) RuntimeEnvironment.application).setStorageComponent(storageComponent);
+
+        mSeriesDao = new SeriesDaoImpl((SpicioApplication) RuntimeEnvironment.application);
     }
 
     public void deleteAllRecords(Uri contentUri) {

@@ -73,4 +73,8 @@ public class SpicioApplication extends Application {
     public ReportingComponent getReportingComponent() {
         return mReportingComponent;
     }
+
+    public void setStorageComponent(StorageComponent storageComponent) {
+        this.mStorageComponent = storageComponent;
+    }
 }

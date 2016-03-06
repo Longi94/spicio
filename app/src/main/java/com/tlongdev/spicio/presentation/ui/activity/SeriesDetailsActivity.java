@@ -59,10 +59,8 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
         presenter = new SeriesDetailsPresenter(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                new TraktRepositoryImpl(((SpicioApplication)getApplication())
-                        .getNetworkComponent()),
-                new SeriesDaoImpl(((SpicioApplication)getApplication())
-                        .getStorageComponent()));
+                new TraktRepositoryImpl((SpicioApplication)getApplication()),
+                new SeriesDaoImpl((SpicioApplication)getApplication()));
 
         presenter.attachView(this);
 

@@ -1,6 +1,6 @@
 package com.tlongdev.spicio.domain.repository.impl;
 
-import com.tlongdev.spicio.component.NetworkComponent;
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.TvdbEpisodeOld;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
@@ -26,8 +26,8 @@ public class TvdbRepositoryImpl implements TvdbRepository {
 
     private TvdbInterface tvdbInterface;
 
-    public TvdbRepositoryImpl(NetworkComponent networkComponent) {
-        networkComponent.inject(this);
+    public TvdbRepositoryImpl(SpicioApplication app) {
+        app.getNetworkComponent().inject(this);
         tvdbInterface = retrofit.create(TvdbInterface.class);
     }
 

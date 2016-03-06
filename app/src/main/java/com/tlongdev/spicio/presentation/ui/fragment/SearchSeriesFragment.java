@@ -58,8 +58,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
         presenter = new SearchSeriesPresenter(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                new TraktRepositoryImpl(((SpicioApplication)getActivity().getApplication())
-                        .getNetworkComponent())
+                new TraktRepositoryImpl((SpicioApplication)getActivity().getApplication())
         );
         presenter.attachView(this);
     }

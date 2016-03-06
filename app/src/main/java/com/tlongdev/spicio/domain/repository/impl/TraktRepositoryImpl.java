@@ -1,6 +1,6 @@
 package com.tlongdev.spicio.domain.repository.impl;
 
-import com.tlongdev.spicio.component.NetworkComponent;
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
@@ -29,8 +29,8 @@ public class TraktRepositoryImpl implements TraktRepository {
 
     TraktApiInterface traktInterface;
 
-    public TraktRepositoryImpl(NetworkComponent networkComponent) {
-        networkComponent.inject(this);
+    public TraktRepositoryImpl(SpicioApplication app) {
+        app.getNetworkComponent().inject(this);
         traktInterface = retrofit.create(TraktApiInterface.class);
     }
 

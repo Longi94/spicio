@@ -19,6 +19,6 @@ public class NetworkRepositoryModule {
     @Provides
     @Singleton
     public TvdbRepository provideTvdbRepository(SpicioApplication application) {
-        return new TvdbRepositoryImpl(application.getNetworkComponent());
+        return new TvdbRepositoryImpl(application);
     }
 }

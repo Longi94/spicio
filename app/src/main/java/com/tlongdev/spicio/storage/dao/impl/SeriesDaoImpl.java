@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.tlongdev.spicio.component.StorageComponent;
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
@@ -79,8 +79,8 @@ public class SeriesDaoImpl implements SeriesDao {
     public static final int COLUMN_TVDB_RATING = 22;
     public static final int COLUMN_TVDB_RATING_COUNT = 23;
 
-    public SeriesDaoImpl(StorageComponent storageComponent) {
-        storageComponent.inject(this);
+    public SeriesDaoImpl(SpicioApplication app) {
+        app.getStorageComponent().inject(this);
     }
 
     @SuppressWarnings("WrongConstant")
