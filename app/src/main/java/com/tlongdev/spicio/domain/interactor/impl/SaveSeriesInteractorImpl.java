@@ -37,11 +37,17 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
 
     @Override
     public void run() {
-        logger.verbose(LOG_TAG, "tarted");
+        logger.verbose(LOG_TAG, "started");
         // TODO: 2016. 03. 05. send to server, don't insert on failure
         // TODO: 2016. 03. 05. get image links and staffs
         mSeriesDao.insertSeries(mSeries);
-        mCallback.onFinish();
+
+        mMainThread.post(new Runnable() {
+            @Override
+            public void run() {
+                mCallback.onFinish();
+            }
+        });
 
         logger.verbose(LOG_TAG, "finished");
     }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,8 @@ import butterknife.ButterKnife;
  * @since 2016. 02. 24.
  */
 public class SearchSeriesFragment extends Fragment implements SearchSeriesView, SearchSeriesAdapter.OnItemSelectedListener {
+
+    private static final String LOG_TAG = SearchSeriesFragment.class.getSimpleName();
 
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
     @Bind(R.id.search) EditText mSearchText;
@@ -99,16 +102,19 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
 
     @Override
     public void showSearchResult(List<Series> series) {
+        Log.d(LOG_TAG, "showing search result");
         adapter.setDataSet(series);
     }
 
     @Override
     public void showErrorMessage() {
+        Log.d(LOG_TAG, "showErrorMessage: "); // TODO: 2016. 03. 06.
         adapter.setDataSet(null);
     }
 
     @Override
     public void onItemSelected(Series series) {
+        Log.d(LOG_TAG, "selected item with id: " + series.getTraktId());
         Intent intent = new Intent(getActivity(), SeriesDetailsActivity.class);
         intent.putExtra(SeriesDetailsActivity.EXTRA_TRAKT_ID, series.getTraktId());
         intent.putExtra(SeriesDetailsActivity.EXTRA_POSTER, series.getImages().getPoster().getFull());

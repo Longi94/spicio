@@ -9,6 +9,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
+import com.tlongdev.spicio.util.Logger;
 import com.tlongdev.spicio.util.Utility;
 
 import org.joda.time.DateTime;
@@ -25,7 +26,10 @@ import javax.inject.Inject;
  */
 public class SeriesDaoImpl implements SeriesDao {
 
+    private static final String LOG_TAG = SeriesDaoImpl.class.getSimpleName();
+
     @Inject ContentResolver mContentResolver;
+    @Inject Logger logger;
 
     public static final String[] PROJECTION = {
             SeriesEntry._ID,
@@ -86,6 +90,7 @@ public class SeriesDaoImpl implements SeriesDao {
     @SuppressWarnings("WrongConstant")
     @Override
     public Series getSeries(int traktId) {
+        logger.debug(LOG_TAG, "querying series with id: " + traktId);
         Cursor cursor = mContentResolver.query(
                 SeriesEntry.CONTENT_URI,
                 PROJECTION,
@@ -123,9 +128,13 @@ public class SeriesDaoImpl implements SeriesDao {
                 // TODO: 2016. 03. 05. tvdb ratings
 
                 return series;
+            } else {
+                logger.debug(LOG_TAG, "series not found with id: " + traktId);
             }
 
             cursor.close();
+        } else {
+            logger.warn(LOG_TAG, "query returned null");
         }
         return null;
     }
@@ -137,6 +146,8 @@ public class SeriesDaoImpl implements SeriesDao {
 
     @Override
     public Uri insertSeries(Series series) {
+        logger.debug(LOG_TAG, "inserting series");
+
         ContentValues values = new ContentValues();
 
         values.put(SeriesEntry.COLUMN_TITLE, series.getTitle());
@@ -165,7 +176,14 @@ public class SeriesDaoImpl implements SeriesDao {
         values.put(SeriesEntry.COLUMN_TVDB_RATING, 0.0);
         values.put(SeriesEntry.COLUMN_TVDB_RATING_COUNT, 0);
 
-        return mContentResolver.insert(SeriesEntry.CONTENT_URI, values);
+        Uri uri = mContentResolver.insert(SeriesEntry.CONTENT_URI, values);
+
+        if (uri == null) {
+            logger.warn(LOG_TAG, "insert return null URI");
+        } else {
+            logger.debug(LOG_TAG, "inserted one record into " + SeriesEntry.TABLE_NAME + " table, uri: " + uri.toString());
+        }
+        return uri;
     }
 
     @Override

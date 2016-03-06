@@ -1,5 +1,7 @@
 package com.tlongdev.spicio.presentation.presenter;
 
+import android.util.Log;
+
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktSeriesDetailsInteractor;
@@ -14,6 +16,8 @@ import com.tlongdev.spicio.threading.MainThread;
  * @since 2016. 03. 04.
  */
 public class SeriesDetailsPresenter extends AbstractPresenter implements Presenter<SeriesDetailsView>,TraktSeriesDetailsInteractor.Callback, SaveSeriesInteractor.Callback {
+
+    private static final String LOG_TAG = SeriesDetailsPresenter.class.getSimpleName();
 
     private SeriesDetailsView mView;
 
@@ -41,15 +45,18 @@ public class SeriesDetailsPresenter extends AbstractPresenter implements Present
 
     @Override
     public void onResult(Series series) {
+        Log.d(LOG_TAG, "onResult() called");
         mView.showDetails(series);
     }
 
     @Override
     public void onFail() {
+        Log.d(LOG_TAG, "onFail() called");
         mView.reportError();
     }
 
     public void saveSeries(Series series) {
+        Log.d(LOG_TAG, "saveSeries() called");
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
                 mExecutor, mMainThread, mView.getSpicioApplication(), series, this
         );
@@ -59,6 +66,7 @@ public class SeriesDetailsPresenter extends AbstractPresenter implements Present
 
     @Override
     public void onFinish() {
+        Log.d(LOG_TAG, "onFinish() called with: " + "");
         mView.onSeriesSaved();
     }
 }

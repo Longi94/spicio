@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +32,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDetailsView {
+
+    private static final String LOG_TAG = SeriesDetailsActivity.class.getSimpleName();
 
     public static final String EXTRA_TRAKT_ID = "trakt_id";
     public static final String EXTRA_POSTER = "poster";
@@ -94,6 +97,7 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
 
     @Override
     public void showDetails(final Series series) {
+        Log.d(LOG_TAG, "show details of " + series.getTitle());
         mSeries = series;
 
         Glide.with(this)
@@ -118,23 +122,27 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
 
     @Override
     public void reportError() {
+        Log.w(LOG_TAG, "reportError: failed to get details of a series");
         Toast.makeText(this, "Fail!", Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void onSeriesSaved() {
+        Log.d(LOG_TAG, "onSeriesSaved: close the activity");
         finish();
     }
 
     @OnClick(R.id.trailer)
     public void openTrailer(Button button) {
+        Log.d(LOG_TAG, "clicked on trailer button");
         Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl));
         startActivity(myIntent);
     }
 
     @OnClick(R.id.save)
     public void saveSeries(Button button) {
+        Log.d(LOG_TAG, "clicked on save button");
         presenter.saveSeries(mSeries);
     }
 }

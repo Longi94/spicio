@@ -37,6 +37,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements MainView, NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
     @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @Bind(R.id.nav_view) NavigationView mNavigationView;
 
