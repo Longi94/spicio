@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.domain.model.Image;
+import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
@@ -56,6 +58,9 @@ public class SeriesDaoImpl implements SeriesDao {
             SeriesEntry.COLUMN_GENRES,
             SeriesEntry.COLUMN_TVDB_RATING,
             SeriesEntry.COLUMN_TVDB_RATING_COUNT,
+            SeriesEntry.COLUMN_POSTER_FULL,
+            SeriesEntry.COLUMN_POSTER_THUMB,
+            SeriesEntry.COLUMN_THUMB,
     };
 
     public static final int COLUMN_ID = 0;
@@ -82,6 +87,9 @@ public class SeriesDaoImpl implements SeriesDao {
     public static final int COLUMN_GENRES = 21;
     public static final int COLUMN_TVDB_RATING = 22;
     public static final int COLUMN_TVDB_RATING_COUNT = 23;
+    public static final int COLUMN_POSTER_FULL = 24;
+    public static final int COLUMN_POSTER_THUMB = 25;
+    public static final int COLUMN_THUMB = 26;
 
     public SeriesDaoImpl(SpicioApplication app) {
         app.getStorageComponent().inject(this);
@@ -126,6 +134,19 @@ public class SeriesDaoImpl implements SeriesDao {
                 series.setGenres(cursor.getString(COLUMN_GENRES).split("\\|"));
 
                 // TODO: 2016. 03. 05. tvdb ratings
+
+                Images images = new Images();
+
+                Image poster = new Image();
+                poster.setFull(cursor.getString(COLUMN_POSTER_FULL));
+                poster.setThumb(cursor.getString(COLUMN_POSTER_THUMB));
+                images.setPoster(poster);
+
+                Image thumb = new Image();
+                thumb.setFull(cursor.getString(COLUMN_THUMB));
+                images.setThumb(thumb);
+
+                series.setImages(images);
 
                 return series;
             } else {
@@ -175,6 +196,10 @@ public class SeriesDaoImpl implements SeriesDao {
         // TODO: 2016. 03. 05.
         values.put(SeriesEntry.COLUMN_TVDB_RATING, 0.0);
         values.put(SeriesEntry.COLUMN_TVDB_RATING_COUNT, 0);
+
+        values.put(SeriesEntry.COLUMN_POSTER_FULL, series.getImages().getPoster().getFull());
+        values.put(SeriesEntry.COLUMN_POSTER_THUMB, series.getImages().getPoster().getThumb());
+        values.put(SeriesEntry.COLUMN_THUMB, series.getImages().getThumb().getFull());
 
         Uri uri = mContentResolver.insert(SeriesEntry.CONTENT_URI, values);
 
