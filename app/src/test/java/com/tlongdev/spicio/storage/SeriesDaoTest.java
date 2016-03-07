@@ -10,6 +10,8 @@ import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.StorageComponent;
+import com.tlongdev.spicio.domain.model.Image;
+import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeStorageModule;
@@ -93,6 +95,12 @@ public class SeriesDaoTest {
         Gson gson = new Gson();
         TraktSeries traktSeries = gson.fromJson(dummyResponse, TraktSeries.class);
         Series series = TraktModelConverter.convertToSeries(traktSeries);
+        series.setImages(new Images());
+        series.getImages().setPoster(new Image());
+        series.getImages().getPoster().setFull("test_poster_full");
+        series.getImages().getPoster().setThumb("test_poster_thumb");
+        series.getImages().setThumb(new Image());
+        series.getImages().getThumb().setFull("test_thumb_full");
 
         mSeriesDao.insertSeries(series);
 
@@ -122,6 +130,10 @@ public class SeriesDaoTest {
         assertEquals(series.getImdbId(), newSeries.getImdbId());
         assertEquals(series.getTmdbId(), newSeries.getTmdbId());
         assertEquals(series.getTvRageId(), newSeries.getTvRageId());
+
+        assertEquals(series.getImages().getPoster().getFull(), newSeries.getImages().getPoster().getFull());
+        assertEquals(series.getImages().getPoster().getThumb(), newSeries.getImages().getPoster().getThumb());
+        assertEquals(series.getImages().getThumb().getFull(), newSeries.getImages().getThumb().getFull());
 
         assertArrayEquals(series.getGenres(), newSeries.getGenres());
     }
