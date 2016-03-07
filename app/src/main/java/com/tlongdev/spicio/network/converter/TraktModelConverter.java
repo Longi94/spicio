@@ -1,10 +1,12 @@
 package com.tlongdev.spicio.network.converter;
 
 import com.tlongdev.spicio.domain.model.Day;
+import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.Status;
+import com.tlongdev.spicio.network.model.TraktEpisode;
 import com.tlongdev.spicio.network.model.TraktImage;
 import com.tlongdev.spicio.network.model.TraktImages;
 import com.tlongdev.spicio.network.model.TraktSeries;
@@ -138,5 +140,32 @@ public class TraktModelConverter {
         }
 
         return series;
+    }
+
+    public static Episode convertToEpisode(TraktEpisode traktEpisode) {
+        Episode episode = new Episode();
+
+        episode.setSeason(traktEpisode.getSeason());
+        episode.setNumber(traktEpisode.getNumber());
+        episode.setTitle(traktEpisode.getTitle());
+        episode.setImages(convertToImages(traktEpisode.getImages()));
+        episode.setAbsoluteNumber(traktEpisode.getNumberAbs() == null ? -1 : traktEpisode.getNumberAbs());
+        episode.setOverview(traktEpisode.getOverview());
+        episode.setTraktRating(traktEpisode.getRating());
+        episode.setTraktRatingCount(traktEpisode.getVotes());
+
+        episode.setImdbId(traktEpisode.getIds().getImdb());
+        episode.setTmdbId(traktEpisode.getIds().getTmdb() == null ? -1 : traktEpisode.getIds().getTmdb());
+        episode.setTraktId(traktEpisode.getIds().getTrakt() == null ? -1 : traktEpisode.getIds().getTrakt());
+        episode.setTvdbId(traktEpisode.getIds().getTvdb() == null ? -1 : traktEpisode.getIds().getTvdb());
+        episode.setTvRageId(traktEpisode.getIds().getTvrage() == null ? -1 : traktEpisode.getIds().getTvrage());
+        episode.setSlugName(traktEpisode.getIds().getSlug());
+
+        if (traktEpisode.getFirstAired() != null) {
+            DateTimeFormatter dateFormatter = ISODateTimeFormat.dateTime(); //yyyyMMdd'T'HHmmss.SSSZ
+            episode.setFirstAired(dateFormatter.parseDateTime(traktEpisode.getFirstAired()));
+        }
+
+        return episode;
     }
 }

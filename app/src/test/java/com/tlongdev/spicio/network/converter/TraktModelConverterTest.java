@@ -3,8 +3,10 @@ package com.tlongdev.spicio.network.converter;
 import com.google.gson.Gson;
 import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.domain.model.Day;
+import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.Status;
+import com.tlongdev.spicio.network.model.TraktEpisode;
 import com.tlongdev.spicio.network.model.TraktSeries;
 import com.tlongdev.spicio.util.TestUtils;
 
@@ -74,5 +76,34 @@ public class TraktModelConverterTest {
                 "adventure",
                 "action"
         }, series.getGenres());
+    }
+
+    @Test
+    public void testConvertEpisode() {
+        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_episode_detail_mock.json");
+        assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        assertNotNull(dummyResponse);
+
+        Gson gson = new Gson();
+        TraktEpisode traktEpisode = gson.fromJson(dummyResponse, TraktEpisode.class);
+        assertNotNull(traktEpisode);
+
+        Episode episode = TraktModelConverter.convertToEpisode(traktEpisode);
+
+        assertEquals(1, episode.getSeason());
+        assertEquals(1, episode.getNumber());
+        assertEquals("Winter Is Coming", episode.getTitle());
+        assertEquals(73640, episode.getTraktId());
+        assertEquals(3254641, episode.getTvdbId());
+        assertEquals("tt1480055", episode.getImdbId());
+        assertEquals(63056, episode.getTmdbId());
+        assertEquals(1065008299, episode.getTvRageId());
+        assertEquals(-1, episode.getAbsoluteNumber());
+        assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverview());
+        assertEquals(8.56194, episode.getTraktRating(), 0);
+        assertEquals(3778, episode.getTraktRatingCount());
+        assertEquals(1303088400000L, episode.getFirstAired().getMillis());
     }
 }
