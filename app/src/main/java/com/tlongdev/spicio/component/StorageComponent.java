@@ -2,6 +2,7 @@ package com.tlongdev.spicio.component;
 
 import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.module.StorageModule;
+import com.tlongdev.spicio.storage.dao.impl.EpisodeDaoImpl;
 import com.tlongdev.spicio.storage.dao.impl.SeriesDaoImpl;
 
 import javax.inject.Singleton;
@@ -16,4 +17,5 @@ import dagger.Component;
 @Component(modules = {SpicioAppModule.class, StorageModule.class})
 public interface StorageComponent {
     void inject(SeriesDaoImpl seriesDao);
+    void inject(EpisodeDaoImpl episodeDao);
 }

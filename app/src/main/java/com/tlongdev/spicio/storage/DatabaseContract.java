@@ -92,6 +92,8 @@ public class DatabaseContract {
         public static final String COLUMN_TRAKT_RATING_COUNT = "trakt_rating_count";
         public static final String COLUMN_SCREENSHOT_FULL = "screenshot_full";
         public static final String COLUMN_SCREENSHOT_THUMB = "screenshot_thumb";
+        public static final String COLUMN_WATCHED = "watched";
+        public static final String COLUMN_LIKED = "liked";
 
         public static final String COLUMN_SERIES_TRAKT_ID = "series_trakt_id";
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";

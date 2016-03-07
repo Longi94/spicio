@@ -75,6 +75,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 EpisodesEntry.COLUMN_TVDB_RATING + " REAL, " +
                 EpisodesEntry.COLUMN_SCREENSHOT_FULL + " TEXT, " +
                 EpisodesEntry.COLUMN_SCREENSHOT_THUMB + " TEXT, " +
+                EpisodesEntry.COLUMN_WATCHED + " INTEGER NOT NULL, " +
+                EpisodesEntry.COLUMN_LIKED + " INTEGER NOT NULL, " +
 
                 "UNIQUE (" + EpisodesEntry.COLUMN_TRAKT_ID + ") ON CONFLICT REPLACE);";
 
