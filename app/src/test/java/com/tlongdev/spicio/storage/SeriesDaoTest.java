@@ -17,6 +17,7 @@ import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeStorageModule;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
 import com.tlongdev.spicio.network.model.TraktSeries;
+import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.storage.dao.impl.SeriesDaoImpl;
 import com.tlongdev.spicio.util.TestUtils;
@@ -52,6 +53,9 @@ public class SeriesDaoTest {
 
     private SeriesDao mSeriesDao;
 
+    private Series mSeries;
+    private Series mAnotherSeries;
+
     @Before
     public void setUp() throws Exception {
         DatabaseProvider provider = new DatabaseProvider();
@@ -60,7 +64,7 @@ public class SeriesDaoTest {
         provider.onCreate();
         mShadowContentResolver = Shadows.shadowOf(mContentResolver);
 
-        deleteAllRecords(DatabaseContract.SeriesEntry.CONTENT_URI);
+        deleteAllRecords(SeriesEntry.CONTENT_URI);
 
         Application mockApplication = mock(Application.class);
         when(mockApplication.getContentResolver()).thenReturn(mContentResolver);
@@ -73,6 +77,34 @@ public class SeriesDaoTest {
         ((SpicioApplication) RuntimeEnvironment.application).setStorageComponent(storageComponent);
 
         mSeriesDao = new SeriesDaoImpl((SpicioApplication) RuntimeEnvironment.application);
+
+
+        Images images = new Images();
+        images.setPoster(new Image());
+        images.getPoster().setFull("test_poster_full");
+        images.getPoster().setThumb("test_poster_thumb");
+        images.setThumb(new Image());
+        images.getThumb().setFull("test_thumb_full");
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_series_details_mock.json");
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        Gson gson = new Gson();
+        TraktSeries traktSeries = gson.fromJson(dummyResponse, TraktSeries.class);
+        mSeries = TraktModelConverter.convertToSeries(traktSeries);
+        mSeries.setImages(images);
+
+        Uri uri = mSeriesDao.insertSeries(mSeries);
+        assertNotNull(uri);
+
+
+        is = getClass().getClassLoader().getResourceAsStream("trakt_series_details_mock2.json");
+        dummyResponse = TestUtils.convertStreamToString(is);
+        traktSeries = gson.fromJson(dummyResponse, TraktSeries.class);
+        mAnotherSeries = TraktModelConverter.convertToSeries(traktSeries);
+        mAnotherSeries.setImages(images);
+
+        uri = mSeriesDao.insertSeries(mAnotherSeries);
+        assertNotNull(uri);
     }
 
     public void deleteAllRecords(Uri contentUri) {
@@ -91,79 +123,42 @@ public class SeriesDaoTest {
     @Test
     public void testBasicQuery() {
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_series_details_mock.json");
-        String dummyResponse = TestUtils.convertStreamToString(is);
-        Gson gson = new Gson();
-        TraktSeries traktSeries = gson.fromJson(dummyResponse, TraktSeries.class);
-        Series series = TraktModelConverter.convertToSeries(traktSeries);
-        series.setImages(new Images());
-        series.getImages().setPoster(new Image());
-        series.getImages().getPoster().setFull("test_poster_full");
-        series.getImages().getPoster().setThumb("test_poster_thumb");
-        series.getImages().setThumb(new Image());
-        series.getImages().getThumb().setFull("test_thumb_full");
-
-        Uri uri = mSeriesDao.insertSeries(series);
-        assertNotNull(uri);
-
-        Series newSeries = mSeriesDao.getSeries(series.getTraktId());
+        Series newSeries = mSeriesDao.getSeries(mSeries.getTraktId());
 
         assertNotNull(newSeries);
-        assertEquals(series.getTitle(), newSeries.getTitle());
-        assertEquals(series.getYear(), newSeries.getYear());
-        assertEquals(series.getOverview(), newSeries.getOverview());
+        assertEquals(mSeries.getTitle(), newSeries.getTitle());
+        assertEquals(mSeries.getYear(), newSeries.getYear());
+        assertEquals(mSeries.getOverview(), newSeries.getOverview());
 
-        assertEquals(series.getFirstAired().getMillis(), newSeries.getFirstAired().getMillis());
-        assertEquals(series.getRuntime(), newSeries.getRuntime());
-        assertEquals(series.getCertification(), newSeries.getCertification());
-        assertEquals(series.getNetwork(), newSeries.getNetwork());
-        assertEquals(series.getTrailer(), newSeries.getTrailer());
-        assertEquals(series.getStatus(), newSeries.getStatus());
-        assertEquals(series.getTraktRating(), newSeries.getTraktRating(), 0);
-        assertEquals(series.getTraktRatingCount(), newSeries.getTraktRatingCount());
+        assertEquals(mSeries.getFirstAired().getMillis(), newSeries.getFirstAired().getMillis());
+        assertEquals(mSeries.getRuntime(), newSeries.getRuntime());
+        assertEquals(mSeries.getCertification(), newSeries.getCertification());
+        assertEquals(mSeries.getNetwork(), newSeries.getNetwork());
+        assertEquals(mSeries.getTrailer(), newSeries.getTrailer());
+        assertEquals(mSeries.getStatus(), newSeries.getStatus());
+        assertEquals(mSeries.getTraktRating(), newSeries.getTraktRating(), 0);
+        assertEquals(mSeries.getTraktRatingCount(), newSeries.getTraktRatingCount());
 
-        assertEquals(series.getDayOfAiring(), newSeries.getDayOfAiring());
-        assertEquals(series.getTimeOfAiring().getMillisOfDay(), newSeries.getTimeOfAiring().getMillisOfDay());
-        assertEquals(series.getAirTimeZone().getID(), newSeries.getAirTimeZone().getID());
+        assertEquals(mSeries.getDayOfAiring(), newSeries.getDayOfAiring());
+        assertEquals(mSeries.getTimeOfAiring().getMillisOfDay(), newSeries.getTimeOfAiring().getMillisOfDay());
+        assertEquals(mSeries.getAirTimeZone().getID(), newSeries.getAirTimeZone().getID());
 
-        assertEquals(series.getTraktId(), newSeries.getTraktId());
-        assertEquals(series.getSlugName(), newSeries.getSlugName());
-        assertEquals(series.getTvdbId(), newSeries.getTvdbId());
-        assertEquals(series.getImdbId(), newSeries.getImdbId());
-        assertEquals(series.getTmdbId(), newSeries.getTmdbId());
-        assertEquals(series.getTvRageId(), newSeries.getTvRageId());
+        assertEquals(mSeries.getTraktId(), newSeries.getTraktId());
+        assertEquals(mSeries.getSlugName(), newSeries.getSlugName());
+        assertEquals(mSeries.getTvdbId(), newSeries.getTvdbId());
+        assertEquals(mSeries.getImdbId(), newSeries.getImdbId());
+        assertEquals(mSeries.getTmdbId(), newSeries.getTmdbId());
+        assertEquals(mSeries.getTvRageId(), newSeries.getTvRageId());
 
-        assertEquals(series.getImages().getPoster().getFull(), newSeries.getImages().getPoster().getFull());
-        assertEquals(series.getImages().getPoster().getThumb(), newSeries.getImages().getPoster().getThumb());
-        assertEquals(series.getImages().getThumb().getFull(), newSeries.getImages().getThumb().getFull());
+        assertEquals(mSeries.getImages().getPoster().getFull(), newSeries.getImages().getPoster().getFull());
+        assertEquals(mSeries.getImages().getPoster().getThumb(), newSeries.getImages().getPoster().getThumb());
+        assertEquals(mSeries.getImages().getThumb().getFull(), newSeries.getImages().getThumb().getFull());
 
-        assertArrayEquals(series.getGenres(), newSeries.getGenres());
+        assertArrayEquals(mSeries.getGenres(), newSeries.getGenres());
     }
 
     @Test
     public void testMultipleQuery() {
-        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_series_details_mock.json");
-        String dummyResponse = TestUtils.convertStreamToString(is);
-        Gson gson = new Gson();
-        TraktSeries traktSeries = gson.fromJson(dummyResponse, TraktSeries.class);
-        Series series = TraktModelConverter.convertToSeries(traktSeries);
-        Series anotherSeries = TraktModelConverter.convertToSeries(traktSeries);
-
-        Images images = new Images();
-        images.setPoster(new Image());
-        images.getPoster().setFull("test_poster_full");
-        images.getPoster().setThumb("test_poster_thumb");
-        images.setThumb(new Image());
-        images.getThumb().setFull("test_thumb_full");
-
-        series.setImages(images);
-        anotherSeries.setImages(images);
-        anotherSeries.setTraktId(0);
-
-        Uri uri = mSeriesDao.insertSeries(series);
-        assertNotNull(uri);
-        uri = mSeriesDao.insertSeries(anotherSeries);
-        assertNotNull(uri);
 
         List<Series> seriesList = mSeriesDao.getAllSeries();
         assertNotNull(seriesList);
@@ -171,67 +166,67 @@ public class SeriesDaoTest {
         Series newSeries = seriesList.get(0);
 
         assertNotNull(newSeries);
-        assertEquals(series.getTitle(), newSeries.getTitle());
-        assertEquals(series.getYear(), newSeries.getYear());
-        assertEquals(series.getOverview(), newSeries.getOverview());
+        assertEquals(mSeries.getTitle(), newSeries.getTitle());
+        assertEquals(mSeries.getYear(), newSeries.getYear());
+        assertEquals(mSeries.getOverview(), newSeries.getOverview());
 
-        assertEquals(series.getFirstAired().getMillis(), newSeries.getFirstAired().getMillis());
-        assertEquals(series.getRuntime(), newSeries.getRuntime());
-        assertEquals(series.getCertification(), newSeries.getCertification());
-        assertEquals(series.getNetwork(), newSeries.getNetwork());
-        assertEquals(series.getTrailer(), newSeries.getTrailer());
-        assertEquals(series.getStatus(), newSeries.getStatus());
-        assertEquals(series.getTraktRating(), newSeries.getTraktRating(), 0);
-        assertEquals(series.getTraktRatingCount(), newSeries.getTraktRatingCount());
+        assertEquals(mSeries.getFirstAired().getMillis(), newSeries.getFirstAired().getMillis());
+        assertEquals(mSeries.getRuntime(), newSeries.getRuntime());
+        assertEquals(mSeries.getCertification(), newSeries.getCertification());
+        assertEquals(mSeries.getNetwork(), newSeries.getNetwork());
+        assertEquals(mSeries.getTrailer(), newSeries.getTrailer());
+        assertEquals(mSeries.getStatus(), newSeries.getStatus());
+        assertEquals(mSeries.getTraktRating(), newSeries.getTraktRating(), 0);
+        assertEquals(mSeries.getTraktRatingCount(), newSeries.getTraktRatingCount());
 
-        assertEquals(series.getDayOfAiring(), newSeries.getDayOfAiring());
-        assertEquals(series.getTimeOfAiring().getMillisOfDay(), newSeries.getTimeOfAiring().getMillisOfDay());
-        assertEquals(series.getAirTimeZone().getID(), newSeries.getAirTimeZone().getID());
+        assertEquals(mSeries.getDayOfAiring(), newSeries.getDayOfAiring());
+        assertEquals(mSeries.getTimeOfAiring().getMillisOfDay(), newSeries.getTimeOfAiring().getMillisOfDay());
+        assertEquals(mSeries.getAirTimeZone().getID(), newSeries.getAirTimeZone().getID());
 
-        assertEquals(series.getTraktId(), newSeries.getTraktId());
-        assertEquals(series.getSlugName(), newSeries.getSlugName());
-        assertEquals(series.getTvdbId(), newSeries.getTvdbId());
-        assertEquals(series.getImdbId(), newSeries.getImdbId());
-        assertEquals(series.getTmdbId(), newSeries.getTmdbId());
-        assertEquals(series.getTvRageId(), newSeries.getTvRageId());
+        assertEquals(mSeries.getTraktId(), newSeries.getTraktId());
+        assertEquals(mSeries.getSlugName(), newSeries.getSlugName());
+        assertEquals(mSeries.getTvdbId(), newSeries.getTvdbId());
+        assertEquals(mSeries.getImdbId(), newSeries.getImdbId());
+        assertEquals(mSeries.getTmdbId(), newSeries.getTmdbId());
+        assertEquals(mSeries.getTvRageId(), newSeries.getTvRageId());
 
-        assertEquals(series.getImages().getPoster().getFull(), newSeries.getImages().getPoster().getFull());
-        assertEquals(series.getImages().getPoster().getThumb(), newSeries.getImages().getPoster().getThumb());
-        assertEquals(series.getImages().getThumb().getFull(), newSeries.getImages().getThumb().getFull());
+        assertEquals(mSeries.getImages().getPoster().getFull(), newSeries.getImages().getPoster().getFull());
+        assertEquals(mSeries.getImages().getPoster().getThumb(), newSeries.getImages().getPoster().getThumb());
+        assertEquals(mSeries.getImages().getThumb().getFull(), newSeries.getImages().getThumb().getFull());
 
-        assertArrayEquals(series.getGenres(), newSeries.getGenres());
+        assertArrayEquals(mSeries.getGenres(), newSeries.getGenres());
 
         newSeries = seriesList.get(1);
 
         assertNotNull(newSeries);
-        assertEquals(anotherSeries.getTitle(), newSeries.getTitle());
-        assertEquals(anotherSeries.getYear(), newSeries.getYear());
-        assertEquals(anotherSeries.getOverview(), newSeries.getOverview());
+        assertEquals(mAnotherSeries.getTitle(), newSeries.getTitle());
+        assertEquals(mAnotherSeries.getYear(), newSeries.getYear());
+        assertEquals(mAnotherSeries.getOverview(), newSeries.getOverview());
 
-        assertEquals(anotherSeries.getFirstAired().getMillis(), newSeries.getFirstAired().getMillis());
-        assertEquals(anotherSeries.getRuntime(), newSeries.getRuntime());
-        assertEquals(anotherSeries.getCertification(), newSeries.getCertification());
-        assertEquals(anotherSeries.getNetwork(), newSeries.getNetwork());
-        assertEquals(anotherSeries.getTrailer(), newSeries.getTrailer());
-        assertEquals(anotherSeries.getStatus(), newSeries.getStatus());
-        assertEquals(anotherSeries.getTraktRating(), newSeries.getTraktRating(), 0);
-        assertEquals(anotherSeries.getTraktRatingCount(), newSeries.getTraktRatingCount());
+        assertEquals(mAnotherSeries.getFirstAired().getMillis(), newSeries.getFirstAired().getMillis());
+        assertEquals(mAnotherSeries.getRuntime(), newSeries.getRuntime());
+        assertEquals(mAnotherSeries.getCertification(), newSeries.getCertification());
+        assertEquals(mAnotherSeries.getNetwork(), newSeries.getNetwork());
+        assertEquals(mAnotherSeries.getTrailer(), newSeries.getTrailer());
+        assertEquals(mAnotherSeries.getStatus(), newSeries.getStatus());
+        assertEquals(mAnotherSeries.getTraktRating(), newSeries.getTraktRating(), 0);
+        assertEquals(mAnotherSeries.getTraktRatingCount(), newSeries.getTraktRatingCount());
 
-        assertEquals(anotherSeries.getDayOfAiring(), newSeries.getDayOfAiring());
-        assertEquals(anotherSeries.getTimeOfAiring().getMillisOfDay(), newSeries.getTimeOfAiring().getMillisOfDay());
-        assertEquals(anotherSeries.getAirTimeZone().getID(), newSeries.getAirTimeZone().getID());
+        assertEquals(mAnotherSeries.getDayOfAiring(), newSeries.getDayOfAiring());
+        assertEquals(mAnotherSeries.getTimeOfAiring().getMillisOfDay(), newSeries.getTimeOfAiring().getMillisOfDay());
+        assertEquals(mAnotherSeries.getAirTimeZone().getID(), newSeries.getAirTimeZone().getID());
 
-        assertEquals(anotherSeries.getTraktId(), newSeries.getTraktId());
-        assertEquals(anotherSeries.getSlugName(), newSeries.getSlugName());
-        assertEquals(anotherSeries.getTvdbId(), newSeries.getTvdbId());
-        assertEquals(anotherSeries.getImdbId(), newSeries.getImdbId());
-        assertEquals(anotherSeries.getTmdbId(), newSeries.getTmdbId());
-        assertEquals(anotherSeries.getTvRageId(), newSeries.getTvRageId());
+        assertEquals(mAnotherSeries.getTraktId(), newSeries.getTraktId());
+        assertEquals(mAnotherSeries.getSlugName(), newSeries.getSlugName());
+        assertEquals(mAnotherSeries.getTvdbId(), newSeries.getTvdbId());
+        assertEquals(mAnotherSeries.getImdbId(), newSeries.getImdbId());
+        assertEquals(mAnotherSeries.getTmdbId(), newSeries.getTmdbId());
+        assertEquals(mAnotherSeries.getTvRageId(), newSeries.getTvRageId());
 
-        assertEquals(anotherSeries.getImages().getPoster().getFull(), newSeries.getImages().getPoster().getFull());
-        assertEquals(anotherSeries.getImages().getPoster().getThumb(), newSeries.getImages().getPoster().getThumb());
-        assertEquals(anotherSeries.getImages().getThumb().getFull(), newSeries.getImages().getThumb().getFull());
+        assertEquals(mAnotherSeries.getImages().getPoster().getFull(), newSeries.getImages().getPoster().getFull());
+        assertEquals(mAnotherSeries.getImages().getPoster().getThumb(), newSeries.getImages().getPoster().getThumb());
+        assertEquals(mAnotherSeries.getImages().getThumb().getFull(), newSeries.getImages().getThumb().getFull());
 
-        assertArrayEquals(anotherSeries.getGenres(), newSeries.getGenres());
+        assertArrayEquals(mAnotherSeries.getGenres(), newSeries.getGenres());
     }
 }

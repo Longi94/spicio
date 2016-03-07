@@ -49,18 +49,18 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public void insertAllEpisodes(List<Episode> episodes) {
-
+    public int insertAllEpisodes(List<Episode> episodes) {
+        return 0;
     }
 
     @Override
-    public void deleteAllEpisodes(int seriesId) {
-
+    public int deleteAllEpisodes(int seriesId) {
+        return 0;
     }
 
     @Override
-    public void deleteAllEpisodes() {
-
+    public int deleteAllEpisodes() {
+        return 0;
     }
 
     @Override
@@ -69,8 +69,8 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public void setWatched(int episodeId, boolean watched) {
-
+    public int setWatched(int episodeId, boolean watched) {
+        return 0;
     }
 
     @Override

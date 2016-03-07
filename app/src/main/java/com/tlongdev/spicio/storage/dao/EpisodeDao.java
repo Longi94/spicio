@@ -57,20 +57,23 @@ public interface EpisodeDao {
      * Insert a list of episodes into the database.
      *
      * @param episodes the episodes to insert
+     * @return number of rows inserted
      */
-    void insertAllEpisodes(List<Episode> episodes);
+    int insertAllEpisodes(List<Episode> episodes);
 
     /**
      * Delete all episodes of a series from the table.
      *
      * @param seriesId the id of the series
+     * @return number of rows deleted
      */
-    void deleteAllEpisodes(int seriesId);
+    int deleteAllEpisodes(int seriesId);
 
     /**
      * Deletes all the episode records from the database.
+     * @return number of rows deleted
      */
-    void deleteAllEpisodes();
+    int deleteAllEpisodes();
 
     /**
      * Checks whether an episode is watched or not.
@@ -84,9 +87,10 @@ public interface EpisodeDao {
      * Set the watched property of an episode
      *
      * @param episodeId the id of the series
-     * @param watched   whatched or not
+     * @param watched   watched or not
+     * @return number of rows updated
      */
-    void setWatched(int episodeId, boolean watched);
+    int setWatched(int episodeId, boolean watched);
 
     /**
      * Get a list of upcoming episodes.
