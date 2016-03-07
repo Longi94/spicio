@@ -5,10 +5,12 @@ import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
-import com.tlongdev.spicio.module.NetworkRepositoryModule;
+import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
@@ -43,19 +45,25 @@ public class SaveSeriesInteractorTest {
     @Mock
     private SpicioApplication mApp;
 
+    @Mock
+    private TraktRepository mTraktRepository;
+
     private MainThread mMainThread;
 
     @Before
     public void setUp() {
         mMainThread = new TestMainThread();
 
-        FakeDaoModule storageModule = new FakeDaoModule();
-        storageModule.setSeriesDao(mSeriesDao);
+        FakeDaoModule daoModule = new FakeDaoModule();
+        daoModule.setSeriesDao(mSeriesDao);
+
+        FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
+        networkRepositoryModule.setTraktRepository(mTraktRepository);
 
         InteractorComponent component = DaggerInteractorComponent.builder()
                 .spicioAppModule(new FakeAppModule(mApp))
-                .daoModule(storageModule)
-                .networkRepositoryModule(mock(NetworkRepositoryModule.class))
+                .daoModule(daoModule)
+                .networkRepositoryModule(networkRepositoryModule)
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -66,11 +74,14 @@ public class SaveSeriesInteractorTest {
 
         Series series = mock(Series.class);
 
+        when(mTraktRepository.getImages(series.getTraktId(), true)).thenReturn(new Images());
+
         SaveSeriesInteractorImpl interactor = new SaveSeriesInteractorImpl(
                 mExecutor, mMainThread, mApp, series, mMockedCallback
         );
         interactor.run();
 
+        verify(mTraktRepository).getImages(series.getTraktId(), true);
         verify(mSeriesDao).insertSeries(series);
         verifyNoMoreInteractions(mSeriesDao);
         verify(mMockedCallback).onFinish();
