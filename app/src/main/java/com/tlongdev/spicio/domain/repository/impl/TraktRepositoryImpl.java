@@ -2,6 +2,7 @@ package com.tlongdev.spicio.domain.repository.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.network.TraktApiInterface;
@@ -88,6 +89,35 @@ public class TraktRepositoryImpl implements TraktRepository {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public Images getImages(int traktId, boolean isSeries) {
+
+        if (isSeries) {
+            try {
+
+                Call<TraktSeries> call = traktInterface.getSeriesImages(String.valueOf(traktId));
+
+                logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+                Response<TraktSeries> response = call.execute();
+
+                if (response.body() == null) {
+                    int code = response.raw().code();
+                    logger.error(LOG_TAG, "call returned null with code " + code);
+                } else {
+                    logger.debug(LOG_TAG, "converting traktseries object");
+                    return TraktModelConverter.convertToImages(response.body().getImages());
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // TODO: 2016. 03. 07.
         }
 
         return null;

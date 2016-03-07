@@ -4,6 +4,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
+import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
@@ -21,7 +22,7 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
     private static final String LOG_TAG = SaveSeriesInteractorImpl.class.getSimpleName();
 
     @Inject SeriesDao mSeriesDao;
-    @Inject TraktRepository mRepository;
+    @Inject TraktRepository mTraktRepository;
     @Inject Logger logger;
 
     private Series mSeries;
@@ -40,17 +41,42 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
     @Override
     public void run() {
         logger.debug(LOG_TAG, "started");
+
+        logger.debug(LOG_TAG, "getting image links for series");
+        Images images = mTraktRepository.getImages(mSeries.getTraktId(), true);
+
+        if (images == null) {
+            logger.debug(LOG_TAG, "TraktRepository.getImages returned null");
+            postError();
+            return;
+        }
+
+        mSeries.setImages(images);
+
+        // TODO: 2016. 03. 05. get staffs
         // TODO: 2016. 03. 05. send to server, don't insert on failure
-        // TODO: 2016. 03. 05. get image links and staffs
         mSeriesDao.insertSeries(mSeries);
 
+        postFinish();
+
+        logger.debug(LOG_TAG, "finished");
+    }
+
+    private void postError() {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
                 mCallback.onFinish();
             }
         });
+    }
 
-        logger.debug(LOG_TAG, "finished");
+    private void postFinish() {
+        mMainThread.post(new Runnable() {
+            @Override
+            public void run() {
+                mCallback.onFinish();
+            }
+        });
     }
 }

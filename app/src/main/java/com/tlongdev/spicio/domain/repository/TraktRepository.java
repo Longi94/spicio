@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.domain.repository;
 
 import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface TraktRepository {
     List<Series> searchSeries(String query);
 
     Series getSeriesDetails(int traktId);
+
+    Images getImages(int traktId, boolean isSeries);
 
     List<Episode> getEpisodesForSeries(int traktId);
 
