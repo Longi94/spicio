@@ -2,6 +2,8 @@ package com.tlongdev.spicio.network.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * @author Long
  * @since 2016. 03. 01.
@@ -31,6 +33,9 @@ public class TraktSeason {
 
     @SerializedName("overview")
     private String overview;
+
+    @SerializedName("episodes")
+    private List<TraktEpisode> episodes;
 
     public int getNumber() {
         return number;
@@ -62,5 +67,9 @@ public class TraktSeason {
 
     public String getOverview() {
         return overview;
+    }
+
+    public List<TraktEpisode> getEpisodes() {
+        return episodes;
     }
 }

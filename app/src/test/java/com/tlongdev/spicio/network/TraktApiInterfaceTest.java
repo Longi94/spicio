@@ -374,6 +374,53 @@ public class TraktApiInterfaceTest {
     }
 
     @Test
+    public void testSeasonEpisodesParsing() throws IOException {
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_seasons_episodes_mock.json");
+        assertNotNull(is);
+
+        String dummyResponse = TestUtils.convertStreamToString(is);
+        assertNotNull(dummyResponse);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new FakeInterceptor(dummyResponse, "json"))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TraktApiInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        TraktApiInterface service = retrofit.create(TraktApiInterface.class);
+
+        Response<List<TraktSeason>> response = service.getSeasonsEpisodes("game-of-thrones").execute();
+
+        List<TraktSeason> seasons = response.body();
+        assertNotNull(seasons);
+        assertEquals(7, seasons.size());
+
+        TraktSeason season = seasons.get(1);
+        assertNotNull(season);
+        assertEquals(1, season.getNumber());
+
+        List<TraktEpisode> episodes = season.getEpisodes();
+        assertNotNull(episodes);
+
+        TraktEpisode episode = episodes.get(0);
+        assertNotNull(episode);
+
+        assertEquals(1, episode.getSeason());
+        assertEquals(1, episode.getNumber());
+        assertEquals("Winter Is Coming", episode.getTitle());
+        assertEquals(73640, episode.getIds().getTrakt().intValue());
+        assertEquals(3254641,episode.getIds().getTvdb().intValue());
+        assertEquals("tt1480055", episode.getIds().getImdb());
+        assertEquals(63056, episode.getIds().getTmdb().intValue());
+        assertEquals(1065008299, episode.getIds().getTvrage().intValue());
+    }
+
+    @Test
     public void testEpisodeDetailParsing() throws IOException {
 
         InputStream is = getClass().getClassLoader().getResourceAsStream("trakt_episode_detail_mock.json");

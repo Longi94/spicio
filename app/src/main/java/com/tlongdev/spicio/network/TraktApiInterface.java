@@ -78,6 +78,9 @@ public interface TraktApiInterface {
     @GET("shows/{id}/seasons?extended=images")
     Call<List<TraktSeason>> getSeasonsImages(@Path("id") String id);
 
+    @GET("shows/{id}/seasons?extended=episodes")
+    Call<List<TraktSeason>> getSeasonsEpisodes(@Path("id") String id);
+
     /**
      * Get the episodes of a season of a series
      *
