@@ -60,13 +60,15 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
         postFinish();
 
         logger.debug(LOG_TAG, "finished");
+
+        throw new IllegalThreadStateException("aasdasas");
     }
 
     private void postError() {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish();
+                mCallback.onFail();
             }
         });
     }
