@@ -18,6 +18,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -95,7 +96,6 @@ public class SeriesDaoImpl implements SeriesDao {
         app.getStorageComponent().inject(this);
     }
 
-    @SuppressWarnings("WrongConstant")
     @Override
     public Series getSeries(int traktId) {
         logger.debug(LOG_TAG, "querying series with id: " + traktId);
@@ -109,46 +109,7 @@ public class SeriesDaoImpl implements SeriesDao {
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                Series series = new Series();
-
-                series.setTitle(cursor.getString(COLUMN_TITLE));
-                series.setYear(cursor.getInt(COLUMN_YEAR));
-                series.setTraktId(cursor.getInt(COLUMN_TRAKT_ID));
-                series.setTvdbId(cursor.getInt(COLUMN_TVDB_ID));
-                series.setImdbId(cursor.getString(COLUMN_IMDB_ID));
-                series.setTmdbId(cursor.getInt(COLUMN_TMDB_ID));
-                series.setTvRageId(cursor.getInt(COLUMN_TV_RAGE_ID));
-                series.setSlugName(cursor.getString(COLUMN_SLUG));
-                series.setOverview(cursor.getString(COLUMN_OVERVIEW));
-                series.setFirstAired(new DateTime(cursor.getLong(COLUMN_FIRST_AIRED)));
-                series.setDayOfAiring(cursor.getInt(COLUMN_DAY_OF_AIR));
-                series.setTimeOfAiring(LocalTime.fromMillisOfDay(cursor.getLong(COLUMN_TIME_OF_AIR)));
-                series.setAirTimeZone(DateTimeZone.forID(cursor.getString(COLUMN_AIR_TIME_ZONE)));
-                series.setRuntime(cursor.getInt(COLUMN_RUNTIME));
-                series.setCertification(cursor.getString(COLUMN_CONTENT_RATING));
-                series.setNetwork(cursor.getString(COLUMN_NETWORK));
-                series.setTrailer(cursor.getString(COLUMN_TRAILER));
-                series.setStatus(cursor.getInt(COLUMN_STATUS));
-                series.setTraktRating(cursor.getDouble(COLUMN_TRAKT_RATING));
-                series.setTraktRatingCount(cursor.getInt(COLUMN_TRAKT_RATING_COUNT));
-                series.setGenres(cursor.getString(COLUMN_GENRES).split("\\|"));
-
-                // TODO: 2016. 03. 05. tvdb ratings
-
-                Images images = new Images();
-
-                Image poster = new Image();
-                poster.setFull(cursor.getString(COLUMN_POSTER_FULL));
-                poster.setThumb(cursor.getString(COLUMN_POSTER_THUMB));
-                images.setPoster(poster);
-
-                Image thumb = new Image();
-                thumb.setFull(cursor.getString(COLUMN_THUMB));
-                images.setThumb(thumb);
-
-                series.setImages(images);
-
-                return series;
+                return mapCursorToSeries(cursor);
             } else {
                 logger.debug(LOG_TAG, "series not found with id: " + traktId);
             }
@@ -162,7 +123,27 @@ public class SeriesDaoImpl implements SeriesDao {
 
     @Override
     public List<Series> getAllSeries() {
-        return null;
+        logger.debug(LOG_TAG, "querying series with id");
+        Cursor cursor = mContentResolver.query(
+                SeriesEntry.CONTENT_URI,
+                PROJECTION,
+                null,
+                null,
+                null
+        );
+
+        List<Series> seriesList = new LinkedList<>();
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    seriesList.add(mapCursorToSeries(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return seriesList;
     }
 
     @Override
@@ -219,5 +200,49 @@ public class SeriesDaoImpl implements SeriesDao {
     @Override
     public void deleteAllSeries() {
 
+    }
+
+    @SuppressWarnings("WrongConstant")
+    private Series mapCursorToSeries(Cursor cursor) {
+        Series series = new Series();
+
+        series.setTitle(cursor.getString(COLUMN_TITLE));
+        series.setYear(cursor.getInt(COLUMN_YEAR));
+        series.setTraktId(cursor.getInt(COLUMN_TRAKT_ID));
+        series.setTvdbId(cursor.getInt(COLUMN_TVDB_ID));
+        series.setImdbId(cursor.getString(COLUMN_IMDB_ID));
+        series.setTmdbId(cursor.getInt(COLUMN_TMDB_ID));
+        series.setTvRageId(cursor.getInt(COLUMN_TV_RAGE_ID));
+        series.setSlugName(cursor.getString(COLUMN_SLUG));
+        series.setOverview(cursor.getString(COLUMN_OVERVIEW));
+        series.setFirstAired(new DateTime(cursor.getLong(COLUMN_FIRST_AIRED)));
+        series.setDayOfAiring(cursor.getInt(COLUMN_DAY_OF_AIR));
+        series.setTimeOfAiring(LocalTime.fromMillisOfDay(cursor.getLong(COLUMN_TIME_OF_AIR)));
+        series.setAirTimeZone(DateTimeZone.forID(cursor.getString(COLUMN_AIR_TIME_ZONE)));
+        series.setRuntime(cursor.getInt(COLUMN_RUNTIME));
+        series.setCertification(cursor.getString(COLUMN_CONTENT_RATING));
+        series.setNetwork(cursor.getString(COLUMN_NETWORK));
+        series.setTrailer(cursor.getString(COLUMN_TRAILER));
+        series.setStatus(cursor.getInt(COLUMN_STATUS));
+        series.setTraktRating(cursor.getDouble(COLUMN_TRAKT_RATING));
+        series.setTraktRatingCount(cursor.getInt(COLUMN_TRAKT_RATING_COUNT));
+        series.setGenres(cursor.getString(COLUMN_GENRES).split("\\|"));
+
+        // TODO: 2016. 03. 05. tvdb ratings
+
+        Images images = new Images();
+
+        Image poster = new Image();
+        poster.setFull(cursor.getString(COLUMN_POSTER_FULL));
+        poster.setThumb(cursor.getString(COLUMN_POSTER_THUMB));
+        images.setPoster(poster);
+
+        Image thumb = new Image();
+        thumb.setFull(cursor.getString(COLUMN_THUMB));
+        images.setThumb(thumb);
+
+        series.setImages(images);
+
+        return series;
     }
 }
