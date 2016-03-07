@@ -1,12 +1,13 @@
 package com.tlongdev.spicio.domain.interactor;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.component.DaggerNetworkComponent;
-import com.tlongdev.spicio.component.NetworkComponent;
+import com.tlongdev.spicio.component.DaggerInteractorComponent;
+import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
+import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
 import com.tlongdev.spicio.threading.MainThread;
@@ -54,12 +55,13 @@ public class TraktSearchInteractorTest {
         FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
         networkRepositoryModule.setTraktRepository(mRepository);
 
-        NetworkComponent component = DaggerNetworkComponent.builder()
+        InteractorComponent component = DaggerInteractorComponent.builder()
                 .spicioAppModule(new FakeAppModule(mApp))
                 .networkRepositoryModule(networkRepositoryModule)
+                .daoModule(mock(DaoModule.class))
                 .build();
 
-        when(mApp.getNetworkComponent()).thenReturn(component);
+        when(mApp.getInteractorComponent()).thenReturn(component);
     }
 
     @Test

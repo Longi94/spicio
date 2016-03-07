@@ -2,10 +2,13 @@ package com.tlongdev.spicio;
 
 import android.app.Application;
 
+import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
+import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.component.StorageComponent;
+import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.NetworkModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
@@ -21,6 +24,8 @@ import net.danlew.android.joda.JodaTimeAndroid;
  */
 public class SpicioApplication extends Application {
 
+    private InteractorComponent mInteractorComponent;
+
     private NetworkComponent mNetworkComponent;
 
     private StorageComponent mStorageComponent;
@@ -33,12 +38,17 @@ public class SpicioApplication extends Application {
         mNetworkComponent = DaggerNetworkComponent.builder()
                 .spicioAppModule(new SpicioAppModule(this))
                 .networkModule(new NetworkModule())
-                .networkRepositoryModule(new NetworkRepositoryModule())
                 .build();
 
         mStorageComponent = DaggerStorageComponent.builder()
                 .spicioAppModule(new SpicioAppModule(this))
                 .storageModule(new StorageModule())
+                .build();
+
+        mInteractorComponent = DaggerInteractorComponent.builder()
+                .spicioAppModule(new SpicioAppModule(this))
+                .networkRepositoryModule(new NetworkRepositoryModule())
+                .daoModule(new DaoModule())
                 .build();
     }
 
@@ -52,5 +62,9 @@ public class SpicioApplication extends Application {
 
     public void setStorageComponent(StorageComponent storageComponent) {
         this.mStorageComponent = storageComponent;
+    }
+
+    public InteractorComponent getInteractorComponent() {
+        return mInteractorComponent;
     }
 }

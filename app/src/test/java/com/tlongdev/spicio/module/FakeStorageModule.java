@@ -11,19 +11,8 @@ import com.tlongdev.spicio.storage.dao.SeriesDao;
  */
 public class FakeStorageModule extends StorageModule {
 
-    private SeriesDao mSeriesDao;
-
     @Override
     ContentResolver provideContentResolver(Application application) {
         return application.getContentResolver();
-    }
-
-    @Override
-    SeriesDao provideSeriesDao(Application application) {
-        return mSeriesDao;
-    }
-
-    public void setSeriesDao(SeriesDao seriesDao) {
-        this.mSeriesDao = seriesDao;
     }
 }

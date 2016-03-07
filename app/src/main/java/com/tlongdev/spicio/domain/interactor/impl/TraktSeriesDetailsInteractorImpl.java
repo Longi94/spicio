@@ -29,7 +29,7 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
                                             SpicioApplication app, int traktId,
                                             Callback callback) {
         super(threadExecutor, mainThread);
-        app.getNetworkComponent().inject(this);
+        app.getInteractorComponent().inject(this);
 
         mCallback = callback;
         mTraktId = traktId;

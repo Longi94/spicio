@@ -33,7 +33,7 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
                                     SpicioApplication app,
                                     String query, Callback callback) {
         super(threadExecutor, mainThread);
-        app.getNetworkComponent().inject(this);
+        app.getInteractorComponent().inject(this);
 
         mSearchQuery = query;
         mCallback = callback;

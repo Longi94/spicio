@@ -5,6 +5,7 @@ import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
@@ -20,6 +21,7 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
     private static final String LOG_TAG = SaveSeriesInteractorImpl.class.getSimpleName();
 
     @Inject SeriesDao mSeriesDao;
+    @Inject TraktRepository mRepository;
     @Inject Logger logger;
 
     private Series mSeries;
@@ -29,7 +31,7 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
                                     SpicioApplication app, Series series,
                                     Callback callback) {
         super(threadExecutor, mainThread);
-        app.getStorageComponent().inject(this);
+        app.getInteractorComponent().inject(this);
 
         mSeries = series;
         mCallback = callback;

@@ -31,7 +31,7 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
                                      SpicioApplication app, String searchQuery,
                                      Callback callback) {
         super(threadExecutor, mainThread);
-        app.getNetworkComponent().inject(this);
+        app.getInteractorComponent().inject(this);
 
         mSearchQuery = searchQuery;
         mCallback = callback;

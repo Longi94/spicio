@@ -1,7 +1,6 @@
 package com.tlongdev.spicio.module;
 
 import android.app.Application;
-import android.content.ContentResolver;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
@@ -15,14 +14,20 @@ import dagger.Provides;
 
 /**
  * @author Long
- * @since 2016. 03. 05.
+ * @since 2016. 03. 07.
  */
 @Module
-public class StorageModule {
+public class DaoModule {
 
     @Provides
     @Singleton
-    ContentResolver provideContentResolver(Application application) {
-        return application.getContentResolver();
+    SeriesDao provideSeriesDao(Application application) {
+        return new SeriesDaoImpl((SpicioApplication) application);
+    }
+
+    @Provides
+    @Singleton
+    EpisodeDao provideEpisodeDao(Application application) {
+        return null; // TODO: 2016. 03. 06.
     }
 }
