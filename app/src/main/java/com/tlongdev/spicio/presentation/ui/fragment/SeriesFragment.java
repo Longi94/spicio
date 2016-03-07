@@ -15,9 +15,13 @@ import android.view.ViewGroup;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
+import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.SeriesPresenter;
+import com.tlongdev.spicio.presentation.ui.adapter.SeriesAdapter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +34,8 @@ public class SeriesFragment extends Fragment implements SeriesView {
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
 
     private SeriesPresenter presenter;
+
+    private SeriesAdapter adapter;
 
     public SeriesFragment() {
         // Required empty public constructor
@@ -55,9 +61,18 @@ public class SeriesFragment extends Fragment implements SeriesView {
         //Set the toolbar to the main activity's action bar
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
+        adapter = new SeriesAdapter(getActivity());
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.loadSeries();
     }
 
     @Override
@@ -69,5 +84,11 @@ public class SeriesFragment extends Fragment implements SeriesView {
     @Override
     public SpicioApplication getSpicioApplication() {
         return (SpicioApplication) getActivity().getApplication();
+    }
+
+    @Override
+    public void showSeries(List<Series> series) {
+        adapter.setDataSet(series);
+        adapter.notifyDataSetChanged();
     }
 }
