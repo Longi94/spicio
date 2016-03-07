@@ -49,6 +49,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 SeriesEntry.COLUMN_GENRES + " TEXT, " +
                 SeriesEntry.COLUMN_TVDB_RATING + " REAL, " +
                 SeriesEntry.COLUMN_TVDB_RATING_COUNT + " INTEGER, " +
+                SeriesEntry.COLUMN_POSTER_FULL + " TEXT, " +
+                SeriesEntry.COLUMN_POSTER_THUMB + " TEXT, " +
+                SeriesEntry.COLUMN_THUMB + " TEXT, " +
 
                 "UNIQUE (" + SeriesEntry.COLUMN_TRAKT_ID + ") ON CONFLICT REPLACE);";
 
@@ -70,8 +73,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 EpisodesEntry.COLUMN_TRAKT_RATING_COUNT + " INTEGER, " +
                 EpisodesEntry.COLUMN_SERIES_TRAKT_ID + " INTEGER, " +
                 EpisodesEntry.COLUMN_TVDB_RATING + " REAL, " +
+                EpisodesEntry.COLUMN_SCREENSHOT_FULL + " TEXT, " +
+                EpisodesEntry.COLUMN_SCREENSHOT_THUMB + " TEXT, " +
 
                 "UNIQUE (" + EpisodesEntry.COLUMN_TRAKT_ID + ") ON CONFLICT REPLACE);";
+
+        final String SQL_CREATE_SEASONS_TABLE = "CREATE TABLE " + SeasonsEntry.TABLE_NAME + " (" +
+                SeasonsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+
+                SeasonsEntry.COLUMN_SERIES_ID + " INTEGER NOT NULL, " +
+                SeasonsEntry.COLUMN_NUMBER + " INTEGER NOT NULL, " +
+                SeasonsEntry.COLUMN_POSTER_FULL + " TEXT, " +
+                SeasonsEntry.COLUMN_POSTER_THUMB + " TEXT, " +
+                SeasonsEntry.COLUMN_THUMB + " TEXT, " +
+
+                "UNIQUE (" + SeasonsEntry.COLUMN_SERIES_ID + ", " + SeasonsEntry.COLUMN_NUMBER + ") ON CONFLICT REPLACE);";
 
         final String SQL_CREATE_FEED_TABLE = "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
                 FeedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -105,6 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_EPISODES_TABLE);
         db.execSQL(SQL_CREATE_FEED_TABLE);
         db.execSQL(SQL_CREATE_FRIENDS_TABLE);
+        db.execSQL(SQL_CREATE_SEASONS_TABLE);
     }
 
     @Override
@@ -113,6 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + EpisodesEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + FriendsEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SeasonsEntry.TABLE_NAME);
 
         onCreate(db);
     }

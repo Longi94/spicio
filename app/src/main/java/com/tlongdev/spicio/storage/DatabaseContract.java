@@ -30,6 +30,7 @@ public class DatabaseContract {
     public static final String PATH_EPISODES = "episodes";
     public static final String PATH_FEED = "feed";
     public static final String PATH_FRIENDS = "friends";
+    public static final String PATH_SEASONS = "seasons";
 
     public static final class SeriesEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
@@ -58,6 +59,9 @@ public class DatabaseContract {
         public static final String COLUMN_TRAKT_RATING = "trakt_rating";
         public static final String COLUMN_TRAKT_RATING_COUNT = "trakt_rating_count";
         public static final String COLUMN_GENRES = "genres";
+        public static final String COLUMN_POSTER_FULL = "poster_full";
+        public static final String COLUMN_POSTER_THUMB = "poster_thumb";
+        public static final String COLUMN_THUMB = "thumb";
 
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";
         public static final String COLUMN_TVDB_RATING_COUNT = "tvdb_rating_count";
@@ -86,9 +90,29 @@ public class DatabaseContract {
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_TRAKT_RATING = "trakt_rating";
         public static final String COLUMN_TRAKT_RATING_COUNT = "trakt_rating_count";
+        public static final String COLUMN_SCREENSHOT_FULL = "screenshot_full";
+        public static final String COLUMN_SCREENSHOT_THUMB = "screenshot_thumb";
 
         public static final String COLUMN_SERIES_TRAKT_ID = "series_trakt_id";
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";
+
+        public static Uri buildUri(long id) {
+            return CONTENT_URI.buildUpon().appendPath("id").appendPath("" + id).build();
+        }
+    }
+
+    public static final class SeasonsEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_SEASONS).build();
+
+        public static final String TABLE_NAME = "seasons";
+
+        public static final String COLUMN_SERIES_ID = "series_id";
+        public static final String COLUMN_NUMBER = "number";
+        public static final String COLUMN_POSTER_FULL = "poster_full";
+        public static final String COLUMN_POSTER_THUMB = "poster_thumb";
+        public static final String COLUMN_THUMB = "thumb";
 
         public static Uri buildUri(long id) {
             return CONTENT_URI.buildUpon().appendPath("id").appendPath("" + id).build();
