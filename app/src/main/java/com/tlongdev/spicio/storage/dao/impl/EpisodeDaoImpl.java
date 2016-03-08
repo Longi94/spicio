@@ -1,13 +1,16 @@
 package com.tlongdev.spicio.storage.dao.impl;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Season;
+import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.util.Logger;
@@ -16,6 +19,7 @@ import org.joda.time.DateTime;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.inject.Inject;
 
@@ -63,7 +67,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
     public Episode getEpisode(int traktId) {
         logger.debug(LOG_TAG, "querying episode with id: " + traktId);
         Cursor cursor = mContentResolver.query(
-                SeriesEntry.CONTENT_URI,
+                EpisodesEntry.CONTENT_URI,
                 PROJECTION,
                 COLUMN_TRAKT_ID + " = ?",
                 new String[]{String.valueOf(traktId)},
@@ -88,7 +92,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
     public List<Episode> getAllEpisodes() {
         logger.debug(LOG_TAG, "querying all episodes");
         Cursor cursor = mContentResolver.query(
-                SeriesEntry.CONTENT_URI,
+                EpisodesEntry.CONTENT_URI,
                 PROJECTION,
                 null,
                 null,
@@ -117,7 +121,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
     public List<Episode> getAllEpisodes(int seriesId) {
         logger.debug(LOG_TAG, "querying all episodes with series id: " + seriesId);
         Cursor cursor = mContentResolver.query(
-                SeriesEntry.CONTENT_URI,
+                EpisodesEntry.CONTENT_URI,
                 PROJECTION,
                 COLUMN_SERIES_ID + " = ?",
                 new String[]{String.valueOf(seriesId)},
@@ -146,7 +150,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
     public List<Episode> getAllEpisodes(int seriesId, int season) {
         logger.debug(LOG_TAG, "querying all episodes with series id: " + seriesId + "; season: " + season);
         Cursor cursor = mContentResolver.query(
-                SeriesEntry.CONTENT_URI,
+                EpisodesEntry.CONTENT_URI,
                 PROJECTION,
                 COLUMN_SERIES_ID + " = ? AND " + COLUMN_SEASON + " = ?",
                 new String[]{String.valueOf(seriesId), String.valueOf(season)},
@@ -178,7 +182,52 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public int insertAllEpisodes(List<Episode> episodes) {
-        return 0;
+
+        logger.debug(LOG_TAG, "inserting episodes");
+
+        Vector<ContentValues> cVVector = new Vector<>();
+
+        for (Episode episode : episodes) {
+            ContentValues values = new ContentValues();
+            
+            values.put(COLUMN_SERIES_ID, episode.getSeriesId());
+            values.put(COLUMN_SEASON, episode.getSeason());
+            values.put(COLUMN_EPISODE_NUMBER, episode.getNumber());
+            values.put(COLUMN_TITLE, episode.getTitle());
+            values.put(COLUMN_TRAKT_ID, episode.getTraktId());
+            values.put(COLUMN_TVDB_ID, episode.getTvdbId());
+            values.put(COLUMN_IMDB_ID, episode.getImdbId());
+            values.put(COLUMN_TMDB_ID, episode.getTmdbId());
+            values.put(COLUMN_TV_RAGE_ID, episode.getTvRageId());
+            values.put(COLUMN_SLUG, episode.getSlugName());
+            values.put(COLUMN_ABSOLUTE_NUMBER, episode.getAbsoluteNumber());
+            values.put(COLUMN_OVERVIEW, episode.getOverview());
+            values.put(COLUMN_TRAKT_RATING, episode.getTraktRating());
+            values.put(COLUMN_TRAKT_RATING_COUNT, episode.getTraktRatingCount());
+
+            if (episode.getFirstAired() != null) {
+                values.put(COLUMN_FIRST_AIRED, episode.getFirstAired().getMillis());
+            }
+
+            if (episode.getImages() != null && episode.getImages().getScreenshot() != null) {
+                values.put(COLUMN_SCREENSHOT_FULL, episode.getImages().getScreenshot().getFull());
+                values.put(COLUMN_SCREENSHOT_THUMB, episode.getImages().getScreenshot().getThumb());
+            }
+
+            cVVector.add(values);
+        }
+
+        int rowsInserted = 0;
+
+        if (cVVector.size() > 0) {
+            ContentValues[] cvArray = new ContentValues[cVVector.size()];
+            cVVector.toArray(cvArray);
+            //Insert all the data into the database
+            rowsInserted = mContentResolver.bulkInsert(EpisodesEntry.CONTENT_URI, cvArray);
+        }
+
+        Log.v(LOG_TAG, "inserted " + rowsInserted + " rows into episodes table");
+        return rowsInserted;
     }
 
     @Override
