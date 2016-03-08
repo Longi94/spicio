@@ -1,6 +1,5 @@
 package com.tlongdev.spicio.storage;
 
-import android.app.Application;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -38,8 +37,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Long
@@ -67,11 +64,8 @@ public class EpisodeDaoTest {
 
         deleteAllRecords(EpisodesEntry.CONTENT_URI);
 
-        Application mockApplication = mock(Application.class);
-        when(mockApplication.getContentResolver()).thenReturn(mContentResolver);
-
         StorageComponent storageComponent = DaggerStorageComponent.builder()
-                .spicioAppModule(new FakeAppModule(mockApplication))
+                .spicioAppModule(new FakeAppModule(RuntimeEnvironment.application))
                 .storageModule(new FakeStorageModule())
                 .build();
 
@@ -100,6 +94,16 @@ public class EpisodeDaoTest {
 
         int rowsInserted = mEpisodeDao.insertAllEpisodes(episodes);
         assertEquals(2, rowsInserted);
+
+        Season season = new Season();
+        season.setSeriesId(mEpisode.getSeriesId());
+        season.setNumber(mEpisode.getSeason());
+
+        List<Season> seasons = new LinkedList<>();
+        seasons.add(season);
+
+        rowsInserted = mEpisodeDao.insertAllSeasons(seasons);
+        assertEquals(1, rowsInserted);
     }
 
     public void deleteAllRecords(Uri contentUri) {
@@ -223,5 +227,7 @@ public class EpisodeDaoTest {
         assertNotNull(season);
         assertEquals(mEpisode.getSeriesId(), season.getSeriesId());
         assertEquals(mEpisode.getSeason(), season.getNumber());
+        assertEquals(0, season.getWatchCount());
+        assertEquals(0, season.getSkipCount());
     }
 }

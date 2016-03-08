@@ -10,6 +10,8 @@ public class Season {
     private int seriesId;
     private int number;
     private Images images;
+    private int watchCount;
+    private int skipCount;
 
     public int getSeriesId() {
         return seriesId;
@@ -33,5 +35,21 @@ public class Season {
 
     public void setImages(Images images) {
         this.images = images;
+    }
+
+    public int getWatchCount() {
+        return watchCount;
+    }
+
+    public void setWatchCount(int watchCount) {
+        this.watchCount = watchCount;
+    }
+
+    public int getSkipCount() {
+        return skipCount;
+    }
+
+    public void setSkipCount(int skipCount) {
+        this.skipCount = skipCount;
     }
 }

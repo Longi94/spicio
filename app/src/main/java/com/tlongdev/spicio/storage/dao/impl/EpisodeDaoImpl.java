@@ -3,6 +3,8 @@ package com.tlongdev.spicio.storage.dao.impl;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.tlongdev.spicio.SpicioApplication;
@@ -11,6 +13,7 @@ import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.SeasonsEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.util.Logger;
@@ -32,6 +35,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
     private static final String LOG_TAG = EpisodeDaoImpl.class.getSimpleName();
 
     @Inject ContentResolver mContentResolver;
+    @Inject SQLiteOpenHelper mOpenHelper;
     @Inject Logger logger;
 
     // TODO: 2016. 03. 08. better projection to improve query performance
@@ -177,7 +181,73 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public List<Season> getAllSeasons(int seriesId) {
-        return null;
+        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+
+        String query = "SELECT seasons.number, seasons.poster_full, seasons.poster_thumb, seasons.thumb, watches.watch_count, skips.skip_count\n" +
+                "FROM seasons\n" +
+                "LEFT JOIN (SELECT episodes.series_id, count(*) AS watch_count\n" +
+                "\t  FROM episodes \n" +
+                "\t  WHERE episodes.series_id = ? AND episodes.watched = 1) AS watches\n" +
+                "LEFT JOIN (SELECT episodes.series_id, count(*) AS skip_count\n" +
+                "\t  FROM episodes \n" +
+                "\t  WHERE episodes.series_id = ? AND episodes.skipped = 1) AS skips\n" +
+                "ON seasons.series_id = watches.series_id\n" +
+                "WHERE seasons.series_id = ?";
+
+        logger.debug(LOG_TAG, "raw query: " + query);
+
+        Cursor cursor = db.rawQuery(query,
+                new String[]{String.valueOf(seriesId), String.valueOf(seriesId), String.valueOf(seriesId)}
+        );
+
+        List<Season> seasons = new LinkedList<>();
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    seasons.add(mapCursorToSeason(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return seasons;
+    }
+
+    @Override
+    public int insertAllSeasons(List<Season> seasons) {
+        logger.debug(LOG_TAG, "inserting seasons");
+
+        Vector<ContentValues> cVVector = new Vector<>();
+
+        for (Season season : seasons) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_SEASON_SERIES_ID, season.getSeriesId());
+            values.put(COLUMN_NUMBER, season.getNumber());
+
+            if (season.getImages() != null) {
+                if (season.getImages().getPoster() != null) {
+                    values.put(COLUMN_POSTER_FULL, season.getImages().getPoster().getFull());
+                    values.put(COLUMN_POSTER_THUMB, season.getImages().getPoster().getThumb());
+                }
+                if (season.getImages().getThumb() != null) {
+                    values.put(COLUMN_THUMB, season.getImages().getThumb().getFull());
+                }
+            }
+
+            cVVector.add(values);
+        }
+
+        int rowsInserted = 0;
+
+        if (cVVector.size() > 0) {
+            ContentValues[] cvArray = new ContentValues[cVVector.size()];
+            cVVector.toArray(cvArray);
+            //Insert all the data into the database
+            rowsInserted = mContentResolver.bulkInsert(SeasonsEntry.CONTENT_URI, cvArray);
+        }
+
+        Log.v(LOG_TAG, "inserted " + rowsInserted + " rows into seasons table");
+        return rowsInserted;
     }
 
     @Override
@@ -435,5 +505,53 @@ public class EpisodeDaoImpl implements EpisodeDao {
         }
 
         return episode;
+    }
+
+
+    private Season mapCursorToSeason(Cursor cursor) {
+        Season season = new Season();
+
+        season.setImages(new Images());
+        season.getImages().setPoster(new Image());
+        season.getImages().setThumb(new Image());
+
+        int column;
+
+        column = cursor.getColumnIndex(EpisodeDao.COLUMN_SEASON_SERIES_ID);
+        if (column != -1) {
+            season.setSeriesId(cursor.getInt(column));
+        }
+
+        column = cursor.getColumnIndex(EpisodeDao.COLUMN_NUMBER);
+        if (column != -1) {
+            season.setNumber(cursor.getInt(column));
+        }
+
+        column = cursor.getColumnIndex(EpisodeDao.COLUMN_POSTER_FULL);
+        if (column != -1) {
+            season.getImages().getPoster().setFull(cursor.getString(column));
+        }
+
+        column = cursor.getColumnIndex(EpisodeDao.COLUMN_POSTER_THUMB);
+        if (column != -1) {
+            season.getImages().getPoster().setThumb(cursor.getString(column));
+        }
+
+        column = cursor.getColumnIndex(EpisodeDao.COLUMN_THUMB);
+        if (column != -1) {
+            season.getImages().getThumb().setFull(cursor.getString(column));
+        }
+
+        column = cursor.getColumnIndex(EpisodeDao.COLUMN_WATCH_COUNT);
+        if (column != -1) {
+            season.setWatchCount(cursor.getInt(column));
+        }
+
+        column = cursor.getColumnIndex(EpisodeDao.COLUMN_SKIP_COUNT);
+        if (column != -1) {
+            season.setSkipCount(cursor.getInt(column));
+        }
+
+        return season;
     }
 }

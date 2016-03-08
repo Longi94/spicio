@@ -2,11 +2,9 @@ package com.tlongdev.spicio.module;
 
 import android.app.Application;
 import android.content.ContentResolver;
+import android.database.sqlite.SQLiteOpenHelper;
 
-import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.storage.dao.SeriesDao;
-import com.tlongdev.spicio.storage.dao.impl.SeriesDaoImpl;
+import com.tlongdev.spicio.storage.DatabaseHelper;
 
 import javax.inject.Singleton;
 
@@ -24,5 +22,11 @@ public class StorageModule {
     @Singleton
     ContentResolver provideContentResolver(Application application) {
         return application.getContentResolver();
+    }
+
+    @Provides
+    @Singleton
+    SQLiteOpenHelper provideSQLiteOpenHelper(Application application) {
+        return new DatabaseHelper(application);
     }
 }

@@ -3,6 +3,7 @@ package com.tlongdev.spicio.storage.dao;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.SeasonsEntry;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public interface EpisodeDao {
     
+    //Episode table columns
     String COLUMN_SERIES_ID = EpisodesEntry.COLUMN_SERIES_ID;
     String COLUMN_SEASON = EpisodesEntry.COLUMN_SEASON;
     String COLUMN_EPISODE_NUMBER = EpisodesEntry.COLUMN_EPISODE_NUMBER;
@@ -36,6 +38,16 @@ public interface EpisodeDao {
     String COLUMN_SKIPPED = EpisodesEntry.COLUMN_SKIPPED;
 
     String COLUMN_TVDB_RATING = EpisodesEntry.COLUMN_TVDB_RATING;
+    
+    //Season table columns
+    String COLUMN_SEASON_SERIES_ID = SeasonsEntry.COLUMN_SERIES_ID;
+    String COLUMN_NUMBER = SeasonsEntry.COLUMN_NUMBER;
+    String COLUMN_POSTER_FULL = SeasonsEntry.COLUMN_POSTER_FULL;
+    String COLUMN_POSTER_THUMB = SeasonsEntry.COLUMN_POSTER_THUMB;
+    String COLUMN_THUMB = SeasonsEntry.COLUMN_THUMB;
+
+    String COLUMN_WATCH_COUNT = "watch_count";
+    String COLUMN_SKIP_COUNT = "skipped_count";
     
     /**
      * Get a single episode from the database.
@@ -76,6 +88,8 @@ public interface EpisodeDao {
      * @return the season
      */
     List<Season> getAllSeasons(int seriesId);
+
+    int insertAllSeasons(List<Season> seasons);
 
     /**
      * Insert a list of episodes into the database.
