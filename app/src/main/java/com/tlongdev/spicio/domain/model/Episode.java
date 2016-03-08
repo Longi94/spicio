@@ -38,11 +38,9 @@ public class Episode {
 
     private DateTime firstAired;
 
-    private boolean watched;
+    private int watched;
 
     private boolean liked;
-
-    private boolean skipped;
 
     public int seriesId;
 
@@ -166,11 +164,12 @@ public class Episode {
         this.firstAired = firstAired;
     }
 
-    public boolean isWatched() {
+    @Watched.Enum
+    public int isWatched() {
         return watched;
     }
 
-    public void setWatched(boolean watched) {
+    public void setWatched(@Watched.Enum int watched) {
         this.watched = watched;
     }
 
@@ -180,14 +179,6 @@ public class Episode {
 
     public void setLiked(boolean liked) {
         this.liked = liked;
-    }
-
-    public boolean isSkipped() {
-        return skipped;
-    }
-
-    public void setSkipped(boolean skipped) {
-        this.skipped = skipped;
     }
 
     public int getSeriesId() {

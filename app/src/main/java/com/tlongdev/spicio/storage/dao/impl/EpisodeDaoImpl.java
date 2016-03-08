@@ -12,6 +12,7 @@ import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Season;
+import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeasonsEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
@@ -59,8 +60,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
             COLUMN_SCREENSHOT_FULL,
             COLUMN_SCREENSHOT_THUMB,
             COLUMN_WATCHED,
-            COLUMN_LIKED,
-            COLUMN_SKIPPED
+            COLUMN_LIKED
     };
 
     public EpisodeDaoImpl(SpicioApplication application) {
@@ -190,7 +190,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 "\t  WHERE episodes.series_id = ? AND episodes.watched = 1) AS watches\n" +
                 "LEFT JOIN (SELECT episodes.series_id, count(*) AS skip_count\n" +
                 "\t  FROM episodes \n" +
-                "\t  WHERE episodes.series_id = ? AND episodes.skipped = 1) AS skips\n" +
+                "\t  WHERE episodes.series_id = ? AND episodes.watched = 2) AS skips\n" +
                 "ON seasons.series_id = watches.series_id\n" +
                 "WHERE seasons.series_id = ?";
 
@@ -335,10 +335,10 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public int setWatched(int traktId, boolean watched) {
+    public int setWatched(int traktId, @Watched.Enum int watched) {
         logger.debug(LOG_TAG, "setting 'skipped' of episode(" + traktId + ") to " + watched);
         ContentValues values = new ContentValues();
-        values.put(COLUMN_WATCHED, watched ? 1 : 0);
+        values.put(COLUMN_WATCHED, watched);
 
         int rowsUpdated = mContentResolver.update(
                 EpisodesEntry.CONTENT_URI,
@@ -366,23 +366,6 @@ public class EpisodeDaoImpl implements EpisodeDao {
         logger.debug(LOG_TAG, "setting 'liked' of episode(" + traktId + ") to " + liked);
         ContentValues values = new ContentValues();
         values.put(COLUMN_LIKED, liked ? 1 : 0);
-
-        int rowsUpdated = mContentResolver.update(
-                EpisodesEntry.CONTENT_URI,
-                values,
-                COLUMN_TRAKT_ID + " = ?",
-                new String[]{String.valueOf(traktId)}
-        );
-
-        logger.debug(LOG_TAG, "updated " + rowsUpdated + " rows in episodes table");
-        return rowsUpdated;
-    }
-
-    @Override
-    public int setSkipped(int traktId, boolean skipped) {
-        logger.debug(LOG_TAG, "setting 'skipped' of episode(" + traktId + ") to " + skipped);
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_SKIPPED, skipped ? 1 : 0);
 
         int rowsUpdated = mContentResolver.update(
                 EpisodesEntry.CONTENT_URI,
@@ -491,17 +474,13 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
         column = cursor.getColumnIndex(COLUMN_WATCHED);
         if (column != -1) {
-            episode.setWatched(cursor.getInt(column) == 1);
+            //noinspection WrongConstant
+            episode.setWatched(cursor.getInt(column));
         }
 
         column = cursor.getColumnIndex(COLUMN_LIKED);
         if (column != -1) {
             episode.setLiked(cursor.getInt(column) == 1);
-        }
-
-        column = cursor.getColumnIndex(COLUMN_SKIPPED);
-        if (column != -1) {
-            episode.setSkipped(cursor.getInt(column) == 1);
         }
 
         return episode;

@@ -35,7 +35,6 @@ public interface EpisodeDao {
     String COLUMN_SCREENSHOT_THUMB = EpisodesEntry.COLUMN_SCREENSHOT_THUMB;
     String COLUMN_WATCHED = EpisodesEntry.COLUMN_WATCHED;
     String COLUMN_LIKED = EpisodesEntry.COLUMN_LIKED;
-    String COLUMN_SKIPPED = EpisodesEntry.COLUMN_SKIPPED;
 
     String COLUMN_TVDB_RATING = EpisodesEntry.COLUMN_TVDB_RATING;
     
@@ -128,7 +127,7 @@ public interface EpisodeDao {
      * @param watched   watched or not
      * @return number of rows updated
      */
-    int setWatched(int episodeId, boolean watched);
+    int setWatched(int episodeId, int watched);
 
     /**
      * Get a list of upcoming episodes.
@@ -146,6 +145,4 @@ public interface EpisodeDao {
     List<Episode> getEpisodeHistory(boolean includeUnwatched);
 
     int setLiked(int traktId, boolean liked);
-
-    int setSkipped(int traktId, boolean skipped);
 }
