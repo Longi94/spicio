@@ -166,7 +166,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 } while (cursor.moveToNext());
 
             } else {
-                logger.debug(LOG_TAG, "episodes not found with series id: " + seriesId+ "; season: " + season);
+                logger.debug(LOG_TAG, "episodes not found with series id: " + seriesId + "; season: " + season);
             }
             cursor.close();
         } else {
@@ -189,7 +189,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
         for (Episode episode : episodes) {
             ContentValues values = new ContentValues();
-            
+
             values.put(COLUMN_SERIES_ID, episode.getSeriesId());
             values.put(COLUMN_SEASON, episode.getSeason());
             values.put(COLUMN_EPISODE_NUMBER, episode.getNumber());
@@ -241,13 +241,44 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public boolean isWatched(int episodeId) {
+    public boolean isWatched(int traktId) {
+        logger.debug(LOG_TAG, "is episode(" + traktId + ") watched?");
+        Cursor cursor = mContentResolver.query(
+                EpisodesEntry.CONTENT_URI,
+                new String[]{COLUMN_WATCHED},
+                COLUMN_TRAKT_ID + " = ?",
+                new String[]{String.valueOf(traktId)},
+                null
+        );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0) == 1;
+            } else {
+                logger.debug(LOG_TAG, "episode not found with id: " + traktId);
+            }
+            cursor.close();
+        } else {
+            logger.warn(LOG_TAG, "query returned null");
+        }
         return false;
     }
 
     @Override
-    public int setWatched(int episodeId, boolean watched) {
-        return 0;
+    public int setWatched(int traktId, boolean watched) {
+        logger.debug(LOG_TAG, "setting 'skipped' of episode(" + traktId + ") to " + watched);
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_WATCHED, watched ? 1 : 0);
+
+        int rowsUpdated = mContentResolver.update(
+                EpisodesEntry.CONTENT_URI,
+                values,
+                COLUMN_TRAKT_ID + " = ?",
+                new String[]{String.valueOf(traktId)}
+        );
+
+        logger.debug(LOG_TAG, "updated " + rowsUpdated + " rows in episodes table");
+        return rowsUpdated;
     }
 
     @Override
@@ -262,12 +293,36 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public int setLiked(int traktId, boolean liked) {
-        return 0;
+        logger.debug(LOG_TAG, "setting 'liked' of episode(" + traktId + ") to " + liked);
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_LIKED, liked ? 1 : 0);
+
+        int rowsUpdated = mContentResolver.update(
+                EpisodesEntry.CONTENT_URI,
+                values,
+                COLUMN_TRAKT_ID + " = ?",
+                new String[]{String.valueOf(traktId)}
+        );
+
+        logger.debug(LOG_TAG, "updated " + rowsUpdated + " rows in episodes table");
+        return rowsUpdated;
     }
 
     @Override
     public int setSkipped(int traktId, boolean skipped) {
-        return 0;
+        logger.debug(LOG_TAG, "setting 'skipped' of episode(" + traktId + ") to " + skipped);
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SKIPPED, skipped ? 1 : 0);
+
+        int rowsUpdated = mContentResolver.update(
+                EpisodesEntry.CONTENT_URI,
+                values,
+                COLUMN_TRAKT_ID + " = ?",
+                new String[]{String.valueOf(traktId)}
+        );
+
+        logger.debug(LOG_TAG, "updated " + rowsUpdated + " rows in episodes table");
+        return rowsUpdated;
     }
 
     private Episode mapCursorToEpisode(Cursor cursor) {
