@@ -4,15 +4,15 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.domain.executor.Executor;
-import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.repository.TraktRepository;
+import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.FakeAppModule;
-import com.tlongdev.spicio.module.FakeDaoModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
-import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
 
@@ -32,22 +32,19 @@ import static org.mockito.Mockito.when;
 
 /**
  * @author Long
- * @since 2016. 03. 05.
+ * @since 2016. 03. 08.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SaveSeriesInteractorTest {
+public class TraktFullSeriesInteractorTest {
 
     @Mock
-    private SeriesDao mSeriesDao;
-
-    @Mock
-    private EpisodeDao mEpisodeDao;
+    private TraktRepository mRepository;
 
     @Mock
     private Executor mExecutor;
 
     @Mock
-    private SaveSeriesInteractor.Callback mMockedCallback;
+    private TraktFullSeriesInteractor.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
@@ -58,40 +55,38 @@ public class SaveSeriesInteractorTest {
     public void setUp() {
         mMainThread = new TestMainThread();
 
-        FakeDaoModule daoModule = new FakeDaoModule();
-        daoModule.setSeriesDao(mSeriesDao);
-        daoModule.setEpisodeDao(mEpisodeDao);
-
         FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
+        networkRepositoryModule.setTraktRepository(mRepository);
 
         InteractorComponent component = DaggerInteractorComponent.builder()
                 .spicioAppModule(new FakeAppModule(mApp))
-                .daoModule(daoModule)
                 .networkRepositoryModule(networkRepositoryModule)
+                .daoModule(mock(DaoModule.class))
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
     }
 
     @Test
-    public void testInsert(){
+    public void testExecute() {
 
         Series series = mock(Series.class);
         List<Season> seasons = new LinkedList<>();
         List<Episode> episodes = new LinkedList<>();
 
-        SaveSeriesInteractorImpl interactor = new SaveSeriesInteractorImpl(
-                mExecutor, mMainThread, mApp, series, seasons, episodes, mMockedCallback
+        when(mRepository.getImages(0, true)).thenReturn(new Images());
+        when(mRepository.getSeasons(0)).thenReturn(seasons);
+        when(mRepository.getEpisodesForSeries(0)).thenReturn(episodes);
+
+        TraktFullSeriesInteractorImpl interactor = new TraktFullSeriesInteractorImpl(
+                mExecutor, mMainThread, mApp, series, mMockedCallback
         );
         interactor.run();
 
-        verify(mSeriesDao).insertSeries(series);
-        verifyNoMoreInteractions(mSeriesDao);
-
-        verify(mEpisodeDao).insertAllSeasons(seasons);
-        verify(mEpisodeDao).insertAllEpisodes(episodes);
-        verifyNoMoreInteractions(mEpisodeDao);
-
-        verify(mMockedCallback).onFinish();
+        verify(mRepository).getImages(0, true);
+        verify(mRepository).getSeasons(0);
+        verify(mRepository).getEpisodesForSeries(0);
+        verifyNoMoreInteractions(mRepository);
+        verify(mMockedCallback).onFinish(series, seasons, episodes);
     }
 }
