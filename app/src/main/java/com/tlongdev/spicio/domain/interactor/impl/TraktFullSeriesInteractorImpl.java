@@ -57,9 +57,20 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
 
         logger.debug(LOG_TAG, "getting seasons for series");
         List<Season> seasons = mTraktRepository.getSeasons(mSeries.getTraktId());
+        if (seasons == null) {
+            logger.debug(LOG_TAG, "TraktRepository.getSeasons returned null");
+            postError();
+            return;
+        }
 
+        List<Episode> episodes = mTraktRepository.getEpisodesForSeries(mSeries.getTraktId());
+        if (episodes == null) {
+            logger.debug(LOG_TAG, "TraktRepository.getEpisodesForSeries returned null");
+            postError();
+            return;
+        }
 
-        postFinish(mSeries, seasons, null);
+        postFinish(mSeries, seasons, episodes);
 
         logger.debug(LOG_TAG, "finished");
     }

@@ -49,11 +49,13 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
     public void run() {
         logger.debug(LOG_TAG, "started");
 
+        logger.debug(LOG_TAG, "inserting episodes into database");
+        mEpisodeDao.insertAllEpisodes(mEpisodes);
+
         logger.debug(LOG_TAG, "inserting seasons into database");
         mEpisodeDao.insertAllSeasons(mSeasons);
 
-        // TODO: 2016. 03. 05. get staffs
-        // TODO: 2016. 03. 05. send to server, don't insert on failure
+        logger.debug(LOG_TAG, "inserting the series");
         mSeriesDao.insertSeries(mSeries);
 
         postFinish();

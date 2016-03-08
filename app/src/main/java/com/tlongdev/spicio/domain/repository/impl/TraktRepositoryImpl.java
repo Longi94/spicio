@@ -8,6 +8,7 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
+import com.tlongdev.spicio.network.model.TraktEpisode;
 import com.tlongdev.spicio.network.model.TraktSearchResult;
 import com.tlongdev.spicio.network.model.TraktSeason;
 import com.tlongdev.spicio.network.model.TraktSeries;
@@ -127,6 +128,33 @@ public class TraktRepositoryImpl implements TraktRepository {
 
     @Override
     public List<Episode> getEpisodesForSeries(int traktId) {
+        try {
+            Call<List<TraktSeason>> call = traktInterface.getSeasonsEpisodes(String.valueOf(traktId));
+
+            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<TraktSeason>> response = call.execute();
+
+            if (response.body() == null) {
+                int code = response.raw().code();
+                logger.error(LOG_TAG, "call returned null with code " + code);
+            } else {
+                logger.debug(LOG_TAG, "converting trakt season objects");
+                List<Episode> episodes = new LinkedList<>();
+
+                for (TraktSeason traktSeason : response.body()) {
+                    for (TraktEpisode traktEpisode : traktSeason.getEpisodes()) {
+                        episodes.add(TraktModelConverter.convertToEpisode(traktEpisode));
+                    }
+                }
+
+                logger.debug(LOG_TAG, "episodes API returned " + episodes.size() + " episodes");
+
+                return episodes;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -154,6 +182,8 @@ public class TraktRepositoryImpl implements TraktRepository {
                 for (TraktSeason traktSeason : response.body()) {
                     seasons.add(TraktModelConverter.convertToSeason(traktId, traktSeason));
                 }
+
+                logger.debug(LOG_TAG, "seasons API returned " + seasons.size() + " seasons");
 
                 return seasons;
             }
