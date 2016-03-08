@@ -82,4 +82,14 @@ public class EpisodeDaoImpl implements EpisodeDao {
     public List<Episode> getEpisodeHistory(boolean includeUnwatched) {
         return null;
     }
+
+    @Override
+    public int setLiked(int traktId, boolean liked) {
+        return 0;
+    }
+
+    @Override
+    public int setSkipped(int traktId, boolean skipped) {
+        return 0;
+    }
 }

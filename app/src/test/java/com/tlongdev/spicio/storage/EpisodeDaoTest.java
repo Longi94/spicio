@@ -11,6 +11,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.StorageComponent;
 import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeStorageModule;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
@@ -34,7 +35,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -130,6 +133,9 @@ public class EpisodeDaoTest {
         assertEquals(mEpisode.getTraktRating(), episode.getTraktRating(), 0);
         assertEquals(mEpisode.getTraktRatingCount(), episode.getTraktRatingCount());
         assertEquals(mEpisode.getFirstAired().getMillis(), episode.getFirstAired().getMillis());
+        assertFalse(episode.isWatched());
+        assertFalse(episode.isLiked());
+        assertFalse(episode.isSkipped());
     }
 
     @Test
@@ -153,6 +159,9 @@ public class EpisodeDaoTest {
         assertEquals(mEpisode.getTraktRating(), episode.getTraktRating(), 0);
         assertEquals(mEpisode.getTraktRatingCount(), episode.getTraktRatingCount());
         assertEquals(mEpisode.getFirstAired().getMillis(), episode.getFirstAired().getMillis());
+        assertFalse(episode.isWatched());
+        assertFalse(episode.isLiked());
+        assertFalse(episode.isSkipped());
 
         episode = episodes.get(1);
         assertNotNull(episode);
@@ -170,6 +179,49 @@ public class EpisodeDaoTest {
         assertEquals(mAnotherEpisode.getTraktRating(), episode.getTraktRating(), 0);
         assertEquals(mAnotherEpisode.getTraktRatingCount(), episode.getTraktRatingCount());
         assertEquals(mAnotherEpisode.getFirstAired().getMillis(), episode.getFirstAired().getMillis());
+        assertFalse(episode.isWatched());
+        assertFalse(episode.isLiked());
+        assertFalse(episode.isSkipped());
 
+    }
+
+    @Test
+    public void testWatched() {
+        int rowsUpdated = mEpisodeDao.setWatched(mEpisode.getTraktId(), true);
+        assertEquals(rowsUpdated, 1);
+        assertTrue(mEpisodeDao.isWatched(mEpisode.getTraktId()));
+
+        Episode episode = mEpisodeDao.getEpisode(mEpisode.getTraktId());
+        assertTrue(episode.isWatched());
+    }
+
+    @Test
+    public void testLiked() {
+        int rowsUpdated = mEpisodeDao.setLiked(mEpisode.getTraktId(), true);
+        assertEquals(rowsUpdated, 1);
+
+        Episode episode = mEpisodeDao.getEpisode(mEpisode.getTraktId());
+        assertTrue(episode.isLiked());
+    }
+
+    @Test
+    public void testSkipped() {
+        int rowsUpdated =  mEpisodeDao.setSkipped(mEpisode.getTraktId(), true);
+        assertEquals(rowsUpdated, 1);
+
+        Episode episode = mEpisodeDao.getEpisode(mEpisode.getTraktId());
+        assertTrue(episode.isSkipped());
+    }
+
+    @Test
+    public void testGetSeasons() {
+        List<Season> seasons = mEpisodeDao.getAllSeasons(mEpisode.getSeriesId());
+        assertNotNull(seasons);
+        assertEquals(1, seasons.size());
+
+        Season season = seasons.get(0);
+        assertNotNull(season);
+        assertEquals(mEpisode.getSeriesId(), season.getSeriesId());
+        assertEquals(mEpisode.getSeason(), season.getNumber());
     }
 }

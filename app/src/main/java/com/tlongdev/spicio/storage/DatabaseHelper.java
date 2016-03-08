@@ -58,8 +58,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_EPISODES_TABLE = "CREATE TABLE " + EpisodesEntry.TABLE_NAME + " (" +
                 EpisodesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-                EpisodesEntry.COLUMN_SEASON + " INTEGER, " +
-                EpisodesEntry.COLUMN_EPISODE_NUMBER + " INTEGER, " +
+                EpisodesEntry.COLUMN_SERIES_ID + " INTEGER NOT NULL, " +
+                EpisodesEntry.COLUMN_SEASON + " INTEGER NOT NULL, " +
+                EpisodesEntry.COLUMN_EPISODE_NUMBER + " INTEGER NOT NULL, " +
                 EpisodesEntry.COLUMN_TITLE + " TEXT, " +
                 EpisodesEntry.COLUMN_TRAKT_ID + " INTEGER NOT NULL, " +
                 EpisodesEntry.COLUMN_TVDB_ID + " INTEGER, " +
@@ -75,10 +76,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 EpisodesEntry.COLUMN_TVDB_RATING + " REAL, " +
                 EpisodesEntry.COLUMN_SCREENSHOT_FULL + " TEXT, " +
                 EpisodesEntry.COLUMN_SCREENSHOT_THUMB + " TEXT, " +
-                EpisodesEntry.COLUMN_WATCHED + " INTEGER NOT NULL, " +
-                EpisodesEntry.COLUMN_LIKED + " INTEGER NOT NULL, " +
+                EpisodesEntry.COLUMN_WATCHED + " INTEGER NOT NULL DEFAULT 0, " +
+                EpisodesEntry.COLUMN_LIKED + " INTEGER NOT NULL DEFAULT 0, " +
+                EpisodesEntry.COLUMN_SKIPPED + " INTEGER NOT NULL DEFAULT 0, " +
 
-                "UNIQUE (" + EpisodesEntry.COLUMN_TRAKT_ID + ") ON CONFLICT REPLACE);";
+                "UNIQUE (" + EpisodesEntry.COLUMN_TRAKT_ID + ") ON CONFLICT REPLACE," +
+                "UNIQUE (" + EpisodesEntry.COLUMN_SERIES_ID + ", " + EpisodesEntry.COLUMN_SEASON +
+                ", " + EpisodesEntry.COLUMN_EPISODE_NUMBER + ") ON CONFLICT REPLACE);";
 
         final String SQL_CREATE_SEASONS_TABLE = "CREATE TABLE " + SeasonsEntry.TABLE_NAME + " (" +
                 SeasonsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

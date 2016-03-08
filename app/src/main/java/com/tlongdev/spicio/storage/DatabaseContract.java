@@ -77,6 +77,7 @@ public class DatabaseContract {
 
         public static final String TABLE_NAME = "episodes";
 
+        public static final String COLUMN_SERIES_ID = "series_id";
         public static final String COLUMN_SEASON = "season";
         public static final String COLUMN_EPISODE_NUMBER = "episode_number";
         public static final String COLUMN_TITLE = "title";
@@ -94,6 +95,7 @@ public class DatabaseContract {
         public static final String COLUMN_SCREENSHOT_THUMB = "screenshot_thumb";
         public static final String COLUMN_WATCHED = "watched";
         public static final String COLUMN_LIKED = "liked";
+        public static final String COLUMN_SKIPPED = "skipped";
 
         public static final String COLUMN_SERIES_TRAKT_ID = "series_trakt_id";
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";

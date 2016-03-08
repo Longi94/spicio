@@ -106,4 +106,8 @@ public interface EpisodeDao {
      * @return a list of apisodes
      */
     List<Episode> getEpisodeHistory(boolean includeUnwatched);
+
+    int setLiked(int traktId, boolean liked);
+
+    int setSkipped(int traktId, boolean skipped);
 }

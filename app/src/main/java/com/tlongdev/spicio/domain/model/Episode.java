@@ -38,6 +38,14 @@ public class Episode {
 
     private DateTime firstAired;
 
+    private boolean watched;
+
+    private boolean liked;
+
+    private boolean skipped;
+
+    public int seriesId;
+
     public int getSeason() {
         return season;
     }
@@ -156,5 +164,37 @@ public class Episode {
 
     public void setFirstAired(DateTime firstAired) {
         this.firstAired = firstAired;
+    }
+
+    public boolean isWatched() {
+        return watched;
+    }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public boolean isSkipped() {
+        return skipped;
+    }
+
+    public void setSkipped(boolean skipped) {
+        this.skipped = skipped;
+    }
+
+    public int getSeriesId() {
+        return seriesId;
+    }
+
+    public void setSeriesId(int seriesId) {
+        this.seriesId = seriesId;
     }
 }
