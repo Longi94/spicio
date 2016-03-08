@@ -5,11 +5,15 @@ import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
 import com.tlongdev.spicio.domain.model.Images;
+import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
+import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -22,6 +26,7 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
     private static final String LOG_TAG = SaveSeriesInteractorImpl.class.getSimpleName();
 
     @Inject SeriesDao mSeriesDao;
+    @Inject EpisodeDao mEpisodeDao;
     @Inject TraktRepository mTraktRepository;
     @Inject Logger logger;
 
@@ -52,6 +57,12 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
         }
 
         mSeries.setImages(images);
+
+        logger.debug(LOG_TAG, "getting seasons for series");
+        List<Season> seasons = mTraktRepository.getSeasons(mSeries.getTraktId());
+
+        logger.debug(LOG_TAG, "inserting seasons into database");
+        mEpisodeDao.insertAllSeasons(seasons);
 
         // TODO: 2016. 03. 05. get staffs
         // TODO: 2016. 03. 05. send to server, don't insert on failure

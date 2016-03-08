@@ -11,6 +11,7 @@ import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
+import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
@@ -37,6 +38,9 @@ public class SaveSeriesInteractorTest {
     private SeriesDao mSeriesDao;
 
     @Mock
+    private EpisodeDao mEpisodeDao;
+
+    @Mock
     private Executor mExecutor;
 
     @Mock
@@ -56,6 +60,7 @@ public class SaveSeriesInteractorTest {
 
         FakeDaoModule daoModule = new FakeDaoModule();
         daoModule.setSeriesDao(mSeriesDao);
+        daoModule.setEpisodeDao(mEpisodeDao);
 
         FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
         networkRepositoryModule.setTraktRepository(mTraktRepository);

@@ -4,11 +4,13 @@ import com.tlongdev.spicio.domain.model.Day;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
+import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.Status;
 import com.tlongdev.spicio.network.model.TraktEpisode;
 import com.tlongdev.spicio.network.model.TraktImage;
 import com.tlongdev.spicio.network.model.TraktImages;
+import com.tlongdev.spicio.network.model.TraktSeason;
 import com.tlongdev.spicio.network.model.TraktSeries;
 
 import org.joda.time.DateTimeZone;
@@ -167,5 +169,15 @@ public class TraktModelConverter {
         }
 
         return episode;
+    }
+
+    public static Season convertToSeason(int seriesId, TraktSeason traktSeason) {
+        Season season = new Season();
+
+        season.setSeriesId(seriesId);
+        season.setNumber(traktSeason.getNumber());
+        season.setImages(TraktModelConverter.convertToImages(traktSeason.getImages()));
+
+        return season;
     }
 }

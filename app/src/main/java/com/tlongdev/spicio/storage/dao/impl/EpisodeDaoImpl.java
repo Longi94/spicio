@@ -180,8 +180,10 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public List<Season> getAllSeasons(int seriesId) {
+    public List<Season> getAllSeasons(int traktId) {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+
+        logger.debug(LOG_TAG, "querying seasons for series(" + traktId + ")");
 
         //Query the seasons with the number of watched and skipper episodes
         String query = "SELECT " + SeasonsEntry.TABLE_NAME + "." + COLUMN_NUMBER + ", " +
@@ -204,7 +206,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
         logger.debug(LOG_TAG, "raw query: " + query);
 
         Cursor cursor = db.rawQuery(query,
-                new String[]{String.valueOf(seriesId), String.valueOf(seriesId), String.valueOf(seriesId)}
+                new String[]{String.valueOf(traktId), String.valueOf(traktId), String.valueOf(traktId)}
         );
 
         List<Season> seasons = new LinkedList<>();
@@ -214,8 +216,12 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 do {
                     seasons.add(mapCursorToSeason(cursor));
                 } while (cursor.moveToNext());
+            }else {
+                logger.debug(LOG_TAG, "season not found for series with id: " + traktId);
             }
             cursor.close();
+        } else {
+            logger.warn(LOG_TAG, "query returned null");
         }
         return seasons;
     }

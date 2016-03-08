@@ -3,11 +3,13 @@ package com.tlongdev.spicio.domain.repository.impl;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Images;
+import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
 import com.tlongdev.spicio.network.model.TraktSearchResult;
+import com.tlongdev.spicio.network.model.TraktSeason;
 import com.tlongdev.spicio.network.model.TraktSeries;
 import com.tlongdev.spicio.util.Logger;
 
@@ -117,7 +119,7 @@ public class TraktRepositoryImpl implements TraktRepository {
                 e.printStackTrace();
             }
         } else {
-            // TODO: 2016. 03. 07.
+            // TODO: 2016. 03. 08.
         }
 
         return null;
@@ -130,6 +132,35 @@ public class TraktRepositoryImpl implements TraktRepository {
 
     @Override
     public Episode getEpisodeDetails(int traktId, int season, int number) {
+        return null;
+    }
+
+    @Override
+    public List<Season> getSeasons(int traktId) {
+
+        try {
+            Call<List<TraktSeason>> call = traktInterface.getSeasonsImages(String.valueOf(traktId));
+
+            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<TraktSeason>> response = call.execute();
+
+            if (response.body() == null) {
+                int code = response.raw().code();
+                logger.error(LOG_TAG, "call returned null with code " + code);
+            } else {
+                logger.debug(LOG_TAG, "converting trakt season objects");
+                List<Season> seasons = new LinkedList<>();
+
+                for (TraktSeason traktSeason : response.body()) {
+                    seasons.add(TraktModelConverter.convertToSeason(traktId, traktSeason));
+                }
+
+                return seasons;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
