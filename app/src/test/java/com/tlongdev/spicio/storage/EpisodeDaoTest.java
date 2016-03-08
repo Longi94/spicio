@@ -230,4 +230,21 @@ public class EpisodeDaoTest {
         assertEquals(0, season.getWatchCount());
         assertEquals(0, season.getSkipCount());
     }
+
+    @Test
+    public void testGetSeasonsModified() {
+
+        testWatched();
+
+        List<Season> seasons = mEpisodeDao.getAllSeasons(mEpisode.getSeriesId());
+        assertNotNull(seasons);
+        assertEquals(1, seasons.size());
+
+        Season season = seasons.get(0);
+        assertNotNull(season);
+        assertEquals(mEpisode.getSeriesId(), season.getSeriesId());
+        assertEquals(mEpisode.getSeason(), season.getNumber());
+        assertEquals(1, season.getWatchCount());
+        assertEquals(0, season.getSkipCount());
+    }
 }
