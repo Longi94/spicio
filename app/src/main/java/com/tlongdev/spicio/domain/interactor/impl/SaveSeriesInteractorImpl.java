@@ -4,10 +4,9 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
-import com.tlongdev.spicio.domain.model.Images;
+import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
@@ -27,42 +26,31 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
 
     @Inject SeriesDao mSeriesDao;
     @Inject EpisodeDao mEpisodeDao;
-    @Inject TraktRepository mTraktRepository;
     @Inject Logger logger;
 
     private Series mSeries;
+    private List<Season> mSeasons;
+    private List<Episode> mEpisodes;
     private Callback mCallback;
 
     public SaveSeriesInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                    SpicioApplication app, Series series,
-                                    Callback callback) {
+                                    SpicioApplication app, Series series, List<Season> seasons,
+                                    List<Episode> episodes, Callback callback) {
         super(threadExecutor, mainThread);
         app.getInteractorComponent().inject(this);
 
         mSeries = series;
         mCallback = callback;
+        mSeasons = seasons;
+        mEpisodes = episodes;
     }
 
     @Override
     public void run() {
         logger.debug(LOG_TAG, "started");
 
-        logger.debug(LOG_TAG, "getting image links for series");
-        Images images = mTraktRepository.getImages(mSeries.getTraktId(), true);
-
-        if (images == null) {
-            logger.debug(LOG_TAG, "TraktRepository.getImages returned null");
-            postError();
-            return;
-        }
-
-        mSeries.setImages(images);
-
-        logger.debug(LOG_TAG, "getting seasons for series");
-        List<Season> seasons = mTraktRepository.getSeasons(mSeries.getTraktId());
-
         logger.debug(LOG_TAG, "inserting seasons into database");
-        mEpisodeDao.insertAllSeasons(seasons);
+        mEpisodeDao.insertAllSeasons(mSeasons);
 
         // TODO: 2016. 03. 05. get staffs
         // TODO: 2016. 03. 05. send to server, don't insert on failure

@@ -4,18 +4,24 @@ import android.util.Log;
 
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktSeriesDetailsInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorImpl;
+import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
 import com.tlongdev.spicio.threading.MainThread;
+
+import java.util.List;
 
 /**
  * @author Long
  * @since 2016. 03. 04.
  */
-public class SeriesDetailsPresenter extends AbstractPresenter implements Presenter<SeriesDetailsView>,TraktSeriesDetailsInteractor.Callback, SaveSeriesInteractor.Callback {
+public class SeriesDetailsPresenter extends AbstractPresenter implements Presenter<SeriesDetailsView>,TraktSeriesDetailsInteractor.Callback, SaveSeriesInteractor.Callback, TraktFullSeriesInteractor.Callback {
 
     private static final String LOG_TAG = SeriesDetailsPresenter.class.getSimpleName();
 
@@ -50,6 +56,16 @@ public class SeriesDetailsPresenter extends AbstractPresenter implements Present
     }
 
     @Override
+    public void onFinish(Series series, List<Season> seasons, List<Episode> episodes) {
+        Log.d(LOG_TAG, "finished downloading all series data, inserting into db");
+
+        SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
+                mExecutor, mMainThread, mView.getSpicioApplication(), series, seasons, episodes, this
+        );
+        interactor.execute();
+    }
+
+    @Override
     public void onFail() {
         Log.d(LOG_TAG, "onFail() called");
         mView.reportError();
@@ -57,10 +73,10 @@ public class SeriesDetailsPresenter extends AbstractPresenter implements Present
 
     public void saveSeries(Series series) {
         Log.d(LOG_TAG, "saveSeries() called");
-        SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
+
+        TraktFullSeriesInteractor interactor = new TraktFullSeriesInteractorImpl(
                 mExecutor, mMainThread, mView.getSpicioApplication(), series, this
         );
-
         interactor.execute();
     }
 
