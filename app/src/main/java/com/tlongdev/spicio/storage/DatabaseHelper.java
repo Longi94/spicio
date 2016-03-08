@@ -72,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 EpisodesEntry.COLUMN_OVERVIEW + " TEXT, " +
                 EpisodesEntry.COLUMN_TRAKT_RATING + " REAL, " +
                 EpisodesEntry.COLUMN_TRAKT_RATING_COUNT + " INTEGER, " +
-                EpisodesEntry.COLUMN_SERIES_TRAKT_ID + " INTEGER, " +
+                EpisodesEntry.COLUMN_FIRST_AIRED + " INTEGER, " +
                 EpisodesEntry.COLUMN_TVDB_RATING + " REAL, " +
                 EpisodesEntry.COLUMN_SCREENSHOT_FULL + " TEXT, " +
                 EpisodesEntry.COLUMN_SCREENSHOT_THUMB + " TEXT, " +

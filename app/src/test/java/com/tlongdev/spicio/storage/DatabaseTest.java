@@ -97,6 +97,10 @@ public class DatabaseTest {
         columnHashSet.add(SeriesEntry.COLUMN_TRAKT_RATING);
         columnHashSet.add(SeriesEntry.COLUMN_TRAKT_RATING_COUNT);
         columnHashSet.add(SeriesEntry.COLUMN_GENRES);
+        columnHashSet.add(SeriesEntry.COLUMN_POSTER_FULL);
+        columnHashSet.add(SeriesEntry.COLUMN_POSTER_THUMB);
+        columnHashSet.add(SeriesEntry.COLUMN_THUMB);
+
         columnHashSet.add(SeriesEntry.COLUMN_TVDB_RATING);
         columnHashSet.add(SeriesEntry.COLUMN_TVDB_RATING_COUNT);
 
@@ -120,6 +124,8 @@ public class DatabaseTest {
 
         //Check for table columns
         columnHashSet.clear();
+
+        columnHashSet.add(EpisodesEntry.COLUMN_SERIES_ID);
         columnHashSet.add(EpisodesEntry.COLUMN_SEASON);
         columnHashSet.add(EpisodesEntry.COLUMN_EPISODE_NUMBER);
         columnHashSet.add(EpisodesEntry.COLUMN_TITLE);
@@ -133,7 +139,13 @@ public class DatabaseTest {
         columnHashSet.add(EpisodesEntry.COLUMN_OVERVIEW);
         columnHashSet.add(EpisodesEntry.COLUMN_TRAKT_RATING);
         columnHashSet.add(EpisodesEntry.COLUMN_TRAKT_RATING_COUNT);
-        columnHashSet.add(EpisodesEntry.COLUMN_SERIES_TRAKT_ID);
+        columnHashSet.add(EpisodesEntry.COLUMN_FIRST_AIRED);
+        columnHashSet.add(EpisodesEntry.COLUMN_SCREENSHOT_FULL);
+        columnHashSet.add(EpisodesEntry.COLUMN_SCREENSHOT_THUMB);
+        columnHashSet.add(EpisodesEntry.COLUMN_WATCHED);
+        columnHashSet.add(EpisodesEntry.COLUMN_LIKED);
+        columnHashSet.add(EpisodesEntry.COLUMN_SKIPPED);
+
         columnHashSet.add(EpisodesEntry.COLUMN_TVDB_RATING);
 
         do {

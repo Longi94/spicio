@@ -91,13 +91,13 @@ public class DatabaseContract {
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_TRAKT_RATING = "trakt_rating";
         public static final String COLUMN_TRAKT_RATING_COUNT = "trakt_rating_count";
+        public static final String COLUMN_FIRST_AIRED = "trakt_first_aired";
         public static final String COLUMN_SCREENSHOT_FULL = "screenshot_full";
         public static final String COLUMN_SCREENSHOT_THUMB = "screenshot_thumb";
         public static final String COLUMN_WATCHED = "watched";
         public static final String COLUMN_LIKED = "liked";
         public static final String COLUMN_SKIPPED = "skipped";
 
-        public static final String COLUMN_SERIES_TRAKT_ID = "series_trakt_id";
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";
 
         public static Uri buildUri(long id) {

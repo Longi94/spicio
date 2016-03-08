@@ -2,6 +2,7 @@ package com.tlongdev.spicio.storage.dao;
 
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
+import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 
 import java.util.List;
 
@@ -12,7 +13,30 @@ import java.util.List;
  * @since 2016. 02. 29.
  */
 public interface EpisodeDao {
+    
+    String COLUMN_SERIES_ID = EpisodesEntry.COLUMN_SERIES_ID;
+    String COLUMN_SEASON = EpisodesEntry.COLUMN_SEASON;
+    String COLUMN_EPISODE_NUMBER = EpisodesEntry.COLUMN_EPISODE_NUMBER;
+    String COLUMN_TITLE = EpisodesEntry.COLUMN_TITLE;
+    String COLUMN_TRAKT_ID = EpisodesEntry.COLUMN_TRAKT_ID;
+    String COLUMN_TVDB_ID = EpisodesEntry.COLUMN_TVDB_ID;
+    String COLUMN_IMDB_ID = EpisodesEntry.COLUMN_IMDB_ID;
+    String COLUMN_TMDB_ID = EpisodesEntry.COLUMN_TMDB_ID;
+    String COLUMN_TV_RAGE_ID = EpisodesEntry.COLUMN_TV_RAGE_ID;
+    String COLUMN_SLUG = EpisodesEntry.COLUMN_SLUG;
+    String COLUMN_ABSOLUTE_NUMBER = EpisodesEntry.COLUMN_ABSOLUTE_NUMBER;
+    String COLUMN_OVERVIEW = EpisodesEntry.COLUMN_OVERVIEW;
+    String COLUMN_TRAKT_RATING = EpisodesEntry.COLUMN_TRAKT_RATING;
+    String COLUMN_TRAKT_RATING_COUNT = EpisodesEntry.COLUMN_TRAKT_RATING_COUNT;
+    String COLUMN_FIRST_AIRED = EpisodesEntry.COLUMN_FIRST_AIRED;
+    String COLUMN_SCREENSHOT_FULL = EpisodesEntry.COLUMN_SCREENSHOT_FULL;
+    String COLUMN_SCREENSHOT_THUMB = EpisodesEntry.COLUMN_SCREENSHOT_THUMB;
+    String COLUMN_WATCHED = EpisodesEntry.COLUMN_WATCHED;
+    String COLUMN_LIKED = EpisodesEntry.COLUMN_LIKED;
+    String COLUMN_SKIPPED = EpisodesEntry.COLUMN_SKIPPED;
 
+    String COLUMN_TVDB_RATING = EpisodesEntry.COLUMN_TVDB_RATING;
+    
     /**
      * Get a single episode from the database.
      *

@@ -34,6 +34,7 @@ public class SeriesDaoImpl implements SeriesDao {
     @Inject ContentResolver mContentResolver;
     @Inject Logger logger;
 
+    // TODO: 2016. 03. 08. better projection to improve query performance
     public static final String[] PROJECTION = {
             SeriesEntry._ID,
             SeriesEntry.COLUMN_TITLE,
