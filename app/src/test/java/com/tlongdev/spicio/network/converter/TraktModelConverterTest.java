@@ -101,7 +101,7 @@ public class TraktModelConverterTest {
         assertEquals(63056, episode.getTmdbId());
         assertEquals(1065008299, episode.getTvRageId());
         assertEquals(-1, episode.getAbsoluteNumber());
-        assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverview());
+        assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn's position as the King's Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverview());
         assertEquals(8.56194, episode.getTraktRating(), 0);
         assertEquals(3778, episode.getTraktRatingCount());
         assertEquals(1303088400000L, episode.getFirstAired().getMillis());

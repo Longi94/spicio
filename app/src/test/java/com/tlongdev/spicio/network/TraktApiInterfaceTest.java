@@ -449,7 +449,7 @@ public class TraktApiInterfaceTest {
         assertEquals(1, episode.getNumber());
         assertEquals("Winter Is Coming", episode.getTitle());
         assertNull(episode.getNumberAbs());
-        assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverview());
+        assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn's position as the King's Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverview());
         assertEquals(8.56194, episode.getRating(), 0);
         assertEquals(3778, episode.getVotes());
         assertEquals("2011-04-18T01:00:00.000Z", episode.getFirstAired());

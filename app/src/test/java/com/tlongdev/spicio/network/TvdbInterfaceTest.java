@@ -123,7 +123,7 @@ public class TvdbInterfaceTest {
         assertEquals("|Donald Sumpter|Jamie Sives|Ron Donachie|Joseph Mawle|Roger Allam|Dar Salim|Esmé Bianco|Susan Brown|Bronson Webb|John Standing|Rob Ostlere|Dermot Keaney|Art Parkinson|Callum Wharry|Aimee Richardson|Kristian Nairn|Rania Zouari|Ian Whyte|Spencer Wilding|", episode.getGuestStars());
         assertEquals("Tim Van Patten", episode.getDirector());
         assertEquals("|David Benioff|D. B. Weiss|", episode.getWriters());
-        assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverView());
+        assertEquals("Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn's position as the King's Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.", episode.getOverView());
         assertEquals(1, episode.getAbsoluteNumber());
         assertEquals("episodes/121361/3254641.jpg", episode.getFileName());
         assertEquals(121361, episode.getSeriesId());
@@ -164,7 +164,7 @@ public class TvdbInterfaceTest {
         assertEquals(273385, series.getId());
         assertNull(series.getFirstAired());
         assertEquals("Destination America", series.getNetWork());
-        assertEquals("KING OF THRONES follows Hoxie Homes and Remodeling, a northern Minnesota-based crew of contractors, carpenters and designers who’ve built a “crap-load” of high-end bathrooms featuring giant flat-screen TVs, heated toilets, body dryers and even shower jets for a dog. Led by Jeff Hoxie and his partner Dave Koob, the team will stop at nothing to meet their clients’ imaginative needs.", series.getOverView());
+        assertEquals("KING OF THRONES follows Hoxie Homes and Remodeling, a northern Minnesota-based crew of contractors, carpenters and designers who've built a “crap-load” of high-end bathrooms featuring giant flat-screen TVs, heated toilets, body dryers and even shower jets for a dog. Led by Jeff Hoxie and his partner Dave Koob, the team will stop at nothing to meet their clients' imaginative needs.", series.getOverView());
         assertEquals("King of Thrones", series.getName());
         assertEquals("graphical/273385-g.jpg", series.getBannerPath());
         assertNull(series.getImdbId());

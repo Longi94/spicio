@@ -46,7 +46,7 @@ public interface EpisodeDao {
     String COLUMN_THUMB = SeasonsEntry.COLUMN_THUMB;
 
     String COLUMN_WATCH_COUNT = "watch_count";
-    String COLUMN_SKIP_COUNT = "skipped_count";
+    String COLUMN_SKIP_COUNT = "skip_count";
     
     /**
      * Get a single episode from the database.

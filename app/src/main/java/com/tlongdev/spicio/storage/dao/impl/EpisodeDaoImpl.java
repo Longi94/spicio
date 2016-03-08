@@ -183,16 +183,23 @@ public class EpisodeDaoImpl implements EpisodeDao {
     public List<Season> getAllSeasons(int seriesId) {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
-        String query = "SELECT seasons.number, seasons.poster_full, seasons.poster_thumb, seasons.thumb, watches.watch_count, skips.skip_count\n" +
-                "FROM seasons\n" +
-                "LEFT JOIN (SELECT episodes.series_id, count(*) AS watch_count\n" +
-                "\t  FROM episodes \n" +
-                "\t  WHERE episodes.series_id = ? AND episodes.watched = 1) AS watches\n" +
-                "LEFT JOIN (SELECT episodes.series_id, count(*) AS skip_count\n" +
-                "\t  FROM episodes \n" +
-                "\t  WHERE episodes.series_id = ? AND episodes.watched = 2) AS skips\n" +
-                "ON seasons.series_id = watches.series_id\n" +
-                "WHERE seasons.series_id = ?";
+        //Query the seasons with the number of watched and skipper episodes
+        String query = "SELECT " + SeasonsEntry.TABLE_NAME + "." + COLUMN_NUMBER + ", " +
+                SeasonsEntry.TABLE_NAME + "." + COLUMN_POSTER_FULL + ", " +
+                SeasonsEntry.TABLE_NAME + "." + COLUMN_POSTER_THUMB + ", " +
+                SeasonsEntry.TABLE_NAME + "." + COLUMN_THUMB + ", " +
+                "watches." + COLUMN_WATCH_COUNT + ", " +
+                "skips." + COLUMN_SKIP_COUNT +
+                " FROM " + SeasonsEntry.TABLE_NAME +
+                " LEFT JOIN (SELECT " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_WATCH_COUNT +
+                "    FROM " + EpisodesEntry.TABLE_NAME +
+                "    WHERE " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? AND " + EpisodesEntry.TABLE_NAME + "." + COLUMN_WATCHED + " = 1) AS watches " +
+                "ON " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = watches." + COLUMN_SERIES_ID +
+                " LEFT JOIN (SELECT " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_SKIP_COUNT +
+                "    FROM " + EpisodesEntry.TABLE_NAME +
+                "    WHERE " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? AND " + EpisodesEntry.TABLE_NAME + "." + COLUMN_WATCHED + " = 2) AS skips " +
+                "ON " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = skips." + COLUMN_SERIES_ID +
+                " WHERE " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ?";
 
         logger.debug(LOG_TAG, "raw query: " + query);
 
