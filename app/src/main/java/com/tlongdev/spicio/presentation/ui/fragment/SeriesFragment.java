@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.presentation.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.SeriesPresenter;
+import com.tlongdev.spicio.presentation.ui.activity.SeriesActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SeriesAdapter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeriesFragment extends Fragment implements SeriesView {
+public class SeriesFragment extends Fragment implements SeriesView, SeriesAdapter.OnItemSelectedListener {
 
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
 
@@ -62,6 +64,7 @@ public class SeriesFragment extends Fragment implements SeriesView {
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
         adapter = new SeriesAdapter(getActivity());
+        adapter.setListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(adapter);
@@ -90,5 +93,11 @@ public class SeriesFragment extends Fragment implements SeriesView {
     public void showSeries(List<Series> series) {
         adapter.setDataSet(series);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemSelected(Series series) {
+        Intent intent = new Intent(getActivity(), SeriesActivity.class);
+        startActivity(intent);
     }
 }

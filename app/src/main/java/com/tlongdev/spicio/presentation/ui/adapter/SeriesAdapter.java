@@ -27,6 +27,8 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
 
     private Context mContext;
 
+    private OnItemSelectedListener listener;
+
     public SeriesAdapter(Context context) {
         this.mContext = context;
     }
@@ -40,7 +42,7 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mDataSet != null) {
-            Series series = mDataSet.get(position);
+            final Series series = mDataSet.get(position);
 
             holder.title.setText(series.getTitle());
 
@@ -52,7 +54,9 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
             holder.root.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if (listener != null) {
+                        listener.onItemSelected(series);
+                    }
                 }
             });
         }
@@ -67,6 +71,10 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
         this.mDataSet = sataSet;
     }
 
+    public void setListener(OnItemSelectedListener listener) {
+        this.listener = listener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.thumb) ImageView thumb;
@@ -79,5 +87,9 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
             ButterKnife.bind(this, view);
             root = view;
         }
+    }
+
+    public interface OnItemSelectedListener {
+        void onItemSelected(Series series);
     }
 }

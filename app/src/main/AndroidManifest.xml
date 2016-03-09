@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.tlongdev.spicio"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tlongdev.spicio">
 
     <!-- Safe permissions -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".SpicioApplication"
@@ -18,9 +18,9 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -28,8 +28,7 @@
             android:name=".storage.DatabaseProvider"
             android:authorities="com.tlongdev.spicio"
             android:enabled="true"
-            android:exported="false">
-        </provider>
+            android:exported="false"></provider>
 
         <activity
             android:name=".presentation.ui.activity.SeriesDetailsActivity"
@@ -38,7 +37,16 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
+                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".presentation.ui.activity.SeriesActivity"
+            android:label="@string/title_activity_series"
+            android:parentActivityName=".presentation.ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity" />
         </activity>
     </application>
 
