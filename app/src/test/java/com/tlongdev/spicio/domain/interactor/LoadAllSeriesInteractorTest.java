@@ -79,4 +79,18 @@ public class LoadAllSeriesInteractorTest {
         verifyNoMoreInteractions(mSeriesDao);
         verify(mMockedCallback).onFinish(series);
     }
+
+    @Test
+    public void testFail() {
+        when(mSeriesDao.getAllSeries()).thenReturn(null);
+
+        LoadAllSeriesInteractorImpl interactor = new LoadAllSeriesInteractorImpl(
+                mExecutor, mMainThread, mApp, mMockedCallback
+        );
+        interactor.run();
+
+        verify(mSeriesDao).getAllSeries();
+        verifyNoMoreInteractions(mSeriesDao);
+        verify(mMockedCallback).onFail();
+    }
 }

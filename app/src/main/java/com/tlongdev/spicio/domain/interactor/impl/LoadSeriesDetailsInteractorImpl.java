@@ -3,58 +3,57 @@ package com.tlongdev.spicio.domain.interactor.impl;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
-import com.tlongdev.spicio.domain.interactor.LoadAllSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.LoadSeriesDetailsInteractor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 /**
  * @author Long
- * @since 2016. 03. 07.
+ * @since 2016. 03. 09.
  */
-public class LoadAllSeriesInteractorImpl extends AbstractInteractor implements LoadAllSeriesInteractor {
+public class LoadSeriesDetailsInteractorImpl extends AbstractInteractor implements LoadSeriesDetailsInteractor {
 
-    private static final String LOG_TAG = LoadAllSeriesInteractorImpl.class.getSimpleName();
+    private static final String LOG_TAG = LoadSeriesDetailsInteractorImpl.class.getSimpleName();
 
     @Inject SeriesDao mSeriesDao;
     @Inject Logger logger;
 
+    private int mSeriesId;
     private Callback mCallback;
 
-    public LoadAllSeriesInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                       SpicioApplication app, Callback callback) {
+    public LoadSeriesDetailsInteractorImpl(Executor threadExecutor, MainThread mainThread,
+                                           SpicioApplication app, int seriesId,
+                                           Callback callback) {
         super(threadExecutor, mainThread);
         app.getInteractorComponent().inject(this);
+        mSeriesId = seriesId;
         mCallback = callback;
     }
 
     @Override
     public void run() {
         logger.debug(LOG_TAG, "started");
+        Series series = mSeriesDao.getSeries(mSeriesId);
 
-        logger.debug(LOG_TAG, "querying all series");
-        List<Series> seriesList = mSeriesDao.getAllSeries();
-
-        if (seriesList == null) {
-            logger.debug(LOG_TAG, "SeriesDao.getAllSeries returned null");
+        if (series == null) {
+            logger.debug(LOG_TAG, "SeriesDao.getSeries returned null");
             postError();
             return;
         }
 
+        postFinish(series);
         logger.debug(LOG_TAG, "ended");
-        postFinish(seriesList);
     }
 
-    private void postFinish(final List<Series> seriesList) {
+    private void postFinish(final Series series) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish(seriesList);
+                mCallback.onFinish(series);
             }
         });
     }

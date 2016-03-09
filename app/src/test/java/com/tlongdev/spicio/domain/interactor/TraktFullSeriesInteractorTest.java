@@ -89,4 +89,24 @@ public class TraktFullSeriesInteractorTest {
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onFinish(series, seasons, episodes);
     }
+
+    @Test
+    public void testFail() {
+
+        Series series = mock(Series.class);
+
+        when(mRepository.getImages(0, true)).thenReturn(new Images());
+        when(mRepository.getSeasons(0)).thenReturn(null);
+        when(mRepository.getEpisodesForSeries(0)).thenReturn(null);
+
+        TraktFullSeriesInteractorImpl interactor = new TraktFullSeriesInteractorImpl(
+                mExecutor, mMainThread, mApp, series, mMockedCallback
+        );
+        interactor.run();
+
+        verify(mRepository).getImages(0, true);
+        verify(mRepository).getSeasons(0);
+        verifyNoMoreInteractions(mRepository);
+        verify(mMockedCallback).onFail();
+    }
 }
