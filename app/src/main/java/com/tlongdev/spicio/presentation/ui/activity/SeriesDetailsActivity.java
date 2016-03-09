@@ -3,6 +3,7 @@ package com.tlongdev.spicio.presentation.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -66,6 +67,11 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
 
         setContentView(R.layout.activity_series_details);
         ButterKnife.bind(this);
+
+        //Set the color of the status bar
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
