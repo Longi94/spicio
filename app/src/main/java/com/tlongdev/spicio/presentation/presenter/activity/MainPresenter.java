@@ -1,6 +1,8 @@
-package com.tlongdev.spicio.presentation.presenter;
+package com.tlongdev.spicio.presentation.presenter.activity;
 
 import com.tlongdev.spicio.domain.executor.Executor;
+import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
+import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.MainView;
 import com.tlongdev.spicio.threading.MainThread;
 

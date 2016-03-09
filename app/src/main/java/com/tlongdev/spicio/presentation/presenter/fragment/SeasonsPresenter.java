@@ -1,10 +1,12 @@
-package com.tlongdev.spicio.presentation.presenter;
+package com.tlongdev.spicio.presentation.presenter.fragment;
 
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.LoadSeasonsInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
+import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonsView;
 import com.tlongdev.spicio.threading.MainThread;
 

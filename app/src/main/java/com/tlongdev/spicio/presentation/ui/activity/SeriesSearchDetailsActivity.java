@@ -21,8 +21,8 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.presenter.SeriesSearchDetailsPresenter;
-import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
+import com.tlongdev.spicio.presentation.presenter.activity.SeriesSearchDetailsPresenter;
+import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.text.DecimalFormat;
@@ -32,9 +32,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDetailsView {
+public class SeriesSearchDetailsActivity extends AppCompatActivity implements SeriesSearchDetailsView {
 
-    private static final String LOG_TAG = SeriesDetailsActivity.class.getSimpleName();
+    private static final String LOG_TAG = SeriesSearchDetailsActivity.class.getSimpleName();
 
     public static final String EXTRA_TRAKT_ID = "trakt_id";
     public static final String EXTRA_POSTER = "poster";

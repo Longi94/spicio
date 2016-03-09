@@ -1,9 +1,11 @@
-package com.tlongdev.spicio.presentation.presenter;
+package com.tlongdev.spicio.presentation.presenter.fragment;
 
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.LoadAllSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
+import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesView;
 import com.tlongdev.spicio.threading.MainThread;
 

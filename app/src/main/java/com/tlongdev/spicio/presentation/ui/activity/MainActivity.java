@@ -20,7 +20,7 @@ import android.view.View;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
-import com.tlongdev.spicio.presentation.presenter.MainPresenter;
+import com.tlongdev.spicio.presentation.presenter.activity.MainPresenter;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SeriesFragment;
 import com.tlongdev.spicio.presentation.ui.view.activity.MainView;

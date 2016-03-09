@@ -14,7 +14,7 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Season;
-import com.tlongdev.spicio.presentation.presenter.SeasonsPresenter;
+import com.tlongdev.spicio.presentation.presenter.fragment.SeasonsPresenter;
 import com.tlongdev.spicio.presentation.ui.adapter.SeasonsAdapter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonsView;
 import com.tlongdev.spicio.threading.MainThreadImpl;

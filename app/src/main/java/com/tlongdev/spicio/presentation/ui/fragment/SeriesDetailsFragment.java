@@ -19,7 +19,7 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.presenter.SeriesDetailsPresenter;
+import com.tlongdev.spicio.presentation.presenter.fragment.SeriesDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesDetailsView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
@@ -92,7 +92,7 @@ public class SeriesDetailsFragment extends Fragment implements SeriesDetailsView
         presenter.attachView(this);
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_series_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_series_search_details, container, false);
         ButterKnife.bind(this, rootView);
 
         return rootView;

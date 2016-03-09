@@ -7,7 +7,7 @@ import com.tlongdev.spicio.presentation.ui.view.BaseView;
  * @author Long
  * @since 2016. 03. 04.
  */
-public interface SeriesDetailsView extends BaseView {
+public interface SeriesSearchDetailsView extends BaseView {
     void showDetails(Series series);
     void reportError();
     void onSeriesSaved();

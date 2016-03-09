@@ -17,7 +17,7 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.presenter.SeriesPresenter;
+import com.tlongdev.spicio.presentation.presenter.fragment.SeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SeriesAdapter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesView;

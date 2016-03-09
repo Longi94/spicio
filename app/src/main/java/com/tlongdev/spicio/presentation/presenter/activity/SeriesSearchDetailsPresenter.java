@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.presentation.presenter;
+package com.tlongdev.spicio.presentation.presenter.activity;
 
 import android.util.Log;
 
@@ -12,7 +12,9 @@ import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorIm
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
+import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
+import com.tlongdev.spicio.presentation.presenter.Presenter;
+import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView;
 import com.tlongdev.spicio.threading.MainThread;
 
 import java.util.List;
@@ -21,18 +23,18 @@ import java.util.List;
  * @author Long
  * @since 2016. 03. 04.
  */
-public class SeriesSearchDetailsPresenter extends AbstractPresenter implements Presenter<SeriesDetailsView>,TraktSeriesDetailsInteractor.Callback, SaveSeriesInteractor.Callback, TraktFullSeriesInteractor.Callback {
+public class SeriesSearchDetailsPresenter extends AbstractPresenter implements Presenter<SeriesSearchDetailsView>,TraktSeriesDetailsInteractor.Callback, SaveSeriesInteractor.Callback, TraktFullSeriesInteractor.Callback {
 
     private static final String LOG_TAG = SeriesSearchDetailsPresenter.class.getSimpleName();
 
-    private SeriesDetailsView mView;
+    private SeriesSearchDetailsView mView;
 
     public SeriesSearchDetailsPresenter(Executor executor, MainThread mainThread) {
         super(executor, mainThread);
     }
 
     @Override
-    public void attachView(SeriesDetailsView view) {
+    public void attachView(SeriesSearchDetailsView view) {
         mView = view;
     }
 
