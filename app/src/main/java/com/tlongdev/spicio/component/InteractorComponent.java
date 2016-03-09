@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.component;
 
 import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
@@ -22,9 +23,16 @@ import dagger.Component;
 @Component(modules = {SpicioAppModule.class, DaoModule.class, NetworkRepositoryModule.class})
 public interface InteractorComponent {
     void inject(SaveSeriesInteractorImpl saveSeriesInteractor);
+
     void inject(TvdbSearchInteractorImpl tvdbSearchInteractor);
+
     void inject(TraktSearchInteractorImpl traktSearchInteractor);
+
     void inject(TraktSeriesDetailsInteractorImpl traktSeriesDetailsInteractor);
+
     void inject(LoadAllSeriesInteractorImpl loadAllSeriesInteractor);
+
     void inject(TraktFullSeriesInteractorImpl traktFullSeriesInteractor);
+
+    void inject(LoadSeasonsInteractorImpl loadSeasonsInteractor);
 }

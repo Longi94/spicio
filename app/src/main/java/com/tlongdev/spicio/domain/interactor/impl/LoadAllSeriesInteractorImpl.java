@@ -37,8 +37,13 @@ public class LoadAllSeriesInteractorImpl extends AbstractInteractor implements L
     public void run() {
         logger.debug(LOG_TAG, "started");
 
-        logger.debug(LOG_TAG, "querying alll series");
+        logger.debug(LOG_TAG, "querying all series");
         List<Series> seriesList = mSeriesDao.getAllSeries();
+
+        if (seriesList == null) {
+            postError();
+            return;
+        }
 
         logger.debug(LOG_TAG, "ended");
         postFinish(seriesList);
