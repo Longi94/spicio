@@ -201,7 +201,8 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 "    FROM " + EpisodesEntry.TABLE_NAME +
                 "    WHERE " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? AND " + EpisodesEntry.TABLE_NAME + "." + COLUMN_WATCHED + " = 2) AS skips " +
                 "ON " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = skips." + COLUMN_SERIES_ID +
-                " WHERE " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ?";
+                " WHERE " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? " +
+                "ORDER BY " + SeasonsEntry.TABLE_NAME + "." + COLUMN_NUMBER + " DESC";
 
         logger.debug(LOG_TAG, "raw query: " + query);
 

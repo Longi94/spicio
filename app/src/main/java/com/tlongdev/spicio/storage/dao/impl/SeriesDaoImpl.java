@@ -130,7 +130,7 @@ public class SeriesDaoImpl implements SeriesDao {
                 PROJECTION,
                 null,
                 null,
-                null
+                SeriesEntry.COLUMN_TITLE + " ASC"
         );
 
         List<Series> seriesList = new LinkedList<>();
