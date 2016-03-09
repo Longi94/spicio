@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.presentation.ui.fragment.SeasonsFragment;
+import com.tlongdev.spicio.presentation.ui.fragment.SeriesDetailsFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -99,6 +100,8 @@ public class SeriesActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
 
             switch (position) {
+                case 0:
+                    return SeriesDetailsFragment.newInstance(getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
                 case 1:
                     return SeasonsFragment.newInstance(getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
                 default:

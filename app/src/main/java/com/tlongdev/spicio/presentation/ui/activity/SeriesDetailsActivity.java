@@ -20,7 +20,7 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.presenter.SeriesDetailsPresenter;
+import com.tlongdev.spicio.presentation.presenter.SeriesSearchDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesDetailsView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
@@ -47,7 +47,7 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
     @Bind(R.id.scroll_view) NestedScrollView scrollView;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
 
-    private SeriesDetailsPresenter presenter;
+    private SeriesSearchDetailsPresenter presenter;
 
     private String trailerUrl;
 
@@ -57,7 +57,7 @@ public class SeriesDetailsActivity extends AppCompatActivity implements SeriesDe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new SeriesDetailsPresenter(
+        presenter = new SeriesSearchDetailsPresenter(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance()
         );

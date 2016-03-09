@@ -29,21 +29,40 @@ import butterknife.ButterKnife;
  */
 public class SeasonsFragment extends Fragment implements SeasonsView {
 
+    private static final String ARG_PARAM_SERIES_ID = "series_id";
+
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
 
     private SeasonsAdapter adapter;
 
     private SeasonsPresenter presenter;
-    private int mSeriesId;
+    private int mSeriesId = -1;
 
     public SeasonsFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param seriesId the trakt ID of the series
+     * @return A new instance of fragment SeriesDetailsFragment.
+     */
     public static SeasonsFragment newInstance(int seriesId) {
         SeasonsFragment fragment = new SeasonsFragment();
-        fragment.setSeriesId(seriesId);
+        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM_SERIES_ID, seriesId);
+        fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mSeriesId = getArguments().getInt(ARG_PARAM_SERIES_ID);
+        }
     }
 
     @Override
@@ -89,9 +108,5 @@ public class SeasonsFragment extends Fragment implements SeasonsView {
     @Override
     public SpicioApplication getSpicioApplication() {
         return (SpicioApplication) getActivity().getApplication();
-    }
-
-    public void setSeriesId(int seriesId) {
-        this.mSeriesId = seriesId;
     }
 }
