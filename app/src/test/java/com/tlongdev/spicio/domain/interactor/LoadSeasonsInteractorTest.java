@@ -74,10 +74,9 @@ public class LoadSeasonsInteractorTest {
 
         List<Season> seasons = new LinkedList<>();
         when(mEpisodeDao.getAllSeasons(0)).thenReturn(seasons);
-        when(mSeries.getTraktId()).thenReturn(0);
 
         LoadSeasonsInteractorImpl interactor = new LoadSeasonsInteractorImpl(
-                mExecutor, mMainThread, mApp, mSeries, mMockedCallback
+                mExecutor, mMainThread, mApp, 0, mMockedCallback
         );
         interactor.run();
 

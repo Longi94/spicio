@@ -5,17 +5,13 @@ import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.LoadSeasonsInteractor;
 import com.tlongdev.spicio.domain.model.Season;
-import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import okhttp3.Response;
 
 /**
  * @author Long
@@ -28,15 +24,15 @@ public class LoadSeasonsInteractorImpl extends AbstractInteractor implements Loa
     @Inject EpisodeDao mEpisodeDao;
     @Inject Logger logger;
 
-    private Series mSeries;
+    private int mSeriesId;
     private Callback mCallback;
 
     public LoadSeasonsInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                     SpicioApplication app, Series series,
+                                     SpicioApplication app, int seriesId,
                                      Callback callback) {
         super(threadExecutor, mainThread);
         app.getInteractorComponent().inject(this);
-        mSeries = series;
+        mSeriesId = seriesId;
         mCallback = callback;
     }
 
@@ -44,8 +40,8 @@ public class LoadSeasonsInteractorImpl extends AbstractInteractor implements Loa
     public void run() {
         logger.debug(LOG_TAG, "started");
 
-        logger.debug(LOG_TAG, "querying seasons for " + mSeries.getTitle());
-        List<Season> seasons = mEpisodeDao.getAllSeasons(mSeries.getTraktId());
+        logger.debug(LOG_TAG, "querying seasons for " + mSeriesId);
+        List<Season> seasons = mEpisodeDao.getAllSeasons(mSeriesId);
 
         if (seasons == null) {
             postError();
@@ -54,11 +50,6 @@ public class LoadSeasonsInteractorImpl extends AbstractInteractor implements Loa
 
         postFinish(seasons);
         logger.debug(LOG_TAG, "ended");
-    }
-
-    @Override
-    public Response intercept(Chain chain) throws IOException {
-        return null;
     }
 
     private void postError() {

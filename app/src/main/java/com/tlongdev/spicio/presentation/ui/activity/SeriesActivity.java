@@ -21,6 +21,8 @@ import butterknife.ButterKnife;
 
 public class SeriesActivity extends AppCompatActivity {
 
+    public static final String EXTRA_SERIES_ID = "series_id";
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     @Bind(R.id.container) ViewPager mViewPager;
@@ -98,7 +100,7 @@ public class SeriesActivity extends AppCompatActivity {
 
             switch (position) {
                 case 1:
-                    return new SeasonsFragment();
+                    return SeasonsFragment.newInstance(getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
                 default:
                     return PlaceholderFragment.newInstance(position + 1);
             }
