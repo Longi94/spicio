@@ -99,6 +99,7 @@ public class SeriesFragment extends Fragment implements SeriesView, SeriesAdapte
     public void onItemSelected(Series series) {
         Intent intent = new Intent(getActivity(), SeriesActivity.class);
         intent.putExtra(SeriesActivity.EXTRA_SERIES_ID, series.getTraktId());
+        intent.putExtra(SeriesActivity.EXTRA_SERIES_TITLE, series.getTitle());
         startActivity(intent);
     }
 }

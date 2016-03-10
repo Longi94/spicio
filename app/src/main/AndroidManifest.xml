@@ -41,7 +41,6 @@
         </activity>
         <activity
             android:name=".presentation.ui.activity.SeriesActivity"
-            android:label="@string/title_activity_series"
             android:parentActivityName=".presentation.ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -50,7 +49,6 @@
         </activity>
         <activity
             android:name=".presentation.ui.activity.SeasonEpisodesActivity"
-            android:label="@string/title_activity_season_episodes"
             android:parentActivityName=".presentation.ui.activity.SeriesActivity"
             android:theme="@style/AppTheme">
             <meta-data

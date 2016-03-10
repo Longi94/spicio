@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 public class SeriesActivity extends AppCompatActivity {
 
     public static final String EXTRA_SERIES_ID = "series_id";
+    public static final String EXTRA_SERIES_TITLE = "series_title";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -44,6 +45,8 @@ public class SeriesActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTitle(getIntent().getStringExtra(EXTRA_SERIES_TITLE));
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

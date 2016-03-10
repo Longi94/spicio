@@ -68,8 +68,15 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
         mSwipeRefreshLayout.setOnRefreshListener(presenter);
 
         Intent intent = getIntent();
+        int season = intent.getIntExtra(EXTRA_SEASON, -1);
         presenter.setSeriesId(intent.getIntExtra(EXTRA_SERIES_ID, -1));
-        presenter.setSeason(intent.getIntExtra(EXTRA_SEASON, -1));
+        presenter.setSeason(season);
+
+        if (season == 0) {
+            setTitle("Special Episodes");
+        } else {
+            setTitle("Season " + season);
+        }
     }
 
     @Override
