@@ -76,6 +76,7 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     protected void onResume() {
         super.onResume();
         presenter.loadEpisodes(mSeriesId, mSeason);
+        presenter.getEpisodesDetails(mSeriesId, mSeason);
     }
 
     @Override

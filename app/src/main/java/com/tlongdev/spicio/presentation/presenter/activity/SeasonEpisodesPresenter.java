@@ -37,7 +37,7 @@ public class SeasonEpisodesPresenter extends AbstractPresenter implements Presen
         mView = null;
     }
 
-    public void getEpisodes(int seriesId, int season) {
+    public void getEpisodesDetails(int seriesId, int season) {
         TraktEpisodeImagesInteractor interactor = new TraktEpisodeImagesInteractorImpl(
                 mExecutor, mMainThread, mView.getSpicioApplication(), seriesId, season, this
         );

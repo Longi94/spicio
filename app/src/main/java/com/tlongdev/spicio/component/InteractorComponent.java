@@ -4,6 +4,7 @@ import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeriesDetailsInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.SaveEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktEpisodeImagesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktFullSeriesInteractorImpl;
@@ -44,4 +45,6 @@ public interface InteractorComponent {
     void inject(TraktEpisodeImagesInteractorImpl traktEpisodeImagesInteractor);
 
     void inject(LoadSeasonEpisodesInteractorImpl loadSeasonEpisodesInteractor);
+
+    void inject(SaveEpisodesInteractorImpl saveEpisodesInteractor);
 }
