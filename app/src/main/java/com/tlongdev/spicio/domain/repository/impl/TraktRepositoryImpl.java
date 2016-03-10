@@ -138,7 +138,9 @@ public class TraktRepositoryImpl implements TraktRepository {
 
                 for (TraktSeason traktSeason : response.body()) {
                     for (TraktEpisode traktEpisode : traktSeason.getEpisodes()) {
-                        episodes.add(TraktModelConverter.convertToEpisode(traktEpisode));
+                        Episode episode = TraktModelConverter.convertToEpisode(traktEpisode);
+                        episode.setSeriesId(traktId);
+                        episodes.add(episode);
                     }
                 }
 

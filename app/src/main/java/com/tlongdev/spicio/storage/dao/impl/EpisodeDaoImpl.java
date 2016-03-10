@@ -158,7 +158,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 PROJECTION,
                 COLUMN_SERIES_ID + " = ? AND " + COLUMN_SEASON + " = ?",
                 new String[]{String.valueOf(seriesId), String.valueOf(season)},
-                null
+                COLUMN_EPISODE_NUMBER + " ASC"
         );
 
         List<Episode> episodes = new LinkedList<>();

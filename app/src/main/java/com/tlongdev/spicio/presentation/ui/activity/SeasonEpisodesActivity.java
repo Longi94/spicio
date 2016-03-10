@@ -2,6 +2,7 @@ package com.tlongdev.spicio.presentation.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.presentation.presenter.activity.SeasonEpisodesPresenter;
-import com.tlongdev.spicio.presentation.ui.adapter.SearchSeriesAdapter;
+import com.tlongdev.spicio.presentation.ui.adapter.SeasonEpisodesAdapter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonEpisodesView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
@@ -36,7 +37,7 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     private int mSeriesId;
     private int mSeason;
 
-    private SearchSeriesAdapter mAdapter;
+    private SeasonEpisodesAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +52,15 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
         setContentView(R.layout.activity_season_episodes);
         ButterKnife.bind(this);
 
+        //Set the color of the status bar
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
+        }
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mAdapter = new SearchSeriesAdapter(this);
+        mAdapter = new SeasonEpisodesAdapter(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -90,6 +96,7 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
 
     @Override
     public void showEpisodes(List<Episode> episodes) {
-
+        mAdapter.setDataSet(episodes);
+        mAdapter.notifyDataSetChanged();
     }
 }
