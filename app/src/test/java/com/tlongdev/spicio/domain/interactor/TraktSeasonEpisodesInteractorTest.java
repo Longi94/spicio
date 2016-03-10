@@ -4,7 +4,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.domain.executor.Executor;
-import com.tlongdev.spicio.domain.interactor.impl.TraktEpisodeImagesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TraktSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.module.DaoModule;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
  * @since 2016. 03. 10.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TraktEpisodeImagesInteractorTest {
+public class TraktSeasonEpisodesInteractorTest {
 
     @Mock
     private TraktRepository mRepository;
@@ -41,7 +41,7 @@ public class TraktEpisodeImagesInteractorTest {
     private Executor mExecutor;
 
     @Mock
-    private TraktEpisodeImagesInteractorImpl.Callback mMockedCallback;
+    private TraktSeasonEpisodesInteractorImpl.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
@@ -70,7 +70,7 @@ public class TraktEpisodeImagesInteractorTest {
 
         when(mRepository.getEpisodeImages(0, 0)).thenReturn(episodes);
 
-        TraktEpisodeImagesInteractorImpl interactor = new TraktEpisodeImagesInteractorImpl(
+        TraktSeasonEpisodesInteractorImpl interactor = new TraktSeasonEpisodesInteractorImpl(
                 mExecutor, mMainThread, mApp, 0, 0, mMockedCallback
         );
         interactor.run();
@@ -85,7 +85,7 @@ public class TraktEpisodeImagesInteractorTest {
 
         when(mRepository.getEpisodeImages(0, 0)).thenReturn(null);
 
-        TraktEpisodeImagesInteractorImpl interactor = new TraktEpisodeImagesInteractorImpl(
+        TraktSeasonEpisodesInteractorImpl interactor = new TraktSeasonEpisodesInteractorImpl(
                 mExecutor, mMainThread, mApp, 0, 0, mMockedCallback
         );
         interactor.run();

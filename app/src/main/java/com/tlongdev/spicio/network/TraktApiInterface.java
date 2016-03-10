@@ -88,8 +88,18 @@ public interface TraktApiInterface {
      * @param season the season number (0 for special episodes)
      * @return the episodes of a season
      */
-    @GET("shows/{id}/seasons/{season}?extended=images")
+    @GET("shows/{id}/seasons/{season}?extended=full")
     Call<List<TraktEpisode>> getSeasonEpisodes(@Path("id") String id, @Path("season") int season);
+
+    /**
+     * Get the episodes of a season of a series
+     *
+     * @param id     the id of the series, can be trakt.tv ID, trakt.tv slug or IMDB ID
+     * @param season the season number (0 for special episodes)
+     * @return the episodes of a season
+     */
+    @GET("shows/{id}/seasons/{season}?extended=images")
+    Call<List<TraktEpisode>> getSeasonEpisodesImages(@Path("id") String id, @Path("season") int season);
 
     /**
      * Get a single episode of a season of a series.

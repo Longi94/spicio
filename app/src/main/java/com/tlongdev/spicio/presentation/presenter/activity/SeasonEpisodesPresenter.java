@@ -2,11 +2,14 @@ package com.tlongdev.spicio.presentation.presenter.activity;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.LoadSeasonEpisodesInteractor;
-import com.tlongdev.spicio.domain.interactor.TraktEpisodeImagesInteractor;
+import com.tlongdev.spicio.domain.interactor.SaveEpisodesInteractor;
+import com.tlongdev.spicio.domain.interactor.TraktSeasonEpisodesInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonEpisodesInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.impl.TraktEpisodeImagesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.SaveEpisodesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TraktSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
@@ -19,9 +22,51 @@ import java.util.List;
  * @author Long
  * @since 2016. 03. 10.
  */
-public class SeasonEpisodesPresenter extends AbstractPresenter implements Presenter<SeasonEpisodesView>,TraktEpisodeImagesInteractor.Callback, SwipeRefreshLayout.OnRefreshListener, LoadSeasonEpisodesInteractor.Callback {
+public class SeasonEpisodesPresenter extends AbstractPresenter implements Presenter<SeasonEpisodesView>,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private SeasonEpisodesView mView;
+
+    private SpicioApplication mApplication;
+
+    private int mSeriesId;
+    private int mSeason;
+
+    private LoadSeasonEpisodesInteractor.Callback databaseCallback = new LoadSeasonEpisodesInteractor.Callback() {
+        @Override
+        public void onFinish(List<Episode> episodes) {
+            if (mView != null) {
+                mView.showEpisodes(episodes);
+            }
+        }
+
+        @Override
+        public void onFail() {
+
+        }
+    };
+
+    private TraktSeasonEpisodesInteractor.Callback traktCallback = new TraktSeasonEpisodesInteractor.Callback() {
+        @Override
+        public void onFinish(List<Episode> episodes) {
+            if (mView != null) {
+                mView.showEpisodes(episodes);
+                mView.hideRefreshAnimation();
+            }
+
+            SaveEpisodesInteractor interactor = new SaveEpisodesInteractorImpl(
+                    mExecutor, mMainThread, mApplication, episodes, null
+            );
+            interactor.execute();
+        }
+
+        @Override
+        public void onFail() {
+            if (mView != null) {
+                mView.hideRefreshAnimation();
+            }
+        }
+    };
 
     public SeasonEpisodesPresenter(Executor executor, MainThread mainThread) {
         super(executor, mainThread);
@@ -30,6 +75,7 @@ public class SeasonEpisodesPresenter extends AbstractPresenter implements Presen
     @Override
     public void attachView(SeasonEpisodesView view) {
         mView = view;
+        mApplication = view.getSpicioApplication();
     }
 
     @Override
@@ -37,34 +83,31 @@ public class SeasonEpisodesPresenter extends AbstractPresenter implements Presen
         mView = null;
     }
 
-    public void getEpisodesDetails(int seriesId, int season) {
-        TraktEpisodeImagesInteractor interactor = new TraktEpisodeImagesInteractorImpl(
-                mExecutor, mMainThread, mView.getSpicioApplication(), seriesId, season, this
+    public void getEpisodesDetails() {
+        mView.showRefreshAnimation();
+        TraktSeasonEpisodesInteractor interactor = new TraktSeasonEpisodesInteractorImpl(
+                mExecutor, mMainThread, mApplication, mSeriesId, mSeason, traktCallback
         );
         interactor.execute();
     }
 
-    public void loadEpisodes(int seriesId, int season) {
+    public void loadEpisodes() {
         LoadSeasonEpisodesInteractor interactor = new LoadSeasonEpisodesInteractorImpl(
-                mExecutor, mMainThread, mView.getSpicioApplication(), seriesId, season, this
+                mExecutor, mMainThread, mApplication, mSeriesId, mSeason, databaseCallback
         );
         interactor.execute();
-    }
-
-    @Override
-    public void onFinish(List<Episode> episodes) {
-        if (mView != null) {
-            mView.showEpisodes(episodes);
-        }
-    }
-
-    @Override
-    public void onFail() {
-        // TODO: 2016. 03. 10.
     }
 
     @Override
     public void onRefresh() {
+        getEpisodesDetails();
+    }
 
+    public void setSeriesId(int seriesId) {
+        mSeriesId = seriesId;
+    }
+
+    public void setSeason(int season) {
+        mSeason = season;
     }
 }

@@ -34,8 +34,6 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     @Bind(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private SeasonEpisodesPresenter presenter;
-    private int mSeriesId;
-    private int mSeason;
 
     private SeasonEpisodesAdapter mAdapter;
 
@@ -68,15 +66,15 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
         mSwipeRefreshLayout.setOnRefreshListener(presenter);
 
         Intent intent = getIntent();
-        mSeriesId = intent.getIntExtra(EXTRA_SERIES_ID, -1);
-        mSeason = intent.getIntExtra(EXTRA_SEASON, -1);
+        presenter.setSeriesId(intent.getIntExtra(EXTRA_SERIES_ID, -1));
+        presenter.setSeason(intent.getIntExtra(EXTRA_SEASON, -1));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadEpisodes(mSeriesId, mSeason);
-        presenter.getEpisodesDetails(mSeriesId, mSeason);
+        presenter.loadEpisodes();
+        presenter.getEpisodesDetails();
     }
 
     @Override
@@ -99,5 +97,20 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     public void showEpisodes(List<Episode> episodes) {
         mAdapter.setDataSet(episodes);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showRefreshAnimation() {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+    }
+
+    @Override
+    public void hideRefreshAnimation() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

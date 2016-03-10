@@ -3,7 +3,7 @@ package com.tlongdev.spicio.domain.interactor.impl;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
-import com.tlongdev.spicio.domain.interactor.TraktEpisodeImagesInteractor;
+import com.tlongdev.spicio.domain.interactor.TraktSeasonEpisodesInteractor;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.threading.MainThread;
@@ -17,9 +17,9 @@ import javax.inject.Inject;
  * @author Long
  * @since 2016. 03. 10.
  */
-public class TraktEpisodeImagesInteractorImpl extends AbstractInteractor implements TraktEpisodeImagesInteractor {
+public class TraktSeasonEpisodesInteractorImpl extends AbstractInteractor implements TraktSeasonEpisodesInteractor {
 
-    private static final String LOG_TAG = TraktEpisodeImagesInteractorImpl.class.getSimpleName();
+    private static final String LOG_TAG = TraktSeasonEpisodesInteractorImpl.class.getSimpleName();
 
     @Inject TraktRepository mRepository;
     @Inject Logger logger;
@@ -28,9 +28,9 @@ public class TraktEpisodeImagesInteractorImpl extends AbstractInteractor impleme
     private int mSeason;
     private Callback mCallback;
 
-    public TraktEpisodeImagesInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                            SpicioApplication app, int seriesId, int season,
-                                            Callback callback) {
+    public TraktSeasonEpisodesInteractorImpl(Executor threadExecutor, MainThread mainThread,
+                                             SpicioApplication app, int seriesId, int season,
+                                             Callback callback) {
         super(threadExecutor, mainThread);
         app.getInteractorComponent().inject(this);
         mSeriesId = seriesId;
@@ -43,11 +43,23 @@ public class TraktEpisodeImagesInteractorImpl extends AbstractInteractor impleme
         logger.debug(LOG_TAG, "started");
 
         logger.debug(LOG_TAG, "getting list of episodes with images");
-        List<Episode> episodes = mRepository.getEpisodeImages(mSeriesId, mSeason);
+        List<Episode> episodesImages = mRepository.getEpisodeImages(mSeriesId, mSeason);
+        if (episodesImages == null) {
+            logger.debug(LOG_TAG, "TraktRepository.getEpisodeImages returned null");
+            postError();
+            return;
+        }
+
+        logger.debug(LOG_TAG, "getting list of episodes with images");
+        List<Episode> episodes = mRepository.getSeasonEpisodes(mSeriesId, mSeason);
         if (episodes == null) {
             logger.debug(LOG_TAG, "TraktRepository.getEpisodeImages returned null");
             postError();
             return;
+        }
+
+        for (int i = 0; i < episodes.size(); i++) {
+            episodes.get(i).setImages(episodesImages.get(i).getImages());
         }
 
         postFinish(episodes);

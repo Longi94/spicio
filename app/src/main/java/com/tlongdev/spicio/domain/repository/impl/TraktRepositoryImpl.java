@@ -195,6 +195,36 @@ public class TraktRepositoryImpl implements TraktRepository {
     public List<Episode> getEpisodeImages(int seriesId, int season) {
 
         try {
+            Call<List<TraktEpisode>> call = traktInterface.getSeasonEpisodesImages(String.valueOf(seriesId), season);
+
+            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<TraktEpisode>> response = call.execute();
+
+            if (response.body() == null) {
+                int code = response.raw().code();
+                logger.error(LOG_TAG, "call returned null with code " + code);
+            } else {
+                logger.debug(LOG_TAG, "converting trakt episode objects");
+                List<Episode> episodes = new LinkedList<>();
+
+                for (TraktEpisode traktEpisode : response.body()) {
+                    episodes.add(TraktModelConverter.convertToEpisode(traktEpisode));
+                }
+
+                logger.debug(LOG_TAG, "seasons API returned " + episodes.size() + " episodes");
+
+                return episodes;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Episode> getSeasonEpisodes(int seriesId, int season) {
+
+        try {
             Call<List<TraktEpisode>> call = traktInterface.getSeasonEpisodes(String.valueOf(seriesId), season);
 
             logger.debug(LOG_TAG, "calling " + call.request().url().toString());
