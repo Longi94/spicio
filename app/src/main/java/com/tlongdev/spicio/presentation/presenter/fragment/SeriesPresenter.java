@@ -45,7 +45,9 @@ public class SeriesPresenter extends AbstractPresenter implements Presenter<Seri
 
     @Override
     public void onFinish(List<Series> series) {
-        mView.showSeries(series);
+        if (mView != null) {
+            mView.showSeries(series);
+        }
     }
 
     @Override

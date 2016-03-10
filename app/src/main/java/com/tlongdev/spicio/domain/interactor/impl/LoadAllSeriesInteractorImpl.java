@@ -51,6 +51,10 @@ public class LoadAllSeriesInteractorImpl extends AbstractInteractor implements L
     }
 
     private void postFinish(final List<Series> seriesList) {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -60,6 +64,10 @@ public class LoadAllSeriesInteractorImpl extends AbstractInteractor implements L
     }
 
     private void postError() {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

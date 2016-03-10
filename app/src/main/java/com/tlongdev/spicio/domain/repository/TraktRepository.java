@@ -17,7 +17,7 @@ public interface TraktRepository {
 
     Series getSeriesDetails(int traktId);
 
-    Images getImages(int traktId, boolean isSeries);
+    Images getImages(int traktId);
 
     List<Episode> getEpisodesForSeries(int traktId);
 

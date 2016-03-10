@@ -54,7 +54,9 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
     @Override
     public void onResult(Series series) {
         Log.d(LOG_TAG, "onResult() called");
-        mView.showDetails(series);
+        if (mView != null) {
+            mView.showDetails(series);
+        }
     }
 
     @Override
@@ -70,7 +72,9 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
     @Override
     public void onFail() {
         Log.d(LOG_TAG, "onFail() called");
-        mView.reportError();
+        if (mView != null) {
+            mView.reportError();
+        }
     }
 
     public void saveSeries(Series series) {
@@ -85,6 +89,8 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
     @Override
     public void onFinish() {
         Log.d(LOG_TAG, "onFinish() called with: " + "");
-        mView.onSeriesSaved();
+        if (mView != null) {
+            mView.onSeriesSaved();
+        }
     }
 }

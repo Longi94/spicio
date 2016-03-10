@@ -48,11 +48,15 @@ public class SearchSeriesPresenter extends AbstractPresenter implements Presente
 
     @Override
     public void onSearchResult(List<Series> series) {
-        mView.showSearchResult(series);
+        if (mView != null) {
+            mView.showSearchResult(series);
+        }
     }
 
     @Override
     public void onSearchFailed() {
-        mView.showErrorMessage();
+        if (mView != null) {
+            mView.showErrorMessage();
+        }
     }
 }

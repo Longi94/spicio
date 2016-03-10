@@ -53,6 +53,10 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
     }
 
     private void postError() {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -62,6 +66,10 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
     }
 
     private void postResult(final List<Series> searchResult) {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

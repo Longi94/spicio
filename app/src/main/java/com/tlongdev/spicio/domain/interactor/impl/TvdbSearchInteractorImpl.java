@@ -55,6 +55,10 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
     }
 
     private void postError() {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -64,6 +68,10 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
     }
 
     private void postResult(final List<TvdbSeriesOld> searchResult) {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

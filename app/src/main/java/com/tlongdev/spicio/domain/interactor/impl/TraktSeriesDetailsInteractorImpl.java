@@ -52,6 +52,10 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
 
 
     private void postError() {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -61,6 +65,10 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
     }
 
     private void postResult(final Series series) {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

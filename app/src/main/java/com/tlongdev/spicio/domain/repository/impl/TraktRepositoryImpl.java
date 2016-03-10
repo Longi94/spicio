@@ -98,29 +98,24 @@ public class TraktRepositoryImpl implements TraktRepository {
     }
 
     @Override
-    public Images getImages(int traktId, boolean isSeries) {
+    public Images getImages(int traktId) {
+        try {
 
-        if (isSeries) {
-            try {
+            Call<TraktSeries> call = traktInterface.getSeriesImages(String.valueOf(traktId));
 
-                Call<TraktSeries> call = traktInterface.getSeriesImages(String.valueOf(traktId));
+            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<TraktSeries> response = call.execute();
 
-                logger.debug(LOG_TAG, "calling " + call.request().url().toString());
-                Response<TraktSeries> response = call.execute();
-
-                if (response.body() == null) {
-                    int code = response.raw().code();
-                    logger.error(LOG_TAG, "call returned null with code " + code);
-                } else {
-                    logger.debug(LOG_TAG, "converting traktseries object");
-                    return TraktModelConverter.convertToImages(response.body().getImages());
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (response.body() == null) {
+                int code = response.raw().code();
+                logger.error(LOG_TAG, "call returned null with code " + code);
+            } else {
+                logger.debug(LOG_TAG, "converting traktseries object");
+                return TraktModelConverter.convertToImages(response.body().getImages());
             }
-        } else {
-            // TODO: 2016. 03. 08.
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return null;

@@ -45,7 +45,7 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
         logger.debug(LOG_TAG, "started");
 
         logger.debug(LOG_TAG, "getting image links for series");
-        Images images = mTraktRepository.getImages(mSeries.getTraktId(), true);
+        Images images = mTraktRepository.getImages(mSeries.getTraktId());
 
         if (images == null) {
             logger.debug(LOG_TAG, "TraktRepository.getImages returned null");
@@ -76,6 +76,10 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
     }
 
     private void postFinish(final Series series, final List<Season> seasons, final List<Episode> episodes) {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -85,6 +89,10 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
     }
 
     private void postError() {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

@@ -50,6 +50,10 @@ public class LoadSeriesDetailsInteractorImpl extends AbstractInteractor implemen
     }
 
     private void postFinish(final Series series) {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -59,6 +63,10 @@ public class LoadSeriesDetailsInteractorImpl extends AbstractInteractor implemen
     }
 
     private void postError() {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

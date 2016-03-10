@@ -53,6 +53,10 @@ public class LoadSeasonsInteractorImpl extends AbstractInteractor implements Loa
     }
 
     private void postError() {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -62,6 +66,10 @@ public class LoadSeasonsInteractorImpl extends AbstractInteractor implements Loa
     }
 
     private void postFinish(final List<Season> seasons) {
+        if (mCallback == null) {
+            return;
+        }
+
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

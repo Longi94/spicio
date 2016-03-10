@@ -4,7 +4,6 @@ import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.LoadSeasonsInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Season;
-import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonsView;
@@ -47,7 +46,9 @@ public class SeasonsPresenter extends AbstractPresenter implements Presenter<Sea
 
     @Override
     public void onFinish(List<Season> seasons) {
-        mView.showSeasons(seasons);
+        if (mView != null) {
+            mView.showSeasons(seasons);
+        }
     }
 
     @Override
