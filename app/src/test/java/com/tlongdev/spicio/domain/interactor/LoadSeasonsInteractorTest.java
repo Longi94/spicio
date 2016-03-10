@@ -70,7 +70,7 @@ public class LoadSeasonsInteractorTest {
     }
 
     @Test
-    public void testLoadSeasons() {
+    public void testSuccess() {
 
         List<Season> seasons = new LinkedList<>();
         when(mEpisodeDao.getAllSeasons(0)).thenReturn(seasons);

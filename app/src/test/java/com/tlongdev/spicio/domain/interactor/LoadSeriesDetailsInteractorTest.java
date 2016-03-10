@@ -63,7 +63,7 @@ public class LoadSeriesDetailsInteractorTest {
     }
 
     @Test
-    public void testLoad() {
+    public void testSuccess() {
 
         Series series = new Series();
         when(mSeriesDao.getSeries(0)).thenReturn(series);

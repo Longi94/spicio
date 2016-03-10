@@ -24,4 +24,6 @@ public interface TraktRepository {
     Episode getEpisodeDetails(int traktId, int season, int number);
 
     List<Season> getSeasons(int traktId);
+
+    List<Episode> getEpisodeImages(int seriesId, int season);
 }

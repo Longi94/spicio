@@ -188,4 +188,9 @@ public class TraktRepositoryImpl implements TraktRepository {
         }
         return null;
     }
+
+    @Override
+    public List<Episode> getEpisodeImages(int seriesId, int season) {
+        return null;
+    }
 }

@@ -4,12 +4,12 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.domain.executor.Executor;
-import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.interactor.impl.TraktEpisodeImagesInteractorImpl;
+import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.repository.TraktRepository;
+import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.FakeAppModule;
-import com.tlongdev.spicio.module.FakeDaoModule;
-import com.tlongdev.spicio.module.NetworkRepositoryModule;
-import com.tlongdev.spicio.storage.dao.SeriesDao;
+import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
 import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.threading.TestMainThread;
 
@@ -29,19 +29,19 @@ import static org.mockito.Mockito.when;
 
 /**
  * @author Long
- * @since 2016. 03. 07.
+ * @since 2016. 03. 10.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class LoadAllSeriesInteractorTest {
+public class TraktEpisodeImagesInteractorTest {
 
     @Mock
-    private SeriesDao mSeriesDao;
+    private TraktRepository mRepository;
 
     @Mock
     private Executor mExecutor;
 
     @Mock
-    private LoadAllSeriesInteractor.Callback mMockedCallback;
+    private TraktEpisodeImagesInteractorImpl.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
@@ -52,13 +52,13 @@ public class LoadAllSeriesInteractorTest {
     public void setUp() {
         mMainThread = new TestMainThread();
 
-        FakeDaoModule storageModule = new FakeDaoModule();
-        storageModule.setSeriesDao(mSeriesDao);
+        FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
+        networkRepositoryModule.setTraktRepository(mRepository);
 
         InteractorComponent component = DaggerInteractorComponent.builder()
                 .spicioAppModule(new FakeAppModule(mApp))
-                .daoModule(storageModule)
-                .networkRepositoryModule(mock(NetworkRepositoryModule.class))
+                .networkRepositoryModule(networkRepositoryModule)
+                .daoModule(mock(DaoModule.class))
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -66,31 +66,32 @@ public class LoadAllSeriesInteractorTest {
 
     @Test
     public void testSuccess() {
+        List<Episode> episodes = new LinkedList<>();
 
-        List<Series> series = new LinkedList<>();
-        when(mSeriesDao.getAllSeries()).thenReturn(series);
+        when(mRepository.getEpisodeImages(0, 0)).thenReturn(episodes);
 
-        LoadAllSeriesInteractorImpl interactor = new LoadAllSeriesInteractorImpl(
-                mExecutor, mMainThread, mApp, mMockedCallback
+        TraktEpisodeImagesInteractorImpl interactor = new TraktEpisodeImagesInteractorImpl(
+                mExecutor, mMainThread, mApp, 0, 0, mMockedCallback
         );
         interactor.run();
 
-        verify(mSeriesDao).getAllSeries();
-        verifyNoMoreInteractions(mSeriesDao);
-        verify(mMockedCallback).onFinish(series);
+        verify(mRepository).getEpisodeImages(0, 0);
+        verifyNoMoreInteractions(mRepository);
+        verify(mMockedCallback).onFinish(episodes);
     }
 
     @Test
     public void testFail() {
-        when(mSeriesDao.getAllSeries()).thenReturn(null);
 
-        LoadAllSeriesInteractorImpl interactor = new LoadAllSeriesInteractorImpl(
-                mExecutor, mMainThread, mApp, mMockedCallback
+        when(mRepository.getEpisodeImages(0, 0)).thenReturn(null);
+
+        TraktEpisodeImagesInteractorImpl interactor = new TraktEpisodeImagesInteractorImpl(
+                mExecutor, mMainThread, mApp, 0, 0, mMockedCallback
         );
         interactor.run();
 
-        verify(mSeriesDao).getAllSeries();
-        verifyNoMoreInteractions(mSeriesDao);
+        verify(mRepository).getEpisodeImages(0, 0);
+        verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onFail();
     }
 }
