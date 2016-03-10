@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.presentation.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.presentation.presenter.fragment.SeasonsPresenter;
+import com.tlongdev.spicio.presentation.ui.activity.SeasonEpisodesActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SeasonsAdapter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonsView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
@@ -27,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeasonsFragment extends Fragment implements SeasonsView {
+public class SeasonsFragment extends Fragment implements SeasonsView, SeasonsAdapter.OnItemSelectedListener {
 
     private static final String ARG_PARAM_SERIES_ID = "series_id";
 
@@ -80,6 +82,7 @@ public class SeasonsFragment extends Fragment implements SeasonsView {
         ButterKnife.bind(this, rootView);
 
         adapter = new SeasonsAdapter(getActivity());
+        adapter.setListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(adapter);
@@ -108,5 +111,13 @@ public class SeasonsFragment extends Fragment implements SeasonsView {
     @Override
     public SpicioApplication getSpicioApplication() {
         return (SpicioApplication) getActivity().getApplication();
+    }
+
+    @Override
+    public void onItemSelected(Season season) {
+        Intent intent = new Intent(getActivity(), SeasonEpisodesActivity.class);
+        intent.putExtra(SeasonEpisodesActivity.EXTRA_SERIES_ID, season.getSeriesId());
+        intent.putExtra(SeasonEpisodesActivity.EXTRA_SEASON, season.getNumber());
+        startActivity(intent);
     }
 }

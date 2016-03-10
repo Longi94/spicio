@@ -215,7 +215,9 @@ public class EpisodeDaoImpl implements EpisodeDao {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
-                    seasons.add(mapCursorToSeason(cursor));
+                    Season season = mapCursorToSeason(cursor);
+                    season.setSeriesId(traktId);
+                    seasons.add(season);
                 } while (cursor.moveToNext());
             }else {
                 logger.debug(LOG_TAG, "season not found for series with id: " + traktId);

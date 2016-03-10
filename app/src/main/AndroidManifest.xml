@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tlongdev.spicio">
+<manifest package="com.tlongdev.spicio"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Safe permissions -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".SpicioApplication"
@@ -18,9 +18,9 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -28,7 +28,7 @@
             android:name=".storage.DatabaseProvider"
             android:authorities="com.tlongdev.spicio"
             android:enabled="true"
-            android:exported="false"></provider>
+            android:exported="false"/>
 
         <activity
             android:name=".presentation.ui.activity.SeriesSearchDetailsActivity"
@@ -37,7 +37,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity" />
+                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
         </activity>
         <activity
             android:name=".presentation.ui.activity.SeriesActivity"
@@ -46,7 +46,16 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity" />
+                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".presentation.ui.activity.SeasonEpisodesActivity"
+            android:label="@string/title_activity_season_episodes"
+            android:parentActivityName=".presentation.ui.activity.SeriesActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tlongdev.spicio.presentation.ui.activity.SeriesActivity"/>
         </activity>
     </application>
 
