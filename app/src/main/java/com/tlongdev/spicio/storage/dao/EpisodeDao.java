@@ -56,6 +56,8 @@ public interface EpisodeDao {
      */
     Episode getEpisode(int episodeId);
 
+    Episode getEpisode(int seriesId, int season, int episode);
+
     /**
      * Get all the episodes from the database
      *

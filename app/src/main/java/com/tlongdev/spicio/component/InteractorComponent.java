@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.component;
 
 import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.LoadEpisodeDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeriesDetailsInteractorImpl;
@@ -47,4 +48,6 @@ public interface InteractorComponent {
     void inject(LoadSeasonEpisodesInteractorImpl loadSeasonEpisodesInteractor);
 
     void inject(SaveEpisodesInteractorImpl saveEpisodesInteractor);
+
+    void inject(LoadEpisodeDetailsInteractorImpl loadEpisodeDetailsInteractor);
 }

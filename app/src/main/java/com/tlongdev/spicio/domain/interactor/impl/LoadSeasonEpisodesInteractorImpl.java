@@ -47,9 +47,9 @@ public class LoadSeasonEpisodesInteractorImpl extends AbstractInteractor impleme
         if (episodes == null) {
             logger.debug(LOG_TAG, "EpisodeDao.getAllEpisodes(int, int) returned null");
             postError();
+        } else {
+            postFinish(episodes);
         }
-
-        postFinish(episodes);
 
         logger.debug(LOG_TAG, "ended");
     }

@@ -43,9 +43,10 @@ public class LoadSeriesDetailsInteractorImpl extends AbstractInteractor implemen
             logger.debug(LOG_TAG, "SeriesDao.getSeries returned null");
             postError();
             return;
+        } else {
+            postFinish(series);
         }
 
-        postFinish(series);
         logger.debug(LOG_TAG, "ended");
     }
 

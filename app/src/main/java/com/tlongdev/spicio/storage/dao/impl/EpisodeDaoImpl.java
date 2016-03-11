@@ -93,6 +93,31 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
+    public Episode getEpisode(int seriesId, int season, int episode) {
+        logger.debug(LOG_TAG, "querying episode with seriesid: " + seriesId + ", season: " + season + ", episode: " + episode);
+        Cursor cursor = mContentResolver.query(
+                EpisodesEntry.CONTENT_URI,
+                PROJECTION,
+                COLUMN_SERIES_ID + " = ? AND " + COLUMN_SEASON + " = ? AND " + COLUMN_EPISODE_NUMBER + " = ?",
+                new String[]{String.valueOf(seriesId), String.valueOf(season), String.valueOf(episode)},
+                null
+        );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                return mapCursorToEpisode(cursor);
+            } else {
+                logger.debug(LOG_TAG, "episode not found with seriesid: " + seriesId + ", season: " + season + ", episode: " + episode);
+            }
+            cursor.close();
+        } else {
+            logger.warn(LOG_TAG, "query returned null");
+        }
+
+        return null;
+    }
+
+    @Override
     public List<Episode> getAllEpisodes() {
         logger.debug(LOG_TAG, "querying all episodes");
         Cursor cursor = mContentResolver.query(

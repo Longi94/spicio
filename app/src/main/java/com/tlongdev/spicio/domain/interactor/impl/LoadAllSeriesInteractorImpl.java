@@ -46,8 +46,8 @@ public class LoadAllSeriesInteractorImpl extends AbstractInteractor implements L
             return;
         }
 
-        logger.debug(LOG_TAG, "ended");
         postFinish(seriesList);
+        logger.debug(LOG_TAG, "ended");
     }
 
     private void postFinish(final List<Series> seriesList) {
