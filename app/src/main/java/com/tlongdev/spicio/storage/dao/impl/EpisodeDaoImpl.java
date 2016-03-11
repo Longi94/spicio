@@ -303,6 +303,14 @@ public class EpisodeDaoImpl implements EpisodeDao {
         try {
             for (Episode episode : episodes) {
 
+                if (episode.getImages() == null) {
+                    episode.setImages(new Images());
+                }
+
+                if (episode.getImages().getScreenshot() == null) {
+                    episode.getImages().setScreenshot(new Image());
+                }
+
                 db.execSQL("INSERT OR REPLACE INTO episodes (" +
 
                                 EpisodesEntry.COLUMN_SERIES_ID + ", " +
