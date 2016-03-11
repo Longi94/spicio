@@ -39,7 +39,17 @@ public class EpisodePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Episode " + (position + 1);
+        Episode episode = mDataSet.get(position);
+        return "Episode " + episode.getNumber();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        EpisodeFragment fragment = (EpisodeFragment) object;
+        if (fragment != null) {
+            fragment.update();
+        }
+        return super.getItemPosition(object);
     }
 
     public void setDataSet(List<Episode> dataSet) {

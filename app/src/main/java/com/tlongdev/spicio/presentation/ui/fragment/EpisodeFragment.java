@@ -138,4 +138,8 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
     public void likeEpisode() {
 
     }
+
+    public void update() {
+        mPresenter.loadEpisode(mSeriesId, mSeason, mEpisode);
+    }
 }
