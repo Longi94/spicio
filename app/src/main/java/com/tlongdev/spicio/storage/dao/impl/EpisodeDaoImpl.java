@@ -244,7 +244,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                     season.setSeriesId(traktId);
                     seasons.add(season);
                 } while (cursor.moveToNext());
-            }else {
+            } else {
                 logger.debug(LOG_TAG, "season not found for series with id: " + traktId);
             }
             cursor.close();
@@ -296,49 +296,71 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
         logger.debug(LOG_TAG, "inserting episodes");
 
-        Vector<ContentValues> cVVector = new Vector<>();
+        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
-        for (Episode episode : episodes) {
-            ContentValues values = new ContentValues();
+        db.beginTransaction();
+        int returnCount = 0;
+        try {
+            for (Episode episode : episodes) {
 
-            values.put(COLUMN_SERIES_ID, episode.getSeriesId());
-            values.put(COLUMN_SEASON, episode.getSeason());
-            values.put(COLUMN_EPISODE_NUMBER, episode.getNumber());
-            values.put(COLUMN_TITLE, episode.getTitle());
-            values.put(COLUMN_TRAKT_ID, episode.getTraktId());
-            values.put(COLUMN_TVDB_ID, episode.getTvdbId());
-            values.put(COLUMN_IMDB_ID, episode.getImdbId());
-            values.put(COLUMN_TMDB_ID, episode.getTmdbId());
-            values.put(COLUMN_TV_RAGE_ID, episode.getTvRageId());
-            values.put(COLUMN_SLUG, episode.getSlugName());
-            values.put(COLUMN_ABSOLUTE_NUMBER, episode.getAbsoluteNumber());
-            values.put(COLUMN_OVERVIEW, episode.getOverview());
-            values.put(COLUMN_TRAKT_RATING, episode.getTraktRating());
-            values.put(COLUMN_TRAKT_RATING_COUNT, episode.getTraktRatingCount());
+                db.execSQL("INSERT OR REPLACE INTO episodes (" +
 
-            if (episode.getFirstAired() != null) {
-                values.put(COLUMN_FIRST_AIRED, episode.getFirstAired().getMillis());
+                                EpisodesEntry.COLUMN_SERIES_ID + ", " +
+                                EpisodesEntry.COLUMN_SEASON + ", " +
+                                EpisodesEntry.COLUMN_EPISODE_NUMBER + ", " +
+                                EpisodesEntry.COLUMN_TITLE + ", " +
+                                EpisodesEntry.COLUMN_TRAKT_ID + ", " +
+                                EpisodesEntry.COLUMN_TVDB_ID + ", " +
+                                EpisodesEntry.COLUMN_IMDB_ID + ", " +
+                                EpisodesEntry.COLUMN_TMDB_ID + ", " +
+                                EpisodesEntry.COLUMN_TV_RAGE_ID + ", " +
+                                EpisodesEntry.COLUMN_SLUG + ", " +
+                                EpisodesEntry.COLUMN_ABSOLUTE_NUMBER + ", " +
+                                EpisodesEntry.COLUMN_OVERVIEW + ", " +
+                                EpisodesEntry.COLUMN_TRAKT_RATING + ", " +
+                                EpisodesEntry.COLUMN_TRAKT_RATING_COUNT + ", " +
+                                EpisodesEntry.COLUMN_FIRST_AIRED + ", " +
+                                EpisodesEntry.COLUMN_TVDB_RATING + ", " +
+                                EpisodesEntry.COLUMN_SCREENSHOT_FULL + ", " +
+                                EpisodesEntry.COLUMN_SCREENSHOT_THUMB + ", " +
+                                EpisodesEntry.COLUMN_WATCHED + ", " +
+                                EpisodesEntry.COLUMN_LIKED + ") " +
+
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+                                " (SELECT watched FROM episodes WHERE trakt_id = ?), " +
+                                " (SELECT liked FROM episodes WHERE trakt_id = ?))",
+                        new String[]{
+                                String.valueOf(episode.getSeriesId()),
+                                String.valueOf(episode.getSeason()),
+                                String.valueOf(episode.getNumber()),
+                                episode.getTitle(),
+                                String.valueOf(episode.getTraktId()),
+                                String.valueOf(episode.getTvdbId()),
+                                episode.getImdbId(),
+                                String.valueOf(episode.getTmdbId()),
+                                String.valueOf(episode.getTvRageId()),
+                                episode.getSlugName(),
+                                String.valueOf(episode.getAbsoluteNumber()),
+                                episode.getOverview(),
+                                String.valueOf(episode.getTraktRating()),
+                                String.valueOf(episode.getTraktRatingCount()),
+                                String.valueOf(episode.getFirstAired().getMillis()),
+                                null,
+                                episode.getImages().getScreenshot().getFull(),
+                                episode.getImages().getScreenshot().getThumb(),
+                                String.valueOf(episode.getTraktId()),
+                                String.valueOf(episode.getTraktId())
+                        }
+                );
+                returnCount++;
             }
-
-            if (episode.getImages() != null && episode.getImages().getScreenshot() != null) {
-                values.put(COLUMN_SCREENSHOT_FULL, episode.getImages().getScreenshot().getFull());
-                values.put(COLUMN_SCREENSHOT_THUMB, episode.getImages().getScreenshot().getThumb());
-            }
-
-            cVVector.add(values);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
         }
 
-        int rowsInserted = 0;
-
-        if (cVVector.size() > 0) {
-            ContentValues[] cvArray = new ContentValues[cVVector.size()];
-            cVVector.toArray(cvArray);
-            //Insert all the data into the database
-            rowsInserted = mContentResolver.bulkInsert(EpisodesEntry.CONTENT_URI, cvArray);
-        }
-
-        Log.v(LOG_TAG, "inserted " + rowsInserted + " rows into episodes table");
-        return rowsInserted;
+        Log.v(LOG_TAG, "inserted " + returnCount + " rows into episodes table");
+        return returnCount;
     }
 
     @Override

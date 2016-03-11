@@ -262,4 +262,21 @@ public class EpisodeDaoTest {
         assertEquals(0, season.getWatchCount());
         assertEquals(1, season.getSkipCount());
     }
+
+    @Test
+    public void testRetainCheck() {
+        testWatched();
+
+        List<Episode> episodes = new LinkedList<>();
+
+        episodes.add(mEpisode);
+        episodes.add(mAnotherEpisode);
+
+        int rowsInserted = mEpisodeDao.insertAllEpisodes(episodes);
+        assertEquals(2, rowsInserted);
+
+        Episode episode = mEpisodeDao.getEpisode(mEpisode.getTraktId());
+        assertNotNull(episode);
+        assertEquals(Watched.WATCHED, episode.isWatched());
+    }
 }
