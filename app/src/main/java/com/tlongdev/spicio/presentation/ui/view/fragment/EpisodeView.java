@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.presentation.ui.view.fragment;
 
 import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.presentation.ui.view.BaseView;
 
 /**
@@ -12,4 +13,7 @@ public interface EpisodeView extends BaseView {
 
     void showError();
 
+    void updateCheckButton(@Watched.Enum int watched);
+
+    void updateLikeButton(boolean liked);
 }

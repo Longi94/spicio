@@ -16,6 +16,7 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.presentation.presenter.fragment.EpisodePresenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.EpisodeView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
@@ -43,6 +44,9 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
     @Bind(R.id.aired) TextView mAired;
     @Bind(R.id.rating) TextView mRating;
     @Bind(R.id.overview) TextView mOverview;
+    @Bind(R.id.check) ImageView mCheck;
+    @Bind(R.id.like) ImageView mLike;
+    @Bind(R.id.skip) ImageView mSkip;
 
     private int mEpisodeId;
 
@@ -105,6 +109,9 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
 
         mRating.setText(String.format("%s/10", new DecimalFormat("#.##").format(episode.getTraktRating())));
 
+        updateCheckButton(episode.isWatched());
+        updateLikeButton(episode.isLiked());
+
         Glide.with(this)
                 .load(episode.getImages().getScreenshot().getThumb())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -123,12 +130,40 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
 
     @OnClick(R.id.check)
     public void checkEpisode() {
-
+        mPresenter.checkEpisode();
     }
 
     @OnClick(R.id.like)
     public void likeEpisode() {
+        mPresenter.likeEpisode();
+    }
 
+    @OnClick(R.id.skip)
+    public void skipEpisode() {
+        mPresenter.skipEpisode();
+    }
+
+    @Override
+    public void updateCheckButton(@Watched.Enum int watched) {
+        switch (watched) {
+            case Watched.NONE:
+                mSkip.setImageResource(R.drawable.ic_skip_gray);
+                mCheck.setImageResource(R.drawable.ic_check_gray);
+                break;
+            case Watched.SKIPPED:
+                mSkip.setImageResource(R.drawable.ic_skip_blue);
+                mCheck.setImageResource(R.drawable.ic_check_gray);
+                break;
+            case Watched.WATCHED:
+                mSkip.setImageResource(R.drawable.ic_skip_gray);
+                mCheck.setImageResource(R.drawable.ic_check_green);
+                break;
+        }
+    }
+
+    @Override
+    public void updateLikeButton(boolean liked) {
+        mLike.setImageResource(liked ? R.drawable.ic_heart_red : R.drawable.ic_heart_gray);
     }
 
     /*public void update() {

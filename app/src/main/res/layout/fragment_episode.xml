@@ -31,12 +31,22 @@
             android:layout_marginTop="16dp">
 
             <ImageView
+                android:id="@+id/skip"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_skip_gray"
+                tools:ignore="MissingPrefix"
+                android:background="?attr/selectableItemBackground"/>
+
+            <ImageView
                 android:id="@+id/like"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_heart"
+                app:srcCompat="@drawable/ic_heart_gray"
                 tools:ignore="MissingPrefix"
                 android:background="?attr/selectableItemBackground"/>
 
@@ -46,7 +56,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_check"
+                app:srcCompat="@drawable/ic_check_gray"
                 tools:ignore="MissingPrefix"
                 android:background="?attr/selectableItemBackground"/>
 

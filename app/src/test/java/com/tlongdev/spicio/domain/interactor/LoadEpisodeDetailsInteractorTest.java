@@ -70,28 +70,28 @@ public class LoadEpisodeDetailsInteractorTest {
     public void testSuccess() {
 
         Episode episode = mock(Episode.class);
-        when(mEpisodeDao.getEpisode(0, 0, 0)).thenReturn(episode);
+        when(mEpisodeDao.getEpisode(0)).thenReturn(episode);
 
         LoadEpisodeDetailsInteractorImpl interactor = new LoadEpisodeDetailsInteractorImpl(
-                mExecutor, mMainThread, mApp, 0, 0, 0, mMockedCallback
+                mExecutor, mMainThread, mApp, 0, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).getEpisode(0, 0, 0);
+        verify(mEpisodeDao).getEpisode(0);
         verifyNoMoreInteractions(mEpisodeDao);
         verify(mMockedCallback).onLoadEpisodeDetailsFinish(episode);
     }
 
     @Test
     public void testFail() {
-        when(mEpisodeDao.getEpisode(0, 0, 0)).thenReturn(null);
+        when(mEpisodeDao.getEpisode(0)).thenReturn(null);
 
         LoadEpisodeDetailsInteractorImpl interactor = new LoadEpisodeDetailsInteractorImpl(
-                mExecutor, mMainThread, mApp, 0, 0, 0, mMockedCallback
+                mExecutor, mMainThread, mApp, 0, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).getEpisode(0, 0, 0);
+        verify(mEpisodeDao).getEpisode(0);
         verifyNoMoreInteractions(mEpisodeDao);
         verify(mMockedCallback).onLoadEpisodeDetailsFail();
     }

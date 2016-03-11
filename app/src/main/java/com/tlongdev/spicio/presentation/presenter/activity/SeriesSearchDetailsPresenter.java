@@ -98,6 +98,6 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
 
     @Override
     public void onSaveSeriesFail() {
-        // TODO: 2016. 03. 11.  
+        // TODO: 2016. 03. 11.
     }
 }
