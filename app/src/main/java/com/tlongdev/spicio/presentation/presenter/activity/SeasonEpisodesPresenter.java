@@ -49,15 +49,15 @@ public class SeasonEpisodesPresenter extends AbstractPresenter implements Presen
     private TraktSeasonEpisodesInteractor.Callback traktCallback = new TraktSeasonEpisodesInteractor.Callback() {
         @Override
         public void onFinish(List<Episode> episodes) {
-            if (mView != null) {
-                mView.showEpisodes(episodes);
-                mView.hideRefreshAnimation();
-            }
-
             SaveEpisodesInteractor interactor = new SaveEpisodesInteractorImpl(
                     mExecutor, mMainThread, mApplication, episodes, null
             );
             interactor.execute();
+
+            if (mView != null) {
+                mView.showEpisodes(episodes);
+                mView.hideRefreshAnimation();
+            }
         }
 
         @Override

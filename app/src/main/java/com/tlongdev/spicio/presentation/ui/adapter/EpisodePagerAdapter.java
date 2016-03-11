@@ -45,11 +45,9 @@ public class EpisodePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        EpisodeFragment fragment = (EpisodeFragment) object;
-        if (fragment != null) {
-            fragment.update();
-        }
-        return super.getItemPosition(object);
+        // TODO: 2016. 03. 11. recreates fragments everytime notifyOnDataSetChanges is called
+        // need a better mechanism to update fragments when he dataSet changes
+        return POSITION_NONE;
     }
 
     public void setDataSet(List<Episode> dataSet) {
