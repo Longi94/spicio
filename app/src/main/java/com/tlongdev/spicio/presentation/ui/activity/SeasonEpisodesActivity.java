@@ -4,20 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.presentation.presenter.activity.SeasonEpisodesPresenter;
-import com.tlongdev.spicio.presentation.ui.adapter.SeasonEpisodesAdapter;
+import com.tlongdev.spicio.presentation.ui.adapter.EpisodePagerAdapter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonEpisodesView;
 import com.tlongdev.spicio.threading.MainThreadImpl;
 
@@ -31,13 +31,14 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     public static final String EXTRA_SERIES_ID = "series_id";
     public static final String EXTRA_SEASON = "season";
 
+    @Bind(R.id.container) ViewPager mViewPager;
+    @Bind(R.id.tabs) TabLayout mTabLayout;
     @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
-    @Bind(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
 
     private SeasonEpisodesPresenter presenter;
 
-    private SeasonEpisodesAdapter mAdapter;
+    private EpisodePagerAdapter mEpisodePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,17 +61,20 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mAdapter = new SeasonEpisodesAdapter(this);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mAdapter);
-
-        mSwipeRefreshLayout.setOnRefreshListener(presenter);
-
         Intent intent = getIntent();
         int season = intent.getIntExtra(EXTRA_SEASON, -1);
-        presenter.setSeriesId(intent.getIntExtra(EXTRA_SERIES_ID, -1));
+        int seriesId = intent.getIntExtra(EXTRA_SERIES_ID, -1);
+        presenter.setSeriesId(seriesId);
         presenter.setSeason(season);
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mEpisodePagerAdapter = new EpisodePagerAdapter(getSupportFragmentManager(), seriesId, season);
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager.setAdapter(mEpisodePagerAdapter);
+
+        mTabLayout.setupWithViewPager(mViewPager);
 
         if (season == 0) {
             setTitle("Special Episodes");
@@ -97,7 +101,7 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -115,22 +119,21 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
 
     @Override
     public void showEpisodes(List<Episode> episodes) {
-        mAdapter.setDataSet(episodes);
-        mAdapter.notifyDataSetChanged();
+        mEpisodePagerAdapter.setDataSet(episodes);
+        mEpisodePagerAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showRefreshAnimation() {
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-        });
+        mProgressBar.setVisibility(View.VISIBLE);
+        mTabLayout.setVisibility(View.GONE);
+        mViewPager.setVisibility(View.GONE);
     }
 
     @Override
     public void hideRefreshAnimation() {
-        mSwipeRefreshLayout.setRefreshing(false);
+        mProgressBar.setVisibility(View.GONE);
+        mTabLayout.setVisibility(View.VISIBLE);
+        mViewPager.setVisibility(View.VISIBLE);
     }
 }

@@ -46,7 +46,7 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
             holder.title.setText(String.format("Episode %d", episode.getNumber()));
 
             Glide.with(mContext)
-                    .load(episode.getImages().getScreenshot().getFull())
+                    .load(episode.getImages().getScreenshot().getThumb())
                     .into(holder.thumb);
 
             holder.root.setOnClickListener(new View.OnClickListener() {

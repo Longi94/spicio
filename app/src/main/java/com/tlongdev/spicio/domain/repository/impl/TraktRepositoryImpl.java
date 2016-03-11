@@ -177,7 +177,9 @@ public class TraktRepositoryImpl implements TraktRepository {
                 List<Season> seasons = new LinkedList<>();
 
                 for (TraktSeason traktSeason : response.body()) {
-                    seasons.add(TraktModelConverter.convertToSeason(traktId, traktSeason));
+                    Season season = TraktModelConverter.convertToSeason(traktId, traktSeason);
+                    season.setSeriesId(traktId);
+                    seasons.add(season);
                 }
 
                 logger.debug(LOG_TAG, "seasons API returned " + seasons.size() + " seasons");
@@ -208,7 +210,9 @@ public class TraktRepositoryImpl implements TraktRepository {
                 List<Episode> episodes = new LinkedList<>();
 
                 for (TraktEpisode traktEpisode : response.body()) {
-                    episodes.add(TraktModelConverter.convertToEpisode(traktEpisode));
+                    Episode episode = TraktModelConverter.convertToEpisode(traktEpisode);
+                    episode.setSeriesId(seriesId);
+                    episodes.add(episode);
                 }
 
                 logger.debug(LOG_TAG, "seasons API returned " + episodes.size() + " episodes");
@@ -238,7 +242,9 @@ public class TraktRepositoryImpl implements TraktRepository {
                 List<Episode> episodes = new LinkedList<>();
 
                 for (TraktEpisode traktEpisode : response.body()) {
-                    episodes.add(TraktModelConverter.convertToEpisode(traktEpisode));
+                    Episode episode = TraktModelConverter.convertToEpisode(traktEpisode);
+                    episode.setSeriesId(seriesId);
+                    episodes.add(episode);
                 }
 
                 logger.debug(LOG_TAG, "seasons API returned " + episodes.size() + " episodes");

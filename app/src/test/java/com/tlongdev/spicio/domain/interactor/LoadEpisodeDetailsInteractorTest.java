@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
  * @since 2016. 03. 11.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class LoadEpisodeInteractorTest {
+public class LoadEpisodeDetailsInteractorTest {
 
     @Mock
     private EpisodeDao mEpisodeDao;
