@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
@@ -114,6 +115,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
 
         Glide.with(this)
                 .load(episode.getImages().getScreenshot().getThumb())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(mScreenShot);
     }
 

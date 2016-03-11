@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.domain.model.Season;
 
@@ -52,6 +53,7 @@ public class SeasonsAdapter extends RecyclerView.Adapter<SeasonsAdapter.ViewHold
 
             Glide.with(mContext)
                     .load(season.getImages().getThumb().getFull())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.drawable.ic_movie)
                     .into(holder.thumb);
 

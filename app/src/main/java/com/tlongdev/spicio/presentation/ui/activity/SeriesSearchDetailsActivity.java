@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.executor.ThreadExecutor;
@@ -108,6 +109,7 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
 
         Glide.with(this)
                 .load(getIntent().getStringExtra(EXTRA_POSTER))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.drawable.ic_movie)
                 .into(poster);
 

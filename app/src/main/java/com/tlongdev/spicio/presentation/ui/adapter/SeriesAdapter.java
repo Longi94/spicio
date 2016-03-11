@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.domain.model.Series;
 
@@ -48,6 +49,7 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
 
             Glide.with(mContext)
                     .load(series.getImages().getThumb().getFull())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.drawable.ic_movie)
                     .into(holder.thumb);
 
