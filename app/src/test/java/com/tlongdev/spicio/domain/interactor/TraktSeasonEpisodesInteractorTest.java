@@ -69,6 +69,7 @@ public class TraktSeasonEpisodesInteractorTest {
         List<Episode> episodes = new LinkedList<>();
 
         when(mRepository.getEpisodeImages(0, 0)).thenReturn(episodes);
+        when(mRepository.getSeasonEpisodes(0, 0)).thenReturn(episodes);
 
         TraktSeasonEpisodesInteractorImpl interactor = new TraktSeasonEpisodesInteractorImpl(
                 mExecutor, mMainThread, mApp, 0, 0, mMockedCallback
@@ -76,6 +77,7 @@ public class TraktSeasonEpisodesInteractorTest {
         interactor.run();
 
         verify(mRepository).getEpisodeImages(0, 0);
+        verify(mRepository).getSeasonEpisodes(0, 0);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onFinish(episodes);
     }
