@@ -82,7 +82,7 @@ public class TraktSearchInteractorTest {
         interactor.run();
         verify(mRepository).searchSeries(searchQuery);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onSearchResult(seriesList);
+        verify(mMockedCallback).onTraktSearchFinish(seriesList);
     }
 
     @Test
@@ -99,6 +99,6 @@ public class TraktSearchInteractorTest {
 
         verify(mRepository).searchSeries(searchQuery);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onSearchFailed();
+        verify(mMockedCallback).onTraktSearchFailed();
     }
 }

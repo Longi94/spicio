@@ -8,8 +8,8 @@ import com.tlongdev.spicio.domain.model.Episode;
  */
 public interface LoadEpisodeDetailsInteractor extends Interactor {
     interface Callback {
-        void onFinish(Episode episode);
+        void onLoadEpisodeDetailsFinish(Episode episode);
 
-        void onFail();
+        void onLoadEpisodeDetailsFail();
     }
 }

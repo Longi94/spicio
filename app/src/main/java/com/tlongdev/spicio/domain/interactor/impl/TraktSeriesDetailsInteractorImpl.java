@@ -59,7 +59,7 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onTraktSeriesDetailsFail();
             }
         });
     }
@@ -72,7 +72,7 @@ public class TraktSeriesDetailsInteractorImpl extends AbstractInteractor impleme
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onResult(series);
+                mCallback.onTraktSeriesDetailsFinish(series);
             }
         });
     }

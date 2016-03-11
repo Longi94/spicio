@@ -36,9 +36,7 @@ import butterknife.OnClick;
  */
 public class EpisodeFragment extends Fragment implements EpisodeView {
 
-    private static final String ARG_SERIES_ID = "series_id";
-    private static final String ARG_SEASON = "season";
-    private static final String ARG_EPISODE = "episode";
+    private static final String ARG_EPISODE_ID = "series_id";
 
     @Bind(R.id.screenshot) ImageView mScreenShot;
     @Bind(R.id.title) TextView mTitle;
@@ -46,9 +44,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
     @Bind(R.id.rating) TextView mRating;
     @Bind(R.id.overview) TextView mOverview;
 
-    private int mSeriesId;
-    private int mSeason;
-    private int mEpisode;
+    private int mEpisodeId;
 
     private EpisodePresenter mPresenter;
 
@@ -56,12 +52,10 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
         // Required empty public constructor
     }
 
-    public static EpisodeFragment newInstance(int seriesId, int season, int episode) {
+    public static EpisodeFragment newInstance(int episodeId) {
         EpisodeFragment fragment = new EpisodeFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SERIES_ID, seriesId);
-        args.putInt(ARG_SEASON, season);
-        args.putInt(ARG_EPISODE, episode);
+        args.putInt(ARG_EPISODE_ID, episodeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,9 +64,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mSeriesId = getArguments().getInt(ARG_SERIES_ID);
-            mSeason = getArguments().getInt(ARG_SEASON);
-            mEpisode = getArguments().getInt(ARG_EPISODE);
+            mEpisodeId = getArguments().getInt(ARG_EPISODE_ID);
         }
         mPresenter = new EpisodePresenter(
                 ThreadExecutor.getInstance(),
@@ -94,7 +86,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.loadEpisode(mSeriesId, mSeason, mEpisode);
+        mPresenter.loadEpisode(mEpisodeId);
     }
 
     @Override
@@ -139,7 +131,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
 
     }
 
-    public void update() {
-        mPresenter.loadEpisode(mSeriesId, mSeason, mEpisode);
-    }
+    /*public void update() {
+        mPresenter.loadEpisode(mEpisodeId);
+    }*/
 }

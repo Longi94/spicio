@@ -6,13 +6,14 @@ import java.util.List;
 
 /**
  * Inner Layer, Interactor.
+ *
  * @author Long
  * @since 2016. 02. 28.
  */
 public interface TvdbSearchInteractor extends Interactor {
-
     interface Callback {
-        void onSearchResult(List<TvdbSeriesOld> series);
-        void onSearchFailed(); // TODO: 2016. 02. 28. needs more descriptive error data
+        void onTvdbSearchFinish(List<TvdbSeriesOld> series);
+
+        void onTvdbSearchFailed(); // TODO: 2016. 02. 28. needs more descriptive error data
     }
 }

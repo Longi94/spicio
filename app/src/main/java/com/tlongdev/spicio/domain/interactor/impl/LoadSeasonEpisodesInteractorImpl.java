@@ -63,7 +63,7 @@ public class LoadSeasonEpisodesInteractorImpl extends AbstractInteractor impleme
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onLoadSeasonEpisodesFail();
             }
         });
     }
@@ -76,7 +76,7 @@ public class LoadSeasonEpisodesInteractorImpl extends AbstractInteractor impleme
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish(episodes);
+                mCallback.onLoadSeasonEpisodesFinish(episodes);
             }
         });
     }

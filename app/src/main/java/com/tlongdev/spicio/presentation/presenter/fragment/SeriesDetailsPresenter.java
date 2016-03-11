@@ -39,14 +39,14 @@ public class SeriesDetailsPresenter extends AbstractPresenter implements Present
     }
 
     @Override
-    public void onFinish(Series series) {
+    public void onLoadSeriesDetailsFinish(Series series) {
         if (mView != null) {
             mView.showDetails(series);
         }
     }
 
     @Override
-    public void onFail() {
+    public void onLoadSeriesDetailsFail() {
 
     }
 }

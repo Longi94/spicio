@@ -12,7 +12,8 @@ import java.util.List;
  */
 public interface TraktFullSeriesInteractor extends Interactor {
     interface Callback {
-        void onFinish(Series series, List<Season> seasons, List<Episode> episodes);
-        void onFail();
+        void onTraktFullSeriesFinish(Series series, List<Season> seasons, List<Episode> episodes);
+
+        void onTraktFullSeriesFail();
     }
 }

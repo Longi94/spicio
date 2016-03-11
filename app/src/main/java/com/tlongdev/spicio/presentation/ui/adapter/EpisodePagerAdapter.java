@@ -17,19 +17,14 @@ public class EpisodePagerAdapter extends FragmentPagerAdapter {
 
     private List<Episode> mDataSet;
 
-    private int mSeriesId;
-    private int mSeason;
-
-    public EpisodePagerAdapter(FragmentManager fm, int seriesId, int season) {
+    public EpisodePagerAdapter(FragmentManager fm) {
         super(fm);
-        mSeriesId = seriesId;
-        mSeason = season;
     }
 
     @Override
     public Fragment getItem(int position) {
-        int episodeNumber = mDataSet.get(position).getNumber();
-        return EpisodeFragment.newInstance(mSeriesId, mSeason, episodeNumber);
+        int episodeId = mDataSet.get(position).getTraktId();
+        return EpisodeFragment.newInstance(episodeId);
     }
 
     @Override

@@ -58,7 +58,7 @@ public class LoadAllSeriesInteractorImpl extends AbstractInteractor implements L
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish(seriesList);
+                mCallback.onLoadAllSeriesFinish(seriesList);
             }
         });
     }
@@ -71,7 +71,7 @@ public class LoadAllSeriesInteractorImpl extends AbstractInteractor implements L
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onLoadAllSeriesFail();
             }
         });
     }

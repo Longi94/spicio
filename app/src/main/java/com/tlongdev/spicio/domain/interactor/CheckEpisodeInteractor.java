@@ -6,8 +6,8 @@ package com.tlongdev.spicio.domain.interactor;
  */
 public interface CheckEpisodeInteractor extends Interactor {
     interface Callback {
-        void onFinish();
+        void onEpisodeCheckFinish();
 
-        void onFail();
+        void onEpisodeCheckFail();
     }
 }

@@ -82,7 +82,7 @@ public class TvdbSearchInteractorTest {
         interactor.run();
         verify(mRepository).searchSeries(searchQuery);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onSearchResult(seriesList);
+        verify(mMockedCallback).onTvdbSearchFinish(seriesList);
     }
 
     @Test
@@ -98,6 +98,6 @@ public class TvdbSearchInteractorTest {
 
         verify(mRepository).searchSeries(searchQuery);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onSearchFailed();
+        verify(mMockedCallback).onTvdbSearchFailed();
     }
 }

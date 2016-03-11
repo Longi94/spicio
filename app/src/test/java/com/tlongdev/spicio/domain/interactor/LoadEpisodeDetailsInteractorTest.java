@@ -79,7 +79,7 @@ public class LoadEpisodeDetailsInteractorTest {
 
         verify(mEpisodeDao).getEpisode(0, 0, 0);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFinish(episode);
+        verify(mMockedCallback).onLoadEpisodeDetailsFinish(episode);
     }
 
     @Test
@@ -93,6 +93,6 @@ public class LoadEpisodeDetailsInteractorTest {
 
         verify(mEpisodeDao).getEpisode(0, 0, 0);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onLoadEpisodeDetailsFail();
     }
 }

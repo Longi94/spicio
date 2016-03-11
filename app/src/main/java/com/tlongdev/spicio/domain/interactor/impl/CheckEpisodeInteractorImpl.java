@@ -56,7 +56,7 @@ public class CheckEpisodeInteractorImpl extends AbstractInteractor implements Ch
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onFail();
+                    mCallback.onEpisodeCheckFail();
                 }
             });
         }
@@ -66,7 +66,7 @@ public class CheckEpisodeInteractorImpl extends AbstractInteractor implements Ch
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onFinish();
+                    mCallback.onEpisodeCheckFinish();
                 }
             });
         }

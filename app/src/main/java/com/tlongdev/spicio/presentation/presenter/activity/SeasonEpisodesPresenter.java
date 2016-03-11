@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2016. 03. 10.
  */
 public class SeasonEpisodesPresenter extends AbstractPresenter implements Presenter<SeasonEpisodesView>,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, LoadSeasonEpisodesInteractor.Callback, TraktSeasonEpisodesInteractor.Callback {
 
     private SeasonEpisodesView mView;
 
@@ -31,42 +31,6 @@ public class SeasonEpisodesPresenter extends AbstractPresenter implements Presen
 
     private int mSeriesId;
     private int mSeason;
-
-    private LoadSeasonEpisodesInteractor.Callback databaseCallback = new LoadSeasonEpisodesInteractor.Callback() {
-        @Override
-        public void onFinish(List<Episode> episodes) {
-            if (mView != null) {
-                mView.showEpisodes(episodes);
-            }
-        }
-
-        @Override
-        public void onFail() {
-
-        }
-    };
-
-    private TraktSeasonEpisodesInteractor.Callback traktCallback = new TraktSeasonEpisodesInteractor.Callback() {
-        @Override
-        public void onFinish(List<Episode> episodes) {
-            SaveEpisodesInteractor interactor = new SaveEpisodesInteractorImpl(
-                    mExecutor, mMainThread, mApplication, episodes, null
-            );
-            interactor.execute();
-
-            if (mView != null) {
-                mView.showEpisodes(episodes);
-                mView.hideRefreshAnimation();
-            }
-        }
-
-        @Override
-        public void onFail() {
-            if (mView != null) {
-                mView.hideRefreshAnimation();
-            }
-        }
-    };
 
     public SeasonEpisodesPresenter(Executor executor, MainThread mainThread) {
         super(executor, mainThread);
@@ -86,14 +50,14 @@ public class SeasonEpisodesPresenter extends AbstractPresenter implements Presen
     public void getEpisodesDetails() {
         mView.showRefreshAnimation();
         TraktSeasonEpisodesInteractor interactor = new TraktSeasonEpisodesInteractorImpl(
-                mExecutor, mMainThread, mApplication, mSeriesId, mSeason, traktCallback
+                mExecutor, mMainThread, mApplication, mSeriesId, mSeason, this
         );
         interactor.execute();
     }
 
     public void loadEpisodes() {
         LoadSeasonEpisodesInteractor interactor = new LoadSeasonEpisodesInteractorImpl(
-                mExecutor, mMainThread, mApplication, mSeriesId, mSeason, databaseCallback
+                mExecutor, mMainThread, mApplication, mSeriesId, mSeason, this
         );
         interactor.execute();
     }
@@ -109,5 +73,37 @@ public class SeasonEpisodesPresenter extends AbstractPresenter implements Presen
 
     public void setSeason(int season) {
         mSeason = season;
+    }
+
+    @Override
+    public void onLoadSeasonEpisodesFinish(List<Episode> episodes) {
+        if (mView != null) {
+            mView.showEpisodes(episodes);
+        }
+    }
+
+    @Override
+    public void onLoadSeasonEpisodesFail() {
+        // TODO: 2016. 03. 11.
+    }
+
+    @Override
+    public void onTraktSeasonEpisodesFinish(List<Episode> episodes) {
+        SaveEpisodesInteractor interactor = new SaveEpisodesInteractorImpl(
+                mExecutor, mMainThread, mApplication, episodes, null
+        );
+        interactor.execute();
+
+        if (mView != null) {
+            mView.showEpisodes(episodes);
+            mView.hideRefreshAnimation();
+        }
+    }
+
+    @Override
+    public void onTraktSeasonEpisodesFail() {
+        if (mView != null) {
+            mView.hideRefreshAnimation();
+        }
     }
 }

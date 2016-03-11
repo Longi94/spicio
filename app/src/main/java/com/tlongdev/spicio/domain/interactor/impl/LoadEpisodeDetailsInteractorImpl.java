@@ -22,20 +22,16 @@ public class LoadEpisodeDetailsInteractorImpl extends AbstractInteractor impleme
     @Inject EpisodeDao mEpisodeDao;
     @Inject Logger logger;
 
-    private int mSeriesId;
-    private int mSeason;
-    private int mEpisode;
+    private int mEpisodeId;
     private Callback mCallback;
 
     public LoadEpisodeDetailsInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                            SpicioApplication application, int seriesId, int season,
-                                            int episode, Callback callback) {
+                                            SpicioApplication application, int episodeId,
+                                            Callback callback) {
         super(threadExecutor, mainThread);
         application.getInteractorComponent().inject(this);
 
-        mSeriesId = seriesId;
-        mSeason = season;
-        mEpisode = episode;
+        mEpisodeId = episodeId;
         mCallback = callback;
     }
 
@@ -43,7 +39,7 @@ public class LoadEpisodeDetailsInteractorImpl extends AbstractInteractor impleme
     public void run() {
         logger.debug(LOG_TAG, "started");
 
-        Episode episode = mEpisodeDao.getEpisode(mSeriesId, mSeason, mEpisode);
+        Episode episode = mEpisodeDao.getEpisode(mEpisodeId);
         if (episode == null) {
             logger.debug(LOG_TAG, "EpisodeDao.getEpisode returned null");
             postError();
@@ -61,7 +57,7 @@ public class LoadEpisodeDetailsInteractorImpl extends AbstractInteractor impleme
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onLoadEpisodeDetailsFail();
             }
         });
     }
@@ -73,7 +69,7 @@ public class LoadEpisodeDetailsInteractorImpl extends AbstractInteractor impleme
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish(episode);
+                mCallback.onLoadEpisodeDetailsFinish(episode);
             }
         });
     }

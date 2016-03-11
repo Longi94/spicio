@@ -50,7 +50,7 @@ public class SaveEpisodesInteractorImpl extends AbstractInteractor implements Sa
 
     private void postFinish() {
         if (mCallback != null) {
-            mCallback.onFinish();
+            mCallback.onSaveEpisodesFinish();
         }
     }
 }

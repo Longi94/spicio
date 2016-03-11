@@ -69,7 +69,7 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mEpisodePagerAdapter = new EpisodePagerAdapter(getSupportFragmentManager(), seriesId, season);
+        mEpisodePagerAdapter = new EpisodePagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager.setAdapter(mEpisodePagerAdapter);

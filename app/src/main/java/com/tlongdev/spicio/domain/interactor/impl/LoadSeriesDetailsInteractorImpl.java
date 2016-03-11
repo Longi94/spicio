@@ -58,7 +58,7 @@ public class LoadSeriesDetailsInteractorImpl extends AbstractInteractor implemen
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish(series);
+                mCallback.onLoadSeriesDetailsFinish(series);
             }
         });
     }
@@ -71,7 +71,7 @@ public class LoadSeriesDetailsInteractorImpl extends AbstractInteractor implemen
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onLoadSeriesDetailsFail();
             }
         });
     }

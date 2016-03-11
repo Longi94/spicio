@@ -74,7 +74,7 @@ public class CheckEpisodeInteractorTest {
 
         verify(mEpisodeDao).setWatched(0, Watched.WATCHED);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFinish();
+        verify(mMockedCallback).onEpisodeCheckFinish();
     }
 
     @Test
@@ -89,6 +89,6 @@ public class CheckEpisodeInteractorTest {
 
         verify(mEpisodeDao).setWatched(0, Watched.WATCHED);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onEpisodeCheckFail();
     }
 }

@@ -10,7 +10,8 @@ import java.util.List;
  */
 public interface TraktSearchInteractor extends Interactor {
     interface Callback {
-        void onSearchResult(List<Series> series);
-        void onSearchFailed(); // TODO: 2016. 02. 28. needs more descriptive error data
+        void onTraktSearchFinish(List<Series> series);
+
+        void onTraktSearchFailed(); // TODO: 2016. 02. 28. needs more descriptive error data
     }
 }

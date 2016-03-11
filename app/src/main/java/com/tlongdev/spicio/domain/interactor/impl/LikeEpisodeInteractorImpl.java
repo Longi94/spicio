@@ -55,7 +55,7 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onFail();
+                    mCallback.onEpisodeLikeFail();
                 }
             });
         }
@@ -65,7 +65,7 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onFinish();
+                    mCallback.onEpisodeLikeFinish();
                 }
             });
         }

@@ -79,7 +79,7 @@ public class TraktSeasonEpisodesInteractorTest {
         verify(mRepository).getEpisodeImages(0, 0);
         verify(mRepository).getSeasonEpisodes(0, 0);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onFinish(episodes);
+        verify(mMockedCallback).onTraktSeasonEpisodesFinish(episodes);
     }
 
     @Test
@@ -94,6 +94,6 @@ public class TraktSeasonEpisodesInteractorTest {
 
         verify(mRepository).getEpisodeImages(0, 0);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onTraktSeasonEpisodesFail();
     }
 }

@@ -52,15 +52,19 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
     }
 
     @Override
-    public void onResult(Series series) {
-        Log.d(LOG_TAG, "onResult() called");
+    public void onTraktSeriesDetailsFinish(Series series) {
         if (mView != null) {
             mView.showDetails(series);
         }
     }
 
     @Override
-    public void onFinish(Series series, List<Season> seasons, List<Episode> episodes) {
+    public void onTraktSeriesDetailsFail() {
+        // TODO: 2016. 03. 11.  
+    }
+
+    @Override
+    public void onTraktFullSeriesFinish(Series series, List<Season> seasons, List<Episode> episodes) {
         Log.d(LOG_TAG, "finished downloading all series data, inserting into db");
 
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
@@ -70,8 +74,7 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
     }
 
     @Override
-    public void onFail() {
-        Log.d(LOG_TAG, "onFail() called");
+    public void onTraktFullSeriesFail() {
         if (mView != null) {
             mView.reportError();
         }
@@ -87,10 +90,14 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
     }
 
     @Override
-    public void onFinish() {
-        Log.d(LOG_TAG, "onFinish() called with: " + "");
+    public void onSaveSeriesFinish() {
         if (mView != null) {
             mView.onSeriesSaved();
         }
+    }
+
+    @Override
+    public void onSaveSeriesFail() {
+        // TODO: 2016. 03. 11.  
     }
 }

@@ -62,7 +62,7 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onSearchFailed();
+                mCallback.onTvdbSearchFailed();
             }
         });
     }
@@ -75,7 +75,7 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onSearchResult(searchResult);
+                mCallback.onTvdbSearchFinish(searchResult);
             }
         });
     }

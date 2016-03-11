@@ -82,7 +82,7 @@ public class LoadSeasonsInteractorTest {
 
         verify(mEpisodeDao).getAllSeasons(0);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFinish(seasons);
+        verify(mMockedCallback).onLoadSeasonsFinish(seasons);
     }
 
     @Test
@@ -96,6 +96,6 @@ public class LoadSeasonsInteractorTest {
 
         verify(mEpisodeDao).getAllSeasons(0);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onLoadSeasonsFail();
     }
 }

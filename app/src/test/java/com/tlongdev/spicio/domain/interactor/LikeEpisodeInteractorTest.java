@@ -73,7 +73,7 @@ public class LikeEpisodeInteractorTest {
 
         verify(mEpisodeDao).setLiked(0, true);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFinish();
+        verify(mMockedCallback).onEpisodeLikeFinish();
     }
 
     @Test
@@ -88,6 +88,6 @@ public class LikeEpisodeInteractorTest {
 
         verify(mEpisodeDao).setLiked(0, true);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onEpisodeLikeFail();
     }
 }

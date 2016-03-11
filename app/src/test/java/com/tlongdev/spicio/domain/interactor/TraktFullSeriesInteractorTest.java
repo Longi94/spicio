@@ -87,7 +87,7 @@ public class TraktFullSeriesInteractorTest {
         verify(mRepository).getSeasons(0);
         verify(mRepository).getEpisodesForSeries(0);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onFinish(series, seasons, episodes);
+        verify(mMockedCallback).onTraktFullSeriesFinish(series, seasons, episodes);
     }
 
     @Test
@@ -107,6 +107,6 @@ public class TraktFullSeriesInteractorTest {
         verify(mRepository).getImages(0);
         verify(mRepository).getSeasons(0);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onTraktFullSeriesFail();
     }
 }

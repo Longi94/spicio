@@ -60,7 +60,7 @@ public class LoadSeasonsInteractorImpl extends AbstractInteractor implements Loa
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onLoadSeasonsFail();
             }
         });
     }
@@ -73,7 +73,7 @@ public class LoadSeasonsInteractorImpl extends AbstractInteractor implements Loa
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish(seasons);
+                mCallback.onLoadSeasonsFinish(seasons);
             }
         });
     }

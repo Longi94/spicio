@@ -8,7 +8,8 @@ import com.tlongdev.spicio.domain.model.Series;
  */
 public interface TraktSeriesDetailsInteractor extends Interactor {
     interface Callback {
-        void onResult(Series series);
-        void onFail(); // TODO: 2016. 02. 28. needs more descriptive error data
+        void onTraktSeriesDetailsFinish(Series series);
+
+        void onTraktSeriesDetailsFail(); // TODO: 2016. 02. 28. needs more descriptive error data
     }
 }

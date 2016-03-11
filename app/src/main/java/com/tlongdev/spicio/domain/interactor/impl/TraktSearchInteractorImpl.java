@@ -60,7 +60,7 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onSearchFailed();
+                mCallback.onTraktSearchFailed();
             }
         });
     }
@@ -73,7 +73,7 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onSearchResult(searchResult);
+                mCallback.onTraktSearchFinish(searchResult);
             }
         });
     }

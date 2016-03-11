@@ -77,7 +77,7 @@ public class LoadAllSeriesInteractorTest {
 
         verify(mSeriesDao).getAllSeries();
         verifyNoMoreInteractions(mSeriesDao);
-        verify(mMockedCallback).onFinish(series);
+        verify(mMockedCallback).onLoadAllSeriesFinish(series);
     }
 
     @Test
@@ -91,6 +91,6 @@ public class LoadAllSeriesInteractorTest {
 
         verify(mSeriesDao).getAllSeries();
         verifyNoMoreInteractions(mSeriesDao);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onLoadAllSeriesFail();
     }
 }

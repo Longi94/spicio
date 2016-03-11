@@ -10,8 +10,8 @@ import java.util.List;
  */
 public interface LoadAllSeriesInteractor extends Interactor {
     interface Callback {
-        void onFinish(List<Series> series);
+        void onLoadAllSeriesFinish(List<Series> series);
 
-        void onFail();
+        void onLoadAllSeriesFail();
     }
 }

@@ -73,7 +73,7 @@ public class TraktSeasonEpisodesInteractorImpl extends AbstractInteractor implem
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onTraktSeasonEpisodesFail();
             }
         });
     }
@@ -84,7 +84,7 @@ public class TraktSeasonEpisodesInteractorImpl extends AbstractInteractor implem
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish(episodes);
+                mCallback.onTraktSeasonEpisodesFinish(episodes);
             }
         });
     }

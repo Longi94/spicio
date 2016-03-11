@@ -83,7 +83,7 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish(series, seasons, episodes);
+                mCallback.onTraktFullSeriesFinish(series, seasons, episodes);
             }
         });
     }
@@ -96,7 +96,7 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onTraktFullSeriesFail();
             }
         });
     }

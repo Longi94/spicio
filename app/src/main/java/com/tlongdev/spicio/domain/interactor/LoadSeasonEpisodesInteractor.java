@@ -10,8 +10,8 @@ import java.util.List;
  */
 public interface LoadSeasonEpisodesInteractor extends Interactor {
     interface Callback {
-        void onFinish(List<Episode> episodes);
+        void onLoadSeasonEpisodesFinish(List<Episode> episodes);
 
-        void onFail();
+        void onLoadSeasonEpisodesFail();
     }
 }

@@ -71,7 +71,7 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFail();
+                mCallback.onSaveSeriesFail();
             }
         });
     }
@@ -84,7 +84,7 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onFinish();
+                mCallback.onSaveSeriesFinish();
             }
         });
     }

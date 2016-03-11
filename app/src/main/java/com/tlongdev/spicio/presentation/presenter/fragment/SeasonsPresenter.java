@@ -45,14 +45,14 @@ public class SeasonsPresenter extends AbstractPresenter implements Presenter<Sea
     }
 
     @Override
-    public void onFinish(List<Season> seasons) {
+    public void onLoadSeasonsFinish(List<Season> seasons) {
         if (mView != null) {
             mView.showSeasons(seasons);
         }
     }
 
     @Override
-    public void onFail() {
+    public void onLoadSeasonsFail() {
 
     }
 }

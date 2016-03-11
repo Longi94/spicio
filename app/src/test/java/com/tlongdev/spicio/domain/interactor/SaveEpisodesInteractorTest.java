@@ -77,6 +77,6 @@ public class SaveEpisodesInteractorTest {
 
         verify(mEpisodeDao).insertAllEpisodes(episodes);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onFinish();
+        verify(mMockedCallback).onSaveEpisodesFinish();
     }
 }

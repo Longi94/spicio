@@ -6,8 +6,8 @@ package com.tlongdev.spicio.domain.interactor;
  */
 public interface SaveEpisodesInteractor extends Interactor {
     interface Callback {
-        void onFinish();
+        void onSaveEpisodesFinish();
 
-        void onFail();
+        void onSaveEpisodesFail();
     }
 }

@@ -17,6 +17,8 @@ public class EpisodePresenter extends AbstractPresenter implements Presenter<Epi
 
     private EpisodeView mView;
 
+    private Episode mEpisode;
+
     public EpisodePresenter(Executor executor, MainThread mainThread) {
         super(executor, mainThread);
     }
@@ -31,25 +33,26 @@ public class EpisodePresenter extends AbstractPresenter implements Presenter<Epi
         mView = null;
     }
 
-    public void loadEpisode(int seriesId, int season, int episode) {
-        LoadEpisodeDetailsInteractor interactor = new LoadEpisodeDetailsInteractorImpl(
-                mExecutor, mMainThread, mView.getSpicioApplication(),
-                seriesId, season, episode, this
-        );
-        interactor.execute();
-    }
-
     @Override
-    public void onFinish(Episode episode) {
+    public void onLoadEpisodeDetailsFinish(Episode episode) {
+        mEpisode = episode;
         if (mView != null) {
             mView.showEpisodeDetails(episode);
         }
     }
 
     @Override
-    public void onFail() {
+    public void onLoadEpisodeDetailsFail() {
+        mEpisode = null;
         if (mView != null) {
             mView.showError();
         }
+    }
+
+    public void loadEpisode(int episodeId) {
+        LoadEpisodeDetailsInteractor interactor = new LoadEpisodeDetailsInteractorImpl(
+                mExecutor, mMainThread, mView.getSpicioApplication(), episodeId, this
+        );
+        interactor.execute();
     }
 }

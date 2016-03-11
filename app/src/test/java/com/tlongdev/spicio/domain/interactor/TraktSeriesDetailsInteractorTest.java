@@ -73,7 +73,7 @@ public class TraktSeriesDetailsInteractorTest {
         interactor.run();
         verify(mRepository).getSeriesDetails(0);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onResult(series);
+        verify(mMockedCallback).onTraktSeriesDetailsFinish(series);
     }
 
     @Test
@@ -88,6 +88,6 @@ public class TraktSeriesDetailsInteractorTest {
 
         verify(mRepository).getSeriesDetails(0);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onTraktSeriesDetailsFail();
     }
 }
