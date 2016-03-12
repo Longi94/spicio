@@ -65,40 +65,40 @@ public class TraktFullSeriesInteractorTest {
 
         Series series = mock(Series.class);
         List<Season> seasons = new LinkedList<>();
+        seasons.add(mock(Season.class));
+        when(seasons.get(0).getNumber()).thenReturn(0);
         List<Episode> episodes = new LinkedList<>();
 
+        when(mRepository.getSeriesDetails(0)).thenReturn(series);
         when(mRepository.getImages(0)).thenReturn(new Images());
         when(mRepository.getSeasons(0)).thenReturn(seasons);
-        when(mRepository.getEpisodesForSeries(0)).thenReturn(episodes);
+        when(mRepository.getEpisodeImages(0, 0)).thenReturn(episodes);
+        when(mRepository.getSeasonEpisodes(0, 0)).thenReturn(episodes);
 
         TraktFullSeriesInteractorImpl interactor = new TraktFullSeriesInteractorImpl(
-                mApp, series, mMockedCallback
+                mApp, 0, mMockedCallback
         );
         interactor.run();
 
+        verify(mRepository).getSeriesDetails(0);
         verify(mRepository).getImages(0);
         verify(mRepository).getSeasons(0);
-        verify(mRepository).getEpisodesForSeries(0);
+        verify(mRepository).getEpisodeImages(0, 0);
+        verify(mRepository).getSeasonEpisodes(0, 0);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onTraktFullSeriesFinish(series, seasons, episodes);
     }
 
     @Test
     public void testFail() {
-
-        Series series = mock(Series.class);
-
-        when(mRepository.getImages(0)).thenReturn(new Images());
-        when(mRepository.getSeasons(0)).thenReturn(null);
-        when(mRepository.getEpisodesForSeries(0)).thenReturn(null);
+        when(mRepository.getSeriesDetails(0)).thenReturn(null);;
 
         TraktFullSeriesInteractorImpl interactor = new TraktFullSeriesInteractorImpl(
-                mApp, series, mMockedCallback
+                mApp, 0, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).getImages(0);
-        verify(mRepository).getSeasons(0);
+        verify(mRepository).getSeriesDetails(0);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onTraktFullSeriesFail();
     }

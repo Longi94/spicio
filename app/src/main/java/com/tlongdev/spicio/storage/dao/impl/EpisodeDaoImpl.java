@@ -311,6 +311,11 @@ public class EpisodeDaoImpl implements EpisodeDao {
                     episode.getImages().setScreenshot(new Image());
                 }
 
+                long firstAired = -1;
+                if (episode.getFirstAired() != null) {
+                    firstAired = episode.getFirstAired().getMillis();
+                }
+
                 db.execSQL("INSERT OR REPLACE INTO episodes (" +
 
                                 EpisodesEntry.COLUMN_SERIES_ID + ", " +
@@ -352,7 +357,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                                 episode.getOverview(),
                                 String.valueOf(episode.getTraktRating()),
                                 String.valueOf(episode.getTraktRatingCount()),
-                                String.valueOf(episode.getFirstAired().getMillis()),
+                                String.valueOf(firstAired),
                                 null,
                                 episode.getImages().getScreenshot().getFull(),
                                 episode.getImages().getScreenshot().getThumb(),

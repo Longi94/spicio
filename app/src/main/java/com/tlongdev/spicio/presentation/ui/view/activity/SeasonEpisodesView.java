@@ -11,8 +11,4 @@ import java.util.List;
  */
 public interface SeasonEpisodesView extends BaseView {
     void showEpisodes(List<Episode> episodes);
-
-    void showRefreshAnimation();
-
-    void hideRefreshAnimation();
 }

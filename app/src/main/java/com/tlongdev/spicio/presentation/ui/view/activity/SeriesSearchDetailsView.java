@@ -9,6 +9,12 @@ import com.tlongdev.spicio.presentation.ui.view.BaseView;
  */
 public interface SeriesSearchDetailsView extends BaseView {
     void showDetails(Series series);
+
     void reportError();
+
     void onSeriesSaved();
+
+    void showLoading();
+
+    void hideLoading();
 }

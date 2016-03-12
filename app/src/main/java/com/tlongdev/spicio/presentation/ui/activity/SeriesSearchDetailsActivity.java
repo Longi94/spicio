@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -53,6 +54,8 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
 
     private Series mSeries;
 
+    private ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,7 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
         presenter = new SeriesSearchDetailsPresenter();
         presenter.attachView(this);
 
-        setContentView(R.layout.activity_series_details);
+        setContentView(R.layout.activity_series_search_details);
         ButterKnife.bind(this);
 
         //Set the color of the status bar
@@ -133,6 +136,25 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     public void onSeriesSaved() {
         Log.d(LOG_TAG, "onSeriesSaved: close the activity");
         finish();
+    }
+
+    @Override
+    public void showLoading() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+
+        mProgressDialog = ProgressDialog.show(
+                this, null, "Loading...", true, false
+        );
+    }
+
+    @Override
+    public void hideLoading() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 
     @OnClick(R.id.trailer)

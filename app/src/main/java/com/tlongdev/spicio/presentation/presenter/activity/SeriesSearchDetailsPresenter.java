@@ -78,8 +78,10 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
     public void saveSeries(Series series) {
         Log.d(LOG_TAG, "saveSeries() called");
 
+        mView.showLoading();
+
         TraktFullSeriesInteractor interactor = new TraktFullSeriesInteractorImpl(
-                mView.getSpicioApplication(), series, this
+                mView.getSpicioApplication(), series.getTraktId(), this
         );
         interactor.execute();
     }
@@ -88,6 +90,7 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
     public void onSaveSeriesFinish() {
         if (mView != null) {
             mView.onSeriesSaved();
+            mView.hideLoading();
         }
     }
 

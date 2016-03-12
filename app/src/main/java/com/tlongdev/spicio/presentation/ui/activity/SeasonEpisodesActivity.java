@@ -9,8 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
@@ -32,7 +30,6 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     @Bind(R.id.container) ViewPager mViewPager;
     @Bind(R.id.tabs) TabLayout mTabLayout;
     @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
 
     private SeasonEpisodesPresenter presenter;
 
@@ -82,7 +79,6 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     protected void onResume() {
         super.onResume();
         presenter.loadEpisodes();
-        presenter.getEpisodesDetails();
     }
 
     @Override
@@ -116,19 +112,5 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     public void showEpisodes(List<Episode> episodes) {
         mEpisodePagerAdapter.setDataSet(episodes);
         mEpisodePagerAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showRefreshAnimation() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mTabLayout.setVisibility(View.GONE);
-        mViewPager.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void hideRefreshAnimation() {
-        mProgressBar.setVisibility(View.GONE);
-        mTabLayout.setVisibility(View.VISIBLE);
-        mViewPager.setVisibility(View.VISIBLE);
     }
 }
