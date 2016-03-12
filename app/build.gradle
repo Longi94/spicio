@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.tlongdev.spicio"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -24,6 +24,8 @@ android {
         }
 
         buildConfigField("String", "TRAKT_API_KEY", "\"${getKey(keys, "TRAKT_API_KEY")}\"")
+
+        resValue("string", "FACEBOOK_APP_ID", "\"${getKey(keys, "FACEBOOK_APP_ID")}\"")
     }
     buildTypes {
         release {
@@ -64,7 +66,8 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:support-annotations:23.2.1'
-    compile 'com.android.support:percent:23.2.0'
+    compile 'com.android.support:percent:23.2.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.10.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.google.dagger:dagger:2.0.2'
     compile 'com.jakewharton:butterknife:7.0.1'
