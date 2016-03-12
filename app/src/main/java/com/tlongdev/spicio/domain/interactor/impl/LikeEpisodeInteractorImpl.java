@@ -1,11 +1,9 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.LikeEpisodeInteractor;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import javax.inject.Inject;
@@ -25,10 +23,9 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
     private boolean mLiked;
     private Callback mCallback;
 
-    public LikeEpisodeInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                     SpicioApplication application, int episodeId, boolean liked,
+    public LikeEpisodeInteractorImpl(SpicioApplication application, int episodeId, boolean liked,
                                      Callback callback) {
-        super(threadExecutor, mainThread);
+        super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
         mEpisodeId = episodeId;
         mLiked = liked;

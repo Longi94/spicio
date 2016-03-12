@@ -1,7 +1,10 @@
 package com.tlongdev.spicio.domain.interactor;
 
+import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.threading.MainThread;
+
+import javax.inject.Inject;
 
 /**
  * Inner Layer, Interactor.
@@ -17,15 +20,14 @@ import com.tlongdev.spicio.threading.MainThread;
  */
 public abstract class AbstractInteractor implements Interactor {
 
-    protected Executor mThreadExecutor;
-    protected MainThread mMainThread;
+    @Inject protected Executor mThreadExecutor;
+    @Inject protected MainThread mMainThread;
 
     protected volatile boolean mIsCanceled;
     protected volatile boolean mIsRunning;
 
-    public AbstractInteractor(Executor threadExecutor, MainThread mainThread) {
-        mThreadExecutor = threadExecutor;
-        mMainThread = mainThread;
+    public AbstractInteractor(InteractorComponent component) {
+        component.inject(this);
     }
 
     /**

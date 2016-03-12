@@ -1,12 +1,10 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.LoadSeasonsInteractor;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
@@ -27,10 +25,8 @@ public class LoadSeasonsInteractorImpl extends AbstractInteractor implements Loa
     private int mSeriesId;
     private Callback mCallback;
 
-    public LoadSeasonsInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                     SpicioApplication app, int seriesId,
-                                     Callback callback) {
-        super(threadExecutor, mainThread);
+    public LoadSeasonsInteractorImpl(SpicioApplication app, int seriesId, Callback callback) {
+        super(app.getInteractorComponent());
         app.getInteractorComponent().inject(this);
         mSeriesId = seriesId;
         mCallback = callback;

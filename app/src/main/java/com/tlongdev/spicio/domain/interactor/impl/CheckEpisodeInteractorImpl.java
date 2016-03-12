@@ -1,12 +1,10 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.CheckEpisodeInteractor;
 import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import javax.inject.Inject;
@@ -26,10 +24,9 @@ public class CheckEpisodeInteractorImpl extends AbstractInteractor implements Ch
     private int mWatched;
     private Callback mCallback;
 
-    public CheckEpisodeInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                      SpicioApplication application, int episodeId,
+    public CheckEpisodeInteractorImpl(SpicioApplication application, int episodeId,
                                       @Watched.Enum int watched, Callback callback) {
-        super(threadExecutor, mainThread);
+        super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
         mEpisodeId = episodeId;
         mWatched = watched;

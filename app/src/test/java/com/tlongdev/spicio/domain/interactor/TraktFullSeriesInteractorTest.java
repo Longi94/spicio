@@ -3,7 +3,6 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Images;
@@ -13,8 +12,7 @@ import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
-import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.threading.TestMainThread;
+import com.tlongdev.spicio.module.FakeThreadingModule;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,19 +39,13 @@ public class TraktFullSeriesInteractorTest {
     private TraktRepository mRepository;
 
     @Mock
-    private Executor mExecutor;
-
-    @Mock
     private TraktFullSeriesInteractor.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
 
-    private MainThread mMainThread;
-
     @Before
     public void setUp() {
-        mMainThread = new TestMainThread();
 
         FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
         networkRepositoryModule.setTraktRepository(mRepository);
@@ -62,6 +54,7 @@ public class TraktFullSeriesInteractorTest {
                 .spicioAppModule(new FakeAppModule(mApp))
                 .networkRepositoryModule(networkRepositoryModule)
                 .daoModule(mock(DaoModule.class))
+                .threadingModule(new FakeThreadingModule())
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -79,7 +72,7 @@ public class TraktFullSeriesInteractorTest {
         when(mRepository.getEpisodesForSeries(0)).thenReturn(episodes);
 
         TraktFullSeriesInteractorImpl interactor = new TraktFullSeriesInteractorImpl(
-                mExecutor, mMainThread, mApp, series, mMockedCallback
+                mApp, series, mMockedCallback
         );
         interactor.run();
 
@@ -100,7 +93,7 @@ public class TraktFullSeriesInteractorTest {
         when(mRepository.getEpisodesForSeries(0)).thenReturn(null);
 
         TraktFullSeriesInteractorImpl interactor = new TraktFullSeriesInteractorImpl(
-                mExecutor, mMainThread, mApp, series, mMockedCallback
+                mApp, series, mMockedCallback
         );
         interactor.run();
 

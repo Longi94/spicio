@@ -1,12 +1,10 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktSeasonEpisodesInteractor;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
@@ -28,10 +26,9 @@ public class TraktSeasonEpisodesInteractorImpl extends AbstractInteractor implem
     private int mSeason;
     private Callback mCallback;
 
-    public TraktSeasonEpisodesInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                             SpicioApplication app, int seriesId, int season,
+    public TraktSeasonEpisodesInteractorImpl(SpicioApplication app, int seriesId, int season,
                                              Callback callback) {
-        super(threadExecutor, mainThread);
+        super(app.getInteractorComponent());
         app.getInteractorComponent().inject(this);
         mSeriesId = seriesId;
         mSeason = season;

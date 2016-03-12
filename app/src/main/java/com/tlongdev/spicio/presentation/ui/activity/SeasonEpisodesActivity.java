@@ -14,12 +14,10 @@ import android.widget.ProgressBar;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.presentation.presenter.activity.SeasonEpisodesPresenter;
 import com.tlongdev.spicio.presentation.ui.adapter.EpisodePagerAdapter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonEpisodesView;
-import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.util.List;
 
@@ -44,10 +42,7 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new SeasonEpisodesPresenter(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance()
-        );
+        presenter = new SeasonEpisodesPresenter();
         presenter.attachView(this);
 
         setContentView(R.layout.activity_season_episodes);

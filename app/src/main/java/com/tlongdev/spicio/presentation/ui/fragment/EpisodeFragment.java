@@ -14,12 +14,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.presentation.presenter.fragment.EpisodePresenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.EpisodeView;
-import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -70,10 +68,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
         if (getArguments() != null) {
             mEpisodeId = getArguments().getInt(ARG_EPISODE_ID);
         }
-        mPresenter = new EpisodePresenter(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance()
-        );
+        mPresenter = new EpisodePresenter();
         mPresenter.attachView(this);
     }
 

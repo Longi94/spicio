@@ -3,15 +3,13 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
+import com.tlongdev.spicio.module.FakeThreadingModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
-import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.threading.TestMainThread;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,22 +34,14 @@ public class LoadAllSeriesInteractorTest {
 
     @Mock
     private SeriesDao mSeriesDao;
-
-    @Mock
-    private Executor mExecutor;
-
     @Mock
     private LoadAllSeriesInteractor.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
 
-    private MainThread mMainThread;
-
     @Before
     public void setUp() {
-        mMainThread = new TestMainThread();
-
         FakeDaoModule storageModule = new FakeDaoModule();
         storageModule.setSeriesDao(mSeriesDao);
 
@@ -59,6 +49,7 @@ public class LoadAllSeriesInteractorTest {
                 .spicioAppModule(new FakeAppModule(mApp))
                 .daoModule(storageModule)
                 .networkRepositoryModule(mock(NetworkRepositoryModule.class))
+                .threadingModule(new FakeThreadingModule())
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -71,7 +62,7 @@ public class LoadAllSeriesInteractorTest {
         when(mSeriesDao.getAllSeries()).thenReturn(series);
 
         LoadAllSeriesInteractorImpl interactor = new LoadAllSeriesInteractorImpl(
-                mExecutor, mMainThread, mApp, mMockedCallback
+                mApp, mMockedCallback
         );
         interactor.run();
 
@@ -85,7 +76,7 @@ public class LoadAllSeriesInteractorTest {
         when(mSeriesDao.getAllSeries()).thenReturn(null);
 
         LoadAllSeriesInteractorImpl interactor = new LoadAllSeriesInteractorImpl(
-                mExecutor, mMainThread, mApp, mMockedCallback
+                mApp, mMockedCallback
         );
         interactor.run();
 

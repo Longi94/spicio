@@ -18,11 +18,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.fragment.SeriesDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesDetailsView;
-import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -86,10 +84,7 @@ public class SeriesDetailsFragment extends Fragment implements SeriesDetailsView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new SeriesDetailsPresenter(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance()
-        );
+        presenter = new SeriesDetailsPresenter();
         presenter.attachView(this);
 
         // Inflate the layout for this fragment

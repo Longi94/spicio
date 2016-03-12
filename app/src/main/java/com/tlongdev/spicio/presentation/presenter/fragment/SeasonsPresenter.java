@@ -1,13 +1,10 @@
 package com.tlongdev.spicio.presentation.presenter.fragment;
 
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.LoadSeasonsInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Season;
-import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonsView;
-import com.tlongdev.spicio.threading.MainThread;
 
 import java.util.List;
 
@@ -15,13 +12,9 @@ import java.util.List;
  * @author Long
  * @since 2016. 03. 09.
  */
-public class SeasonsPresenter extends AbstractPresenter implements Presenter<SeasonsView>,LoadSeasonsInteractor.Callback {
+public class SeasonsPresenter implements Presenter<SeasonsView>,LoadSeasonsInteractor.Callback {
 
     private SeasonsView mView;
-
-    public SeasonsPresenter(Executor executor, MainThread mainThread) {
-        super(executor, mainThread);
-    }
 
     @Override
     public void attachView(SeasonsView view) {
@@ -35,11 +28,7 @@ public class SeasonsPresenter extends AbstractPresenter implements Presenter<Sea
 
     public void loadSeasons(int seriesId) {
         LoadSeasonsInteractor interactor = new LoadSeasonsInteractorImpl(
-                mExecutor,
-                mMainThread,
-                mView.getSpicioApplication(),
-                seriesId,
-                this
+                mView.getSpicioApplication(), seriesId, this
         );
         interactor.execute();
     }

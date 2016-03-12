@@ -1,12 +1,10 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.LoadAllSeriesInteractor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
@@ -26,9 +24,8 @@ public class LoadAllSeriesInteractorImpl extends AbstractInteractor implements L
 
     private Callback mCallback;
 
-    public LoadAllSeriesInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                       SpicioApplication app, Callback callback) {
-        super(threadExecutor, mainThread);
+    public LoadAllSeriesInteractorImpl(SpicioApplication app, Callback callback) {
+        super(app.getInteractorComponent());
         app.getInteractorComponent().inject(this);
         mCallback = callback;
     }

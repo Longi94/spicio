@@ -3,15 +3,13 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
-import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.threading.TestMainThread;
+import com.tlongdev.spicio.module.FakeThreadingModule;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,20 +36,13 @@ public class TraktSearchInteractorTest {
     private TraktRepository mRepository;
 
     @Mock
-    private Executor mExecutor;
-
-    @Mock
     private TraktSearchInteractor.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
 
-    private MainThread mMainThread;
-
     @Before
     public void setUp() {
-        mMainThread = new TestMainThread();
-
         FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
         networkRepositoryModule.setTraktRepository(mRepository);
 
@@ -59,6 +50,7 @@ public class TraktSearchInteractorTest {
                 .spicioAppModule(new FakeAppModule(mApp))
                 .networkRepositoryModule(networkRepositoryModule)
                 .daoModule(mock(DaoModule.class))
+                .threadingModule(new FakeThreadingModule())
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -77,7 +69,7 @@ public class TraktSearchInteractorTest {
         when(mRepository.searchSeries(searchQuery)).thenReturn(seriesList);
 
         TraktSearchInteractorImpl interactor = new TraktSearchInteractorImpl(
-                mExecutor, mMainThread, mApp, searchQuery, mMockedCallback
+                mApp, searchQuery, mMockedCallback
         );
         interactor.run();
         verify(mRepository).searchSeries(searchQuery);
@@ -93,7 +85,7 @@ public class TraktSearchInteractorTest {
         when(mRepository.searchSeries(searchQuery)).thenReturn(null);
 
         TraktSearchInteractorImpl interactor = new TraktSearchInteractorImpl(
-                mExecutor, mMainThread, mApp, searchQuery, mMockedCallback
+                mApp, searchQuery, mMockedCallback
         );
         interactor.run();
 

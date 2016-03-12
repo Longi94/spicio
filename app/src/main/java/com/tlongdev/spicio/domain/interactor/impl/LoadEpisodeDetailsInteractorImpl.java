@@ -1,12 +1,10 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.LoadEpisodeDetailsInteractor;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import javax.inject.Inject;
@@ -25,10 +23,9 @@ public class LoadEpisodeDetailsInteractorImpl extends AbstractInteractor impleme
     private int mEpisodeId;
     private Callback mCallback;
 
-    public LoadEpisodeDetailsInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                            SpicioApplication application, int episodeId,
+    public LoadEpisodeDetailsInteractorImpl(SpicioApplication application, int episodeId,
                                             Callback callback) {
-        super(threadExecutor, mainThread);
+        super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
 
         mEpisodeId = episodeId;

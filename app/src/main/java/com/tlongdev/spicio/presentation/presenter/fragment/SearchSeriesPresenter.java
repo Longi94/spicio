@@ -1,13 +1,10 @@
 package com.tlongdev.spicio.presentation.presenter.fragment;
 
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.TraktSearchInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SearchSeriesView;
-import com.tlongdev.spicio.threading.MainThread;
 
 import java.util.List;
 
@@ -17,13 +14,9 @@ import java.util.List;
  * @author Long
  * @since 2016. 02. 24.
  */
-public class SearchSeriesPresenter extends AbstractPresenter implements Presenter<SearchSeriesView>, TraktSearchInteractor.Callback {
+public class SearchSeriesPresenter implements Presenter<SearchSeriesView>, TraktSearchInteractor.Callback {
 
     private SearchSeriesView mView;
-
-    public SearchSeriesPresenter(Executor executor, MainThread mainThread) {
-        super(executor, mainThread);
-    }
 
     @Override
     public void attachView(SearchSeriesView view) {
@@ -37,11 +30,7 @@ public class SearchSeriesPresenter extends AbstractPresenter implements Presente
 
     public void searchForSeries(String query) {
         TraktSearchInteractor interactor = new TraktSearchInteractorImpl(
-                mExecutor,
-                mMainThread,
-                mView.getSpicioApplication(),
-                query,
-                this
+                mView.getSpicioApplication(), query, this
         );
         interactor.execute();
     }

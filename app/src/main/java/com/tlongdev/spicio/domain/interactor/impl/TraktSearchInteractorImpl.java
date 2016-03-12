@@ -1,12 +1,10 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktSearchInteractor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
@@ -27,10 +25,8 @@ public class TraktSearchInteractorImpl extends AbstractInteractor implements Tra
     private String mSearchQuery;
     private Callback mCallback;
 
-    public TraktSearchInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                     SpicioApplication app, String searchQuery,
-                                     Callback callback) {
-        super(threadExecutor, mainThread);
+    public TraktSearchInteractorImpl(SpicioApplication app, String searchQuery, Callback callback) {
+        super(app.getInteractorComponent());
         app.getInteractorComponent().inject(this);
 
         mSearchQuery = searchQuery;

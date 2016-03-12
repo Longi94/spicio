@@ -3,15 +3,13 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.TvdbSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
 import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
-import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.threading.TestMainThread;
+import com.tlongdev.spicio.module.FakeThreadingModule;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,19 +36,13 @@ public class TvdbSearchInteractorTest {
     private TvdbRepository mRepository;
 
     @Mock
-    private Executor mExecutor;
-
-    @Mock
     private TvdbSearchInteractor.Callback mMockedCallback;
 
     @Mock
     SpicioApplication mApp;
 
-    private MainThread mMainThread;
-
     @Before
     public void setUp() {
-        mMainThread = new TestMainThread();
 
         FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
         networkRepositoryModule.setTvdbRepository(mRepository);
@@ -59,6 +51,7 @@ public class TvdbSearchInteractorTest {
                 .spicioAppModule(new FakeAppModule(mApp))
                 .networkRepositoryModule(networkRepositoryModule)
                 .daoModule(mock(DaoModule.class))
+                .threadingModule(new FakeThreadingModule())
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -77,7 +70,7 @@ public class TvdbSearchInteractorTest {
         when(mRepository.searchSeries(searchQuery)).thenReturn(seriesList);
 
         TvdbSearchInteractorImpl interactor = new TvdbSearchInteractorImpl(
-                mExecutor, mMainThread, mApp, searchQuery, mMockedCallback
+                mApp, searchQuery, mMockedCallback
         );
         interactor.run();
         verify(mRepository).searchSeries(searchQuery);
@@ -92,7 +85,7 @@ public class TvdbSearchInteractorTest {
         when(mRepository.searchSeries(searchQuery)).thenReturn(null);
 
         TvdbSearchInteractorImpl interactor = new TvdbSearchInteractorImpl(
-                mExecutor, mMainThread, mApp, searchQuery, mMockedCallback
+                mApp, searchQuery, mMockedCallback
         );
         interactor.run();
 

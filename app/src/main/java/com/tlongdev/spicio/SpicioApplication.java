@@ -13,6 +13,7 @@ import com.tlongdev.spicio.module.NetworkModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.module.StorageModule;
+import com.tlongdev.spicio.module.ThreadingModule;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -49,6 +50,7 @@ public class SpicioApplication extends Application {
                 .spicioAppModule(new SpicioAppModule(this))
                 .networkRepositoryModule(new NetworkRepositoryModule())
                 .daoModule(new DaoModule())
+                .threadingModule(new ThreadingModule())
                 .build();
     }
 

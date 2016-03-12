@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.component;
 
+import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LikeEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
@@ -9,14 +10,15 @@ import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.SaveEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.impl.TraktSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.TraktSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TvdbSearchInteractorImpl;
 import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
+import com.tlongdev.spicio.module.ThreadingModule;
 
 import javax.inject.Singleton;
 
@@ -27,8 +29,11 @@ import dagger.Component;
  * @since 2016. 03. 07.
  */
 @Singleton
-@Component(modules = {SpicioAppModule.class, DaoModule.class, NetworkRepositoryModule.class})
+@Component(modules = {SpicioAppModule.class, DaoModule.class, NetworkRepositoryModule.class,
+        ThreadingModule.class})
 public interface InteractorComponent {
+    void inject(AbstractInteractor abstractInteractor);
+
     void inject(SaveSeriesInteractorImpl saveSeriesInteractor);
 
     void inject(TvdbSearchInteractorImpl tvdbSearchInteractor);

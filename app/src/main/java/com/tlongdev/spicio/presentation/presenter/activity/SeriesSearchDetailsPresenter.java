@@ -2,7 +2,6 @@ package com.tlongdev.spicio.presentation.presenter.activity;
 
 import android.util.Log;
 
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktSeriesDetailsInteractor;
@@ -12,10 +11,8 @@ import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorIm
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView;
-import com.tlongdev.spicio.threading.MainThread;
 
 import java.util.List;
 
@@ -23,15 +20,13 @@ import java.util.List;
  * @author Long
  * @since 2016. 03. 04.
  */
-public class SeriesSearchDetailsPresenter extends AbstractPresenter implements Presenter<SeriesSearchDetailsView>,TraktSeriesDetailsInteractor.Callback, SaveSeriesInteractor.Callback, TraktFullSeriesInteractor.Callback {
+public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetailsView>,
+        TraktSeriesDetailsInteractor.Callback, SaveSeriesInteractor.Callback,
+        TraktFullSeriesInteractor.Callback {
 
     private static final String LOG_TAG = SeriesSearchDetailsPresenter.class.getSimpleName();
 
     private SeriesSearchDetailsView mView;
-
-    public SeriesSearchDetailsPresenter(Executor executor, MainThread mainThread) {
-        super(executor, mainThread);
-    }
 
     @Override
     public void attachView(SeriesSearchDetailsView view) {
@@ -45,7 +40,7 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
 
     public void loadDetails(int traktId) {
         TraktSeriesDetailsInteractor interactor = new TraktSeriesDetailsInteractorImpl(
-                mExecutor, mMainThread, mView.getSpicioApplication(), traktId, this
+                mView.getSpicioApplication(), traktId, this
         );
 
         interactor.execute();
@@ -68,7 +63,7 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
         Log.d(LOG_TAG, "finished downloading all series data, inserting into db");
 
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
-                mExecutor, mMainThread, mView.getSpicioApplication(), series, seasons, episodes, this
+                mView.getSpicioApplication(), series, seasons, episodes, this
         );
         interactor.execute();
     }
@@ -84,7 +79,7 @@ public class SeriesSearchDetailsPresenter extends AbstractPresenter implements P
         Log.d(LOG_TAG, "saveSeries() called");
 
         TraktFullSeriesInteractor interactor = new TraktFullSeriesInteractorImpl(
-                mExecutor, mMainThread, mView.getSpicioApplication(), series, this
+                mView.getSpicioApplication(), series, this
         );
         interactor.execute();
     }

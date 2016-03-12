@@ -1,12 +1,10 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.TvdbSearchInteractor;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
@@ -29,10 +27,8 @@ public class TvdbSearchInteractorImpl extends AbstractInteractor implements Tvdb
     private String mSearchQuery;
     private Callback mCallback;
 
-    public TvdbSearchInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                    SpicioApplication app,
-                                    String query, Callback callback) {
-        super(threadExecutor, mainThread);
+    public TvdbSearchInteractorImpl(SpicioApplication app, String query, Callback callback) {
+        super(app.getInteractorComponent());
         app.getInteractorComponent().inject(this);
 
         mSearchQuery = query;

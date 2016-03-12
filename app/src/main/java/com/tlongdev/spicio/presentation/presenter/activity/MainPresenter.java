@@ -1,10 +1,7 @@
 package com.tlongdev.spicio.presentation.presenter.activity;
 
-import com.tlongdev.spicio.domain.executor.Executor;
-import com.tlongdev.spicio.presentation.presenter.AbstractPresenter;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.MainView;
-import com.tlongdev.spicio.threading.MainThread;
 
 /**
  * Middle layer, Presenter.
@@ -12,13 +9,9 @@ import com.tlongdev.spicio.threading.MainThread;
  * @author Long
  * @since 2016. 02. 23.
  */
-public class MainPresenter extends AbstractPresenter implements Presenter<MainView> {
+public class MainPresenter implements Presenter<MainView> {
 
     private MainView mView;
-
-    public MainPresenter(Executor executor, MainThread mainThread) {
-        super(executor, mainThread);
-    }
 
     @Override
     public void attachView(MainView view) {

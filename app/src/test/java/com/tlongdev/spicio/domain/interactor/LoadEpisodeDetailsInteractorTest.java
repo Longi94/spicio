@@ -3,16 +3,14 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadEpisodeDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
+import com.tlongdev.spicio.module.FakeThreadingModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.threading.TestMainThread;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,9 +34,6 @@ public class LoadEpisodeDetailsInteractorTest {
     private EpisodeDao mEpisodeDao;
 
     @Mock
-    private Executor mExecutor;
-
-    @Mock
     private LoadEpisodeDetailsInteractor.Callback mMockedCallback;
 
     @Mock
@@ -47,13 +42,8 @@ public class LoadEpisodeDetailsInteractorTest {
     @Mock
     private Series mSeries;
 
-    private MainThread mMainThread;
-
     @Before
     public void setUp() {
-
-        mMainThread = new TestMainThread();
-
         FakeDaoModule storageModule = new FakeDaoModule();
         storageModule.setEpisodeDao(mEpisodeDao);
 
@@ -61,6 +51,7 @@ public class LoadEpisodeDetailsInteractorTest {
                 .spicioAppModule(new FakeAppModule(mApp))
                 .daoModule(storageModule)
                 .networkRepositoryModule(mock(NetworkRepositoryModule.class))
+                .threadingModule(new FakeThreadingModule())
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -73,7 +64,7 @@ public class LoadEpisodeDetailsInteractorTest {
         when(mEpisodeDao.getEpisode(0)).thenReturn(episode);
 
         LoadEpisodeDetailsInteractorImpl interactor = new LoadEpisodeDetailsInteractorImpl(
-                mExecutor, mMainThread, mApp, 0, mMockedCallback
+                mApp, 0, mMockedCallback
         );
         interactor.run();
 
@@ -87,7 +78,7 @@ public class LoadEpisodeDetailsInteractorTest {
         when(mEpisodeDao.getEpisode(0)).thenReturn(null);
 
         LoadEpisodeDetailsInteractorImpl interactor = new LoadEpisodeDetailsInteractorImpl(
-                mExecutor, mMainThread, mApp, 0, mMockedCallback
+                mApp, 0, mMockedCallback
         );
         interactor.run();
 

@@ -13,13 +13,11 @@ import android.view.ViewGroup;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.presentation.presenter.fragment.SeasonsPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeasonEpisodesActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SeasonsAdapter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonsView;
-import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.util.List;
 
@@ -71,10 +69,7 @@ public class SeasonsFragment extends Fragment implements SeasonsView, SeasonsAda
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new SeasonsPresenter(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance()
-        );
+        presenter = new SeasonsPresenter();
         presenter.attachView(this);
 
         // Inflate the layout for this fragment

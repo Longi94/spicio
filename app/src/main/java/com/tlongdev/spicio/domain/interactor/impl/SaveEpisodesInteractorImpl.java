@@ -1,12 +1,10 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.SaveEpisodesInteractor;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
@@ -27,9 +25,8 @@ public class SaveEpisodesInteractorImpl extends AbstractInteractor implements Sa
     private List<Episode> mEpisodes;
     private Callback mCallback;
 
-    public SaveEpisodesInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                      SpicioApplication app, List<Episode> episodes, Callback callback) {
-        super(threadExecutor, mainThread);
+    public SaveEpisodesInteractorImpl(SpicioApplication app, List<Episode> episodes, Callback callback) {
+        super(app.getInteractorComponent());
         app.getInteractorComponent().inject(this);
         mEpisodes = episodes;
         mCallback = callback;

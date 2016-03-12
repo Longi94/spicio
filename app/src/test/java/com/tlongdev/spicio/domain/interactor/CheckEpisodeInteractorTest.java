@@ -3,15 +3,13 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
+import com.tlongdev.spicio.module.FakeThreadingModule;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
-import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.threading.TestMainThread;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,20 +32,13 @@ public class CheckEpisodeInteractorTest {
     private EpisodeDao mEpisodeDao;
 
     @Mock
-    private Executor mExecutor;
-
-    @Mock
     private CheckEpisodeInteractor.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
 
-    private MainThread mMainThread;
-
     @Before
     public void setUp() {
-        mMainThread = new TestMainThread();
-
         FakeDaoModule daoModule = new FakeDaoModule();
         daoModule.setEpisodeDao(mEpisodeDao);
 
@@ -57,6 +48,7 @@ public class CheckEpisodeInteractorTest {
                 .spicioAppModule(new FakeAppModule(mApp))
                 .daoModule(daoModule)
                 .networkRepositoryModule(networkRepositoryModule)
+                .threadingModule(new FakeThreadingModule())
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -68,7 +60,7 @@ public class CheckEpisodeInteractorTest {
         when(mEpisodeDao.setWatched(0, Watched.WATCHED)).thenReturn(1);
 
         CheckEpisodeInteractorImpl interactor = new CheckEpisodeInteractorImpl(
-                mExecutor, mMainThread, mApp, 0, Watched.WATCHED, mMockedCallback
+                mApp, 0, Watched.WATCHED, mMockedCallback
         );
         interactor.run();
 
@@ -83,7 +75,7 @@ public class CheckEpisodeInteractorTest {
         when(mEpisodeDao.setWatched(0, Watched.WATCHED)).thenReturn(0);
 
         CheckEpisodeInteractorImpl interactor = new CheckEpisodeInteractorImpl(
-                mExecutor, mMainThread, mApp, 0, Watched.WATCHED, mMockedCallback
+                mApp, 0, Watched.WATCHED, mMockedCallback
         );
         interactor.run();
 

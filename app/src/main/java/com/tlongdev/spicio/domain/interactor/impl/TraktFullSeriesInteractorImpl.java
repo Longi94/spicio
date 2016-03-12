@@ -1,7 +1,6 @@
 package com.tlongdev.spicio.domain.interactor.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.model.Episode;
@@ -9,7 +8,6 @@ import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
-import com.tlongdev.spicio.threading.MainThread;
 import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
@@ -30,10 +28,8 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
     private Callback mCallback;
     private Series mSeries;
 
-    public TraktFullSeriesInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                         SpicioApplication app, Series series,
-                                         Callback callback) {
-        super(threadExecutor, mainThread);
+    public TraktFullSeriesInteractorImpl(SpicioApplication app, Series series,  Callback callback) {
+        super(app.getInteractorComponent());
         app.getInteractorComponent().inject(this);
         mCallback = callback;
         mSeries = series;

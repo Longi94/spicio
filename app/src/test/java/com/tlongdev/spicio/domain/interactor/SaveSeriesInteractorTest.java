@@ -3,7 +3,6 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
@@ -11,10 +10,9 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
+import com.tlongdev.spicio.module.FakeThreadingModule;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
-import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.threading.TestMainThread;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,20 +42,13 @@ public class SaveSeriesInteractorTest {
     private EpisodeDao mEpisodeDao;
 
     @Mock
-    private Executor mExecutor;
-
-    @Mock
     private SaveSeriesInteractor.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
 
-    private MainThread mMainThread;
-
     @Before
     public void setUp() {
-        mMainThread = new TestMainThread();
-
         FakeDaoModule daoModule = new FakeDaoModule();
         daoModule.setSeriesDao(mSeriesDao);
         daoModule.setEpisodeDao(mEpisodeDao);
@@ -68,6 +59,7 @@ public class SaveSeriesInteractorTest {
                 .spicioAppModule(new FakeAppModule(mApp))
                 .daoModule(daoModule)
                 .networkRepositoryModule(networkRepositoryModule)
+                .threadingModule(new FakeThreadingModule())
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -81,7 +73,7 @@ public class SaveSeriesInteractorTest {
         List<Episode> episodes = new LinkedList<>();
 
         SaveSeriesInteractorImpl interactor = new SaveSeriesInteractorImpl(
-                mExecutor, mMainThread, mApp, series, seasons, episodes, mMockedCallback
+                mApp, series, seasons, episodes, mMockedCallback
         );
         interactor.run();
 

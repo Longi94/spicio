@@ -20,13 +20,11 @@ import android.widget.TextView;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.fragment.SearchSeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesSearchDetailsActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SearchSeriesAdapter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SearchSeriesView;
-import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.util.List;
 
@@ -57,10 +55,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SearchSeriesPresenter(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance()
-        );
+        presenter = new SearchSeriesPresenter();
         presenter.attachView(this);
     }
 

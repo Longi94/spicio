@@ -3,15 +3,13 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.executor.Executor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
-import com.tlongdev.spicio.threading.MainThread;
-import com.tlongdev.spicio.threading.TestMainThread;
+import com.tlongdev.spicio.module.FakeThreadingModule;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,20 +36,13 @@ public class TraktSeasonEpisodesInteractorTest {
     private TraktRepository mRepository;
 
     @Mock
-    private Executor mExecutor;
-
-    @Mock
     private TraktSeasonEpisodesInteractorImpl.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
 
-    private MainThread mMainThread;
-
     @Before
     public void setUp() {
-        mMainThread = new TestMainThread();
-
         FakeNetworkRepositoryModule networkRepositoryModule = new FakeNetworkRepositoryModule();
         networkRepositoryModule.setTraktRepository(mRepository);
 
@@ -59,6 +50,7 @@ public class TraktSeasonEpisodesInteractorTest {
                 .spicioAppModule(new FakeAppModule(mApp))
                 .networkRepositoryModule(networkRepositoryModule)
                 .daoModule(mock(DaoModule.class))
+                .threadingModule(new FakeThreadingModule())
                 .build();
 
         when(mApp.getInteractorComponent()).thenReturn(component);
@@ -72,7 +64,7 @@ public class TraktSeasonEpisodesInteractorTest {
         when(mRepository.getSeasonEpisodes(0, 0)).thenReturn(episodes);
 
         TraktSeasonEpisodesInteractorImpl interactor = new TraktSeasonEpisodesInteractorImpl(
-                mExecutor, mMainThread, mApp, 0, 0, mMockedCallback
+                mApp, 0, 0, mMockedCallback
         );
         interactor.run();
 
@@ -88,7 +80,7 @@ public class TraktSeasonEpisodesInteractorTest {
         when(mRepository.getEpisodeImages(0, 0)).thenReturn(null);
 
         TraktSeasonEpisodesInteractorImpl interactor = new TraktSeasonEpisodesInteractorImpl(
-                mExecutor, mMainThread, mApp, 0, 0, mMockedCallback
+                mApp, 0, 0, mMockedCallback
         );
         interactor.run();
 

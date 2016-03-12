@@ -15,13 +15,11 @@ import android.view.ViewGroup;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.fragment.SeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SeriesAdapter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesView;
-import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.util.List;
 
@@ -46,10 +44,7 @@ public class SeriesFragment extends Fragment implements SeriesView, SeriesAdapte
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SeriesPresenter(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance()
-        );
+        presenter = new SeriesPresenter();
         presenter.attachView(this);
     }
 

@@ -20,11 +20,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.executor.ThreadExecutor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.activity.SeriesSearchDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView;
-import com.tlongdev.spicio.threading.MainThreadImpl;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -59,11 +57,7 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new SeriesSearchDetailsPresenter(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance()
-        );
-
+        presenter = new SeriesSearchDetailsPresenter();
         presenter.attachView(this);
 
         setContentView(R.layout.activity_series_details);
