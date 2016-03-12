@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -83,6 +84,9 @@ public class MainActivity extends AppCompatActivity
 
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
+
+        // TODO: 2016. 03. 12. REMOVE THIS
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @Override

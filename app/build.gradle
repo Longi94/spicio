@@ -25,7 +25,7 @@ android {
 
         buildConfigField("String", "TRAKT_API_KEY", "\"${getKey(keys, "TRAKT_API_KEY")}\"")
 
-        resValue("string", "FACEBOOK_APP_ID", "\"${getKey(keys, "FACEBOOK_APP_ID")}\"")
+        resValue("string", "FACEBOOK_APP_ID", "${getKey(keys, "FACEBOOK_APP_ID")}")
     }
     buildTypes {
         release {

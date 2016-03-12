@@ -2,6 +2,7 @@ package com.tlongdev.spicio;
 
 import android.app.Application;
 
+import com.facebook.FacebookSdk;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
@@ -35,6 +36,7 @@ public class SpicioApplication extends Application {
     public void onCreate() {
         super.onCreate();
         JodaTimeAndroid.init(this);
+        FacebookSdk.sdkInitialize(this);
 
         mNetworkComponent = DaggerNetworkComponent.builder()
                 .spicioAppModule(new SpicioAppModule(this))
