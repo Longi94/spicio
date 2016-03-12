@@ -1,23 +1,26 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.presentation.ui.fragment.SeasonsFragment;
-import com.tlongdev.spicio.presentation.ui.fragment.SeriesDetailsFragment;
+import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.presentation.presenter.activity.SeriesPresenter;
+import com.tlongdev.spicio.presentation.ui.adapter.SeriesPagerAdapter;
+import com.tlongdev.spicio.presentation.ui.view.activity.SeriesView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SeriesActivity extends AppCompatActivity {
+public class SeriesActivity extends AppCompatActivity implements SeriesView {
 
     public static final String EXTRA_SERIES_ID = "series_id";
     public static final String EXTRA_SERIES_TITLE = "series_title";
@@ -26,9 +29,18 @@ public class SeriesActivity extends AppCompatActivity {
     @Bind(R.id.tabs) TabLayout mTabLayout;
     @Bind(R.id.toolbar) Toolbar mToolbar;
 
+    private SeriesPresenter mPresenter;
+
+    private ProgressDialog mProgressDialog;
+    private SeriesPagerAdapter mSeriesPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mPresenter = new SeriesPresenter(getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
+        mPresenter.attachView(this);
+
         setContentView(R.layout.activity_series);
         ButterKnife.bind(this);
 
@@ -44,50 +56,69 @@ public class SeriesActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSeriesPagerAdapter = new SeriesPagerAdapter(getSupportFragmentManager(),
+                getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager.setAdapter(sectionsPagerAdapter);
+        mViewPager.setAdapter(mSeriesPagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
+    }
 
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_series, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                mPresenter.refreshSeries();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public SpicioApplication getSpicioApplication() {
+        return (SpicioApplication) getApplication();
+    }
+
+    @Override
+    public void reloadData() {
+        mSeriesPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showLoading() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return SeriesDetailsFragment.newInstance(getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
-                case 1:
-                    return SeasonsFragment.newInstance(getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
-                default:
-                    throw new IllegalArgumentException("Invalid fragment position: " + position);
-            }
-        }
+        mProgressDialog = ProgressDialog.show(
+                this, null, "Refreshing...", true, false
+        );
+    }
 
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "DETAILS";
-                case 1:
-                    return "SEASONS";
-            }
-            return null;
+    @Override
+    public void hideLoading() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
         }
     }
 }

@@ -17,7 +17,7 @@ import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.presentation.presenter.fragment.SeasonsPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeasonEpisodesActivity;
 import com.tlongdev.spicio.presentation.ui.adapter.SeasonsAdapter;
-import com.tlongdev.spicio.presentation.ui.view.activity.SeasonsView;
+import com.tlongdev.spicio.presentation.ui.view.fragment.SeasonsView;
 
 import java.util.List;
 

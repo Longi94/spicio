@@ -4,7 +4,7 @@ import com.tlongdev.spicio.domain.interactor.LoadSeasonsInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
-import com.tlongdev.spicio.presentation.ui.view.activity.SeasonsView;
+import com.tlongdev.spicio.presentation.ui.view.fragment.SeasonsView;
 
 import java.util.List;
 

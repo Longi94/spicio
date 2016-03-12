@@ -48,7 +48,7 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     @Bind(R.id.scroll_view) NestedScrollView scrollView;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
 
-    private SeriesSearchDetailsPresenter presenter;
+    private SeriesSearchDetailsPresenter mPresenter;
 
     private String trailerUrl;
 
@@ -60,8 +60,8 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new SeriesSearchDetailsPresenter();
-        presenter.attachView(this);
+        mPresenter = new SeriesSearchDetailsPresenter();
+        mPresenter.attachView(this);
 
         setContentView(R.layout.activity_series_search_details);
         ButterKnife.bind(this);
@@ -80,13 +80,13 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadDetails(getIntent().getIntExtra(EXTRA_TRAKT_ID, 0));
+        mPresenter.loadDetails(getIntent().getIntExtra(EXTRA_TRAKT_ID, 0));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        mPresenter.detachView();
     }
 
     @Override
@@ -167,6 +167,6 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     @OnClick(R.id.save)
     public void saveSeries(Button button) {
         Log.d(LOG_TAG, "clicked on save button");
-        presenter.saveSeries(mSeries);
+        mPresenter.saveSeries(mSeries);
     }
 }

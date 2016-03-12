@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.presentation.ui.view.activity;
+package com.tlongdev.spicio.presentation.ui.view.fragment;
 
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.presentation.ui.view.BaseView;
