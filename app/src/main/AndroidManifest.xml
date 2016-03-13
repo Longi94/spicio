@@ -12,7 +12,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/FACEBOOK_APP_ID"/>
@@ -68,13 +67,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
         </activity>
-
         <activity
             android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity
+            android:name=".presentation.ui.activity.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:noHistory="true"
+            android:parentActivityName=".presentation.ui.activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

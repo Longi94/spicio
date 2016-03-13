@@ -25,6 +25,9 @@ import com.tlongdev.spicio.presentation.presenter.activity.MainPresenter;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SeriesFragment;
 import com.tlongdev.spicio.presentation.ui.view.activity.MainView;
+import com.tlongdev.spicio.util.ProfileManager;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity
         implements MainView, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    @Inject ProfileManager mProfileManager;
 
     @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @Bind(R.id.nav_view) NavigationView mNavigationView;
@@ -67,6 +72,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SpicioApplication application = (SpicioApplication) getApplication();
+        application.getActivityComponent().inject(this);
+
         presenter = new MainPresenter();
         presenter.attachView(this);
 
@@ -85,8 +93,9 @@ public class MainActivity extends AppCompatActivity
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
 
-        // TODO: 2016. 03. 12. REMOVE THIS
-        startActivity(new Intent(this, LoginActivity.class));
+        if (!mProfileManager.isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
     }
 
     @Override
@@ -151,6 +160,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_series:
                 switchFragment(NAV_SERIES);
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
         }
 

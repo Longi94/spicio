@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -20,11 +21,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallbacks;
-import com.google.android.gms.common.api.Status;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.LoginView;
+import com.tlongdev.spicio.util.Logger;
+import com.tlongdev.spicio.util.ProfileManager;
+
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -41,6 +44,8 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
     @Inject CallbackManager mCallbackManager;
     @Inject GoogleApiClient mGoogleApiClient;
     @Inject GoogleSignInOptions mGoogleSignInOptions;
+    @Inject ProfileManager mProfileManager;
+    @Inject Logger mLogger;
 
     private LoginView mView;
 
@@ -70,22 +75,49 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                mView.onFaceBookLoginSuccess();
+                
+                if (mView != null) {
+                    mView.showLoadingAnim();
+                }
+
+                final AccessToken accessToken = loginResult.getAccessToken();
+
+                GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+                        mLogger.debug(LOG_TAG, "email: " + user.optString("email"));
+                        mLogger.debug(LOG_TAG, "name: " + user.optString("name"));
+                        mLogger.debug(LOG_TAG, "id: " + user.optString("id"));
+                        
+                        String facebookId = user.optString("id");
+                        
+                        if (facebookId == null || facebookId.isEmpty()) {
+                            throw new IllegalStateException("Couldn't get facebook ID");
+                        }
+                        mProfileManager.loginWithFacebook(facebookId);
+
+                        if (mView != null) {
+                            mView.hideLoadingAnim();
+                            mView.onLogin();
+                        }
+                    }
+                }).executeAsync();
+
             }
 
             @Override
             public void onCancel() {
-                mView.onFaceBookLoginCancel();
+
             }
 
             @Override
             public void onError(FacebookException error) {
-                mView.onFaceBookLoginFail();
+                mLogger.debug(LOG_TAG, "onError: " + error.getMessage());
             }
         });
     }
 
-    public void logOut() {
+    /*public void logOut() {
         LoginManager.getInstance().logOut();
 
         if (mGoogleApiClient.isConnected()) {
@@ -93,48 +125,54 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                     new ResultCallbacks<Status>() {
                         @Override
                         public void onSuccess(@NonNull Status status) {
-                            Log.d(LOG_TAG, "onSuccess: ");
+                            mLogger.debug(LOG_TAG, "onSuccess: ");
                         }
 
                         @Override
                         public void onFailure(@NonNull Status status) {
-                            Log.d(LOG_TAG, "onFailure: ");
+                            mLogger.debug(LOG_TAG, "onFailure: ");
                         }
                     }
             );
         }
-    }
+    }*/
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.d(LOG_TAG, "handleSignInResult:" + result.isSuccess());
+            mLogger.debug(LOG_TAG, "handleSignInResult:" + result.isSuccess());
             if (result.isSuccess()) {
                 // Signed in successfully, show authenticated UI.
                 GoogleSignInAccount acct = result.getSignInAccount();
-                Log.d(LOG_TAG, "onActivityResult: " + acct.getDisplayName() + ", " + acct.getId());
+                mLogger.debug(LOG_TAG, "onActivityResult: " + acct.getDisplayName() + ", " + acct.getId());
+                mProfileManager.loginWithGoogle(acct.getId());
+                
+                if (mView != null) {
+                    mView.hideLoadingAnim();
+                    mView.onLogin();
+                }
             } else {
                 // Signed out, show unauthenticated UI.
-                Log.d(LOG_TAG, "onActivityResult: signed out");
+                mLogger.debug(LOG_TAG, "onActivityResult: signed out");
             }
         }
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.d(LOG_TAG, "onConnected: google api client");
+        mLogger.debug(LOG_TAG, "onConnected: google api client");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.d(LOG_TAG, "onConnectionSuspended: google api client");
+        mLogger.debug(LOG_TAG, "onConnectionSuspended: google api client");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(LOG_TAG, "onConnectionFailed: google api client");
+        mLogger.debug(LOG_TAG, "onConnectionFailed: google api client");
     }
 
     public void googleLogin() {

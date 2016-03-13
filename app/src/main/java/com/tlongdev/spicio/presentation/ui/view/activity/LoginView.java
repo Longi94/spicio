@@ -7,10 +7,9 @@ import com.tlongdev.spicio.presentation.ui.view.BaseView;
  * @since 2016. 03. 12.
  */
 public interface LoginView extends BaseView {
+    void showLoadingAnim();
 
-    void onFaceBookLoginSuccess();
+    void hideLoadingAnim();
 
-    void onFaceBookLoginCancel();
-
-    void onFaceBookLoginFail();
+    void onLogin();
 }

@@ -1,11 +1,11 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.LoginButton;
@@ -25,6 +25,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Bind(R.id.google_login) SignInButton mGoogleLoginButton;
 
     private LoginPresenter mPresenter;
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,18 +108,20 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void onFaceBookLoginSuccess() {
-        Toast.makeText(this, "facebook success", Toast.LENGTH_SHORT).show();
+    public void showLoadingAnim() {
+        mProgressDialog = ProgressDialog.show(this, null, null, true, false);
     }
 
     @Override
-    public void onFaceBookLoginCancel() {
-        Toast.makeText(this, "facebook cancel", Toast.LENGTH_SHORT).show();
+    public void hideLoadingAnim() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 
     @Override
-    public void onFaceBookLoginFail() {
-        Toast.makeText(this, "facebook error", Toast.LENGTH_SHORT).show();
+    public void onLogin() {
+        finish();
     }
 
     @OnClick(R.id.google_login)

@@ -1,0 +1,7 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="@string/pref_logout"
+        android:title="@string/pref_title_logout"/>
+
+</PreferenceScreen>
