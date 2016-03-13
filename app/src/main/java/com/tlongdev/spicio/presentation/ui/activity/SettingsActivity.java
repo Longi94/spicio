@@ -141,6 +141,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
 
     @Override
     public void startLoginActivity() {
-        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
+        startActivity(intent);
+        finish();
     }
 }

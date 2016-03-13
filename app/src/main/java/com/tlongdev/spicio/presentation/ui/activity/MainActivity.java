@@ -87,15 +87,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (!mProfileManager.isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
-
-        if (!mProfileManager.isLoggedIn()) {
-            startActivity(new Intent(this, LoginActivity.class));
-        }
     }
 
     @Override
