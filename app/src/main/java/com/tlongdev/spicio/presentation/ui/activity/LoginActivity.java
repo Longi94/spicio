@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.SignInButton;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.presentation.presenter.activity.LoginPresenter;
@@ -21,6 +22,7 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Bind(R.id.facebook_login) LoginButton mFacebookLoginButton;
+    @Bind(R.id.google_login) SignInButton mGoogleLoginButton;
 
     private LoginPresenter mPresenter;
 
@@ -28,7 +30,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPresenter = new LoginPresenter();
+        SpicioApplication application = (SpicioApplication) getApplication();
+        application.getActivityComponent().inject(this);
+
+        mPresenter = new LoginPresenter(application);
         mPresenter.attachView(this);
 
         setContentView(R.layout.activity_login);
@@ -41,7 +46,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
         mFacebookLoginButton.setReadPermissions("email");
 
+        mPresenter.initGoogleSignIn(mGoogleLoginButton);
         mPresenter.registerFacebookCallback(mFacebookLoginButton);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.connectGoogleApiClient();
     }
 
     @Override
@@ -58,6 +70,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.disconnectGoogleApiClient();
     }
 
     @Override
@@ -105,5 +123,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @OnClick(R.id.logout)
     public void logOut() {
         mPresenter.logOut();
+    }
+
+    @OnClick(R.id.google_login)
+    public void googleLogin() {
+        mPresenter.googleLogin();
     }
 }

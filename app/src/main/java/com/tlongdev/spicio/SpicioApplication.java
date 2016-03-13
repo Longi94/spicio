@@ -3,12 +3,17 @@ package com.tlongdev.spicio;
 import android.app.Application;
 
 import com.facebook.FacebookSdk;
+import com.tlongdev.spicio.component.ActivityComponent;
+import com.tlongdev.spicio.component.DaggerActivityComponent;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
+import com.tlongdev.spicio.component.DaggerPresenterComponent;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
+import com.tlongdev.spicio.component.PresenterComponent;
 import com.tlongdev.spicio.component.StorageComponent;
+import com.tlongdev.spicio.module.AuthenticationModule;
 import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.NetworkModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
@@ -32,27 +37,49 @@ public class SpicioApplication extends Application {
 
     private StorageComponent mStorageComponent;
 
+    private PresenterComponent mPresenterComponent;
+
+    private ActivityComponent mActivityComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
         JodaTimeAndroid.init(this);
         FacebookSdk.sdkInitialize(this);
 
+        SpicioAppModule spicioAppModule = new SpicioAppModule(this);
+        NetworkModule networkModule = new NetworkModule();
+        StorageModule storageModule = new StorageModule();
+        DaoModule daoModule = new DaoModule();
+        NetworkRepositoryModule networkRepositoryModule = new NetworkRepositoryModule();
+        ThreadingModule threadingModule = new ThreadingModule();
+        AuthenticationModule authenticationModule = new AuthenticationModule();
+
         mNetworkComponent = DaggerNetworkComponent.builder()
-                .spicioAppModule(new SpicioAppModule(this))
-                .networkModule(new NetworkModule())
+                .spicioAppModule(spicioAppModule)
+                .networkModule(networkModule)
                 .build();
 
         mStorageComponent = DaggerStorageComponent.builder()
-                .spicioAppModule(new SpicioAppModule(this))
-                .storageModule(new StorageModule())
+                .spicioAppModule(spicioAppModule)
+                .storageModule(storageModule)
                 .build();
 
         mInteractorComponent = DaggerInteractorComponent.builder()
-                .spicioAppModule(new SpicioAppModule(this))
-                .networkRepositoryModule(new NetworkRepositoryModule())
-                .daoModule(new DaoModule())
-                .threadingModule(new ThreadingModule())
+                .spicioAppModule(spicioAppModule)
+                .networkRepositoryModule(networkRepositoryModule)
+                .daoModule(daoModule)
+                .threadingModule(threadingModule)
+                .build();
+
+        mPresenterComponent = DaggerPresenterComponent.builder()
+                .spicioAppModule(spicioAppModule)
+                .authenticationModule(authenticationModule)
+                .build();
+
+        mActivityComponent = DaggerActivityComponent.builder()
+                .spicioAppModule(spicioAppModule)
+                .authenticationModule(authenticationModule)
                 .build();
     }
 
@@ -70,5 +97,13 @@ public class SpicioApplication extends Application {
 
     public InteractorComponent getInteractorComponent() {
         return mInteractorComponent;
+    }
+
+    public PresenterComponent getPresenterComponent() {
+        return mPresenterComponent;
+    }
+
+    public ActivityComponent getActivityComponent() {
+        return mActivityComponent;
     }
 }
