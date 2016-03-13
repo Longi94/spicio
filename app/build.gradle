@@ -24,6 +24,7 @@ android {
         }
 
         buildConfigField("String", "TRAKT_API_KEY", "\"${getKey(keys, "TRAKT_API_KEY")}\"")
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"${getKey(keys, "GOOGLE_WEB_CLIENT_ID")}\"")
 
         resValue("string", "FACEBOOK_APP_ID", "${getKey(keys, "FACEBOOK_APP_ID")}")
     }
@@ -69,6 +70,7 @@ dependencies {
     compile 'com.android.support:percent:23.2.1'
     compile 'com.facebook.android:facebook-android-sdk:4.10.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.google.dagger:dagger:2.0.2'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.okhttp3:okhttp:3.1.2'
@@ -76,3 +78,5 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'net.danlew:android.joda:2.9.2'
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_id": "spicio-52c5e",
+    "project_number": "64866967716",
+    "name": "Spicio"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64866967716:android:87843719f1fa5514",
+        "client_id": "android:com.tlongdev.spicio",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.tlongdev.spicio",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
