@@ -1,6 +1,8 @@
 package com.tlongdev.spicio.module;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.tlongdev.spicio.util.AndroidLogger;
 import com.tlongdev.spicio.util.Logger;
@@ -33,5 +35,17 @@ public class SpicioAppModule {
     @Singleton
     Logger provideLogger() {
         return new AndroidLogger();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences.Editor provideEditor(SharedPreferences preferences) {
+        return preferences.edit();
     }
 }

@@ -6,6 +6,8 @@ import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.util.ProfileManager;
 
 import javax.inject.Singleton;
 
@@ -39,5 +41,11 @@ public class AuthenticationModule {
     @Singleton
     CallbackManager provideCallbackManager() {
         return CallbackManager.Factory.create();
+    }
+
+    @Provides
+    @Singleton
+    ProfileManager provideProfileManager(Application application) {
+        return new ProfileManager((SpicioApplication) application);
     }
 }

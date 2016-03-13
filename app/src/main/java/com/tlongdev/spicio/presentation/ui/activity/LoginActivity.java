@@ -120,11 +120,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         Toast.makeText(this, "facebook error", Toast.LENGTH_SHORT).show();
     }
 
-    @OnClick(R.id.logout)
-    public void logOut() {
-        mPresenter.logOut();
-    }
-
     @OnClick(R.id.google_login)
     public void googleLogin() {
         mPresenter.googleLogin();

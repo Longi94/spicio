@@ -8,10 +8,12 @@ import com.tlongdev.spicio.component.DaggerActivityComponent;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
 import com.tlongdev.spicio.component.DaggerPresenterComponent;
+import com.tlongdev.spicio.component.DaggerProfileManagerComponent;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.component.PresenterComponent;
+import com.tlongdev.spicio.component.ProfileManagerComponent;
 import com.tlongdev.spicio.component.StorageComponent;
 import com.tlongdev.spicio.module.AuthenticationModule;
 import com.tlongdev.spicio.module.DaoModule;
@@ -40,6 +42,8 @@ public class SpicioApplication extends Application {
     private PresenterComponent mPresenterComponent;
 
     private ActivityComponent mActivityComponent;
+
+    private ProfileManagerComponent mProfileManagerComponent;
 
     @Override
     public void onCreate() {
@@ -81,6 +85,10 @@ public class SpicioApplication extends Application {
                 .spicioAppModule(spicioAppModule)
                 .authenticationModule(authenticationModule)
                 .build();
+
+        mProfileManagerComponent = DaggerProfileManagerComponent.builder()
+                .spicioAppModule(spicioAppModule)
+                .build();
     }
 
     public NetworkComponent getNetworkComponent() {
@@ -105,5 +113,13 @@ public class SpicioApplication extends Application {
 
     public ActivityComponent getActivityComponent() {
         return mActivityComponent;
+    }
+
+    public ProfileManagerComponent getProfileManagerComponent() {
+        return mProfileManagerComponent;
+    }
+
+    public void setProfileManagerComponent(ProfileManagerComponent profileManagerComponent) {
+        mProfileManagerComponent = profileManagerComponent;
     }
 }
