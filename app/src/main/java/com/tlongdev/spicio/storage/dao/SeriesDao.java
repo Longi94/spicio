@@ -46,5 +46,5 @@ public interface SeriesDao {
     /**
      * Deletes all the series records from the database.
      */
-    void deleteAllSeries();
+    void deleteAllData();
 }

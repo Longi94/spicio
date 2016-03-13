@@ -9,6 +9,7 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.storage.DatabaseContract;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.util.Logger;
@@ -32,7 +33,7 @@ public class SeriesDaoImpl implements SeriesDao {
     private static final String LOG_TAG = SeriesDaoImpl.class.getSimpleName();
 
     @Inject ContentResolver mContentResolver;
-    @Inject Logger logger;
+    @Inject Logger mLogger;
 
     // TODO: 2016. 03. 08. better projection to improve query performance
     public static final String[] PROJECTION = {
@@ -99,7 +100,7 @@ public class SeriesDaoImpl implements SeriesDao {
 
     @Override
     public Series getSeries(int traktId) {
-        logger.debug(LOG_TAG, "querying series with id: " + traktId);
+        mLogger.debug(LOG_TAG, "querying series with id: " + traktId);
         Cursor cursor = mContentResolver.query(
                 SeriesEntry.CONTENT_URI,
                 PROJECTION,
@@ -112,19 +113,19 @@ public class SeriesDaoImpl implements SeriesDao {
             if (cursor.moveToFirst()) {
                 return mapCursorToSeries(cursor);
             } else {
-                logger.debug(LOG_TAG, "series not found with id: " + traktId);
+                mLogger.debug(LOG_TAG, "series not found with id: " + traktId);
             }
 
             cursor.close();
         } else {
-            logger.warn(LOG_TAG, "query returned null");
+            mLogger.warn(LOG_TAG, "query returned null");
         }
         return null;
     }
 
     @Override
     public List<Series> getAllSeries() {
-        logger.debug(LOG_TAG, "querying series with id");
+        mLogger.debug(LOG_TAG, "querying series with id");
         Cursor cursor = mContentResolver.query(
                 SeriesEntry.CONTENT_URI,
                 PROJECTION,
@@ -149,7 +150,7 @@ public class SeriesDaoImpl implements SeriesDao {
 
     @Override
     public Uri insertSeries(Series series) {
-        logger.debug(LOG_TAG, "inserting series");
+        mLogger.debug(LOG_TAG, "inserting series");
 
         ContentValues values = new ContentValues();
 
@@ -186,9 +187,9 @@ public class SeriesDaoImpl implements SeriesDao {
         Uri uri = mContentResolver.insert(SeriesEntry.CONTENT_URI, values);
 
         if (uri == null) {
-            logger.warn(LOG_TAG, "insert return null URI");
+            mLogger.warn(LOG_TAG, "insert return null URI");
         } else {
-            logger.debug(LOG_TAG, "inserted one record into " + SeriesEntry.TABLE_NAME + " table, uri: " + uri.toString());
+            mLogger.debug(LOG_TAG, "inserted one record into " + SeriesEntry.TABLE_NAME + " table, uri: " + uri.toString());
         }
         return uri;
     }
@@ -199,8 +200,21 @@ public class SeriesDaoImpl implements SeriesDao {
     }
 
     @Override
-    public void deleteAllSeries() {
+    public void deleteAllData() {
+        int rowsDeleted = mContentResolver.delete(SeriesEntry.CONTENT_URI, null, null);
+        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from series table");
 
+        rowsDeleted = mContentResolver.delete(DatabaseContract.EpisodesEntry.CONTENT_URI, null, null);
+        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from episodes table");
+
+        rowsDeleted = mContentResolver.delete(DatabaseContract.SeasonsEntry.CONTENT_URI, null, null);
+        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from seasons table");
+
+        rowsDeleted = mContentResolver.delete(DatabaseContract.FeedEntry.CONTENT_URI, null, null);
+        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from feed table");
+
+        rowsDeleted = mContentResolver.delete(DatabaseContract.FriendsEntry.CONTENT_URI, null, null);
+        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from friends table");
     }
 
     @SuppressWarnings("WrongConstant")

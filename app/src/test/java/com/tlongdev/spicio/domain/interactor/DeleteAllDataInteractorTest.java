@@ -3,8 +3,7 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
-import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.interactor.impl.DeleteAllDataInteractorImpl;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
 import com.tlongdev.spicio.module.FakeThreadingModule;
@@ -17,26 +16,22 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
  * @author Long
- * @since 2016. 03. 07.
+ * @since 2016. 03. 13.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class LoadAllSeriesInteractorTest {
+public class DeleteAllDataInteractorTest {
 
     @Mock
     private SeriesDao mSeriesDao;
 
     @Mock
-    private LoadAllSeriesInteractor.Callback mMockedCallback;
+    private DeleteAllDataInteractor.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
@@ -57,32 +52,14 @@ public class LoadAllSeriesInteractorTest {
     }
 
     @Test
-    public void testSuccess() {
+    public void testDelete() throws Exception {
 
-        List<Series> series = new LinkedList<>();
-        when(mSeriesDao.getAllSeries()).thenReturn(series);
-
-        LoadAllSeriesInteractorImpl interactor = new LoadAllSeriesInteractorImpl(
+        DeleteAllDataInteractorImpl interactor = new DeleteAllDataInteractorImpl(
                 mApp, mMockedCallback
         );
-        interactor.run();
+        interactor.run();;
 
-        verify(mSeriesDao).getAllSeries();
-        verifyNoMoreInteractions(mSeriesDao);
-        verify(mMockedCallback).onLoadAllSeriesFinish(series);
-    }
-
-    @Test
-    public void testFail() {
-        when(mSeriesDao.getAllSeries()).thenReturn(null);
-
-        LoadAllSeriesInteractorImpl interactor = new LoadAllSeriesInteractorImpl(
-                mApp, mMockedCallback
-        );
-        interactor.run();
-
-        verify(mSeriesDao).getAllSeries();
-        verifyNoMoreInteractions(mSeriesDao);
-        verify(mMockedCallback).onLoadAllSeriesFail();
+        verify(mSeriesDao).deleteAllData();
+        verify(mMockedCallback).onFinish();
     }
 }
