@@ -117,26 +117,6 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
         });
     }
 
-    /*public void logOut() {
-        LoginManager.getInstance().logOut();
-
-        if (mGoogleApiClient.isConnected()) {
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                    new ResultCallbacks<Status>() {
-                        @Override
-                        public void onSuccess(@NonNull Status status) {
-                            mLogger.debug(LOG_TAG, "onSuccess: ");
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Status status) {
-                            mLogger.debug(LOG_TAG, "onFailure: ");
-                        }
-                    }
-            );
-        }
-    }*/
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
 

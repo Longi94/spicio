@@ -1,11 +1,11 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -18,9 +18,8 @@ import android.widget.LinearLayout;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.util.ProfileManager;
-
-import javax.inject.Inject;
+import com.tlongdev.spicio.presentation.presenter.activity.SettingsPresenter;
+import com.tlongdev.spicio.presentation.ui.view.activity.SettingsView;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -33,64 +32,17 @@ import javax.inject.Inject;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsActivity extends AppCompatPreferenceActivity implements SettingsView,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Inject ProfileManager mProfileManager;
-
-    /**
-     * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
-     */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
-
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-
-            } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
-            }
-            return true;
-        }
-    };
-
-    /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
-     * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
-     *
-     * @see #sBindPreferenceSummaryToValueListener
-     */
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
-        // Trigger the listener immediately with the preference's
-        // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
-    }
+    private SettingsPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mPresenter = new SettingsPresenter((SpicioApplication) getApplication());
+        mPresenter.attachView(this);
 
         SpicioApplication application = (SpicioApplication) getApplication();
         application.getActivityComponent().inject(this);
@@ -111,6 +63,24 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         setSupportActionBar((Toolbar) toolbar.findViewById(R.id.toolbar));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.connectGoogleApiClient();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.disconnectGoogleApiClient();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
     }
 
     @Override
@@ -147,8 +117,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         findPreference(getString(R.string.pref_logout)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                mProfileManager.logout();
-                startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                mPresenter.logout();
                 return true;
             }
         });
@@ -158,5 +127,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public SpicioApplication getSpicioApplication() {
+        return (SpicioApplication) getApplication();
+    }
+
+    @Override
+    public void startLoginActivity() {
+        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
     }
 }
