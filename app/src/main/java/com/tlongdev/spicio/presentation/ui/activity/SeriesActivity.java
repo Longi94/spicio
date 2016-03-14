@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.facebook.appevents.AppEventsLogger;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
@@ -30,6 +32,9 @@ public class SeriesActivity extends AppCompatActivity implements SeriesView {
     @Bind(R.id.tabs) TabLayout mTabLayout;
     @Bind(R.id.toolbar) Toolbar mToolbar;
 
+    @InjectExtra(EXTRA_SERIES_ID) int mSeriesId;
+    @InjectExtra(EXTRA_SERIES_TITLE) String mSeriesTitle;
+
     private SeriesPresenter mPresenter;
 
     private ProgressDialog mProgressDialog;
@@ -38,12 +43,12 @@ public class SeriesActivity extends AppCompatActivity implements SeriesView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mPresenter = new SeriesPresenter(getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
-        mPresenter.attachView(this);
-
         setContentView(R.layout.activity_series);
         ButterKnife.bind(this);
+        Dart.inject(this);
+
+        mPresenter = new SeriesPresenter(mSeriesId);
+        mPresenter.attachView(this);
 
         //Set the color of the status bar
         if (Build.VERSION.SDK_INT >= 21) {
@@ -53,12 +58,11 @@ public class SeriesActivity extends AppCompatActivity implements SeriesView {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setTitle(getIntent().getStringExtra(EXTRA_SERIES_TITLE));
+        setTitle(mSeriesTitle);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSeriesPagerAdapter = new SeriesPagerAdapter(getSupportFragmentManager(),
-                getIntent().getIntExtra(EXTRA_SERIES_ID, -1));
+        mSeriesPagerAdapter = new SeriesPagerAdapter(getSupportFragmentManager(), mSeriesId);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager.setAdapter(mSeriesPagerAdapter);

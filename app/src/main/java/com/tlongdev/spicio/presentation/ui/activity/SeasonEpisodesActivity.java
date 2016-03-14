@@ -1,7 +1,6 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.facebook.appevents.AppEventsLogger;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
@@ -32,19 +33,22 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     @Bind(R.id.tabs) TabLayout mTabLayout;
     @Bind(R.id.toolbar) Toolbar mToolbar;
 
-    private SeasonEpisodesPresenter presenter;
+    @InjectExtra(EXTRA_SERIES_ID) int mSeriesId;
+    @InjectExtra(EXTRA_SEASON) int mSeason;
+
+    private SeasonEpisodesPresenter mPresenter;
 
     private EpisodePagerAdapter mEpisodePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        presenter = new SeasonEpisodesPresenter();
-        presenter.attachView(this);
-
         setContentView(R.layout.activity_season_episodes);
         ButterKnife.bind(this);
+        Dart.inject(this);
+
+        mPresenter = new SeasonEpisodesPresenter();
+        mPresenter.attachView(this);
 
         //Set the color of the status bar
         if (Build.VERSION.SDK_INT >= 21) {
@@ -54,11 +58,8 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-        int season = intent.getIntExtra(EXTRA_SEASON, -1);
-        int seriesId = intent.getIntExtra(EXTRA_SERIES_ID, -1);
-        presenter.setSeriesId(seriesId);
-        presenter.setSeason(season);
+        mPresenter.setSeriesId(mSeriesId);
+        mPresenter.setSeason(mSeason);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -69,17 +70,17 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
 
         mTabLayout.setupWithViewPager(mViewPager);
 
-        if (season == 0) {
+        if (mSeason == 0) {
             setTitle("Special Episodes");
         } else {
-            setTitle("Season " + season);
+            setTitle("Season " + mSeason);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadEpisodes();
+        mPresenter.loadEpisodes();
 
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
@@ -96,7 +97,7 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        mPresenter.detachView();
     }
 
     @Override

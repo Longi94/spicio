@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.facebook.appevents.AppEventsLogger;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
@@ -49,6 +51,9 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     @Bind(R.id.scroll_view) NestedScrollView scrollView;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
 
+    @InjectExtra(EXTRA_TRAKT_ID) int mTraktId;
+    @InjectExtra(EXTRA_POSTER) String mPoster;
+
     private SeriesSearchDetailsPresenter mPresenter;
 
     private String trailerUrl;
@@ -60,12 +65,12 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_series_search_details);
+        ButterKnife.bind(this);
+        Dart.inject(this);
 
         mPresenter = new SeriesSearchDetailsPresenter();
         mPresenter.attachView(this);
-
-        setContentView(R.layout.activity_series_search_details);
-        ButterKnife.bind(this);
 
         //Set the color of the status bar
         if (Build.VERSION.SDK_INT >= 21) {
@@ -81,7 +86,7 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.loadDetails(getIntent().getIntExtra(EXTRA_TRAKT_ID, 0));
+        mPresenter.loadDetails(mTraktId);
 
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
@@ -117,7 +122,7 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
         mSeries = series;
 
         Glide.with(this)
-                .load(getIntent().getStringExtra(EXTRA_POSTER))
+                .load(mPoster)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.drawable.ic_movie)
                 .into(poster);
