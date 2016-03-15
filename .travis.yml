@@ -1,0 +1,23 @@
+sudo: required
+language: android
+android:
+  components:
+    - tools
+    - build-tools-23.0.2
+    - android-23
+    - extra-android-m2repository
+    - extra-google-m2repository
+
+before_install:
+  - chmod +x gradlew
+  - pip install --user codecov
+
+script:
+  - ./gradlew jacocoFullReport --stacktrace
+
+after_success:
+  - codecov
+
+notifications:
+  email:
+    on_failure: change
