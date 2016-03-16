@@ -69,7 +69,7 @@ public class SeasonsFragment extends Fragment implements SeasonsView, SeasonsAda
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new SeasonsPresenter();
+        presenter = new SeasonsPresenter((SpicioApplication) getActivity().getApplication());
         presenter.attachView(this);
 
         // Inflate the layout for this fragment
@@ -101,11 +101,6 @@ public class SeasonsFragment extends Fragment implements SeasonsView, SeasonsAda
     public void showSeasons(List<Season> seasons) {
         adapter.setDataSet(seasons);
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getActivity().getApplication();
     }
 
     @Override

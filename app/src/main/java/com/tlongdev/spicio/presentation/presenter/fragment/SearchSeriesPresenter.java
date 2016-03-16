@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.presentation.presenter.fragment;
 
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.TraktSearchInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
@@ -18,6 +19,12 @@ public class SearchSeriesPresenter implements Presenter<SearchSeriesView>, Trakt
 
     private SearchSeriesView mView;
 
+    private SpicioApplication mApplication;
+
+    public SearchSeriesPresenter(SpicioApplication application) {
+        mApplication = application;
+    }
+
     @Override
     public void attachView(SearchSeriesView view) {
         this.mView = view;
@@ -29,9 +36,7 @@ public class SearchSeriesPresenter implements Presenter<SearchSeriesView>, Trakt
     }
 
     public void searchForSeries(String query) {
-        TraktSearchInteractor interactor = new TraktSearchInteractorImpl(
-                mView.getSpicioApplication(), query, this
-        );
+        TraktSearchInteractor interactor = new TraktSearchInteractorImpl(mApplication, query, this);
         interactor.execute();
     }
 

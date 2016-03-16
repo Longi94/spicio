@@ -1,7 +1,6 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -47,7 +46,7 @@ public class SeriesActivity extends AppCompatActivity implements SeriesView {
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mPresenter = new SeriesPresenter(mSeriesId);
+        mPresenter = new SeriesPresenter((SpicioApplication) getApplication(), mSeriesId);
         mPresenter.attachView(this);
 
         //Set the color of the status bar
@@ -107,16 +106,6 @@ public class SeriesActivity extends AppCompatActivity implements SeriesView {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getApplication();
     }
 
     @Override

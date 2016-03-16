@@ -84,7 +84,7 @@ public class SeriesDetailsFragment extends Fragment implements SeriesDetailsView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new SeriesDetailsPresenter();
+        presenter = new SeriesDetailsPresenter((SpicioApplication) getActivity().getApplication());
         presenter.attachView(this);
 
         // Inflate the layout for this fragment
@@ -126,11 +126,6 @@ public class SeriesDetailsFragment extends Fragment implements SeriesDetailsView
         }
 
         rating.setText(String.format("%s/10", new DecimalFormat("#.##").format(series.getTraktRating())));
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getActivity().getApplication();
     }
 
     @OnClick(R.id.trailer)

@@ -1,6 +1,5 @@
 package com.tlongdev.spicio.presentation.presenter.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -157,7 +156,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
 
     public void googleLogin() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        ((Activity)mView.getContext()).startActivityForResult(signInIntent, RC_SIGN_IN);
+        mView.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     public void connectGoogleApiClient() {

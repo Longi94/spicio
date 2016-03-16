@@ -1,7 +1,6 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -98,16 +97,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getApplication();
-    }
-
-    @Override
     public void showLoadingAnim() {
         mProgressDialog = ProgressDialog.show(this, null, null, true, false);
     }
@@ -128,5 +117,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @OnClick(R.id.google_login)
     public void googleLogin() {
         mPresenter.googleLogin();
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
     }
 }

@@ -55,7 +55,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SearchSeriesPresenter();
+        presenter = new SearchSeriesPresenter((SpicioApplication) getActivity().getApplication());
         presenter.attachView(this);
     }
 
@@ -114,10 +114,5 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
         intent.putExtra(SeriesSearchDetailsActivity.EXTRA_TRAKT_ID, series.getTraktId());
         intent.putExtra(SeriesSearchDetailsActivity.EXTRA_POSTER, series.getImages().getPoster().getFull());
         startActivity(intent);
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getActivity().getApplication();
     }
 }

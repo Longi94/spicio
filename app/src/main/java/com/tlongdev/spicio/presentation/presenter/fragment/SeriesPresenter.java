@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.presentation.presenter.fragment;
 
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.LoadAllSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
@@ -16,6 +17,12 @@ public class SeriesPresenter implements Presenter<SeriesView>,LoadAllSeriesInter
 
     private SeriesView mView;
 
+    private SpicioApplication mApplication;
+
+    public SeriesPresenter(SpicioApplication application) {
+        mApplication = application;
+    }
+
     @Override
     public void attachView(SeriesView view) {
         mView = view;
@@ -27,9 +34,7 @@ public class SeriesPresenter implements Presenter<SeriesView>,LoadAllSeriesInter
     }
 
     public void loadSeries() {
-        LoadAllSeriesInteractor interactor = new LoadAllSeriesInteractorImpl(
-                mView.getSpicioApplication(), this
-        );
+        LoadAllSeriesInteractor interactor = new LoadAllSeriesInteractorImpl(mApplication, this);
         interactor.execute();
     }
 

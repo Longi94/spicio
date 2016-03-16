@@ -44,7 +44,7 @@ public class SeriesFragment extends Fragment implements SeriesView, SeriesAdapte
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SeriesPresenter();
+        presenter = new SeriesPresenter((SpicioApplication) getActivity().getApplication());
         presenter.attachView(this);
     }
 
@@ -77,11 +77,6 @@ public class SeriesFragment extends Fragment implements SeriesView, SeriesAdapte
     public void onDestroy() {
         super.onDestroy();
         presenter.detachView();
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getActivity().getApplication();
     }
 
     @Override

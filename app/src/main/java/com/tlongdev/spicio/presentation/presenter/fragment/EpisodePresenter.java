@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.presentation.presenter.fragment;
 
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.CheckEpisodeInteractor;
 import com.tlongdev.spicio.domain.interactor.LikeEpisodeInteractor;
 import com.tlongdev.spicio.domain.interactor.LoadEpisodeDetailsInteractor;
@@ -22,6 +23,12 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
     private EpisodeView mView;
 
     private Episode mEpisode;
+
+    private SpicioApplication mApplication;
+
+    public EpisodePresenter(SpicioApplication application) {
+        mApplication = application;
+    }
 
     @Override
     public void attachView(EpisodeView view) {
@@ -51,7 +58,7 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
 
     public void loadEpisode(int episodeId) {
         LoadEpisodeDetailsInteractor interactor = new LoadEpisodeDetailsInteractorImpl(
-                mView.getSpicioApplication(), episodeId, this
+                mApplication, episodeId, this
         );
         interactor.execute();
     }
@@ -61,14 +68,14 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
 
         mEpisode.setWatched(watched);
         CheckEpisodeInteractor interactor = new CheckEpisodeInteractorImpl(
-                mView.getSpicioApplication(), mEpisode.getTraktId(), watched, this
+                mApplication, mEpisode.getTraktId(), watched, this
         );
         interactor.execute();
     }
 
     public void likeEpisode() {
         LikeEpisodeInteractor interactor = new LikeEpisodeInteractorImpl(
-                mView.getSpicioApplication(), mEpisode.getTraktId(), !mEpisode.isLiked(), this
+                mApplication, mEpisode.getTraktId(), !mEpisode.isLiked(), this
         );
         interactor.execute();
     }
@@ -78,7 +85,7 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
 
         mEpisode.setWatched(watched);
         CheckEpisodeInteractor interactor = new CheckEpisodeInteractorImpl(
-                mView.getSpicioApplication(), mEpisode.getTraktId(), watched, this
+                mApplication, mEpisode.getTraktId(), watched, this
         );
         interactor.execute();
     }

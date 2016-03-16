@@ -1,6 +1,5 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -47,7 +46,7 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mPresenter = new SeasonEpisodesPresenter();
+        mPresenter = new SeasonEpisodesPresenter((SpicioApplication) getApplication());
         mPresenter.attachView(this);
 
         //Set the color of the status bar
@@ -109,16 +108,6 @@ public class SeasonEpisodesActivity extends AppCompatActivity implements SeasonE
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getApplication();
     }
 
     @Override

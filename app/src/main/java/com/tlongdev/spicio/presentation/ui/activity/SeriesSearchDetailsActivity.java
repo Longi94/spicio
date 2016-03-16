@@ -1,7 +1,6 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -69,7 +68,7 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mPresenter = new SeriesSearchDetailsPresenter();
+        mPresenter = new SeriesSearchDetailsPresenter((SpicioApplication) getApplication());
         mPresenter.attachView(this);
 
         //Set the color of the status bar
@@ -104,16 +103,6 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getApplication();
     }
 
     @Override

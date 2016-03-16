@@ -2,6 +2,7 @@ package com.tlongdev.spicio.presentation.presenter.activity;
 
 import android.util.Log;
 
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktSeriesDetailsInteractor;
@@ -28,6 +29,12 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
 
     private SeriesSearchDetailsView mView;
 
+    private SpicioApplication mApplication;
+
+    public SeriesSearchDetailsPresenter(SpicioApplication application) {
+        mApplication = application;
+    }
+
     @Override
     public void attachView(SeriesSearchDetailsView view) {
         mView = view;
@@ -40,7 +47,7 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
 
     public void loadDetails(int traktId) {
         TraktSeriesDetailsInteractor interactor = new TraktSeriesDetailsInteractorImpl(
-                mView.getSpicioApplication(), traktId, this
+                mApplication, traktId, this
         );
 
         interactor.execute();
@@ -63,7 +70,7 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
         Log.d(LOG_TAG, "finished downloading all series data, inserting into db");
 
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
-                mView.getSpicioApplication(), series, seasons, episodes, this
+                mApplication, series, seasons, episodes, this
         );
         interactor.execute();
     }
@@ -81,7 +88,7 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
         mView.showLoading();
 
         TraktFullSeriesInteractor interactor = new TraktFullSeriesInteractorImpl(
-                mView.getSpicioApplication(), series.getTraktId(), this
+                mApplication, series.getTraktId(), this
         );
         interactor.execute();
     }

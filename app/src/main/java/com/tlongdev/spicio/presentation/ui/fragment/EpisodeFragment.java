@@ -68,7 +68,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
         if (getArguments() != null) {
             mEpisodeId = getArguments().getInt(ARG_EPISODE_ID);
         }
-        mPresenter = new EpisodePresenter();
+        mPresenter = new EpisodePresenter((SpicioApplication) getActivity().getApplication());
         mPresenter.attachView(this);
     }
 
@@ -116,11 +116,6 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
     @Override
     public void showError() {
 
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getActivity().getApplication();
     }
 
     @OnClick(R.id.check)

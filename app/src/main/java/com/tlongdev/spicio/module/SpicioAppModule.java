@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.module;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -33,14 +34,20 @@ public class SpicioAppModule {
 
     @Provides
     @Singleton
+    Context provideApplicationContext() {
+        return mApplication;
+    }
+
+    @Provides
+    @Singleton
     Logger provideLogger() {
         return new AndroidLogger();
     }
 
     @Provides
     @Singleton
-    SharedPreferences provideSharedPreferences(Application application) {
-        return PreferenceManager.getDefaultSharedPreferences(application);
+    SharedPreferences provideSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Provides

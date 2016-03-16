@@ -23,10 +23,13 @@ public class SeasonEpisodesPresenter implements Presenter<SeasonEpisodesView>,
     private int mSeriesId;
     private int mSeason;
 
+    public SeasonEpisodesPresenter(SpicioApplication application) {
+        mApplication = application;
+    }
+
     @Override
     public void attachView(SeasonEpisodesView view) {
         mView = view;
-        mApplication = view.getSpicioApplication();
     }
 
     @Override

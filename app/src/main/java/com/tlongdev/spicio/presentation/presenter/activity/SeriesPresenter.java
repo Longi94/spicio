@@ -2,6 +2,7 @@ package com.tlongdev.spicio.presentation.presenter.activity;
 
 import android.util.Log;
 
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
@@ -24,9 +25,12 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
 
     private SeriesView mView;
 
+    private SpicioApplication mApplication;
+
     private int mSeriesId;
 
-    public SeriesPresenter(int seriesId) {
+    public SeriesPresenter(SpicioApplication application, int seriesId) {
+        mApplication = application;
         mSeriesId = seriesId;
     }
 
@@ -43,7 +47,7 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
     public void refreshSeries() {
         mView.showLoading();
         TraktFullSeriesInteractor interactor = new TraktFullSeriesInteractorImpl(
-                mView.getSpicioApplication(), mSeriesId, this
+                mApplication, mSeriesId, this
         );
         interactor.execute();
     }
@@ -53,7 +57,7 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
         Log.d(LOG_TAG, "finished downloading all series data, inserting into db");
 
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
-                mView.getSpicioApplication(), series, seasons, episodes, this
+                mApplication, series, seasons, episodes, this
         );
         interactor.execute();
 

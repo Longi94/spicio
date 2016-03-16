@@ -1,5 +1,7 @@
 package com.tlongdev.spicio.presentation.ui.view.activity;
 
+import android.content.Intent;
+
 import com.tlongdev.spicio.presentation.ui.view.BaseView;
 
 /**
@@ -12,4 +14,6 @@ public interface LoginView extends BaseView {
     void hideLoadingAnim();
 
     void onLogin();
+
+    void startActivityForResult(Intent intent, int requestCode);
 }

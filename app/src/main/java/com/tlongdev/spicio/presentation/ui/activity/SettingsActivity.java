@@ -1,7 +1,6 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -127,16 +126,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public SpicioApplication getSpicioApplication() {
-        return (SpicioApplication) getApplication();
     }
 
     @Override
