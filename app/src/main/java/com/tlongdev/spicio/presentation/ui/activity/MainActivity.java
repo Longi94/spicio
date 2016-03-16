@@ -11,13 +11,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.appevents.AppEventsLogger;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.presentation.presenter.activity.MainPresenter;
@@ -37,8 +35,8 @@ import butterknife.ButterKnife;
  * @author Long
  * @since 2016. 02. 23.
  */
-public class MainActivity extends AppCompatActivity
-        implements MainView, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends SpicioActivity implements MainView,
+        NavigationView.OnNavigationItemSelectedListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -93,22 +91,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
     }
 
     @Override

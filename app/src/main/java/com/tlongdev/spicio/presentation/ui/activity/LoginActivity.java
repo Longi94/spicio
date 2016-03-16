@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.tlongdev.spicio.R;
@@ -18,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements LoginView {
+public class LoginActivity extends SpicioActivity implements LoginView {
 
     @Bind(R.id.facebook_login) LoginButton mFacebookLoginButton;
     @Bind(R.id.google_login) SignInButton mGoogleLoginButton;
@@ -55,22 +53,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     protected void onStart() {
         super.onStart();
         mPresenter.connectGoogleApiClient();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
     }
 
     @Override

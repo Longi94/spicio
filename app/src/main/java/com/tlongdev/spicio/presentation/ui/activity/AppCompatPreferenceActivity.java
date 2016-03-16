@@ -13,6 +13,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.appevents.AppEventsLogger;
+
 /**
  * A {@link android.preference.PreferenceActivity} which implements and proxies the necessary calls
  * to be used with AppCompat.
@@ -66,6 +68,22 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
     @Override
     public void addContentView(View view, ViewGroup.LayoutParams params) {
         getDelegate().addContentView(view, params);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
     }
 
     @Override

@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
-import com.facebook.appevents.AppEventsLogger;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Series;
@@ -34,7 +32,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SeriesSearchDetailsActivity extends AppCompatActivity implements SeriesSearchDetailsView {
+public class SeriesSearchDetailsActivity extends SpicioActivity implements SeriesSearchDetailsView {
 
     private static final String LOG_TAG = SeriesSearchDetailsActivity.class.getSimpleName();
 
@@ -86,17 +84,6 @@ public class SeriesSearchDetailsActivity extends AppCompatActivity implements Se
     protected void onResume() {
         super.onResume();
         mPresenter.loadDetails(mTraktId);
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
     }
 
     @Override
