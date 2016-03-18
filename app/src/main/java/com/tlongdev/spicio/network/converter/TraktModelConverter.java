@@ -122,7 +122,8 @@ public class TraktModelConverter {
                         series.setDayOfAiring(Day.SUNDAY);
                         break;
                     default:
-                        throw new IllegalStateException(traktSeries.getAirs().getDay());
+                        series.setDayOfAiring(Day.UNKNOWN);
+                        break;
                 }
             }
 

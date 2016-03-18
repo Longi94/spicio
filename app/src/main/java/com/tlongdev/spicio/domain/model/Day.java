@@ -14,10 +14,11 @@ import java.lang.annotation.RetentionPolicy;
  */
 public abstract class Day {
 
-    @IntDef({MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY})
+    @IntDef({UNKNOWN, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Enum {}
 
+    public static final int UNKNOWN = -1;
     public static final int MONDAY = 0;
     public static final int TUESDAY = 1;
     public static final int WEDNESDAY = 2;

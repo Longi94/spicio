@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -49,7 +50,7 @@ public class SeriesSearchDetailsActivity extends SpicioActivity implements Serie
     @Bind(R.id.progress_bar) ProgressBar progressBar;
 
     @InjectExtra(EXTRA_TRAKT_ID) int mTraktId;
-    @InjectExtra(EXTRA_POSTER) String mPoster;
+    @InjectExtra(EXTRA_POSTER) @Nullable String mPoster;
 
     private SeriesSearchDetailsPresenter mPresenter;
 
