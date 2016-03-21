@@ -8,7 +8,7 @@ import com.facebook.appevents.AppEventsLogger;
  * @author Long
  * @since 2016. 03. 16.
  */
-public class SpicioActivity extends AppCompatActivity {
+public abstract class SpicioActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
