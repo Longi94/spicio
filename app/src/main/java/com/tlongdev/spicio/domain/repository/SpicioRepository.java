@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface SpicioRepository {
 
-    boolean login(User user);
+    long login(User user);
 
     List<User> searchUser(String query);
 

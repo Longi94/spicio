@@ -22,8 +22,8 @@ public class SpicioRepositoryImpl implements SpicioRepository {
     }
 
     @Override
-    public boolean login(User user) {
-        return false;
+    public long login(User user) {
+        return -1;
     }
 
     @Override

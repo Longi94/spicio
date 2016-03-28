@@ -2,6 +2,7 @@ package com.tlongdev.spicio.module;
 
 import android.app.Application;
 
+import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
 
@@ -13,15 +14,21 @@ public class FakeNetworkRepositoryModule extends NetworkRepositoryModule {
 
     private TvdbRepository mTvdbRepository;
     private TraktRepository mTraktRepository;
+    private SpicioRepository mSpicioRepository;
 
     @Override
-    public TvdbRepository provideTvdbRepository(Application application) {
+    TvdbRepository provideTvdbRepository(Application application) {
         return mTvdbRepository;
     }
 
     @Override
-    public TraktRepository provideTraktRepository(Application application) {
+    TraktRepository provideTraktRepository(Application application) {
         return mTraktRepository;
+    }
+
+    @Override
+    SpicioRepository provideSpicioRepository(Application application) {
+        return mSpicioRepository;
     }
 
     public void setTvdbRepository(TvdbRepository mTvdbRepository) {
@@ -30,5 +37,9 @@ public class FakeNetworkRepositoryModule extends NetworkRepositoryModule {
 
     public void setTraktRepository(TraktRepository mTraktRepository) {
         this.mTraktRepository = mTraktRepository;
+    }
+
+    public void setSpicioRepository(SpicioRepository spicioRepository) {
+        mSpicioRepository = spicioRepository;
     }
 }
