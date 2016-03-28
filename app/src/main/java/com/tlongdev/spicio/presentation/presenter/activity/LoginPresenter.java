@@ -93,7 +93,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                         if (facebookId == null || facebookId.isEmpty()) {
                             throw new IllegalStateException("Couldn't get facebook ID");
                         }
-                        mProfileManager.loginWithFacebook(facebookId);
+                        //mProfileManager.login(facebookId);
 
                         if (mView != null) {
                             mView.hideLoadingAnim();
@@ -126,7 +126,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                 // Signed in successfully, show authenticated UI.
                 GoogleSignInAccount acct = result.getSignInAccount();
                 mLogger.debug(LOG_TAG, "onActivityResult: " + acct.getDisplayName() + ", " + acct.getId());
-                mProfileManager.loginWithGoogle(acct.getId());
+                //mProfileManager.loginWithGoogle(acct.getId());
                 
                 if (mView != null) {
                     mView.hideLoadingAnim();

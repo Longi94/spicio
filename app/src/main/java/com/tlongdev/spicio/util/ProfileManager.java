@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.domain.model.User;
 
 import javax.inject.Inject;
 
@@ -13,42 +14,46 @@ import javax.inject.Inject;
  */
 public class ProfileManager {
 
-    private static String PREF_KEY_FACEBOOK_ID = "pref_facebook_id";
-    private static String PREF_KEY_GOOGLE_ID = "pref_google_id";
+    private static String PREF_KEY_USER = "pref_user_data";
 
     @Inject SharedPreferences mPrefs;
     @Inject SharedPreferences.Editor mEditor;
     @Inject Gson mGson;
+
+    private User mUser;
 
     public ProfileManager(SpicioApplication application) {
         application.getProfileManagerComponent().inject(this);
     }
 
     public boolean isLoggedIn() {
-        return mPrefs.contains(PREF_KEY_FACEBOOK_ID) || mPrefs.contains(PREF_KEY_GOOGLE_ID);
+        return mPrefs.contains(PREF_KEY_USER);
     }
 
     public void logout() {
-        mEditor.remove(PREF_KEY_FACEBOOK_ID);
-        mEditor.remove(PREF_KEY_GOOGLE_ID);
+        mEditor.remove(PREF_KEY_USER);
         mEditor.apply();
+        mUser = null;
     }
 
-    public void loginWithFacebook(String id) {
-        mEditor.putString(PREF_KEY_FACEBOOK_ID, id);
+    public void login(User user) {
+        mEditor.putString(PREF_KEY_USER, mGson.toJson(user));
         mEditor.apply();
+        mUser = user;
     }
 
-    public void loginWithGoogle(String id) {
-        mEditor.putString(PREF_KEY_GOOGLE_ID, id);
-        mEditor.apply();
+    public User getUser() {
+        if (mUser == null) {
+            mUser = mGson.fromJson(mPrefs.getString(PREF_KEY_USER, null), User.class);
+        }
+        return mUser;
     }
 
     public String getFacebookId(){
-        return mPrefs.getString(PREF_KEY_FACEBOOK_ID, null);
+        return getUser().getFacebookId();
     }
 
     public String getGoogleId() {
-        return mPrefs.getString(PREF_KEY_GOOGLE_ID, null);
+        return getUser().getGooglePlusId();
     }
 }

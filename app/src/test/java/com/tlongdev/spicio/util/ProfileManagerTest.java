@@ -4,6 +4,7 @@ import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerProfileManagerComponent;
 import com.tlongdev.spicio.component.ProfileManagerComponent;
+import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.module.FakeAppModule;
 
 import org.junit.Before;
@@ -28,6 +29,8 @@ public class ProfileManagerTest {
 
     private ProfileManager mProfileManager;
 
+    private User mUser;
+
     @Before
     public void setUp() {
         SpicioApplication application = (SpicioApplication) RuntimeEnvironment.application;
@@ -39,27 +42,24 @@ public class ProfileManagerTest {
         application.setProfileManagerComponent(component);
 
         mProfileManager = new ProfileManager(application);
+
+        mUser = new User();
+        mUser.setFacebookId("facebook_id");
+        mUser.setGooglePlusId("google_id");
     }
 
     @Test
-    public void testFacebookLogin() throws Exception {
-        mProfileManager.loginWithFacebook("facebook_id");
+    public void testLogin() {
+        mProfileManager.login(mUser);
 
         assertEquals("facebook_id", mProfileManager.getFacebookId());
-        assertTrue(mProfileManager.isLoggedIn());
-    }
-
-    @Test
-    public void testGoogleLogin() throws Exception {
-        mProfileManager.loginWithGoogle("google_id");
-
         assertEquals("google_id", mProfileManager.getGoogleId());
         assertTrue(mProfileManager.isLoggedIn());
     }
 
     @Test
     public void testLogout() throws Exception {
-        mProfileManager.loginWithFacebook("facebook_id");
+        mProfileManager.login(mUser);
 
         assertTrue(mProfileManager.isLoggedIn());
 
@@ -67,5 +67,6 @@ public class ProfileManagerTest {
 
         assertFalse(mProfileManager.isLoggedIn());
         assertNull(mProfileManager.getFacebookId());
+        assertNull(mProfileManager.getGoogleId());
     }
 }

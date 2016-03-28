@@ -1,5 +1,7 @@
 package com.tlongdev.spicio.domain.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Inner Layer, Model.
  *
@@ -10,16 +12,18 @@ public class User {
 
     private int id;
 
-    private String accessToken;
-
     private String name;
 
+    @SerializedName("facebook_id")
     private String facebookId;
 
+    @SerializedName("google_id")
     private String googlePlusId;
 
+    @SerializedName("email")
     private String emailAddress;
 
+    @SerializedName("avatar")
     private String avatarUrl;
 
     public int getId() {
@@ -28,14 +32,6 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
     }
 
     public String getName() {
