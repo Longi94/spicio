@@ -13,11 +13,9 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * @author Long
@@ -27,20 +25,17 @@ public class TvdbRepositoryImpl implements TvdbRepository {
 
     private static final String LOG_TAG = TvdbRepositoryImpl.class.getSimpleName();
 
-    @Inject @Named("tvdb") Retrofit retrofit;
+    @Inject TvdbInterface mInterface;
     @Inject Logger logger;
-
-    private TvdbInterface tvdbInterface;
 
     public TvdbRepositoryImpl(SpicioApplication app) {
         app.getNetworkComponent().inject(this);
-        tvdbInterface = retrofit.create(TvdbInterface.class);
     }
 
     @Override
     public List<TvdbSeriesOld> searchSeries(String query) {
         try {
-            Call<TvdbSeriesPayload> call = tvdbInterface.getSeries(query);
+            Call<TvdbSeriesPayload> call = mInterface.getSeries(query);
 
             logger.debug(LOG_TAG, "calling " + call.request().url());
             Response<TvdbSeriesPayload> response = call.execute();

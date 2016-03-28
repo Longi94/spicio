@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.module;
 
 import com.tlongdev.spicio.BuildConfig;
+import com.tlongdev.spicio.network.SpicioInterface;
 import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.network.interceptor.TraktApiInterceptor;
@@ -40,18 +41,28 @@ public class NetworkModule {
     @Named("intercepted")
     @Singleton
     OkHttpClient provideInterceptedOkHttpClient(TraktApiInterceptor interceptor) {
-        return new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build();
+        return new OkHttpClient.Builder().addInterceptor(interceptor).build();
     }
 
     @Provides
-    @Named("tvdb")
     @Singleton
-    Retrofit provideTvdbRetrofit(@Named("non_intercepted") OkHttpClient okHttpClient) {
+    GsonConverterFactory provideGsonConverterFactory() {
+        return GsonConverterFactory.create();
+    }
+
+    @Provides
+    @Singleton
+    SimpleXmlConverterFactory provideXmlConverterFactory() {
+        return SimpleXmlConverterFactory.create();
+    }
+
+    @Provides
+    @Named("spicio")
+    @Singleton
+    Retrofit provideSpicioRetrofit(@Named("non_intercepted") OkHttpClient okHttpClient, GsonConverterFactory factory) {
         return new Retrofit.Builder()
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .baseUrl(TvdbInterface.BASE_URL)
+                .addConverterFactory(factory)
+                .baseUrl(SpicioInterface.BASE_URL)
                 .client(okHttpClient)
                 .build();
     }
@@ -59,11 +70,40 @@ public class NetworkModule {
     @Provides
     @Named("trakt")
     @Singleton
-    Retrofit provideTraktRetrofit(@Named("intercepted") OkHttpClient okHttpClient) {
+    Retrofit provideTraktRetrofit(@Named("intercepted") OkHttpClient okHttpClient, GsonConverterFactory factory) {
         return new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(factory)
                 .baseUrl(TraktApiInterface.BASE_URL)
                 .client(okHttpClient)
                 .build();
+    }
+
+    @Provides
+    @Named("tvdb")
+    @Singleton
+    Retrofit provideTvdbRetrofit(@Named("non_intercepted") OkHttpClient okHttpClient, SimpleXmlConverterFactory factory) {
+        return new Retrofit.Builder()
+                .addConverterFactory(factory)
+                .baseUrl(TvdbInterface.BASE_URL)
+                .client(okHttpClient)
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    SpicioInterface provideSpicioInterface(@Named("spicio") Retrofit retrofit) {
+        return  retrofit.create(SpicioInterface.class);
+    }
+
+    @Provides
+    @Singleton
+    TraktApiInterface provideTraktApiInterface(@Named("trakt") Retrofit retrofit) {
+        return  retrofit.create(TraktApiInterface.class);
+    }
+
+    @Provides
+    @Singleton
+    TvdbInterface provideTvdbInterface(@Named("tvdb") Retrofit retrofit) {
+        return  retrofit.create(TvdbInterface.class);
     }
 }

@@ -19,11 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * @author Long
@@ -33,21 +31,18 @@ public class TraktRepositoryImpl implements TraktRepository {
 
     private static final String LOG_TAG = TraktRepositoryImpl.class.getSimpleName();
 
-    @Inject @Named("trakt") Retrofit retrofit;
+    @Inject TraktApiInterface mInterface;
     @Inject Logger logger;
-
-    TraktApiInterface traktInterface;
 
     public TraktRepositoryImpl(SpicioApplication app) {
         app.getNetworkComponent().inject(this);
-        traktInterface = retrofit.create(TraktApiInterface.class);
     }
 
     @Override
     public List<Series> searchSeries(String query) {
         try {
 
-            Call<List<TraktSearchResult>> call = traktInterface.searchByText(query, "show");
+            Call<List<TraktSearchResult>> call = mInterface.searchByText(query, "show");
 
             logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktSearchResult>> response = call.execute();
@@ -78,7 +73,7 @@ public class TraktRepositoryImpl implements TraktRepository {
     @Override
     public Series getSeriesDetails(int traktId) {
         try {
-            Call<TraktSeries> call = traktInterface.getSeriesDetails(String.valueOf(traktId));
+            Call<TraktSeries> call = mInterface.getSeriesDetails(String.valueOf(traktId));
 
             logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<TraktSeries> response = call.execute();
@@ -101,7 +96,7 @@ public class TraktRepositoryImpl implements TraktRepository {
     public Images getImages(int traktId) {
         try {
 
-            Call<TraktSeries> call = traktInterface.getSeriesImages(String.valueOf(traktId));
+            Call<TraktSeries> call = mInterface.getSeriesImages(String.valueOf(traktId));
 
             logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<TraktSeries> response = call.execute();
@@ -124,7 +119,7 @@ public class TraktRepositoryImpl implements TraktRepository {
     @Override
     public List<Episode> getEpisodesForSeries(int traktId) {
         try {
-            Call<List<TraktSeason>> call = traktInterface.getSeasonsEpisodes(String.valueOf(traktId));
+            Call<List<TraktSeason>> call = mInterface.getSeasonsEpisodes(String.valueOf(traktId));
 
             logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktSeason>> response = call.execute();
@@ -164,7 +159,7 @@ public class TraktRepositoryImpl implements TraktRepository {
     public List<Season> getSeasons(int traktId) {
 
         try {
-            Call<List<TraktSeason>> call = traktInterface.getSeasonsImages(String.valueOf(traktId));
+            Call<List<TraktSeason>> call = mInterface.getSeasonsImages(String.valueOf(traktId));
 
             logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktSeason>> response = call.execute();
@@ -197,7 +192,7 @@ public class TraktRepositoryImpl implements TraktRepository {
     public List<Episode> getEpisodeImages(int seriesId, int season) {
 
         try {
-            Call<List<TraktEpisode>> call = traktInterface.getSeasonEpisodesImages(String.valueOf(seriesId), season);
+            Call<List<TraktEpisode>> call = mInterface.getSeasonEpisodesImages(String.valueOf(seriesId), season);
 
             logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktEpisode>> response = call.execute();
@@ -229,7 +224,7 @@ public class TraktRepositoryImpl implements TraktRepository {
     public List<Episode> getSeasonEpisodes(int seriesId, int season) {
 
         try {
-            Call<List<TraktEpisode>> call = traktInterface.getSeasonEpisodes(String.valueOf(seriesId), season);
+            Call<List<TraktEpisode>> call = mInterface.getSeasonEpisodes(String.valueOf(seriesId), season);
 
             logger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktEpisode>> response = call.execute();
