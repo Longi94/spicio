@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.component;
 
+import com.tlongdev.spicio.domain.repository.impl.SpicioRepositoryImpl;
 import com.tlongdev.spicio.domain.repository.impl.TraktRepositoryImpl;
 import com.tlongdev.spicio.domain.repository.impl.TvdbRepositoryImpl;
 import com.tlongdev.spicio.module.NetworkModule;
@@ -19,4 +20,6 @@ public interface NetworkComponent {
     void inject(TvdbRepositoryImpl tvdbServiceRepository);
 
     void inject(TraktRepositoryImpl traktRepository);
+
+    void inject(SpicioRepositoryImpl spicioRepository);
 }
