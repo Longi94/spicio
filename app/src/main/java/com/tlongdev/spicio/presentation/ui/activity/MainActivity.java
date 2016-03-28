@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.presentation.presenter.activity.MainPresenter;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SeriesFragment;
@@ -37,8 +36,6 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends SpicioActivity implements MainView,
         NavigationView.OnNavigationItemSelectedListener {
-
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Inject ProfileManager mProfileManager;
 
@@ -68,15 +65,13 @@ public class MainActivity extends SpicioActivity implements MainView,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        SpicioApplication application = (SpicioApplication) getApplication();
-        application.getActivityComponent().inject(this);
+        mApplication.getActivityComponent().inject(this);
 
         presenter = new MainPresenter();
         presenter.attachView(this);
-
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
         mNavigationView.setNavigationItemSelectedListener(this);
 

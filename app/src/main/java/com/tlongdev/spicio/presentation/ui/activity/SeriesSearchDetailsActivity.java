@@ -3,7 +3,6 @@ package com.tlongdev.spicio.presentation.ui.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
@@ -21,7 +20,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.activity.SeriesSearchDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView;
@@ -67,13 +65,8 @@ public class SeriesSearchDetailsActivity extends SpicioActivity implements Serie
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mPresenter = new SeriesSearchDetailsPresenter((SpicioApplication) getApplication());
+        mPresenter = new SeriesSearchDetailsPresenter(mApplication);
         mPresenter.attachView(this);
-
-        //Set the color of the status bar
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -40,27 +40,22 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Set
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPresenter = new SettingsPresenter((SpicioApplication) getApplication());
-        mPresenter.attachView(this);
-
-        SpicioApplication application = (SpicioApplication) getApplication();
-        application.getActivityComponent().inject(this);
-
         //Set the color of the status bar
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
         }
 
+        mPresenter = new SettingsPresenter((SpicioApplication) getApplication());
+        mPresenter.attachView(this);
+
         //Re-add actionbar that was removed in recent build tools.
         LinearLayout root = (LinearLayout) findViewById(android.R.id.list)
                 .getParent().getParent().getParent();
-        View toolbar = LayoutInflater.from(this)
-                .inflate(R.layout.settings_toolbar, root, false);
+        View toolbar = LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
         // insert at top
         root.addView(toolbar, 0);
 
         setSupportActionBar((Toolbar) toolbar.findViewById(R.id.toolbar));
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

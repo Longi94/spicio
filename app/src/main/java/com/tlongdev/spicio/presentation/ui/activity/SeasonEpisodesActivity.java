@@ -1,6 +1,5 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.presentation.presenter.activity.SeasonEpisodesPresenter;
 import com.tlongdev.spicio.presentation.ui.adapter.EpisodePagerAdapter;
@@ -44,13 +42,8 @@ public class SeasonEpisodesActivity extends SpicioActivity implements SeasonEpis
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mPresenter = new SeasonEpisodesPresenter((SpicioApplication) getApplication());
+        mPresenter = new SeasonEpisodesPresenter(mApplication);
         mPresenter.attachView(this);
-
-        //Set the color of the status bar
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
-        }
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

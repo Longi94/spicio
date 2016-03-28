@@ -4,7 +4,6 @@ import com.tlongdev.spicio.module.AuthenticationModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.presentation.ui.activity.LoginActivity;
 import com.tlongdev.spicio.presentation.ui.activity.MainActivity;
-import com.tlongdev.spicio.presentation.ui.activity.SettingsActivity;
 
 import javax.inject.Singleton;
 
@@ -20,6 +19,4 @@ public interface ActivityComponent {
     void inject(LoginActivity loginActivity);
 
     void inject(MainActivity mainActivity);
-
-    void inject(SettingsActivity settingsActivity);
 }

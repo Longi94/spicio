@@ -17,5 +17,6 @@ import dagger.Component;
 @Component(modules = {SpicioAppModule.class, StorageModule.class})
 public interface StorageComponent {
     void inject(SeriesDaoImpl seriesDao);
+
     void inject(EpisodeDaoImpl episodeDao);
 }

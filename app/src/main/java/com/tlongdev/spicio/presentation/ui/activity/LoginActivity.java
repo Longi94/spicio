@@ -2,13 +2,11 @@ package com.tlongdev.spicio.presentation.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.presentation.presenter.activity.LoginPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.LoginView;
 
@@ -28,20 +26,13 @@ public class LoginActivity extends SpicioActivity implements LoginView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SpicioApplication application = (SpicioApplication) getApplication();
-        application.getActivityComponent().inject(this);
-
-        mPresenter = new LoginPresenter(application);
-        mPresenter.attachView(this);
-
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        //Set the color of the status bar
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
-        }
+        mApplication.getActivityComponent().inject(this);
+
+        mPresenter = new LoginPresenter(mApplication);
+        mPresenter.attachView(this);
 
         mFacebookLoginButton.setReadPermissions("email");
 
