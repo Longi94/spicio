@@ -2,6 +2,7 @@ package com.tlongdev.spicio.util;
 
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.tlongdev.spicio.SpicioApplication;
 
 import javax.inject.Inject;
@@ -17,6 +18,7 @@ public class ProfileManager {
 
     @Inject SharedPreferences mPrefs;
     @Inject SharedPreferences.Editor mEditor;
+    @Inject Gson mGson;
 
     public ProfileManager(SpicioApplication application) {
         application.getProfileManagerComponent().inject(this);

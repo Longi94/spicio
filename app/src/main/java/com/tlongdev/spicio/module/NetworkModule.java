@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.module;
 
+import com.google.gson.Gson;
 import com.tlongdev.spicio.BuildConfig;
 import com.tlongdev.spicio.network.SpicioInterface;
 import com.tlongdev.spicio.network.TraktApiInterface;
@@ -46,8 +47,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    GsonConverterFactory provideGsonConverterFactory() {
-        return GsonConverterFactory.create();
+    GsonConverterFactory provideGsonConverterFactory(Gson gson) {
+        return GsonConverterFactory.create(gson);
     }
 
     @Provides

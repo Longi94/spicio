@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
 import com.tlongdev.spicio.util.AndroidLogger;
 import com.tlongdev.spicio.util.Logger;
 
@@ -54,5 +55,11 @@ public class SpicioAppModule {
     @Singleton
     SharedPreferences.Editor provideEditor(SharedPreferences preferences) {
         return preferences.edit();
+    }
+
+    @Provides
+    @Singleton
+    Gson provideGson() {
+        return new Gson();
     }
 }
