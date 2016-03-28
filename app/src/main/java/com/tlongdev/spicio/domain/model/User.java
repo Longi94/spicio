@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class User {
 
-    private int id;
+    private long id;
 
     private String name;
 
@@ -26,11 +26,11 @@ public class User {
     @SerializedName("avatar")
     private String avatarUrl;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

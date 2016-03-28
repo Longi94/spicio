@@ -20,7 +20,7 @@ import retrofit2.http.Query;
  */
 public interface SpicioInterface {
 
-    String BASE_URL = "spicio-tlongdev.rhcloud.com/api/v1/";
+    String BASE_URL = "http://spicio-tlongdev.rhcloud.com/api/v1/";
 
     @GET("users")
     Call<List<SpicioUserResponse>> searchUsers(@Query("query") String query);

@@ -32,7 +32,7 @@ public class TraktRepositoryImpl implements TraktRepository {
     private static final String LOG_TAG = TraktRepositoryImpl.class.getSimpleName();
 
     @Inject TraktApiInterface mInterface;
-    @Inject Logger logger;
+    @Inject Logger mLogger;
 
     public TraktRepositoryImpl(SpicioApplication app) {
         app.getNetworkComponent().inject(this);
@@ -44,22 +44,22 @@ public class TraktRepositoryImpl implements TraktRepository {
 
             Call<List<TraktSearchResult>> call = mInterface.searchByText(query, "show");
 
-            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktSearchResult>> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
-                logger.error(LOG_TAG, "call returned null with code " + code);
+                mLogger.error(LOG_TAG, "call returned null with code " + code);
             } else {
                 List<Series> series = new LinkedList<>();
 
-                logger.debug(LOG_TAG, "converting search result result");
+                mLogger.debug(LOG_TAG, "converting search result result");
 
                 for (TraktSearchResult result : response.body()) {
                     series.add(TraktModelConverter.convertToSeries(result.getSeries()));
                 }
 
-                logger.debug(LOG_TAG, "search API returned " + series.size() + " items");
+                mLogger.debug(LOG_TAG, "search API returned " + series.size() + " items");
 
                 return series;
             }
@@ -75,14 +75,14 @@ public class TraktRepositoryImpl implements TraktRepository {
         try {
             Call<TraktSeries> call = mInterface.getSeriesDetails(String.valueOf(traktId));
 
-            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<TraktSeries> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
-                logger.error(LOG_TAG, "call returned null with code " + code);
+                mLogger.error(LOG_TAG, "call returned null with code " + code);
             } else {
-                logger.debug(LOG_TAG, "converting traktseries object");
+                mLogger.debug(LOG_TAG, "converting traktseries object");
                 return TraktModelConverter.convertToSeries(response.body());
             }
         } catch (IOException e) {
@@ -98,14 +98,14 @@ public class TraktRepositoryImpl implements TraktRepository {
 
             Call<TraktSeries> call = mInterface.getSeriesImages(String.valueOf(traktId));
 
-            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<TraktSeries> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
-                logger.error(LOG_TAG, "call returned null with code " + code);
+                mLogger.error(LOG_TAG, "call returned null with code " + code);
             } else {
-                logger.debug(LOG_TAG, "converting traktseries object");
+                mLogger.debug(LOG_TAG, "converting traktseries object");
                 return TraktModelConverter.convertToImages(response.body().getImages());
             }
 
@@ -121,14 +121,14 @@ public class TraktRepositoryImpl implements TraktRepository {
         try {
             Call<List<TraktSeason>> call = mInterface.getSeasonsEpisodes(String.valueOf(traktId));
 
-            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktSeason>> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
-                logger.error(LOG_TAG, "call returned null with code " + code);
+                mLogger.error(LOG_TAG, "call returned null with code " + code);
             } else {
-                logger.debug(LOG_TAG, "converting trakt season objects");
+                mLogger.debug(LOG_TAG, "converting trakt season objects");
                 List<Episode> episodes = new LinkedList<>();
 
                 for (TraktSeason traktSeason : response.body()) {
@@ -139,7 +139,7 @@ public class TraktRepositoryImpl implements TraktRepository {
                     }
                 }
 
-                logger.debug(LOG_TAG, "episodes API returned " + episodes.size() + " episodes");
+                mLogger.debug(LOG_TAG, "episodes API returned " + episodes.size() + " episodes");
 
                 return episodes;
             }
@@ -161,14 +161,14 @@ public class TraktRepositoryImpl implements TraktRepository {
         try {
             Call<List<TraktSeason>> call = mInterface.getSeasonsImages(String.valueOf(traktId));
 
-            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktSeason>> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
-                logger.error(LOG_TAG, "call returned null with code " + code);
+                mLogger.error(LOG_TAG, "call returned null with code " + code);
             } else {
-                logger.debug(LOG_TAG, "converting trakt season objects");
+                mLogger.debug(LOG_TAG, "converting trakt season objects");
                 List<Season> seasons = new LinkedList<>();
 
                 for (TraktSeason traktSeason : response.body()) {
@@ -177,7 +177,7 @@ public class TraktRepositoryImpl implements TraktRepository {
                     seasons.add(season);
                 }
 
-                logger.debug(LOG_TAG, "seasons API returned " + seasons.size() + " seasons");
+                mLogger.debug(LOG_TAG, "seasons API returned " + seasons.size() + " seasons");
 
                 return seasons;
             }
@@ -194,14 +194,14 @@ public class TraktRepositoryImpl implements TraktRepository {
         try {
             Call<List<TraktEpisode>> call = mInterface.getSeasonEpisodesImages(String.valueOf(seriesId), season);
 
-            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktEpisode>> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
-                logger.error(LOG_TAG, "call returned null with code " + code);
+                mLogger.error(LOG_TAG, "call returned null with code " + code);
             } else {
-                logger.debug(LOG_TAG, "converting trakt episode objects");
+                mLogger.debug(LOG_TAG, "converting trakt episode objects");
                 List<Episode> episodes = new LinkedList<>();
 
                 for (TraktEpisode traktEpisode : response.body()) {
@@ -210,7 +210,7 @@ public class TraktRepositoryImpl implements TraktRepository {
                     episodes.add(episode);
                 }
 
-                logger.debug(LOG_TAG, "seasons API returned " + episodes.size() + " episodes");
+                mLogger.debug(LOG_TAG, "seasons API returned " + episodes.size() + " episodes");
 
                 return episodes;
             }
@@ -226,14 +226,14 @@ public class TraktRepositoryImpl implements TraktRepository {
         try {
             Call<List<TraktEpisode>> call = mInterface.getSeasonEpisodes(String.valueOf(seriesId), season);
 
-            logger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<List<TraktEpisode>> response = call.execute();
 
             if (response.body() == null) {
                 int code = response.raw().code();
-                logger.error(LOG_TAG, "call returned null with code " + code);
+                mLogger.error(LOG_TAG, "call returned null with code " + code);
             } else {
-                logger.debug(LOG_TAG, "converting trakt episode objects");
+                mLogger.debug(LOG_TAG, "converting trakt episode objects");
                 List<Episode> episodes = new LinkedList<>();
 
                 for (TraktEpisode traktEpisode : response.body()) {
@@ -242,7 +242,7 @@ public class TraktRepositoryImpl implements TraktRepository {
                     episodes.add(episode);
                 }
 
-                logger.debug(LOG_TAG, "seasons API returned " + episodes.size() + " episodes");
+                mLogger.debug(LOG_TAG, "seasons API returned " + episodes.size() + " episodes");
 
                 return episodes;
             }
