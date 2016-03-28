@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.network;
 
-import com.tlongdev.spicio.network.model.TvdbEpisodePayload;
-import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
+import com.tlongdev.spicio.network.model.tvdb.TvdbEpisodePayload;
+import com.tlongdev.spicio.network.model.tvdb.TvdbSeriesPayload;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

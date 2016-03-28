@@ -7,11 +7,11 @@ import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.Status;
-import com.tlongdev.spicio.network.model.TraktEpisode;
-import com.tlongdev.spicio.network.model.TraktImage;
-import com.tlongdev.spicio.network.model.TraktImages;
-import com.tlongdev.spicio.network.model.TraktSeason;
-import com.tlongdev.spicio.network.model.TraktSeries;
+import com.tlongdev.spicio.network.model.trakt.TraktEpisode;
+import com.tlongdev.spicio.network.model.trakt.TraktImage;
+import com.tlongdev.spicio.network.model.trakt.TraktImages;
+import com.tlongdev.spicio.network.model.trakt.TraktSeason;
+import com.tlongdev.spicio.network.model.trakt.TraktSeries;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;

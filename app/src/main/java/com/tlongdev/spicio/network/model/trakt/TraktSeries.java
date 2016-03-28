@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.network.model;
+package com.tlongdev.spicio.network.model.trakt;
 
 import com.google.gson.annotations.SerializedName;
 

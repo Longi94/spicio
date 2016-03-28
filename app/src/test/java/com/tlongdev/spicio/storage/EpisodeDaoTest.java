@@ -15,7 +15,7 @@ import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeStorageModule;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
-import com.tlongdev.spicio.network.model.TraktEpisode;
+import com.tlongdev.spicio.network.model.trakt.TraktEpisode;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.storage.dao.impl.EpisodeDaoImpl;

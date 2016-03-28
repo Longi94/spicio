@@ -3,7 +3,7 @@ package com.tlongdev.spicio.network.converter;
 import com.tlongdev.spicio.domain.model.Day;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.model.Status;
-import com.tlongdev.spicio.network.model.TvdbSeries;
+import com.tlongdev.spicio.network.model.tvdb.TvdbSeries;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;

@@ -1,5 +1,11 @@
 package com.tlongdev.spicio.network;
 
+import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -17,14 +23,14 @@ public interface SpicioInterface {
     String BASE_URL = "spicio-tlongdev.rhcloud.com/api/v1/";
 
     @GET("users")
-    Call<?> searchUsers(@Query("query") String query);
+    Call<List<SpicioUserResponse>> searchUsers(@Query("query") String query);
 
     @POST("users")
-    Call<?> login(@Body Object user);
+    Call<Void> login(@Body SpicioUserBody user);
 
     @GET("users/{id}")
-    Call<?> getUser(@Path("id") long id, @Query("full") boolean full);
+    Call<SpicioUserFullResponse> getUser(@Path("id") long id, @Query("full") boolean full);
 
     @DELETE("users/{id}")
-    Call<?> deleteUser(@Path("id") long id);
+    Call<Void> deleteUser(@Path("id") long id);
 }

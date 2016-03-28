@@ -1,7 +1,7 @@
 package com.tlongdev.spicio.domain.model;
 
-import com.tlongdev.spicio.network.model.TvdbEpisode;
-import com.tlongdev.spicio.network.model.TvdbSeries;
+import com.tlongdev.spicio.network.model.tvdb.TvdbEpisode;
+import com.tlongdev.spicio.network.model.tvdb.TvdbSeries;
 
 /**
  * Inner Layer, Model.

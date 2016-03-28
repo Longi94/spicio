@@ -1,4 +1,4 @@
-package com.tlongdev.spicio.network.model;
+package com.tlongdev.spicio.network.model.tvdb;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

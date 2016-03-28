@@ -6,8 +6,8 @@ import com.tlongdev.spicio.domain.model.Day;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.Status;
-import com.tlongdev.spicio.network.model.TraktEpisode;
-import com.tlongdev.spicio.network.model.TraktSeries;
+import com.tlongdev.spicio.network.model.trakt.TraktEpisode;
+import com.tlongdev.spicio.network.model.trakt.TraktSeries;
 import com.tlongdev.spicio.util.TestUtils;
 
 import org.junit.Test;

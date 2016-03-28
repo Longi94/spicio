@@ -6,7 +6,7 @@ import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.repository.TvdbRepository;
 import com.tlongdev.spicio.network.TvdbInterface;
 import com.tlongdev.spicio.network.converter.TvdbModelConverter;
-import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
+import com.tlongdev.spicio.network.model.tvdb.TvdbSeriesPayload;
 import com.tlongdev.spicio.util.Logger;
 
 import java.io.IOException;

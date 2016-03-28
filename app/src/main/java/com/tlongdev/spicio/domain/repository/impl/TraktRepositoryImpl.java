@@ -8,10 +8,10 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.network.TraktApiInterface;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
-import com.tlongdev.spicio.network.model.TraktEpisode;
-import com.tlongdev.spicio.network.model.TraktSearchResult;
-import com.tlongdev.spicio.network.model.TraktSeason;
-import com.tlongdev.spicio.network.model.TraktSeries;
+import com.tlongdev.spicio.network.model.trakt.TraktEpisode;
+import com.tlongdev.spicio.network.model.trakt.TraktSearchResult;
+import com.tlongdev.spicio.network.model.trakt.TraktSeason;
+import com.tlongdev.spicio.network.model.trakt.TraktSeries;
 import com.tlongdev.spicio.util.Logger;
 
 import java.io.IOException;

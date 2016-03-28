@@ -1,9 +1,9 @@
 package com.tlongdev.spicio.network;
 
-import com.tlongdev.spicio.network.model.TvdbEpisode;
-import com.tlongdev.spicio.network.model.TvdbEpisodePayload;
-import com.tlongdev.spicio.network.model.TvdbSeries;
-import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
+import com.tlongdev.spicio.network.model.tvdb.TvdbEpisode;
+import com.tlongdev.spicio.network.model.tvdb.TvdbEpisodePayload;
+import com.tlongdev.spicio.network.model.tvdb.TvdbSeries;
+import com.tlongdev.spicio.network.model.tvdb.TvdbSeriesPayload;
 import com.tlongdev.spicio.util.TestUtils;
 
 import org.junit.Before;

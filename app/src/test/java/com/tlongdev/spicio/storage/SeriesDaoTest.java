@@ -16,7 +16,7 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeStorageModule;
 import com.tlongdev.spicio.network.converter.TraktModelConverter;
-import com.tlongdev.spicio.network.model.TraktSeries;
+import com.tlongdev.spicio.network.model.trakt.TraktSeries;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.storage.dao.impl.SeriesDaoImpl;

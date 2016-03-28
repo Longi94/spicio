@@ -4,10 +4,10 @@ import com.tlongdev.spicio.domain.model.Day;
 import com.tlongdev.spicio.domain.model.TvdbEpisodeOld;
 import com.tlongdev.spicio.domain.model.TvdbSeriesOld;
 import com.tlongdev.spicio.domain.model.Status;
-import com.tlongdev.spicio.network.model.TvdbEpisode;
-import com.tlongdev.spicio.network.model.TvdbEpisodePayload;
-import com.tlongdev.spicio.network.model.TvdbSeries;
-import com.tlongdev.spicio.network.model.TvdbSeriesPayload;
+import com.tlongdev.spicio.network.model.tvdb.TvdbEpisode;
+import com.tlongdev.spicio.network.model.tvdb.TvdbEpisodePayload;
+import com.tlongdev.spicio.network.model.tvdb.TvdbSeries;
+import com.tlongdev.spicio.network.model.tvdb.TvdbSeriesPayload;
 
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;

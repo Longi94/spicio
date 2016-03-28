@@ -1,13 +1,13 @@
 package com.tlongdev.spicio.network;
 
-import com.tlongdev.spicio.network.model.TraktAirTime;
-import com.tlongdev.spicio.network.model.TraktEpisode;
-import com.tlongdev.spicio.network.model.TraktIds;
-import com.tlongdev.spicio.network.model.TraktImage;
-import com.tlongdev.spicio.network.model.TraktImages;
-import com.tlongdev.spicio.network.model.TraktSearchResult;
-import com.tlongdev.spicio.network.model.TraktSeason;
-import com.tlongdev.spicio.network.model.TraktSeries;
+import com.tlongdev.spicio.network.model.trakt.TraktAirTime;
+import com.tlongdev.spicio.network.model.trakt.TraktEpisode;
+import com.tlongdev.spicio.network.model.trakt.TraktIds;
+import com.tlongdev.spicio.network.model.trakt.TraktImage;
+import com.tlongdev.spicio.network.model.trakt.TraktImages;
+import com.tlongdev.spicio.network.model.trakt.TraktSearchResult;
+import com.tlongdev.spicio.network.model.trakt.TraktSeason;
+import com.tlongdev.spicio.network.model.trakt.TraktSeries;
 import com.tlongdev.spicio.util.TestUtils;
 
 import org.junit.Before;

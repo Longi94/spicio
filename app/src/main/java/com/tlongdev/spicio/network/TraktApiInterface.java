@@ -1,9 +1,9 @@
 package com.tlongdev.spicio.network;
 
-import com.tlongdev.spicio.network.model.TraktEpisode;
-import com.tlongdev.spicio.network.model.TraktSearchResult;
-import com.tlongdev.spicio.network.model.TraktSeason;
-import com.tlongdev.spicio.network.model.TraktSeries;
+import com.tlongdev.spicio.network.model.trakt.TraktEpisode;
+import com.tlongdev.spicio.network.model.trakt.TraktSearchResult;
+import com.tlongdev.spicio.network.model.trakt.TraktSeason;
+import com.tlongdev.spicio.network.model.trakt.TraktSeries;
 
 import java.util.List;
 
