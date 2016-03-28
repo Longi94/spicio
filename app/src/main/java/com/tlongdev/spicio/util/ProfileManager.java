@@ -14,11 +14,14 @@ import javax.inject.Inject;
  */
 public class ProfileManager {
 
+    private static final String LOG_TAG = ProfileManager.class.getSimpleName();
+
     private static String PREF_KEY_USER = "pref_user_data";
 
     @Inject SharedPreferences mPrefs;
     @Inject SharedPreferences.Editor mEditor;
     @Inject Gson mGson;
+    @Inject Logger mLogger;
 
     private User mUser;
 
@@ -31,20 +34,35 @@ public class ProfileManager {
     }
 
     public void logout() {
+        mLogger.debug(LOG_TAG, "Deleting user.");
         mEditor.remove(PREF_KEY_USER);
         mEditor.apply();
         mUser = null;
     }
 
     public void login(User user) {
-        mEditor.putString(PREF_KEY_USER, mGson.toJson(user));
+        String json = mGson.toJson(user);
+
+        mLogger.debug(LOG_TAG, "Saving user " + json);
+
+        mEditor.putString(PREF_KEY_USER, json);
         mEditor.apply();
         mUser = user;
     }
 
     public User getUser() {
         if (mUser == null) {
-            mUser = mGson.fromJson(mPrefs.getString(PREF_KEY_USER, null), User.class);
+            String json = mPrefs.getString(PREF_KEY_USER, null);
+
+            if (json == null) {
+                mLogger.debug(LOG_TAG, "User is null");
+                return null;
+            }
+
+            mLogger.debug(LOG_TAG, "Reading and caching user: " + json);
+            mUser = mGson.fromJson(json, User.class);
+        } else {
+            mLogger.debug(LOG_TAG, "Returning cached user.");
         }
         return mUser;
     }

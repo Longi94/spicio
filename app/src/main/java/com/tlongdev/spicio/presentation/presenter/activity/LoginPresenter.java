@@ -21,6 +21,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.LoginView;
 import com.tlongdev.spicio.util.Logger;
@@ -81,27 +82,35 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
 
                 final AccessToken accessToken = loginResult.getAccessToken();
 
-                GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
                     @Override
-                    public void onCompleted(JSONObject user, GraphResponse graphResponse) {
-                        mLogger.debug(LOG_TAG, "email: " + user.optString("email"));
-                        mLogger.debug(LOG_TAG, "name: " + user.optString("name"));
-                        mLogger.debug(LOG_TAG, "id: " + user.optString("id"));
+                    public void onCompleted(JSONObject object, GraphResponse graphResponse) {
+                        mLogger.debug(LOG_TAG, "email: " + object.optString("email"));
+                        mLogger.debug(LOG_TAG, "name: " + object.optString("name"));
+                        mLogger.debug(LOG_TAG, "id: " + object.optString("id"));
                         
-                        String facebookId = user.optString("id");
+                        String facebookId = object.optString("id");
                         
                         if (facebookId == null || facebookId.isEmpty()) {
                             throw new IllegalStateException("Couldn't get facebook ID");
                         }
-                        //mProfileManager.login(facebookId);
+
+                        User user = new User();
+                        user.setName(object.optString("name"));
+                        user.setEmailAddress(object.optString("email"));
+                        user.setFacebookId(facebookId);
+                        mProfileManager.login(user);
 
                         if (mView != null) {
                             mView.hideLoadingAnim();
                             mView.onLogin();
                         }
                     }
-                }).executeAsync();
-
+                });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id, name, email");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
@@ -125,12 +134,24 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
             if (result.isSuccess()) {
                 // Signed in successfully, show authenticated UI.
                 GoogleSignInAccount acct = result.getSignInAccount();
-                mLogger.debug(LOG_TAG, "onActivityResult: " + acct.getDisplayName() + ", " + acct.getId());
-                //mProfileManager.loginWithGoogle(acct.getId());
-                
-                if (mView != null) {
-                    mView.hideLoadingAnim();
-                    mView.onLogin();
+                if (acct != null) {
+                    mLogger.debug(LOG_TAG, "onActivityResult: " + acct.getDisplayName() + ", " + acct.getId());
+
+                    User user = new User();
+                    user.setGooglePlusId(acct.getId());
+                    user.setEmailAddress(acct.getEmail());
+                    user.setName(acct.getDisplayName());
+                    mProfileManager.login(user);
+
+                    if (mView != null) {
+                        mView.hideLoadingAnim();
+                        mView.onLogin();
+                    }
+                } else {
+                    mLogger.debug(LOG_TAG, "onActivityResult: null");
+                    if (mView != null) {
+                        mView.hideLoadingAnim();
+                    }
                 }
             } else {
                 // Signed out, show unauthenticated UI.
