@@ -1,7 +1,9 @@
 package com.tlongdev.spicio.network.converter;
 
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 
 /**
  * @author Long
@@ -16,5 +18,20 @@ public class SpicioModelConverter {
         body.setFacebookId(user.getFacebookId());
         body.setGoogleId(user.getGooglePlusId());
         return body;
+    }
+
+    public static UserFull convertToUserFull(SpicioUserFullResponse body) {
+        UserFull userFull = new UserFull();
+        User user = new User();
+        user.setName(body.getName());
+        user.setId(body.getId());
+        user.setAvatarUrl(null); // TODO: 2016. 03. 30.
+        user.setEmailAddress(body.getEmail());
+        user.setFacebookId(body.getFacebookId());
+        user.setGooglePlusId(body.getGoogleId());
+        userFull.setSeries(null); // TODO: 2016. 03. 30.
+
+        userFull.setUser(user);
+        return userFull;
     }
 }

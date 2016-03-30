@@ -21,8 +21,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.domain.interactor.GetFullUserDataInteractor;
 import com.tlongdev.spicio.domain.interactor.SpicioLoginInteractor;
+import com.tlongdev.spicio.domain.interactor.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.SpicioLoginInteractorImpl;
+import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.LoginView;
@@ -31,13 +34,15 @@ import com.tlongdev.spicio.util.ProfileManager;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
  * @author Long
  * @since 2016. 03. 12.
  */
-public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SpicioLoginInteractor.Callback {
+public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SpicioLoginInteractor.Callback, GetFullUserDataInteractor.Callback {
 
     private static final String LOG_TAG = LoginPresenter.class.getSimpleName();
 
@@ -51,7 +56,6 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
 
     private LoginView mView;
     private SpicioApplication mApplication;
-    private User mUser;
 
     public LoginPresenter(SpicioApplication application) {
         application.getPresenterComponent().inject(this);
@@ -100,11 +104,11 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                             throw new IllegalStateException("Couldn't get facebook ID");
                         }
 
-                        mUser = new User();
-                        mUser.setName(object.optString("name"));
-                        mUser.setEmailAddress(object.optString("email"));
-                        mUser.setFacebookId(facebookId);
-                        spicioLogin(mUser);
+                        User user = new User();
+                        user.setName(object.optString("name"));
+                        user.setEmailAddress(object.optString("email"));
+                        user.setFacebookId(facebookId);
+                        spicioLogin(user);
                     }
                 });
                 Bundle parameters = new Bundle();
@@ -137,13 +141,16 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                 if (acct != null) {
                     mLogger.debug(LOG_TAG, "onActivityResult: " + acct.getDisplayName() + ", " + acct.getId());
 
-                    mUser = new User();
-                    mUser.setGooglePlusId(acct.getId());
-                    mUser.setEmailAddress(acct.getEmail());
-                    mUser.setName(acct.getDisplayName());
-                    spicioLogin(mUser);
+                    User user = new User();
+                    user.setGooglePlusId(acct.getId());
+                    user.setEmailAddress(acct.getEmail());
+                    user.setName(acct.getDisplayName());
+                    spicioLogin(user);
                 } else {
                     mLogger.debug(LOG_TAG, "onActivityResult: null");
+                    if (mView != null) {
+                        mView.hideLoadingAnim();
+                    }
                 }
             } else {
                 // Signed out, show unauthenticated UI.
@@ -187,8 +194,22 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
 
     @Override
     public void onLoginSuccess(long id) {
-        mUser.setId(id);
-        mProfileManager.login(mUser);
+        GetFullUserDataInteractor interactor = new GetFullUserDataInteractorImpl(
+                mApplication, id, this
+        );
+        interactor.execute();
+    }
+
+    @Override
+    public void onLoginFailed() {
+        if (mView != null) {
+            mView.hideLoadingAnim();
+        }
+    }
+
+    @Override
+    public void onGetFullUserDataFinished(User user, List<Series> series) {
+        mProfileManager.login(user);
         if (mView != null) {
             mView.hideLoadingAnim();
             mView.onLogin();
@@ -196,7 +217,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
     }
 
     @Override
-    public void onLoginFailed() {
+    public void onGetFullUserDataFail() {
         if (mView != null) {
             mView.hideLoadingAnim();
         }

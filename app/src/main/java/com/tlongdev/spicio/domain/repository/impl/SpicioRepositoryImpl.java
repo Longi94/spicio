@@ -9,6 +9,7 @@ import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.network.SpicioInterface;
 import com.tlongdev.spicio.network.converter.SpicioModelConverter;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.util.Logger;
 
 import java.io.IOException;
@@ -49,7 +50,6 @@ public class SpicioRepositoryImpl implements SpicioRepository {
                 return ContentUris.parseId(Uri.parse(location));
             } else {
                 mLogger.debug(LOG_TAG, "response code: " + code);
-                return -1L;
             }
 
         } catch (IOException e) {
@@ -70,6 +70,25 @@ public class SpicioRepositoryImpl implements SpicioRepository {
 
     @Override
     public UserFull getUser(long id, boolean full) {
+        try {
+            Call<SpicioUserFullResponse> call = mInterface.getUser(id, full);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<SpicioUserFullResponse> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                if (response.body() != null) {
+                    return SpicioModelConverter.convertToUserFull(response.body());
+                } else {
+                    mLogger.debug(LOG_TAG, "get user returned null");
+                }
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
