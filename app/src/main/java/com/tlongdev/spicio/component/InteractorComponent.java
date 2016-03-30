@@ -12,6 +12,7 @@ import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.SaveEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.SearchUsersInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.SpicioLoginInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
@@ -70,4 +71,6 @@ public interface InteractorComponent {
     void inject(SpicioLoginInteractorImpl spicioLoginInteractor);
 
     void inject(GetFullUserDataInteractorImpl getFullUserDataInteractor);
+
+    void inject(SearchUsersInteractorImpl searchUsersInteractor);
 }
