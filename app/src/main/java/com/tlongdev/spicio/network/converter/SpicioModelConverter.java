@@ -4,6 +4,7 @@ import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
 
 /**
  * @author Long
@@ -33,5 +34,14 @@ public class SpicioModelConverter {
 
         userFull.setUser(user);
         return userFull;
+    }
+
+    public static User convertToUser(SpicioUserResponse userBody) {
+        User user = new User();
+        user.setId(userBody.getId());
+        user.setName(userBody.getName());
+        user.setEmailAddress(userBody.getEmail());
+        user.setAvatarUrl(null);// TODO: 2016. 03. 30.
+        return user;
     }
 }

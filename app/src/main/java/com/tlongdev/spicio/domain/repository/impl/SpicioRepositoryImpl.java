@@ -10,9 +10,11 @@ import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.network.SpicioInterface;
 import com.tlongdev.spicio.network.converter.SpicioModelConverter;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
 import com.tlongdev.spicio.util.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -60,6 +62,25 @@ public class SpicioRepositoryImpl implements SpicioRepository {
 
     @Override
     public List<User> searchUser(String query) {
+        try {
+            Call<List<SpicioUserResponse>> call = mInterface.searchUsers(query);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<SpicioUserResponse>> response = call.execute();
+
+            if (response.body() != null) {
+                List<User> users = new ArrayList<>();
+                for (SpicioUserResponse userResponse : response.body()) {
+                    users.add(SpicioModelConverter.convertToUser(userResponse));
+                }
+                mLogger.verbose(LOG_TAG, "call returned " + users.size() + " users");
+                return users;
+            } else {
+                mLogger.verbose(LOG_TAG, "call returned null, code: " + response.raw().code());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
