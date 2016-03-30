@@ -68,10 +68,16 @@ public class ProfileManager {
     }
 
     public String getFacebookId(){
+        if (getUser() == null) {
+            return null;
+        }
         return getUser().getFacebookId();
     }
 
     public String getGoogleId() {
+        if (getUser() == null) {
+            return null;
+        }
         return getUser().getGooglePlusId();
     }
 }
