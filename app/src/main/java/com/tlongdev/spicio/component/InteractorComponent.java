@@ -3,6 +3,7 @@ package com.tlongdev.spicio.component;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.DeleteAllDataInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LikeEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadAllSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.impl.LoadEpisodeDetailsInteractorImpl;
@@ -67,4 +68,6 @@ public interface InteractorComponent {
     void inject(DeleteAllDataInteractorImpl deleteAllDataInteractor);
 
     void inject(SpicioLoginInteractorImpl spicioLoginInteractor);
+
+    void inject(GetFullUserDataInteractorImpl getFullUserDataInteractor);
 }

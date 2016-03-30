@@ -5,6 +5,7 @@ import android.net.Uri;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.network.SpicioInterface;
 import com.tlongdev.spicio.network.converter.SpicioModelConverter;
@@ -68,7 +69,7 @@ public class SpicioRepositoryImpl implements SpicioRepository {
     }
 
     @Override
-    public User getUser(long id, boolean full) {
+    public UserFull getUser(long id, boolean full) {
         return null;
     }
 }
