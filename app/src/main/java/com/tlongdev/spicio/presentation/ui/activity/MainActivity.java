@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.presentation.presenter.activity.MainPresenter;
+import com.tlongdev.spicio.presentation.ui.fragment.FriendsFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SeriesFragment;
 import com.tlongdev.spicio.presentation.ui.view.activity.MainView;
@@ -49,9 +50,11 @@ public class MainActivity extends SpicioActivity implements MainView,
 
     public static final String FRAGMENT_TAG_SEARCH_SERIES = "search_series";
     public static final String FRAGMENT_TAG_SERIES = "series";
+    public static final String FRAGMENT_TAG_FRIENDS = "friends";
 
     public static final int NAV_SERIES = 0;
     public static final int NAV_SEARCH_SERIES = 1;
+    public static final int NAV_FRIENDS = 2;
 
     /**
      * The index of the current fragment.
@@ -143,6 +146,9 @@ public class MainActivity extends SpicioActivity implements MainView,
             case R.id.nav_series:
                 switchFragment(NAV_SERIES);
                 break;
+            case R.id.nav_friends:
+                switchFragment(NAV_FRIENDS);
+                break;
             case R.id.nav_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
@@ -187,6 +193,13 @@ public class MainActivity extends SpicioActivity implements MainView,
                     newFragment = new SeriesFragment();
                 }
                 transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_SERIES);
+                break;
+            case NAV_FRIENDS:
+                newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_FRIENDS);
+                if (newFragment == null) {
+                    newFragment = new FriendsFragment();
+                }
+                transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_FRIENDS);
                 break;
         }
 

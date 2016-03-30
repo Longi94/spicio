@@ -44,9 +44,9 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
     @Bind(R.id.search) EditText mSearchText;
 
-    private SearchSeriesPresenter presenter;
+    private SearchSeriesPresenter mPresenter;
 
-    private SearchSeriesAdapter adapter;
+    private SearchSeriesAdapter mAdapter;
 
     public SearchSeriesFragment() {
         // Required empty public constructor
@@ -55,8 +55,8 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SearchSeriesPresenter((SpicioApplication) getActivity().getApplication());
-        presenter.attachView(this);
+        mPresenter = new SearchSeriesPresenter((SpicioApplication) getActivity().getApplication());
+        mPresenter.attachView(this);
     }
 
     @Override
@@ -69,17 +69,17 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
         //Set the toolbar to the main activity's action bar
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
-        adapter = new SearchSeriesAdapter(getActivity());
-        adapter.setListener(this);
+        mAdapter = new SearchSeriesAdapter(getActivity());
+        mAdapter.setListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(mAdapter);
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    presenter.searchForSeries(v.getText().toString());
+                    mPresenter.searchForSeries(v.getText().toString());
                     return true;
                 }
                 return false;
@@ -92,19 +92,19 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        mPresenter.detachView();
     }
 
     @Override
     public void showSearchResult(List<Series> series) {
         Log.d(LOG_TAG, "showing search result");
-        adapter.setDataSet(series);
+        mAdapter.setDataSet(series);
     }
 
     @Override
     public void showErrorMessage() {
         Log.d(LOG_TAG, "showErrorMessage: "); // TODO: 2016. 03. 06.
-        adapter.setDataSet(null);
+        mAdapter.setDataSet(null);
     }
 
     @Override
