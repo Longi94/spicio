@@ -1,8 +1,8 @@
 package com.tlongdev.spicio.presentation.presenter.activity;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.interactor.SearchUsersInteractor;
-import com.tlongdev.spicio.domain.interactor.impl.SearchUsersInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.spicio.SearchUsersInteractor;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.SearchUsersInteractorImpl;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SearchFriendsView;

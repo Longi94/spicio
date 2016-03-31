@@ -1,8 +1,8 @@
 package com.tlongdev.spicio.presentation.presenter.activity;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.interactor.LoadSeasonEpisodesInteractor;
-import com.tlongdev.spicio.domain.interactor.impl.LoadSeasonEpisodesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.LoadSeasonEpisodesInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeasonEpisodesView;

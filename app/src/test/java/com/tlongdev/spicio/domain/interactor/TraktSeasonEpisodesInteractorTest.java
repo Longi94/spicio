@@ -3,7 +3,7 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.interactor.impl.TraktSeasonEpisodesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.repository.TraktRepository;
 import com.tlongdev.spicio.module.DaoModule;

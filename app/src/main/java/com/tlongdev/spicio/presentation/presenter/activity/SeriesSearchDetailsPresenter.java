@@ -3,12 +3,12 @@ package com.tlongdev.spicio.presentation.presenter.activity;
 import android.util.Log;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.interactor.SaveSeriesInteractor;
-import com.tlongdev.spicio.domain.interactor.TraktFullSeriesInteractor;
-import com.tlongdev.spicio.domain.interactor.TraktSeriesDetailsInteractor;
-import com.tlongdev.spicio.domain.interactor.impl.SaveSeriesInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.impl.TraktFullSeriesInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.impl.TraktSeriesDetailsInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.SaveSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.trakt.TraktFullSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.trakt.TraktSeriesDetailsInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;

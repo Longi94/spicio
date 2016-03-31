@@ -1,8 +1,8 @@
 package com.tlongdev.spicio.presentation.presenter.fragment;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.interactor.LoadSeriesDetailsInteractor;
-import com.tlongdev.spicio.domain.interactor.impl.LoadSeriesDetailsInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.LoadSeriesDetailsInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesDetailsView;

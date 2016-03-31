@@ -1,12 +1,12 @@
 package com.tlongdev.spicio.presentation.presenter.fragment;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.interactor.CheckEpisodeInteractor;
-import com.tlongdev.spicio.domain.interactor.LikeEpisodeInteractor;
-import com.tlongdev.spicio.domain.interactor.LoadEpisodeDetailsInteractor;
-import com.tlongdev.spicio.domain.interactor.impl.CheckEpisodeInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.impl.LikeEpisodeInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.impl.LoadEpisodeDetailsInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.CheckEpisodeInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.LikeEpisodeInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.LoadEpisodeDetailsInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.LikeEpisodeInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.LoadEpisodeDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.presentation.presenter.Presenter;

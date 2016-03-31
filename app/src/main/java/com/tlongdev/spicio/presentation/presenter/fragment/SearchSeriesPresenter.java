@@ -1,8 +1,8 @@
 package com.tlongdev.spicio.presentation.presenter.fragment;
 
 import com.tlongdev.spicio.SpicioApplication;
-import com.tlongdev.spicio.domain.interactor.TraktSearchInteractor;
-import com.tlongdev.spicio.domain.interactor.impl.TraktSearchInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.trakt.TraktSearchInteractor;
+import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SearchSeriesView;
