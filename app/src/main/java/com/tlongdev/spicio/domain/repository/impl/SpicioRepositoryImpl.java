@@ -10,6 +10,7 @@ import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.network.SpicioInterface;
 import com.tlongdev.spicio.network.converter.SpicioModelConverter;
+import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
 import com.tlongdev.spicio.util.Logger;
@@ -116,6 +117,23 @@ public class SpicioRepositoryImpl implements SpicioRepository {
 
     @Override
     public boolean addSeries(long userId, Series series) {
+        try {
+            SpicioSeriesBody body = SpicioModelConverter.convertToSeriesBody(series);
+            Call<Void> call = mInterface.addSeries(userId, body);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<Void> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                return true;
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }

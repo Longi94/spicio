@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.network;
 
+import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
@@ -33,4 +34,7 @@ public interface SpicioInterface {
 
     @DELETE("users/{id}")
     Call<Void> deleteUser(@Path("id") long id);
+
+    @POST("users/{id}/series")
+    Call<Void> addSeries(@Path("id") long id, @Body SpicioSeriesBody series);
 }
