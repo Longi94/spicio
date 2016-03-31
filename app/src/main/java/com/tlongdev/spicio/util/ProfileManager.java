@@ -80,4 +80,11 @@ public class ProfileManager {
         }
         return getUser().getGooglePlusId();
     }
+
+    public long getId() {
+        if (getUser() == null) {
+            return -1L;
+        }
+        return getUser().getId();
+    }
 }

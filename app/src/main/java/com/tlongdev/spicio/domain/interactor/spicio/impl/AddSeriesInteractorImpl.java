@@ -50,7 +50,7 @@ public class AddSeriesInteractorImpl extends AbstractInteractor implements AddSe
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onFinish();
+                    mCallback.onAddSeriesFinish();
                 }
             });
         }
@@ -61,7 +61,7 @@ public class AddSeriesInteractorImpl extends AbstractInteractor implements AddSe
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onFail();
+                    mCallback.onAddSeriesFail();
                 }
             });
         }

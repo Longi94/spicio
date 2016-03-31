@@ -68,7 +68,7 @@ public class AddSeriesInteractorTest {
 
         verify(mRepository).addSeries(1L, series);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onFinish();
+        verify(mMockedCallback).onAddSeriesFinish();
     }
 
     @Test
@@ -84,6 +84,6 @@ public class AddSeriesInteractorTest {
 
         verify(mRepository).addSeries(1L, series);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onFail();
+        verify(mMockedCallback).onAddSeriesFail();
     }
 }

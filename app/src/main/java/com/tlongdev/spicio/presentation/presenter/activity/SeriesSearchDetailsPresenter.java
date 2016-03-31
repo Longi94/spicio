@@ -3,10 +3,12 @@ package com.tlongdev.spicio.presentation.presenter.activity;
 import android.util.Log;
 
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.domain.interactor.spicio.AddSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.AddSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.SaveSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.trakt.TraktSeriesDetailsInteractor;
-import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
@@ -14,8 +16,11 @@ import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView;
+import com.tlongdev.spicio.util.ProfileManager;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * @author Long
@@ -23,15 +28,22 @@ import java.util.List;
  */
 public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetailsView>,
         TraktSeriesDetailsInteractor.Callback, SaveSeriesInteractor.Callback,
-        TraktFullSeriesInteractor.Callback {
+        TraktFullSeriesInteractor.Callback, AddSeriesInteractor.Callback {
 
     private static final String LOG_TAG = SeriesSearchDetailsPresenter.class.getSimpleName();
+
+    @Inject ProfileManager mProfileManager;
 
     private SeriesSearchDetailsView mView;
 
     private SpicioApplication mApplication;
 
+    private Series mSeries;
+    private List<Season> mSeasons;
+    private List<Episode> mEpisodes;
+
     public SeriesSearchDetailsPresenter(SpicioApplication application) {
+        application.getPresenterComponent().inject(this);
         mApplication = application;
     }
 
@@ -69,8 +81,13 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
     public void onTraktFullSeriesFinish(Series series, List<Season> seasons, List<Episode> episodes) {
         Log.d(LOG_TAG, "finished downloading all series data, inserting into db");
 
-        SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
-                mApplication, series, seasons, episodes, this
+        mSeries = series;
+        mSeasons = seasons;
+        mEpisodes = episodes;
+
+        Log.d(LOG_TAG, "sending series to server");
+        AddSeriesInteractor interactor = new AddSeriesInteractorImpl(
+                mApplication, mProfileManager.getId(), mSeries, this
         );
         interactor.execute();
     }
@@ -104,5 +121,19 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
     @Override
     public void onSaveSeriesFail() {
         // TODO: 2016. 03. 11.
+    }
+
+    @Override
+    public void onAddSeriesFinish() {
+        Log.d(LOG_TAG, "sent series to server");
+        SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
+                mApplication, mSeries, mSeasons, mEpisodes, this
+        );
+        interactor.execute();
+    }
+
+    @Override
+    public void onAddSeriesFail() {
+
     }
 }
