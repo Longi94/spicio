@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.domain.repository;
 
+import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserFull;
 
@@ -18,4 +19,6 @@ public interface SpicioRepository {
     boolean deleteUser(long id);
 
     UserFull getUser(long id, boolean full);
+
+    boolean addSeries(long userId, Series series);
 }

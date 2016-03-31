@@ -4,6 +4,7 @@ import android.content.ContentUris;
 import android.net.Uri;
 
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
@@ -111,5 +112,10 @@ public class SpicioRepositoryImpl implements SpicioRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean addSeries(long userId, Series series) {
+        return false;
     }
 }

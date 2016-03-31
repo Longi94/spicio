@@ -1,9 +1,12 @@
 package com.tlongdev.spicio.component;
 
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.AddSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.SearchUsersInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioLoginInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.DeleteAllDataInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LikeEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadAllSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadEpisodeDetailsInteractorImpl;
@@ -12,8 +15,6 @@ import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeasonsInteractorI
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.spicio.impl.SearchUsersInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioLoginInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktSeasonEpisodesInteractorImpl;
@@ -73,4 +74,6 @@ public interface InteractorComponent {
     void inject(GetFullUserDataInteractorImpl getFullUserDataInteractor);
 
     void inject(SearchUsersInteractorImpl searchUsersInteractor);
+
+    void inject(AddSeriesInteractorImpl addSeriesInteractor);
 }
