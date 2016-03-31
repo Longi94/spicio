@@ -1,19 +1,20 @@
 package com.tlongdev.spicio.presentation.presenter.activity;
 
-import android.util.Log;
-
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.storage.SaveSeriesInteractor;
-import com.tlongdev.spicio.domain.interactor.trakt.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.trakt.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesView;
+import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * @author Long
@@ -23,6 +24,8 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
 
     private static final String LOG_TAG = SeriesPresenter.class.getSimpleName();
 
+    @Inject Logger mLogger;
+
     private SeriesView mView;
 
     private SpicioApplication mApplication;
@@ -30,6 +33,7 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
     private int mSeriesId;
 
     public SeriesPresenter(SpicioApplication application, int seriesId) {
+        application.getPresenterComponent().inject(this);
         mApplication = application;
         mSeriesId = seriesId;
     }
@@ -54,7 +58,7 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
 
     @Override
     public void onTraktFullSeriesFinish(Series series, List<Season> seasons, List<Episode> episodes) {
-        Log.d(LOG_TAG, "finished downloading all series data, inserting into db");
+        mLogger.verbose(LOG_TAG, "finished downloading all series data, inserting into db");
 
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
                 mApplication, series, seasons, episodes, this

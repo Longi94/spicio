@@ -16,6 +16,7 @@ import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView;
+import com.tlongdev.spicio.util.Logger;
 import com.tlongdev.spicio.util.ProfileManager;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
     private static final String LOG_TAG = SeriesSearchDetailsPresenter.class.getSimpleName();
 
     @Inject ProfileManager mProfileManager;
+    @Inject Logger mLogger;
 
     private SeriesSearchDetailsView mView;
 
@@ -61,7 +63,6 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
         TraktSeriesDetailsInteractor interactor = new TraktSeriesDetailsInteractorImpl(
                 mApplication, traktId, this
         );
-
         interactor.execute();
     }
 
@@ -79,13 +80,13 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
 
     @Override
     public void onTraktFullSeriesFinish(Series series, List<Season> seasons, List<Episode> episodes) {
-        Log.d(LOG_TAG, "finished downloading all series data, inserting into db");
+        mLogger.verbose(LOG_TAG, "finished downloading all series data, inserting into db");
 
         mSeries = series;
         mSeasons = seasons;
         mEpisodes = episodes;
 
-        Log.d(LOG_TAG, "sending series to server");
+        mLogger.verbose(LOG_TAG, "sending series to server");
         AddSeriesInteractor interactor = new AddSeriesInteractorImpl(
                 mApplication, mProfileManager.getId(), mSeries, this
         );
@@ -100,7 +101,7 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
     }
 
     public void saveSeries(Series series) {
-        Log.d(LOG_TAG, "saveSeries() called");
+        mLogger.verbose(LOG_TAG, "saveSeries() called");
 
         mView.showLoading();
 
@@ -125,7 +126,7 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
 
     @Override
     public void onAddSeriesFinish() {
-        Log.d(LOG_TAG, "sent series to server");
+        mLogger.verbose(LOG_TAG, "sent series to server");
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
                 mApplication, mSeries, mSeasons, mEpisodes, this
         );
