@@ -96,4 +96,21 @@ public class LoginActivity extends SpicioActivity implements LoginView {
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
     }
+
+    @Override
+    public void showProgressDialog(int max) {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setTitle("Getting your series");
+        mProgressDialog.setMax(max);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+    }
+
+    @Override
+    public void updateProgress(String title) {
+        mProgressDialog.setMessage(title);
+        mProgressDialog.incrementProgressBy(1);
+    }
 }

@@ -25,6 +25,12 @@ import com.tlongdev.spicio.domain.interactor.spicio.GetFullUserDataInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.SpicioLoginInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioLoginInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.SaveSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.trakt.TraktFullSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
@@ -34,6 +40,7 @@ import com.tlongdev.spicio.util.ProfileManager;
 
 import org.json.JSONObject;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,7 +49,7 @@ import javax.inject.Inject;
  * @author Long
  * @since 2016. 03. 12.
  */
-public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SpicioLoginInteractor.Callback, GetFullUserDataInteractor.Callback {
+public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SpicioLoginInteractor.Callback, GetFullUserDataInteractor.Callback, TraktFullSeriesInteractor.Callback, SaveSeriesInteractor.Callback {
 
     private static final String LOG_TAG = LoginPresenter.class.getSimpleName();
 
@@ -56,6 +63,8 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
 
     private LoginView mView;
     private SpicioApplication mApplication;
+    private Iterator<Series> mSeriesIterator;
+    private Series mCurrentSeries;
 
     public LoginPresenter(SpicioApplication application) {
         application.getPresenterComponent().inject(this);
@@ -84,7 +93,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                
+
                 if (mView != null) {
                     mView.showLoadingAnim();
                 }
@@ -97,9 +106,9 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                         mLogger.debug(LOG_TAG, "email: " + object.optString("email"));
                         mLogger.debug(LOG_TAG, "name: " + object.optString("name"));
                         mLogger.debug(LOG_TAG, "id: " + object.optString("id"));
-                        
+
                         String facebookId = object.optString("id");
-                        
+
                         if (facebookId == null || facebookId.isEmpty()) {
                             throw new IllegalStateException("Couldn't get facebook ID");
                         }
@@ -210,10 +219,15 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
     @Override
     public void onGetFullUserDataFinished(User user, List<Series> series) {
         mProfileManager.login(user);
+
+        mSeriesIterator = series.iterator();
+
         if (mView != null) {
             mView.hideLoadingAnim();
-            mView.onLogin();
+            mView.showProgressDialog(series.size());
         }
+
+        onSaveSeriesFinish();
     }
 
     @Override
@@ -221,5 +235,47 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
         if (mView != null) {
             mView.hideLoadingAnim();
         }
+    }
+
+    private void getSeries(int seriesId) {
+        TraktFullSeriesInteractor interactor = new TraktFullSeriesInteractorImpl(
+                mApplication, seriesId, false, this
+        );
+        interactor.execute();
+    }
+
+    @Override
+    public void onTraktFullSeriesFinish(Series series, List<Season> seasons, List<Episode> episodes) {
+        SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(
+                mApplication, mCurrentSeries, seasons, episodes, this
+        );
+        interactor.execute();
+    }
+
+    @Override
+    public void onTraktFullSeriesFail() {
+
+    }
+
+    @Override
+    public void onSaveSeriesFinish() {
+        if (mSeriesIterator.hasNext()) {
+            mCurrentSeries = mSeriesIterator.next();
+            getSeries(mCurrentSeries.getTraktId());
+
+            if (mView != null) {
+                mView.updateProgress(mCurrentSeries.getTitle());
+            }
+        } else {
+            if (mView != null) {
+                mView.hideLoadingAnim();
+                mView.onLogin();
+            }
+        }
+    }
+
+    @Override
+    public void onSaveSeriesFail() {
+
     }
 }

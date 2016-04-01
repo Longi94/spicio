@@ -16,4 +16,8 @@ public interface LoginView extends BaseView {
     void onLogin();
 
     void startActivityForResult(Intent intent, int requestCode);
+
+    void showProgressDialog(int max);
+
+    void updateProgress(String title);
 }

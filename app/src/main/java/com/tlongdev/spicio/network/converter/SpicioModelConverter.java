@@ -87,6 +87,8 @@ public class SpicioModelConverter {
         images.setThumb(new Image());
         images.getThumb().setFull(seriesResponse.getThumb());
 
+        series.setImages(images);
+
         DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("H:mm").withLocale(Locale.US);
         series.setTimeOfAiring(LocalTime.parse(seriesResponse.getTimeOfAiring(), timeFormatter));
         series.setFirstAired(new DateTime(seriesResponse.getFirstAired()));
