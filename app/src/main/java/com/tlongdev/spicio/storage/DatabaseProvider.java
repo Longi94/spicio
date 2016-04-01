@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.tlongdev.spicio.storage.DatabaseContract.ActivityEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
@@ -27,6 +28,7 @@ public class DatabaseProvider extends ContentProvider {
     public static final int FEED = 102;
     public static final int FRIENDS = 103;
     public static final int SEASONS = 104;
+    public static final int ACTIVITY = 105;
 
     /**
      * The URI Matcher used by this content provider
@@ -59,6 +61,7 @@ public class DatabaseProvider extends ContentProvider {
         matcher.addURI(authority, DatabaseContract.PATH_FEED, FEED);
         matcher.addURI(authority, DatabaseContract.PATH_FRIENDS, FRIENDS);
         matcher.addURI(authority, DatabaseContract.PATH_SEASONS, SEASONS);
+        matcher.addURI(authority, DatabaseContract.PATH_ACTIVITY, ACTIVITY);
 
         return matcher;
     }
@@ -92,6 +95,9 @@ public class DatabaseProvider extends ContentProvider {
                 break;
             case SEASONS:
                 tableName = SeasonsEntry.TABLE_NAME;
+                break;
+            case ACTIVITY:
+                tableName = ActivityEntry.TABLE_NAME;
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -140,6 +146,10 @@ public class DatabaseProvider extends ContentProvider {
                 _id = db.insert(SeasonsEntry.TABLE_NAME, null, values);
                 returnUri = SeasonsEntry.buildUri(_id);
                 break;
+            case ACTIVITY:
+                _id = db.insert(ActivityEntry.TABLE_NAME, null, values);
+                returnUri = SeasonsEntry.buildUri(_id);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -171,6 +181,9 @@ public class DatabaseProvider extends ContentProvider {
                 break;
             case SEASONS:
                 rowsUpdated = db.update(SeasonsEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case ACTIVITY:
+                rowsUpdated = db.update(ActivityEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -205,6 +218,9 @@ public class DatabaseProvider extends ContentProvider {
             case SEASONS:
                 rowsDeleted = db.delete(SeasonsEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case ACTIVITY:
+                rowsDeleted = db.delete(ActivityEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -238,6 +254,9 @@ public class DatabaseProvider extends ContentProvider {
                 break;
             case SEASONS:
                 tableName = SeasonsEntry.TABLE_NAME;
+                break;
+            case ACTIVITY:
+                tableName = ActivityEntry.TABLE_NAME;
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -276,6 +295,8 @@ public class DatabaseProvider extends ContentProvider {
                 return "vnd.android.cursor.dir/" + DatabaseContract.CONTENT_AUTHORITY + "/" + DatabaseContract.PATH_FRIENDS;
             case SEASONS:
                 return "vnd.android.cursor.dir/" + DatabaseContract.CONTENT_AUTHORITY + "/" + DatabaseContract.PATH_SEASONS;
+            case ACTIVITY:
+                return "vnd.android.cursor.dir/" + DatabaseContract.CONTENT_AUTHORITY + "/" + DatabaseContract.PATH_ACTIVITY;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

@@ -94,6 +94,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 "UNIQUE (" + SeasonsEntry.COLUMN_SERIES_ID + ", " + SeasonsEntry.COLUMN_NUMBER + ") ON CONFLICT REPLACE);";
 
+        final String SQL_CREATE_ACTIVITY_TABLE = "CREATE TABLE " + ActivityEntry.TABLE_NAME + " (" +
+                ActivityEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+
+                ActivityEntry.COLUMN_ACTIVITY_TYPE + " INTEGER NOT NULL, " +
+                ActivityEntry.COLUMN_TIMESTAMP + " INTEGER NOT NULL, " +
+                ActivityEntry.COLUMN_SERIES_ID + " INTEGER NOT NULL, " +
+                ActivityEntry.COLUMN_SEASON_NUMBER + " INTEGER, " +
+                ActivityEntry.COLUMN_EPISODE_NUMBER + " INTEGER, " +
+
+                "UNIQUE (" + ActivityEntry.COLUMN_ACTIVITY_TYPE + ", " + ActivityEntry.COLUMN_SERIES_ID +
+                ActivityEntry.COLUMN_SEASON_NUMBER + ", " + ActivityEntry.COLUMN_EPISODE_NUMBER + ") ON CONFLICT REPLACE);";
+
         final String SQL_CREATE_FEED_TABLE = "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
                 FeedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
@@ -124,6 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(SQL_CREATE_SERIES_TABLE);
         db.execSQL(SQL_CREATE_EPISODES_TABLE);
+        db.execSQL(SQL_CREATE_ACTIVITY_TABLE);
         db.execSQL(SQL_CREATE_FEED_TABLE);
         db.execSQL(SQL_CREATE_FRIENDS_TABLE);
         db.execSQL(SQL_CREATE_SEASONS_TABLE);
@@ -133,6 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + SeriesEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + EpisodesEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ActivityEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + FriendsEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SeasonsEntry.TABLE_NAME);

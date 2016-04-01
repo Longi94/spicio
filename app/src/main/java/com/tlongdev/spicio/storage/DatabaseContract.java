@@ -31,6 +31,7 @@ public class DatabaseContract {
     public static final String PATH_FEED = "feed";
     public static final String PATH_FRIENDS = "friends";
     public static final String PATH_SEASONS = "seasons";
+    public static final String PATH_ACTIVITY = "activity";
 
     public static final class SeriesEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
@@ -116,6 +117,24 @@ public class DatabaseContract {
         public static final String COLUMN_POSTER_FULL = "poster_full";
         public static final String COLUMN_POSTER_THUMB = "poster_thumb";
         public static final String COLUMN_THUMB = "thumb";
+
+        public static Uri buildUri(long id) {
+            return CONTENT_URI.buildUpon().appendPath("id").appendPath("" + id).build();
+        }
+    }
+
+    public static final class ActivityEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_ACTIVITY).build();
+
+        public static final String TABLE_NAME = "activity";
+
+        public static final String COLUMN_ACTIVITY_TYPE = "type";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_SERIES_ID = "series_id";
+        public static final String COLUMN_SEASON_NUMBER = "season_number";
+        public static final String COLUMN_EPISODE_NUMBER = "episode_number";
 
         public static Uri buildUri(long id) {
             return CONTENT_URI.buildUpon().appendPath("id").appendPath("" + id).build();
