@@ -51,7 +51,7 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
     public void refreshSeries() {
         mView.showLoading();
         TraktFullSeriesInteractor interactor = new TraktFullSeriesInteractorImpl(
-                mApplication, mSeriesId, this
+                mApplication, mSeriesId, true, this
         );
         interactor.execute();
     }

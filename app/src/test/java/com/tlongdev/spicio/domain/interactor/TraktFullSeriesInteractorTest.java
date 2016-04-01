@@ -77,7 +77,7 @@ public class TraktFullSeriesInteractorTest {
         when(mRepository.getSeasonEpisodes(0, 0)).thenReturn(episodes);
 
         TraktFullSeriesInteractorImpl interactor = new TraktFullSeriesInteractorImpl(
-                mApp, 0, mMockedCallback
+                mApp, 0, true, mMockedCallback
         );
         interactor.run();
 
@@ -95,7 +95,7 @@ public class TraktFullSeriesInteractorTest {
         when(mRepository.getSeriesDetails(0)).thenReturn(null);;
 
         TraktFullSeriesInteractorImpl interactor = new TraktFullSeriesInteractorImpl(
-                mApp, 0, mMockedCallback
+                mApp, 0, true, mMockedCallback
         );
         interactor.run();
 

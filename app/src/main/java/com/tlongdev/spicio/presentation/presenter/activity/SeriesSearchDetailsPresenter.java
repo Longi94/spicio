@@ -1,7 +1,5 @@
 package com.tlongdev.spicio.presentation.presenter.activity;
 
-import android.util.Log;
-
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.spicio.AddSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.AddSeriesInteractorImpl;
@@ -106,7 +104,7 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
         mView.showLoading();
 
         TraktFullSeriesInteractor interactor = new TraktFullSeriesInteractorImpl(
-                mApplication, series.getTraktId(), this
+                mApplication, series.getTraktId(), true, this
         );
         interactor.execute();
     }

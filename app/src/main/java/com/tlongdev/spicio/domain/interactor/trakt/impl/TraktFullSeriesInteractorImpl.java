@@ -28,12 +28,14 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
 
     private Callback mCallback;
     private int mSeriesId;
+    private boolean mReDownload;
 
-    public TraktFullSeriesInteractorImpl(SpicioApplication app, int seriesId,  Callback callback) {
+    public TraktFullSeriesInteractorImpl(SpicioApplication app, int seriesId, boolean reDownload, Callback callback) {
         super(app.getInteractorComponent());
         app.getInteractorComponent().inject(this);
         mCallback = callback;
         mSeriesId = seriesId;
+        mReDownload = reDownload;
     }
 
     @Override
@@ -41,25 +43,30 @@ public class TraktFullSeriesInteractorImpl extends AbstractInteractor implements
 
         logger.debug(LOG_TAG, "started");
 
-        logger.debug(LOG_TAG, "getting series details");
-        Series series = mRepository.getSeriesDetails(mSeriesId);
+        Series series = null;
 
-        if (series == null) {
-            logger.debug(LOG_TAG, "TraktRepository.getSeriesDetails returned null");
-            postError();
-            return;
+        if (mReDownload) {
+
+            logger.debug(LOG_TAG, "getting series details");
+            series = mRepository.getSeriesDetails(mSeriesId);
+
+            if (series == null) {
+                logger.debug(LOG_TAG, "TraktRepository.getSeriesDetails returned null");
+                postError();
+                return;
+            }
+
+            logger.debug(LOG_TAG, "getting image links for series");
+            Images images = mRepository.getImages(mSeriesId);
+
+            if (images == null) {
+                logger.debug(LOG_TAG, "TraktRepository.getImages returned null");
+                postError();
+                return;
+            }
+
+            series.setImages(images);
         }
-
-        logger.debug(LOG_TAG, "getting image links for series");
-        Images images = mRepository.getImages(mSeriesId);
-
-        if (images == null) {
-            logger.debug(LOG_TAG, "TraktRepository.getImages returned null");
-            postError();
-            return;
-        }
-
-        series.setImages(images);
 
         logger.debug(LOG_TAG, "getting seasons for series");
         List<Season> seasons = mRepository.getSeasons(mSeriesId);
