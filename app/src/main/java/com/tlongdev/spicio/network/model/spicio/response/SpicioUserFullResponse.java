@@ -22,7 +22,7 @@ public class SpicioUserFullResponse {
     @SerializedName("google_id")
     private String googleId;
 
-    private List<SpicioSeries> series;
+    private List<SpicioSeriesResponse> series;
 
     public long getId() {
         return id;
@@ -44,7 +44,7 @@ public class SpicioUserFullResponse {
         return googleId;
     }
 
-    public List<SpicioSeries> getSeries() {
+    public List<SpicioSeriesResponse> getSeries() {
         return series;
     }
 }

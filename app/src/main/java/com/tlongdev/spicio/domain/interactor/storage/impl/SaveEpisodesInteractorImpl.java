@@ -20,7 +20,7 @@ public class SaveEpisodesInteractorImpl extends AbstractInteractor implements Sa
     private static final String LOG_TAG = SaveEpisodesInteractorImpl.class.getSimpleName();
 
     @Inject EpisodeDao mEpisodeDao;
-    @Inject Logger logger;
+    @Inject Logger mLogger;
 
     private List<Episode> mEpisodes;
     private Callback mCallback;
@@ -34,15 +34,15 @@ public class SaveEpisodesInteractorImpl extends AbstractInteractor implements Sa
 
     @Override
     public void run() {
-        logger.debug(LOG_TAG, "started");
+        mLogger.verbose(LOG_TAG, "started");
 
         int episodesInserted = mEpisodeDao.insertAllEpisodes(mEpisodes);
         if (episodesInserted != mEpisodes.size()) {
-            logger.warn(LOG_TAG, "episodes to insert: " + mEpisodes.size() + ", actually inserted: " + episodesInserted);
+            mLogger.warn(LOG_TAG, "episodes to insert: " + mEpisodes.size() + ", actually inserted: " + episodesInserted);
         }
 
         postFinish();
-        logger.debug(LOG_TAG, "ended");
+        mLogger.verbose(LOG_TAG, "ended");
     }
 
     private void postFinish() {

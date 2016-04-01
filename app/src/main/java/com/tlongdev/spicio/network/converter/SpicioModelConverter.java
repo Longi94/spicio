@@ -1,17 +1,25 @@
 package com.tlongdev.spicio.network.converter;
 
+import com.tlongdev.spicio.domain.model.Image;
+import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -38,10 +46,55 @@ public class SpicioModelConverter {
         user.setEmailAddress(body.getEmail());
         user.setFacebookId(body.getFacebookId());
         user.setGooglePlusId(body.getGoogleId());
-        userFull.setSeries(null); // TODO: 2016. 03. 30.
+
+        List<Series> series = new LinkedList<>();
+
+        for (SpicioSeriesResponse seriesResponse : body.getSeries()) {
+            series.add(SpicioModelConverter.convertToSeries(seriesResponse));
+        }
+        userFull.setSeries(series);
 
         userFull.setUser(user);
         return userFull;
+    }
+
+    private static Series convertToSeries(SpicioSeriesResponse seriesResponse) {
+        Series series = new Series();
+
+        series.setCertification(seriesResponse.getCertification());
+        series.setDayOfAiring(seriesResponse.getDayOfAiring());
+        series.setImdbId(seriesResponse.getImdbId());
+        series.setNetwork(seriesResponse.getNetwork());
+        series.setOverview(seriesResponse.getOverview());
+        series.setRuntime(seriesResponse.getRuntime());
+        series.setSlugName(seriesResponse.getSlugName());
+        series.setStatus(seriesResponse.getStatus());
+        series.setTitle(seriesResponse.getTitle());
+        series.setTmdbId(seriesResponse.getTmdbId());
+        series.setTrailer(seriesResponse.getTrailer());
+        series.setTraktId(seriesResponse.getTraktId());
+        series.setTraktRating(seriesResponse.getTraktRating());
+        series.setTraktRatingCount(seriesResponse.getTraktRatingCount());
+        series.setTvdbId(seriesResponse.getTvdbId());
+        series.setTvRageId(seriesResponse.getTvRageId());
+        series.setYear(seriesResponse.getYear());
+
+        Images images = new Images();
+        images.setPoster(new Image());
+        images.getPoster().setFull(seriesResponse.getPosterFull());
+        images.getPoster().setThumb(seriesResponse.getPosterThumb());
+
+        images.setThumb(new Image());
+        images.getThumb().setFull(seriesResponse.getThumb());
+
+        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("H:mm").withLocale(Locale.US);
+        series.setTimeOfAiring(LocalTime.parse(seriesResponse.getTimeOfAiring(), timeFormatter));
+        series.setFirstAired(new DateTime(seriesResponse.getFirstAired()));
+        series.setAirTimeZone(DateTimeZone.forID(seriesResponse.getAirTimeZone()));
+
+        List<String> genres = seriesResponse.getGenres();
+        series.setGenres(genres.toArray(new String[genres.size()]));
+        return series;
     }
 
     public static User convertToUser(SpicioUserResponse userBody) {
