@@ -145,5 +145,5 @@ public interface EpisodeDao {
      */
     List<Episode> getEpisodeHistory(boolean includeUnwatched);
 
-    int setLiked(int traktId, boolean liked);
+    boolean setLiked(int traktId, boolean liked);
 }

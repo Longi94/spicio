@@ -57,7 +57,7 @@ public class LikeEpisodeInteractorTest {
     @Test
     public void testCheck(){
 
-        when(mEpisodeDao.setLiked(0, true)).thenReturn(1);
+        when(mEpisodeDao.setLiked(0, true)).thenReturn(true);
 
         LikeEpisodeInteractorImpl interactor = new LikeEpisodeInteractorImpl(
                 mApp, 0, true, mMockedCallback
@@ -72,7 +72,7 @@ public class LikeEpisodeInteractorTest {
     @Test
     public void testFail(){
 
-        when(mEpisodeDao.setLiked(0, true)).thenReturn(0);
+        when(mEpisodeDao.setLiked(0, true)).thenReturn(false);
 
         LikeEpisodeInteractorImpl interactor = new LikeEpisodeInteractorImpl(
                 mApp, 0, true, mMockedCallback

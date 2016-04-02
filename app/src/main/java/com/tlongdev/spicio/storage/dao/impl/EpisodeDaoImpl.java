@@ -461,20 +461,33 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public int setLiked(int traktId, boolean liked) {
+    public boolean setLiked(int traktId, boolean liked) {
         mLogger.debug(LOG_TAG, "setting 'liked' of episode(" + traktId + ") to " + liked);
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_LIKED, liked ? 1 : 0);
+        if (liked) {
+            ContentValues values = new ContentValues();
+            values.put(ActivityEntry.COLUMN_EPISODE_ID, traktId);
+            values.put(ActivityEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
+            values.put(ActivityEntry.COLUMN_ACTIVITY_TYPE, ActivityType.LIKED);
 
-        int rowsUpdated = mContentResolver.update(
-                EpisodesEntry.CONTENT_URI,
-                values,
-                COLUMN_TRAKT_ID + " = ?",
-                new String[]{String.valueOf(traktId)}
-        );
+            Uri uri = mContentResolver.insert(ActivityEntry.CONTENT_URI, values);
 
-        mLogger.debug(LOG_TAG, "updated " + rowsUpdated + " rows in episodes table");
-        return rowsUpdated;
+            if (uri != null) {
+                mLogger.verbose(LOG_TAG, "inserted 1 rows into activity table");
+                return true;
+            } else {
+                mLogger.verbose(LOG_TAG, "failed to insert int activity table");
+                return false;
+            }
+        } else {
+            int rowsDeleted = mContentResolver.delete(
+                    ActivityEntry.CONTENT_URI,
+                    ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
+                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                    new String[]{String.valueOf(traktId), String.valueOf(ActivityType.LIKED)}
+            );
+            mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
+            return true;
+        }
     }
 
     private Episode mapCursorToEpisode(Cursor cursor) {

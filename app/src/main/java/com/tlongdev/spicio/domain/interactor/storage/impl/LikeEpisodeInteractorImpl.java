@@ -36,12 +36,11 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
     public void run() {
         mLogger.debug(LOG_TAG, "started");
 
-        int rowsUpdated = mEpisodeDao.setLiked(mEpisodeId, mLiked);
-        if (rowsUpdated == 0) {
+        if (mEpisodeDao.setLiked(mEpisodeId, mLiked)) {
+            postFinish();
+        } else {
             mLogger.debug(LOG_TAG, "failed tu updated liked column");
             postError();
-        } else {
-            postFinish();
         }
 
         mLogger.debug(LOG_TAG, "ended");

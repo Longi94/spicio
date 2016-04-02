@@ -198,8 +198,7 @@ public class EpisodeDaoTest {
 
     @Test
     public void testLiked() {
-        int rowsUpdated = mEpisodeDao.setLiked(mEpisode.getTraktId(), true);
-        assertEquals(rowsUpdated, 1);
+        assertTrue(mEpisodeDao.setLiked(mEpisode.getTraktId(), true));
 
         Episode episode = mEpisodeDao.getEpisode(mEpisode.getTraktId());
         assertTrue(episode.isLiked());
