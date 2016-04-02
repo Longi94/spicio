@@ -2,7 +2,6 @@ package com.tlongdev.spicio.storage.dao;
 
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
-import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeasonsEntry;
 
@@ -127,10 +126,9 @@ public interface EpisodeDao {
      * Set the watched property of an episode
      *
      * @param episodeId the id of the series
-     * @param watched   watched or not
      * @return number of rows updated
      */
-    int setWatched(int episodeId, @Watched.Enum int watched);
+    boolean setWatched(int episodeId, boolean watched);
 
     /**
      * Get a list of upcoming episodes.

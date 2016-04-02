@@ -5,14 +5,16 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.util.Log;
 
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.domain.model.ActivityType;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Season;
-import com.tlongdev.spicio.domain.model.Watched;
+import com.tlongdev.spicio.storage.DatabaseContract.ActivityEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeasonsEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
@@ -37,7 +39,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Inject ContentResolver mContentResolver;
     @Inject SQLiteOpenHelper mOpenHelper;
-    @Inject Logger logger;
+    @Inject Logger mLogger;
 
     // TODO: 2016. 03. 08. better projection to improve query performance
     public static final String[] PROJECTION = new String[]{
@@ -69,7 +71,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public Episode getEpisode(int traktId) {
-        logger.debug(LOG_TAG, "querying episode with id: " + traktId);
+        mLogger.debug(LOG_TAG, "querying episode with id: " + traktId);
         Cursor cursor = mContentResolver.query(
                 EpisodesEntry.CONTENT_URI,
                 PROJECTION,
@@ -82,11 +84,11 @@ public class EpisodeDaoImpl implements EpisodeDao {
             if (cursor.moveToFirst()) {
                 return mapCursorToEpisode(cursor);
             } else {
-                logger.debug(LOG_TAG, "episode not found with id: " + traktId);
+                mLogger.debug(LOG_TAG, "episode not found with id: " + traktId);
             }
             cursor.close();
         } else {
-            logger.warn(LOG_TAG, "query returned null");
+            mLogger.warn(LOG_TAG, "query returned null");
         }
 
         return null;
@@ -94,7 +96,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public Episode getEpisode(int seriesId, int season, int episode) {
-        logger.debug(LOG_TAG, "querying episode with seriesid: " + seriesId + ", season: " + season + ", episode: " + episode);
+        mLogger.debug(LOG_TAG, "querying episode with seriesid: " + seriesId + ", season: " + season + ", episode: " + episode);
         Cursor cursor = mContentResolver.query(
                 EpisodesEntry.CONTENT_URI,
                 PROJECTION,
@@ -107,11 +109,11 @@ public class EpisodeDaoImpl implements EpisodeDao {
             if (cursor.moveToFirst()) {
                 return mapCursorToEpisode(cursor);
             } else {
-                logger.debug(LOG_TAG, "episode not found with seriesid: " + seriesId + ", season: " + season + ", episode: " + episode);
+                mLogger.debug(LOG_TAG, "episode not found with seriesid: " + seriesId + ", season: " + season + ", episode: " + episode);
             }
             cursor.close();
         } else {
-            logger.warn(LOG_TAG, "query returned null");
+            mLogger.warn(LOG_TAG, "query returned null");
         }
 
         return null;
@@ -119,7 +121,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public List<Episode> getAllEpisodes() {
-        logger.debug(LOG_TAG, "querying all episodes");
+        mLogger.debug(LOG_TAG, "querying all episodes");
         Cursor cursor = mContentResolver.query(
                 EpisodesEntry.CONTENT_URI,
                 PROJECTION,
@@ -137,18 +139,18 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 } while (cursor.moveToNext());
 
             } else {
-                logger.debug(LOG_TAG, "cursor is empty");
+                mLogger.debug(LOG_TAG, "cursor is empty");
             }
             cursor.close();
         } else {
-            logger.warn(LOG_TAG, "query returned null");
+            mLogger.warn(LOG_TAG, "query returned null");
         }
         return episodes;
     }
 
     @Override
     public List<Episode> getAllEpisodes(int seriesId) {
-        logger.debug(LOG_TAG, "querying all episodes with series id: " + seriesId);
+        mLogger.debug(LOG_TAG, "querying all episodes with series id: " + seriesId);
         Cursor cursor = mContentResolver.query(
                 EpisodesEntry.CONTENT_URI,
                 PROJECTION,
@@ -166,18 +168,18 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 } while (cursor.moveToNext());
 
             } else {
-                logger.debug(LOG_TAG, "episodes not found with series id: " + seriesId);
+                mLogger.debug(LOG_TAG, "episodes not found with series id: " + seriesId);
             }
             cursor.close();
         } else {
-            logger.warn(LOG_TAG, "query returned null");
+            mLogger.warn(LOG_TAG, "query returned null");
         }
         return episodes;
     }
 
     @Override
     public List<Episode> getAllEpisodes(int seriesId, int season) {
-        logger.debug(LOG_TAG, "querying all episodes with series id: " + seriesId + "; season: " + season);
+        mLogger.debug(LOG_TAG, "querying all episodes with series id: " + seriesId + "; season: " + season);
         Cursor cursor = mContentResolver.query(
                 EpisodesEntry.CONTENT_URI,
                 PROJECTION,
@@ -195,11 +197,11 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 } while (cursor.moveToNext());
 
             } else {
-                logger.debug(LOG_TAG, "episodes not found with series id: " + seriesId + "; season: " + season);
+                mLogger.debug(LOG_TAG, "episodes not found with series id: " + seriesId + "; season: " + season);
             }
             cursor.close();
         } else {
-            logger.warn(LOG_TAG, "query returned null");
+            mLogger.warn(LOG_TAG, "query returned null");
         }
         return episodes;
     }
@@ -208,7 +210,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
     public List<Season> getAllSeasons(int traktId) {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
-        logger.debug(LOG_TAG, "querying seasons for series(" + traktId + ")");
+        mLogger.debug(LOG_TAG, "querying seasons for series(" + traktId + ")");
 
         //Query the seasons with the number of watched and skipper episodes
         String query = "SELECT " + SeasonsEntry.TABLE_NAME + "." + COLUMN_NUMBER + ", " +
@@ -229,7 +231,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 " WHERE " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? " +
                 "ORDER BY " + SeasonsEntry.TABLE_NAME + "." + COLUMN_NUMBER + " DESC";
 
-        logger.debug(LOG_TAG, "raw query: " + query);
+        mLogger.debug(LOG_TAG, "raw query: " + query);
 
         Cursor cursor = db.rawQuery(query,
                 new String[]{String.valueOf(traktId), String.valueOf(traktId), String.valueOf(traktId)}
@@ -245,18 +247,18 @@ public class EpisodeDaoImpl implements EpisodeDao {
                     seasons.add(season);
                 } while (cursor.moveToNext());
             } else {
-                logger.debug(LOG_TAG, "season not found for series with id: " + traktId);
+                mLogger.debug(LOG_TAG, "season not found for series with id: " + traktId);
             }
             cursor.close();
         } else {
-            logger.warn(LOG_TAG, "query returned null");
+            mLogger.warn(LOG_TAG, "query returned null");
         }
         return seasons;
     }
 
     @Override
     public int insertAllSeasons(List<Season> seasons) {
-        logger.debug(LOG_TAG, "inserting seasons");
+        mLogger.debug(LOG_TAG, "inserting seasons");
 
         Vector<ContentValues> cVVector = new Vector<>();
 
@@ -294,7 +296,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
     @Override
     public int insertAllEpisodes(List<Episode> episodes) {
 
-        logger.debug(LOG_TAG, "inserting episodes");
+        mLogger.debug(LOG_TAG, "inserting episodes");
 
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
@@ -388,43 +390,64 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public boolean isWatched(int traktId) {
-        logger.debug(LOG_TAG, "is episode(" + traktId + ") watched?");
+        mLogger.debug(LOG_TAG, "is episode(" + traktId + ") watched?");
         Cursor cursor = mContentResolver.query(
-                EpisodesEntry.CONTENT_URI,
-                new String[]{COLUMN_WATCHED},
-                COLUMN_TRAKT_ID + " = ?",
-                new String[]{String.valueOf(traktId)},
+                ActivityEntry.CONTENT_URI,
+                null,
+                ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
+                        ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
+                new String[]{String.valueOf(traktId), String.valueOf(ActivityType.WATCHED)},
                 null
         );
 
+        boolean watched = false;
+
         if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                return cursor.getInt(0) == 1;
-            } else {
-                logger.debug(LOG_TAG, "episode not found with id: " + traktId);
-            }
+            watched = cursor.moveToFirst();
             cursor.close();
         } else {
-            logger.warn(LOG_TAG, "query returned null");
+            mLogger.warn(LOG_TAG, "query returned null");
         }
-        return false;
+        return watched;
     }
 
     @Override
-    public int setWatched(int traktId, @Watched.Enum int watched) {
-        logger.debug(LOG_TAG, "setting 'skipped' of episode(" + traktId + ") to " + watched);
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_WATCHED, watched);
+    public boolean setWatched(int traktId, boolean watched) {
+        if (watched) {
+            mLogger.debug(LOG_TAG, "saving watched activity to episode: " + traktId);
+            ContentValues values = new ContentValues();
+            values.put(ActivityEntry.COLUMN_EPISODE_ID, traktId);
+            values.put(ActivityEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
+            values.put(ActivityEntry.COLUMN_ACTIVITY_TYPE, ActivityType.WATCHED);
 
-        int rowsUpdated = mContentResolver.update(
-                EpisodesEntry.CONTENT_URI,
-                values,
-                COLUMN_TRAKT_ID + " = ?",
-                new String[]{String.valueOf(traktId)}
-        );
+            int rowsDeleted = mContentResolver.delete(
+                    ActivityEntry.CONTENT_URI,
+                    ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
+                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                    new String[]{String.valueOf(traktId), String.valueOf(ActivityType.SKIPPED)}
+            );
 
-        logger.debug(LOG_TAG, "updated " + rowsUpdated + " rows in episodes table");
-        return rowsUpdated;
+            mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
+
+            Uri uri = mContentResolver.insert(ActivityEntry.CONTENT_URI, values);
+
+            if (uri != null) {
+                mLogger.verbose(LOG_TAG, "inserted 1 rows into activity table");
+                return true;
+            } else {
+                mLogger.verbose(LOG_TAG, "failed to insert int activity table");
+                return false;
+            }
+        } else {
+            int rowsDeleted = mContentResolver.delete(
+                    ActivityEntry.CONTENT_URI,
+                    ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
+                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                    new String[]{String.valueOf(traktId), String.valueOf(ActivityType.WATCHED)}
+            );
+            mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
+            return true;
+        }
     }
 
     @Override
@@ -439,7 +462,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public int setLiked(int traktId, boolean liked) {
-        logger.debug(LOG_TAG, "setting 'liked' of episode(" + traktId + ") to " + liked);
+        mLogger.debug(LOG_TAG, "setting 'liked' of episode(" + traktId + ") to " + liked);
         ContentValues values = new ContentValues();
         values.put(COLUMN_LIKED, liked ? 1 : 0);
 
@@ -450,7 +473,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 new String[]{String.valueOf(traktId)}
         );
 
-        logger.debug(LOG_TAG, "updated " + rowsUpdated + " rows in episodes table");
+        mLogger.debug(LOG_TAG, "updated " + rowsUpdated + " rows in episodes table");
         return rowsUpdated;
     }
 

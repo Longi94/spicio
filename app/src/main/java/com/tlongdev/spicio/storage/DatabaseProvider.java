@@ -148,7 +148,7 @@ public class DatabaseProvider extends ContentProvider {
                 break;
             case ACTIVITY:
                 _id = db.insert(ActivityEntry.TABLE_NAME, null, values);
-                returnUri = SeasonsEntry.buildUri(_id);
+                returnUri = ActivityEntry.buildUri(_id);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

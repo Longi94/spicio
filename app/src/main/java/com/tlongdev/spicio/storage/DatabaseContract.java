@@ -133,8 +133,7 @@ public class DatabaseContract {
         public static final String COLUMN_ACTIVITY_TYPE = "type";
         public static final String COLUMN_TIMESTAMP = "timestamp";
         public static final String COLUMN_SERIES_ID = "series_id";
-        public static final String COLUMN_SEASON_NUMBER = "season_number";
-        public static final String COLUMN_EPISODE_NUMBER = "episode_number";
+        public static final String COLUMN_EPISODE_ID = "episode_id";
 
         public static Uri buildUri(long id) {
             return CONTENT_URI.buildUpon().appendPath("id").appendPath("" + id).build();
