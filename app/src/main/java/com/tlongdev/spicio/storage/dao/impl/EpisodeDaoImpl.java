@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 
@@ -28,6 +27,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * @author Long
@@ -38,7 +38,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
     private static final String LOG_TAG = EpisodeDaoImpl.class.getSimpleName();
 
     @Inject ContentResolver mContentResolver;
-    @Inject SQLiteOpenHelper mOpenHelper;
+    @Inject @Named("writable") SQLiteDatabase mDatabase;
     @Inject Logger mLogger;
 
     // TODO: 2016. 03. 08. better projection to improve query performance
@@ -206,8 +206,6 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public List<Season> getAllSeasons(int traktId) {
-        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-
         mLogger.debug(LOG_TAG, "querying seasons for series(" + traktId + ")");
 
         //Query the seasons with the number of watched and skipper episodes
@@ -231,7 +229,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
         mLogger.debug(LOG_TAG, "raw query: " + query);
 
-        Cursor cursor = db.rawQuery(query,
+        Cursor cursor = mDatabase.rawQuery(query,
                 new String[]{String.valueOf(traktId), String.valueOf(traktId), String.valueOf(traktId)}
         );
 
@@ -296,9 +294,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
         mLogger.debug(LOG_TAG, "inserting episodes");
 
-        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-
-        db.beginTransaction();
+        mDatabase.beginTransaction();
         int returnCount = 0;
         try {
             for (Episode episode : episodes) {
@@ -316,7 +312,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                     firstAired = episode.getFirstAired().getMillis();
                 }
 
-                db.execSQL("INSERT OR REPLACE INTO episodes (" +
+                mDatabase.execSQL("INSERT OR REPLACE INTO episodes (" +
 
                                 EpisodesEntry.COLUMN_SERIES_ID + ", " +
                                 EpisodesEntry.COLUMN_SEASON + ", " +
@@ -363,9 +359,9 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 );
                 returnCount++;
             }
-            db.setTransactionSuccessful();
+            mDatabase.setTransactionSuccessful();
         } finally {
-            db.endTransaction();
+            mDatabase.endTransaction();
         }
 
         Log.v(LOG_TAG, "inserted " + returnCount + " rows into episodes table");

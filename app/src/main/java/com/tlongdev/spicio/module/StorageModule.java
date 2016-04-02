@@ -2,10 +2,12 @@ package com.tlongdev.spicio.module;
 
 import android.app.Application;
 import android.content.ContentResolver;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tlongdev.spicio.storage.DatabaseHelper;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -28,5 +30,19 @@ public class StorageModule {
     @Singleton
     SQLiteOpenHelper provideSQLiteOpenHelper(Application application) {
         return new DatabaseHelper(application);
+    }
+
+    @Provides
+    @Singleton
+    @Named("readable")
+    SQLiteDatabase provideReadableDatabase(SQLiteOpenHelper helper) {
+        return helper.getReadableDatabase();
+    }
+
+    @Provides
+    @Singleton
+    @Named("writable")
+    SQLiteDatabase provideWritableDatabase(SQLiteOpenHelper helper) {
+        return helper.getWritableDatabase();
     }
 }
