@@ -45,8 +45,8 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public Episode getEpisode(int traktId) {
-        mLogger.debug(LOG_TAG, "querying episode with id: " + traktId);
+    public Episode getEpisode(int episodeId) {
+        mLogger.debug(LOG_TAG, "querying episode with id: " + episodeId);
         Cursor cursor = mContentResolver.query(
                 EpisodesEntry.CONTENT_URI,
                 new String[]{
@@ -69,22 +69,34 @@ public class EpisodeDaoImpl implements EpisodeDao {
                         EpisodesEntry.COLUMN_SCREENSHOT_THUMB
                 },
                 EpisodesEntry.COLUMN_TRAKT_ID + " = ?",
-                new String[]{String.valueOf(traktId)},
+                new String[]{String.valueOf(episodeId)},
                 null
         );
 
+        Episode episode;
+
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                return mapCursorToEpisode(cursor);
+                episode = mapCursorToEpisode(cursor);
             } else {
-                mLogger.debug(LOG_TAG, "episode not found with id: " + traktId);
+                mLogger.debug(LOG_TAG, "episode not found with id: " + episodeId);
+                return null;
             }
             cursor.close();
         } else {
             mLogger.warn(LOG_TAG, "query returned null");
+            return null;
         }
 
-        return null;
+        if (isWatched(episodeId)) {
+            episode.setWatched(true);
+        } else if (isSkipped(episodeId)) {
+            episode.setSkipped(true);
+        }
+
+        episode.setLiked(isLiked(episodeId));
+
+        return episode;
     }
 
     @Override
@@ -140,23 +152,8 @@ public class EpisodeDaoImpl implements EpisodeDao {
         Cursor cursor = mContentResolver.query(
                 EpisodesEntry.CONTENT_URI,
                 new String[]{
-                        EpisodesEntry.COLUMN_SERIES_ID,
-                        EpisodesEntry.COLUMN_SEASON,
                         EpisodesEntry.COLUMN_EPISODE_NUMBER,
-                        EpisodesEntry.COLUMN_TITLE,
                         EpisodesEntry.COLUMN_TRAKT_ID,
-                        EpisodesEntry.COLUMN_TVDB_ID,
-                        EpisodesEntry.COLUMN_IMDB_ID,
-                        EpisodesEntry.COLUMN_TMDB_ID,
-                        EpisodesEntry.COLUMN_TV_RAGE_ID,
-                        EpisodesEntry.COLUMN_SLUG,
-                        EpisodesEntry.COLUMN_ABSOLUTE_NUMBER,
-                        EpisodesEntry.COLUMN_OVERVIEW,
-                        EpisodesEntry.COLUMN_TRAKT_RATING,
-                        EpisodesEntry.COLUMN_TRAKT_RATING_COUNT,
-                        EpisodesEntry.COLUMN_FIRST_AIRED,
-                        EpisodesEntry.COLUMN_SCREENSHOT_FULL,
-                        EpisodesEntry.COLUMN_SCREENSHOT_THUMB
                 },
                 EpisodesEntry.COLUMN_SERIES_ID + " = ? AND " + EpisodesEntry.COLUMN_SEASON + " = ?",
                 new String[]{String.valueOf(seriesId), String.valueOf(season)},
@@ -190,19 +187,21 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 SeasonsEntry.TABLE_NAME + "." + SeasonsEntry.COLUMN_POSTER_FULL + ", " +
                 SeasonsEntry.TABLE_NAME + "." + SeasonsEntry.COLUMN_POSTER_THUMB + ", " +
                 SeasonsEntry.TABLE_NAME + "." + SeasonsEntry.COLUMN_THUMB + ", " +
-                "watches." + COLUMN_WATCH_COUNT + ", " +
-                "skips." + COLUMN_SKIP_COUNT +
+                " watches." + COLUMN_WATCH_COUNT + ", " +
+                " skips." + COLUMN_SKIP_COUNT +
                 " FROM " + SeasonsEntry.TABLE_NAME +
                 " LEFT JOIN (SELECT " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_WATCH_COUNT +
                 "    FROM " + ActivityEntry.TABLE_NAME +
-                "    WHERE " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = ? AND " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_ACTIVITY_TYPE + " = " + ActivityType.WATCHED + ") AS watches " +
-                "ON " + SeasonsEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = watches." + ActivityEntry.COLUMN_SERIES_ID +
+                "    WHERE " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = ? AND " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_ACTIVITY_TYPE + " = " + ActivityType.WATCHED +
+                " GROUP BY " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + ") AS watches " +
+                " ON " + SeasonsEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = watches." + ActivityEntry.COLUMN_SERIES_ID +
                 " LEFT JOIN (SELECT " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_SKIP_COUNT +
                 "    FROM " + ActivityEntry.TABLE_NAME +
-                "    WHERE " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = ? AND " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_ACTIVITY_TYPE + " = " + ActivityType.SKIPPED + ") AS skips " +
-                "ON " + SeasonsEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = skips." + ActivityEntry.COLUMN_SERIES_ID +
+                "    WHERE " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = ? AND " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_ACTIVITY_TYPE + " = " + ActivityType.SKIPPED +
+                " GROUP BY " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + ") AS skips " +
+                " ON " + SeasonsEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = skips." + ActivityEntry.COLUMN_SERIES_ID +
                 " WHERE " + SeasonsEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = ? " +
-                "ORDER BY " + SeasonsEntry.TABLE_NAME + "." + SeasonsEntry.COLUMN_NUMBER + " DESC";
+                " ORDER BY " + SeasonsEntry.TABLE_NAME + "." + SeasonsEntry.COLUMN_NUMBER + " DESC";
 
         mLogger.debug(LOG_TAG, "raw query: " + query);
 
@@ -333,14 +332,14 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public boolean isWatched(int traktId) {
-        mLogger.debug(LOG_TAG, "is episode(" + traktId + ") watched?");
+    public boolean isWatched(int episodeId) {
+        mLogger.debug(LOG_TAG, "is episode(" + episodeId + ") watched?");
         Cursor cursor = mContentResolver.query(
                 ActivityEntry.CONTENT_URI,
                 null,
                 ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
                         ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
-                new String[]{String.valueOf(traktId), String.valueOf(ActivityType.WATCHED)},
+                new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.WATCHED)},
                 null
         );
 
@@ -353,6 +352,52 @@ public class EpisodeDaoImpl implements EpisodeDao {
             mLogger.warn(LOG_TAG, "query returned null");
         }
         return watched;
+    }
+
+    @Override
+    public boolean isSkipped(int episodeId) {
+        mLogger.debug(LOG_TAG, "is episode(" + episodeId + ") skipped?");
+        Cursor cursor = mContentResolver.query(
+                ActivityEntry.CONTENT_URI,
+                null,
+                ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
+                        ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
+                new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.SKIPPED)},
+                null
+        );
+
+        boolean skipped = false;
+
+        if (cursor != null) {
+            skipped = cursor.moveToFirst();
+            cursor.close();
+        } else {
+            mLogger.warn(LOG_TAG, "query returned null");
+        }
+        return skipped;
+    }
+
+    @Override
+    public boolean isLiked(int episodeId) {
+        mLogger.debug(LOG_TAG, "is episode(" + episodeId + ") liked?");
+        Cursor cursor = mContentResolver.query(
+                ActivityEntry.CONTENT_URI,
+                null,
+                ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
+                        ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
+                new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.LIKED)},
+                null
+        );
+
+        boolean liked = false;
+
+        if (cursor != null) {
+            liked = cursor.moveToFirst();
+            cursor.close();
+        } else {
+            mLogger.warn(LOG_TAG, "query returned null");
+        }
+        return liked;
     }
 
     @Override
@@ -430,6 +475,46 @@ public class EpisodeDaoImpl implements EpisodeDao {
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
                             ActivityEntry.COLUMN_EPISODE_ID + " = ?",
                     new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.LIKED)}
+            );
+            mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
+            return true;
+        }
+    }
+
+    @Override
+    public boolean setSkipped(int seriesId, int episodeId, boolean skipped) {
+        if (skipped) {
+            mLogger.debug(LOG_TAG, "saving skipped activity to episode: " + episodeId);
+            ContentValues values = new ContentValues();
+            values.put(ActivityEntry.COLUMN_EPISODE_ID, episodeId);
+            values.put(ActivityEntry.COLUMN_SERIES_ID, seriesId);
+            values.put(ActivityEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
+            values.put(ActivityEntry.COLUMN_ACTIVITY_TYPE, ActivityType.SKIPPED);
+
+            int rowsDeleted = mContentResolver.delete(
+                    ActivityEntry.CONTENT_URI,
+                    ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
+                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                    new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.WATCHED)}
+            );
+
+            mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
+
+            Uri uri = mContentResolver.insert(ActivityEntry.CONTENT_URI, values);
+
+            if (uri != null) {
+                mLogger.verbose(LOG_TAG, "inserted 1 rows into activity table");
+                return true;
+            } else {
+                mLogger.verbose(LOG_TAG, "failed to insert int activity table");
+                return false;
+            }
+        } else {
+            int rowsDeleted = mContentResolver.delete(
+                    ActivityEntry.CONTENT_URI,
+                    ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
+                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                    new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.SKIPPED)}
             );
             mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
             return true;
@@ -529,17 +614,6 @@ public class EpisodeDaoImpl implements EpisodeDao {
         if (column != -1) {
             episode.getImages().getScreenshot().setThumb(cursor.getString(column));
         }
-
-        /*column = cursor.getColumnIndex(COLUMN_WATCHED);
-        if (column != -1) {
-            //noinspection WrongConstant
-            episode.setWatched(cursor.getInt(column));
-        }
-
-        column = cursor.getColumnIndex(COLUMN_LIKED);
-        if (column != -1) {
-            episode.setLiked(cursor.getInt(column) == 1);
-        }*/
 
         return episode;
     }

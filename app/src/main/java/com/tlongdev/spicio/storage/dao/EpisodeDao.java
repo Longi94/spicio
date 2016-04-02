@@ -80,6 +80,10 @@ public interface EpisodeDao {
      */
     boolean isWatched(int episodeId);
 
+    boolean isSkipped(int episodeId);
+
+    boolean isLiked(int episodeId);
+
     /**
      * Set the watched property of an episode
      *
@@ -103,5 +107,7 @@ public interface EpisodeDao {
      */
     List<Episode> getEpisodeHistory(boolean includeUnwatched);
 
-    boolean setLiked(int seriesId, int traktId, boolean liked);
+    boolean setLiked(int seriesId, int episodeId, boolean liked);
+
+    boolean setSkipped(int seriesId, int episodeId, boolean skipped);
 }

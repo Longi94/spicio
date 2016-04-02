@@ -8,7 +8,6 @@ import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractor
 import com.tlongdev.spicio.domain.interactor.storage.impl.LikeEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadEpisodeDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
-import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.EpisodeView;
 
@@ -64,7 +63,7 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
     }
 
     public void checkEpisode() {
-        int watched = mEpisode.isWatched() == Watched.WATCHED ? Watched.NONE : Watched.WATCHED;
+        boolean watched = !mEpisode.isWatched();
 
         mEpisode.setWatched(watched);
         CheckEpisodeInteractor interactor = new CheckEpisodeInteractorImpl(
@@ -81,13 +80,13 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
     }
 
     public void skipEpisode() {
-        int watched = mEpisode.isWatched() == Watched.SKIPPED ? Watched.NONE : Watched.SKIPPED;
+        boolean watched = !mEpisode.isSkipped();
 
-        mEpisode.setWatched(watched);
+        /*mEpisode.setWatched(watched);
         CheckEpisodeInteractor interactor = new CheckEpisodeInteractorImpl(
                 mApplication, mEpisode.getSeriesId(), mEpisode.getTraktId(), false, this
         );
-        interactor.execute();
+        interactor.execute();*/
     }
 
     @Override
