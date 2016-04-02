@@ -142,8 +142,6 @@ public class DatabaseTest {
         columnHashSet.add(EpisodesEntry.COLUMN_FIRST_AIRED);
         columnHashSet.add(EpisodesEntry.COLUMN_SCREENSHOT_FULL);
         columnHashSet.add(EpisodesEntry.COLUMN_SCREENSHOT_THUMB);
-        columnHashSet.add(EpisodesEntry.COLUMN_WATCHED);
-        columnHashSet.add(EpisodesEntry.COLUMN_LIKED);
 
         columnHashSet.add(EpisodesEntry.COLUMN_TVDB_RATING);
 

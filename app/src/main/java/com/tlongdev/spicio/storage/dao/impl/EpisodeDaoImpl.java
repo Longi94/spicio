@@ -218,13 +218,13 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 "watches." + COLUMN_WATCH_COUNT + ", " +
                 "skips." + COLUMN_SKIP_COUNT +
                 " FROM " + SeasonsEntry.TABLE_NAME +
-                " LEFT JOIN (SELECT " + ActivityEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_WATCH_COUNT +
-                "    FROM " + EpisodesEntry.TABLE_NAME +
-                "    WHERE " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? AND " + EpisodesEntry.TABLE_NAME + "." + COLUMN_WATCHED + " = 1) AS watches " +
+                " LEFT JOIN (SELECT " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_WATCH_COUNT +
+                "    FROM " + ActivityEntry.TABLE_NAME +
+                "    WHERE " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = ? AND " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_ACTIVITY_TYPE + " = " + ActivityType.WATCHED + ") AS watches " +
                 "ON " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = watches." + COLUMN_SERIES_ID +
-                " LEFT JOIN (SELECT " + ActivityEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_SKIP_COUNT +
-                "    FROM " + EpisodesEntry.TABLE_NAME +
-                "    WHERE " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? AND " + EpisodesEntry.TABLE_NAME + "." + COLUMN_WATCHED + " = 2) AS skips " +
+                " LEFT JOIN (SELECT " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_SKIP_COUNT +
+                "    FROM " + ActivityEntry.TABLE_NAME +
+                "    WHERE " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_SERIES_ID + " = ? AND " + ActivityEntry.TABLE_NAME + "." + ActivityEntry.COLUMN_ACTIVITY_TYPE + " = " + ActivityType.SKIPPED + ") AS skips " +
                 "ON " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = skips." + COLUMN_SERIES_ID +
                 " WHERE " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? " +
                 "ORDER BY " + SeasonsEntry.TABLE_NAME + "." + COLUMN_NUMBER + " DESC";
@@ -335,13 +335,9 @@ public class EpisodeDaoImpl implements EpisodeDao {
                                 EpisodesEntry.COLUMN_FIRST_AIRED + ", " +
                                 EpisodesEntry.COLUMN_TVDB_RATING + ", " +
                                 EpisodesEntry.COLUMN_SCREENSHOT_FULL + ", " +
-                                EpisodesEntry.COLUMN_SCREENSHOT_THUMB + ", " +
-                                EpisodesEntry.COLUMN_WATCHED + ", " +
-                                EpisodesEntry.COLUMN_LIKED + ") " +
+                                EpisodesEntry.COLUMN_SCREENSHOT_THUMB + ") " +
 
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-                                " (SELECT watched FROM episodes WHERE trakt_id = ?), " +
-                                " (SELECT liked FROM episodes WHERE trakt_id = ?))",
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                         new String[]{
                                 String.valueOf(episode.getSeriesId()),
                                 String.valueOf(episode.getSeason()),
@@ -584,7 +580,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
             episode.getImages().getScreenshot().setThumb(cursor.getString(column));
         }
 
-        column = cursor.getColumnIndex(COLUMN_WATCHED);
+        /*column = cursor.getColumnIndex(COLUMN_WATCHED);
         if (column != -1) {
             //noinspection WrongConstant
             episode.setWatched(cursor.getInt(column));
@@ -593,7 +589,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
         column = cursor.getColumnIndex(COLUMN_LIKED);
         if (column != -1) {
             episode.setLiked(cursor.getInt(column) == 1);
-        }
+        }*/
 
         return episode;
     }

@@ -95,8 +95,6 @@ public class DatabaseContract {
         public static final String COLUMN_FIRST_AIRED = "trakt_first_aired";
         public static final String COLUMN_SCREENSHOT_FULL = "screenshot_full";
         public static final String COLUMN_SCREENSHOT_THUMB = "screenshot_thumb";
-        public static final String COLUMN_WATCHED = "watched";
-        public static final String COLUMN_LIKED = "liked";
 
         public static final String COLUMN_TVDB_RATING = "tvdb_rating";
 
