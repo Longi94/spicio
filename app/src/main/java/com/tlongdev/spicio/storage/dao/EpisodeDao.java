@@ -103,7 +103,7 @@ public interface EpisodeDao {
      * Get a list of episodes history.
      *
      * @param includeUnwatched whether to include unwatched episodes
-     * @return a list of apisodes
+     * @return a list of episodes
      */
     List<Episode> getEpisodeHistory(boolean includeUnwatched);
 

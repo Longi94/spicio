@@ -105,6 +105,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
 
         updateCheckButton(episode.isWatched());
         updateLikeButton(episode.isLiked());
+        updateSkipButton(episode.isSkipped());
 
         Glide.with(this)
                 .load(episode.getImages().getScreenshot().getThumb())

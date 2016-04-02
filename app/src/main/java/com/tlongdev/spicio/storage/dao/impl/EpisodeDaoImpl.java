@@ -413,7 +413,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
             int rowsDeleted = mContentResolver.delete(
                     ActivityEntry.CONTENT_URI,
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
-                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                            ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
                     new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.SKIPPED)}
             );
 
@@ -432,7 +432,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
             int rowsDeleted = mContentResolver.delete(
                     ActivityEntry.CONTENT_URI,
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
-                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                            ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
                     new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.WATCHED)}
             );
             mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
@@ -473,7 +473,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
             int rowsDeleted = mContentResolver.delete(
                     ActivityEntry.CONTENT_URI,
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
-                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                            ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
                     new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.LIKED)}
             );
             mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
@@ -494,7 +494,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
             int rowsDeleted = mContentResolver.delete(
                     ActivityEntry.CONTENT_URI,
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
-                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                            ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
                     new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.WATCHED)}
             );
 
@@ -513,7 +513,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
             int rowsDeleted = mContentResolver.delete(
                     ActivityEntry.CONTENT_URI,
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
-                            ActivityEntry.COLUMN_EPISODE_ID + " = ?",
+                            ActivityEntry.COLUMN_ACTIVITY_TYPE + " = ?",
                     new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.SKIPPED)}
             );
             mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
