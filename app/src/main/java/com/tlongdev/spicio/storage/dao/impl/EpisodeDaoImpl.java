@@ -268,81 +268,58 @@ public class EpisodeDaoImpl implements EpisodeDao {
 
     @Override
     public int insertAllEpisodes(List<Episode> episodes) {
-
         mLogger.debug(LOG_TAG, "inserting episodes");
 
-        mDatabase.beginTransaction();
-        int returnCount = 0;
-        try {
-            for (Episode episode : episodes) {
+        Vector<ContentValues> cVVector = new Vector<>();
 
-                if (episode.getImages() == null) {
-                    episode.setImages(new Images());
-                }
+        for (Episode episode : episodes) {
+            ContentValues values = new ContentValues();
 
-                if (episode.getImages().getScreenshot() == null) {
-                    episode.getImages().setScreenshot(new Image());
-                }
-
-                long firstAired = -1;
-                if (episode.getFirstAired() != null) {
-                    firstAired = episode.getFirstAired().getMillis();
-                }
-
-                mDatabase.execSQL("INSERT OR REPLACE INTO episodes (" +
-
-                                EpisodesEntry.COLUMN_SERIES_ID + ", " +
-                                EpisodesEntry.COLUMN_SEASON + ", " +
-                                EpisodesEntry.COLUMN_EPISODE_NUMBER + ", " +
-                                EpisodesEntry.COLUMN_TITLE + ", " +
-                                EpisodesEntry.COLUMN_TRAKT_ID + ", " +
-                                EpisodesEntry.COLUMN_TVDB_ID + ", " +
-                                EpisodesEntry.COLUMN_IMDB_ID + ", " +
-                                EpisodesEntry.COLUMN_TMDB_ID + ", " +
-                                EpisodesEntry.COLUMN_TV_RAGE_ID + ", " +
-                                EpisodesEntry.COLUMN_SLUG + ", " +
-                                EpisodesEntry.COLUMN_ABSOLUTE_NUMBER + ", " +
-                                EpisodesEntry.COLUMN_OVERVIEW + ", " +
-                                EpisodesEntry.COLUMN_TRAKT_RATING + ", " +
-                                EpisodesEntry.COLUMN_TRAKT_RATING_COUNT + ", " +
-                                EpisodesEntry.COLUMN_FIRST_AIRED + ", " +
-                                EpisodesEntry.COLUMN_TVDB_RATING + ", " +
-                                EpisodesEntry.COLUMN_SCREENSHOT_FULL + ", " +
-                                EpisodesEntry.COLUMN_SCREENSHOT_THUMB + ") " +
-
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        new String[]{
-                                String.valueOf(episode.getSeriesId()),
-                                String.valueOf(episode.getSeason()),
-                                String.valueOf(episode.getNumber()),
-                                episode.getTitle(),
-                                String.valueOf(episode.getTraktId()),
-                                String.valueOf(episode.getTvdbId()),
-                                episode.getImdbId(),
-                                String.valueOf(episode.getTmdbId()),
-                                String.valueOf(episode.getTvRageId()),
-                                episode.getSlugName(),
-                                String.valueOf(episode.getAbsoluteNumber()),
-                                episode.getOverview(),
-                                String.valueOf(episode.getTraktRating()),
-                                String.valueOf(episode.getTraktRatingCount()),
-                                String.valueOf(firstAired),
-                                null,
-                                episode.getImages().getScreenshot().getFull(),
-                                episode.getImages().getScreenshot().getThumb(),
-                                String.valueOf(episode.getTraktId()),
-                                String.valueOf(episode.getTraktId())
-                        }
-                );
-                returnCount++;
+            if (episode.getImages() == null) {
+                episode.setImages(new Images());
             }
-            mDatabase.setTransactionSuccessful();
-        } finally {
-            mDatabase.endTransaction();
+
+            if (episode.getImages().getScreenshot() == null) {
+                episode.getImages().setScreenshot(new Image());
+            }
+
+            long firstAired = -1;
+            if (episode.getFirstAired() != null) {
+                firstAired = episode.getFirstAired().getMillis();
+            }
+
+            values.put(EpisodesEntry.COLUMN_SERIES_ID, episode.getSeriesId());
+            values.put(EpisodesEntry.COLUMN_SEASON, episode.getSeason());
+            values.put(EpisodesEntry.COLUMN_EPISODE_NUMBER, episode.getNumber());
+            values.put(EpisodesEntry.COLUMN_TITLE, episode.getTitle());
+            values.put(EpisodesEntry.COLUMN_TRAKT_ID, episode.getTraktId());
+            values.put(EpisodesEntry.COLUMN_TVDB_ID, episode.getTvdbId());
+            values.put(EpisodesEntry.COLUMN_IMDB_ID, episode.getImdbId());
+            values.put(EpisodesEntry.COLUMN_TMDB_ID, episode.getTmdbId());
+            values.put(EpisodesEntry.COLUMN_TV_RAGE_ID, episode.getTvRageId());
+            values.put(EpisodesEntry.COLUMN_SLUG, episode.getSlugName());
+            values.put(EpisodesEntry.COLUMN_ABSOLUTE_NUMBER, episode.getAbsoluteNumber());
+            values.put(EpisodesEntry.COLUMN_OVERVIEW, episode.getOverview());
+            values.put(EpisodesEntry.COLUMN_TRAKT_RATING, episode.getTraktRating());
+            values.put(EpisodesEntry.COLUMN_TRAKT_RATING_COUNT, episode.getTraktRatingCount());
+            values.put(EpisodesEntry.COLUMN_FIRST_AIRED, firstAired);
+            values.put(EpisodesEntry.COLUMN_SCREENSHOT_FULL, episode.getImages().getScreenshot().getFull());
+            values.put(EpisodesEntry.COLUMN_SCREENSHOT_THUMB, episode.getImages().getScreenshot().getThumb());
+
+            cVVector.add(values);
         }
 
-        Log.v(LOG_TAG, "inserted " + returnCount + " rows into episodes table");
-        return returnCount;
+        int rowsInserted = 0;
+
+        if (cVVector.size() > 0) {
+            ContentValues[] cvArray = new ContentValues[cVVector.size()];
+            cVVector.toArray(cvArray);
+            //Insert all the data into the database
+            rowsInserted = mContentResolver.bulkInsert(EpisodesEntry.CONTENT_URI, cvArray);
+        }
+
+        Log.v(LOG_TAG, "inserted " + rowsInserted + " rows into episodes table");
+        return rowsInserted;
     }
 
     @Override
