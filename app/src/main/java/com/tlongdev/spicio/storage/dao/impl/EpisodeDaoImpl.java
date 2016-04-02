@@ -60,9 +60,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
             COLUMN_TRAKT_RATING_COUNT,
             COLUMN_FIRST_AIRED,
             COLUMN_SCREENSHOT_FULL,
-            COLUMN_SCREENSHOT_THUMB,
-            COLUMN_WATCHED,
-            COLUMN_LIKED
+            COLUMN_SCREENSHOT_THUMB
     };
 
     public EpisodeDaoImpl(SpicioApplication application) {
@@ -220,11 +218,11 @@ public class EpisodeDaoImpl implements EpisodeDao {
                 "watches." + COLUMN_WATCH_COUNT + ", " +
                 "skips." + COLUMN_SKIP_COUNT +
                 " FROM " + SeasonsEntry.TABLE_NAME +
-                " LEFT JOIN (SELECT " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_WATCH_COUNT +
+                " LEFT JOIN (SELECT " + ActivityEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_WATCH_COUNT +
                 "    FROM " + EpisodesEntry.TABLE_NAME +
                 "    WHERE " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? AND " + EpisodesEntry.TABLE_NAME + "." + COLUMN_WATCHED + " = 1) AS watches " +
                 "ON " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = watches." + COLUMN_SERIES_ID +
-                " LEFT JOIN (SELECT " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_SKIP_COUNT +
+                " LEFT JOIN (SELECT " + ActivityEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + ", count(*) AS " + COLUMN_SKIP_COUNT +
                 "    FROM " + EpisodesEntry.TABLE_NAME +
                 "    WHERE " + EpisodesEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = ? AND " + EpisodesEntry.TABLE_NAME + "." + COLUMN_WATCHED + " = 2) AS skips " +
                 "ON " + SeasonsEntry.TABLE_NAME + "." + COLUMN_SERIES_ID + " = skips." + COLUMN_SERIES_ID +
@@ -412,11 +410,12 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public boolean setWatched(int traktId, boolean watched) {
+    public boolean setWatched(int seriesId, int episodeId, boolean watched) {
         if (watched) {
-            mLogger.debug(LOG_TAG, "saving watched activity to episode: " + traktId);
+            mLogger.debug(LOG_TAG, "saving watched activity to episode: " + episodeId);
             ContentValues values = new ContentValues();
-            values.put(ActivityEntry.COLUMN_EPISODE_ID, traktId);
+            values.put(ActivityEntry.COLUMN_EPISODE_ID, episodeId);
+            values.put(ActivityEntry.COLUMN_SERIES_ID, seriesId);
             values.put(ActivityEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
             values.put(ActivityEntry.COLUMN_ACTIVITY_TYPE, ActivityType.WATCHED);
 
@@ -424,7 +423,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                     ActivityEntry.CONTENT_URI,
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
                             ActivityEntry.COLUMN_EPISODE_ID + " = ?",
-                    new String[]{String.valueOf(traktId), String.valueOf(ActivityType.SKIPPED)}
+                    new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.SKIPPED)}
             );
 
             mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
@@ -443,7 +442,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                     ActivityEntry.CONTENT_URI,
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
                             ActivityEntry.COLUMN_EPISODE_ID + " = ?",
-                    new String[]{String.valueOf(traktId), String.valueOf(ActivityType.WATCHED)}
+                    new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.WATCHED)}
             );
             mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
             return true;
@@ -461,11 +460,12 @@ public class EpisodeDaoImpl implements EpisodeDao {
     }
 
     @Override
-    public boolean setLiked(int traktId, boolean liked) {
-        mLogger.debug(LOG_TAG, "setting 'liked' of episode(" + traktId + ") to " + liked);
+    public boolean setLiked(int seriesId, int episodeId, boolean liked) {
+        mLogger.debug(LOG_TAG, "setting 'liked' of episode(" + episodeId + ") to " + liked);
         if (liked) {
             ContentValues values = new ContentValues();
-            values.put(ActivityEntry.COLUMN_EPISODE_ID, traktId);
+            values.put(ActivityEntry.COLUMN_EPISODE_ID, episodeId);
+            values.put(ActivityEntry.COLUMN_SERIES_ID, seriesId);
             values.put(ActivityEntry.COLUMN_TIMESTAMP, System.currentTimeMillis());
             values.put(ActivityEntry.COLUMN_ACTIVITY_TYPE, ActivityType.LIKED);
 
@@ -483,7 +483,7 @@ public class EpisodeDaoImpl implements EpisodeDao {
                     ActivityEntry.CONTENT_URI,
                     ActivityEntry.COLUMN_EPISODE_ID + " = ? AND " +
                             ActivityEntry.COLUMN_EPISODE_ID + " = ?",
-                    new String[]{String.valueOf(traktId), String.valueOf(ActivityType.LIKED)}
+                    new String[]{String.valueOf(episodeId), String.valueOf(ActivityType.LIKED)}
             );
             mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
             return true;

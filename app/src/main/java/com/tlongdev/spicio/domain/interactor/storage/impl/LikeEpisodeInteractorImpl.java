@@ -19,14 +19,16 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
     @Inject Logger mLogger;
     @Inject EpisodeDao mEpisodeDao;
 
+    private int mSeriesId;
     private int mEpisodeId;
     private boolean mLiked;
     private Callback mCallback;
 
-    public LikeEpisodeInteractorImpl(SpicioApplication application, int episodeId, boolean liked,
-                                     Callback callback) {
+    public LikeEpisodeInteractorImpl(SpicioApplication application, int seriesId, int episodeId,
+                                     boolean liked, Callback callback) {
         super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
+        mSeriesId = seriesId;
         mEpisodeId = episodeId;
         mLiked = liked;
         mCallback = callback;
@@ -36,7 +38,7 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
     public void run() {
         mLogger.debug(LOG_TAG, "started");
 
-        if (mEpisodeDao.setLiked(mEpisodeId, mLiked)) {
+        if (mEpisodeDao.setLiked(mSeriesId, mEpisodeId, mLiked)) {
             postFinish();
         } else {
             mLogger.debug(LOG_TAG, "failed tu updated liked column");

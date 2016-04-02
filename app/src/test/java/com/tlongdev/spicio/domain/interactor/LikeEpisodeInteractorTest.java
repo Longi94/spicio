@@ -57,14 +57,14 @@ public class LikeEpisodeInteractorTest {
     @Test
     public void testCheck(){
 
-        when(mEpisodeDao.setLiked(0, true)).thenReturn(true);
+        when(mEpisodeDao.setLiked(0, 0, true)).thenReturn(true);
 
         LikeEpisodeInteractorImpl interactor = new LikeEpisodeInteractorImpl(
-                mApp, 0, true, mMockedCallback
+                mApp, 0, 0, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).setLiked(0, true);
+        verify(mEpisodeDao).setLiked(0, 0, true);
         verifyNoMoreInteractions(mEpisodeDao);
         verify(mMockedCallback).onEpisodeLikeFinish();
     }
@@ -72,14 +72,14 @@ public class LikeEpisodeInteractorTest {
     @Test
     public void testFail(){
 
-        when(mEpisodeDao.setLiked(0, true)).thenReturn(false);
+        when(mEpisodeDao.setLiked(0, 0, true)).thenReturn(false);
 
         LikeEpisodeInteractorImpl interactor = new LikeEpisodeInteractorImpl(
-                mApp, 0, true, mMockedCallback
+                mApp, 0, 0, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).setLiked(0, true);
+        verify(mEpisodeDao).setLiked(0, 0, true);
         verifyNoMoreInteractions(mEpisodeDao);
         verify(mMockedCallback).onEpisodeLikeFail();
     }

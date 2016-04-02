@@ -68,14 +68,14 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
 
         mEpisode.setWatched(watched);
         CheckEpisodeInteractor interactor = new CheckEpisodeInteractorImpl(
-                mApplication, mEpisode.getTraktId(), true, this
+                mApplication, mEpisode.getSeriesId(), mEpisode.getTraktId(), true, this
         );
         interactor.execute();
     }
 
     public void likeEpisode() {
         LikeEpisodeInteractor interactor = new LikeEpisodeInteractorImpl(
-                mApplication, mEpisode.getTraktId(), !mEpisode.isLiked(), this
+                mApplication, mEpisode.getSeriesId(), mEpisode.getTraktId(), !mEpisode.isLiked(), this
         );
         interactor.execute();
     }
@@ -85,7 +85,7 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
 
         mEpisode.setWatched(watched);
         CheckEpisodeInteractor interactor = new CheckEpisodeInteractorImpl(
-                mApplication, mEpisode.getTraktId(), false, this
+                mApplication, mEpisode.getSeriesId(), mEpisode.getTraktId(), false, this
         );
         interactor.execute();
     }

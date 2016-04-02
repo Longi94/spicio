@@ -57,14 +57,14 @@ public class CheckEpisodeInteractorTest {
     @Test
     public void testCheck(){
 
-        when(mEpisodeDao.setWatched(0, true)).thenReturn(true);
+        when(mEpisodeDao.setWatched(0, 0, true)).thenReturn(true);
 
         CheckEpisodeInteractorImpl interactor = new CheckEpisodeInteractorImpl(
-                mApp, 0, true, mMockedCallback
+                mApp, 0, 0, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).setWatched(0, true);
+        verify(mEpisodeDao).setWatched(0, 0, true);
         verifyNoMoreInteractions(mEpisodeDao);
         verify(mMockedCallback).onEpisodeCheckFinish();
     }
@@ -72,14 +72,14 @@ public class CheckEpisodeInteractorTest {
     @Test
     public void testFail(){
 
-        when(mEpisodeDao.setWatched(0, true)).thenReturn(false);
+        when(mEpisodeDao.setWatched(0, 0, true)).thenReturn(false);
 
         CheckEpisodeInteractorImpl interactor = new CheckEpisodeInteractorImpl(
-                mApp, 0, true, mMockedCallback
+                mApp, 0, 0, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).setWatched(0, true);
+        verify(mEpisodeDao).setWatched(0, 0, true);
         verifyNoMoreInteractions(mEpisodeDao);
         verify(mMockedCallback).onEpisodeCheckFail();
     }

@@ -19,14 +19,16 @@ public class CheckEpisodeInteractorImpl extends AbstractInteractor implements Ch
     @Inject Logger mLogger;
     @Inject EpisodeDao mEpisodeDao;
 
+    private int mSeriesId;
     private int mEpisodeId;
     private boolean mWatched;
     private Callback mCallback;
 
-    public CheckEpisodeInteractorImpl(SpicioApplication application, int episodeId,
+    public CheckEpisodeInteractorImpl(SpicioApplication application, int seriesId, int episodeId,
                                       boolean watched, Callback callback) {
         super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
+        mSeriesId = seriesId;
         mEpisodeId = episodeId;
         mWatched = watched;
         mCallback = callback;
@@ -36,7 +38,7 @@ public class CheckEpisodeInteractorImpl extends AbstractInteractor implements Ch
     public void run() {
         mLogger.debug(LOG_TAG, "started");
 
-        if (mEpisodeDao.setWatched(mEpisodeId, mWatched)) {
+        if (mEpisodeDao.setWatched(mSeriesId, mEpisodeId, mWatched)) {
             postFinish();
         } else {
             mLogger.debug(LOG_TAG, "failed tu updated watched column");

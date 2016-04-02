@@ -189,7 +189,7 @@ public class EpisodeDaoTest {
 
     @Test
     public void testWatched() {
-        assertTrue(mEpisodeDao.setWatched(mEpisode.getTraktId(), true));
+        assertTrue(mEpisodeDao.setWatched(mEpisode.getSeriesId(), mEpisode.getTraktId(), true));
         assertTrue(mEpisodeDao.isWatched(mEpisode.getTraktId()));
 
         Episode episode = mEpisodeDao.getEpisode(mEpisode.getTraktId());
@@ -198,7 +198,7 @@ public class EpisodeDaoTest {
 
     @Test
     public void testLiked() {
-        assertTrue(mEpisodeDao.setLiked(mEpisode.getTraktId(), true));
+        assertTrue(mEpisodeDao.setLiked(mEpisode.getSeriesId(), mEpisode.getTraktId(), true));
 
         Episode episode = mEpisodeDao.getEpisode(mEpisode.getTraktId());
         assertTrue(episode.isLiked());
@@ -206,7 +206,7 @@ public class EpisodeDaoTest {
 
     @Test
     public void testSkipped() {
-        assertTrue(mEpisodeDao.setWatched(mEpisode.getTraktId(), true));
+        assertTrue(mEpisodeDao.setWatched(mEpisode.getSeriesId(), mEpisode.getTraktId(), true));
 
         Episode episode = mEpisodeDao.getEpisode(mEpisode.getTraktId());
         assertEquals(Watched.SKIPPED, episode.isWatched());
