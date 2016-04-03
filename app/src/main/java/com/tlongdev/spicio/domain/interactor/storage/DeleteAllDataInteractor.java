@@ -9,7 +9,5 @@ import com.tlongdev.spicio.domain.interactor.Interactor;
 public interface DeleteAllDataInteractor extends Interactor {
     interface Callback {
         void onFinish();
-
-        void onFail();
     }
 }

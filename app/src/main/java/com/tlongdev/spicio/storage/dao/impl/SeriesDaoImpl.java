@@ -9,7 +9,11 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.storage.DatabaseContract;
+import com.tlongdev.spicio.storage.DatabaseContract.ActivityEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.EpisodesEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.SeasonsEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.SeriesEntry;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
 import com.tlongdev.spicio.util.Logger;
@@ -197,19 +201,22 @@ public class SeriesDaoImpl implements SeriesDao {
     @Override
     public void deleteAllData() {
         int rowsDeleted = mContentResolver.delete(SeriesEntry.CONTENT_URI, null, null);
-        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from series table");
+        mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from series table");
 
-        rowsDeleted = mContentResolver.delete(DatabaseContract.EpisodesEntry.CONTENT_URI, null, null);
-        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from episodes table");
+        rowsDeleted = mContentResolver.delete(EpisodesEntry.CONTENT_URI, null, null);
+        mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from episodes table");
 
-        rowsDeleted = mContentResolver.delete(DatabaseContract.SeasonsEntry.CONTENT_URI, null, null);
-        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from seasons table");
+        rowsDeleted = mContentResolver.delete(SeasonsEntry.CONTENT_URI, null, null);
+        mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from seasons table");
 
-        rowsDeleted = mContentResolver.delete(DatabaseContract.FeedEntry.CONTENT_URI, null, null);
-        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from feed table");
+        rowsDeleted = mContentResolver.delete(FeedEntry.CONTENT_URI, null, null);
+        mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from feed table");
 
-        rowsDeleted = mContentResolver.delete(DatabaseContract.FriendsEntry.CONTENT_URI, null, null);
-        mLogger.debug(LOG_TAG, "deleted " + rowsDeleted + " rows from friends table");
+        rowsDeleted = mContentResolver.delete(FriendsEntry.CONTENT_URI, null, null);
+        mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from friends table");
+
+        rowsDeleted = mContentResolver.delete(ActivityEntry.CONTENT_URI, null, null);
+        mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from activity table");
     }
 
     @SuppressWarnings("WrongConstant")
