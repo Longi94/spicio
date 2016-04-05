@@ -3,9 +3,10 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.GetFullUserDataInteractor;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.model.Series;
+import com.tlongdev.spicio.domain.model.SeriesActivities;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
@@ -21,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -50,6 +52,9 @@ public class GetFullUserDataInteractorTest {
     private List<Series> mSeries;
 
     @Mock
+    private Map<Integer, SeriesActivities> mActivitiesMap;
+
+    @Mock
     private UserFull mUserFull;
 
     @Before
@@ -69,6 +74,7 @@ public class GetFullUserDataInteractorTest {
 
         when(mUserFull.getSeries()).thenReturn(mSeries);
         when(mUserFull.getUser()).thenReturn(mUser);
+        when(mUserFull.getActivities()).thenReturn(mActivitiesMap);
     }
 
     @Test
@@ -82,7 +88,7 @@ public class GetFullUserDataInteractorTest {
 
         verify(mRepository).getUser(1L, true);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onGetFullUserDataFinished(mUser, mSeries);
+        verify(mMockedCallback).onGetFullUserDataFinished(mUser, mSeries, mActivitiesMap);
     }
 
     @Test

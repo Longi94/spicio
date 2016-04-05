@@ -25,7 +25,9 @@ import com.tlongdev.spicio.domain.interactor.spicio.GetFullUserDataInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.SpicioLoginInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioLoginInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.SaveActivitiesInteractor;
 import com.tlongdev.spicio.domain.interactor.storage.SaveSeriesInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SaveActivitiesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
@@ -33,6 +35,7 @@ import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.SeriesActivities;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.LoginView;
 import com.tlongdev.spicio.util.Logger;
@@ -42,6 +45,7 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -49,7 +53,9 @@ import javax.inject.Inject;
  * @author Long
  * @since 2016. 03. 12.
  */
-public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SpicioLoginInteractor.Callback, GetFullUserDataInteractor.Callback, TraktFullSeriesInteractor.Callback, SaveSeriesInteractor.Callback {
+public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, SpicioLoginInteractor.Callback, GetFullUserDataInteractor.Callback,
+        TraktFullSeriesInteractor.Callback, SaveSeriesInteractor.Callback, SaveActivitiesInteractor.Callback {
 
     private static final String LOG_TAG = LoginPresenter.class.getSimpleName();
 
@@ -65,6 +71,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
     private SpicioApplication mApplication;
     private Iterator<Series> mSeriesIterator;
     private Series mCurrentSeries;
+    private Map<Integer, SeriesActivities> mActivities;
 
     public LoginPresenter(SpicioApplication application) {
         application.getPresenterComponent().inject(this);
@@ -217,7 +224,8 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
     }
 
     @Override
-    public void onGetFullUserDataFinished(User user, List<Series> series) {
+    public void onGetFullUserDataFinished(User user, List<Series> series, Map<Integer, SeriesActivities> activities) {
+        mActivities = activities;
         mProfileManager.login(user);
 
         mSeriesIterator = series.iterator();
@@ -267,15 +275,23 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                 mView.updateProgress(mCurrentSeries.getTitle());
             }
         } else {
-            if (mView != null) {
-                mView.hideLoadingAnim();
-                mView.onLogin();
-            }
+            SaveActivitiesInteractor interactor = new SaveActivitiesInteractorImpl(
+                    mApplication, mActivities, this
+            );
+            interactor.execute();
         }
     }
 
     @Override
     public void onSaveSeriesFail() {
 
+    }
+
+    @Override
+    public void onSaveActivitiesFinish() {
+        if (mView != null) {
+            mView.hideLoadingAnim();
+            mView.onLogin();
+        }
     }
 }

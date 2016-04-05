@@ -5,8 +5,10 @@ import android.app.Application;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.storage.dao.SeriesDao;
+import com.tlongdev.spicio.storage.dao.UserDao;
 import com.tlongdev.spicio.storage.dao.impl.EpisodeDaoImpl;
 import com.tlongdev.spicio.storage.dao.impl.SeriesDaoImpl;
+import com.tlongdev.spicio.storage.dao.impl.UserDaoImpl;
 
 import javax.inject.Singleton;
 
@@ -30,5 +32,11 @@ public class DaoModule {
     @Singleton
     EpisodeDao provideEpisodeDao(Application application) {
         return new EpisodeDaoImpl((SpicioApplication) application);
+    }
+
+    @Provides
+    @Singleton
+    UserDao provideUserDao(Application application) {
+        return new UserDaoImpl((SpicioApplication) application);
     }
 }

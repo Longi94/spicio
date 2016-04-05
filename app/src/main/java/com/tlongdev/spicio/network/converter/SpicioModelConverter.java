@@ -5,6 +5,7 @@ import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.SeriesActivities;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
@@ -20,9 +21,11 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * @author Long
@@ -51,12 +54,24 @@ public class SpicioModelConverter {
 
         List<Series> series = new LinkedList<>();
 
+        Map<Integer, SeriesActivities> activitiesMap = new HashMap<>();
+
         for (SpicioSeriesResponse seriesResponse : body.getSeries()) {
             series.add(SpicioModelConverter.convertToSeries(seriesResponse));
-        }
-        userFull.setSeries(series);
 
+            if (seriesResponse.getUserEpisodes() != null) {
+                SeriesActivities activities = new SeriesActivities();
+                activities.getWatched().putAll(seriesResponse.getUserEpisodes().getWatched());
+                activities.getSkipped().putAll(seriesResponse.getUserEpisodes().getSkipped());
+                activities.getLiked().putAll(seriesResponse.getUserEpisodes().getLiked());
+                activitiesMap.put(seriesResponse.getTraktId(), activities);
+            }
+        }
+
+        userFull.setSeries(series);
         userFull.setUser(user);
+        userFull.setActivities(activitiesMap);
+
         return userFull;
     }
 

@@ -5,11 +5,13 @@ import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.GetFullUserDataInteractor;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.SeriesActivities;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.util.Logger;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -40,7 +42,7 @@ public class GetFullUserDataInteractorImpl extends AbstractInteractor implements
         UserFull user = mRepository.getUser(mId, true);
 
         if (user != null) {
-            postFinish(user.getUser(), user.getSeries());
+            postFinish(user.getUser(), user.getSeries(), user.getActivities());
         } else {
             postFail();
         }
@@ -48,12 +50,12 @@ public class GetFullUserDataInteractorImpl extends AbstractInteractor implements
         mLogger.verbose(LOG_TAG, "ended");
     }
 
-    void postFinish(final User user, final List<Series> series) {
+    void postFinish(final User user, final List<Series> series, final Map<Integer, SeriesActivities> activities) {
         if (mCallback != null) {
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onGetFullUserDataFinished(user, series);
+                    mCallback.onGetFullUserDataFinished(user, series, activities);
                 }
             });
         }
