@@ -37,4 +37,7 @@ public interface SpicioInterface {
 
     @POST("users/{id}/series")
     Call<Void> addSeries(@Path("id") long id, @Body SpicioSeriesBody series);
+
+    @POST("users/{id}/series/{seriesId}/episodes")
+    Call<Void> addEpisode(@Path("id") long id, @Path("seriesId") int seriesId);
 }
