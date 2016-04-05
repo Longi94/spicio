@@ -15,7 +15,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Episode;
-import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.presentation.presenter.fragment.EpisodePresenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.EpisodeView;
 
@@ -106,6 +105,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
 
         updateCheckButton(episode.isWatched());
         updateLikeButton(episode.isLiked());
+        updateSkipButton(episode.isSkipped());
 
         Glide.with(this)
                 .load(episode.getImages().getScreenshot().getThumb())
@@ -134,26 +134,18 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
     }
 
     @Override
-    public void updateCheckButton(@Watched.Enum int watched) {
-        switch (watched) {
-            case Watched.NONE:
-                mSkip.setImageResource(R.drawable.ic_skip_gray);
-                mCheck.setImageResource(R.drawable.ic_check_gray);
-                break;
-            case Watched.SKIPPED:
-                mSkip.setImageResource(R.drawable.ic_skip_blue);
-                mCheck.setImageResource(R.drawable.ic_check_gray);
-                break;
-            case Watched.WATCHED:
-                mSkip.setImageResource(R.drawable.ic_skip_gray);
-                mCheck.setImageResource(R.drawable.ic_check_green);
-                break;
-        }
+    public void updateLikeButton(boolean liked) {
+        mLike.setImageResource(liked ? R.drawable.ic_heart_red : R.drawable.ic_heart_gray);
     }
 
     @Override
-    public void updateLikeButton(boolean liked) {
-        mLike.setImageResource(liked ? R.drawable.ic_heart_red : R.drawable.ic_heart_gray);
+    public void updateCheckButton(boolean watched) {
+        mCheck.setImageResource(watched ? R.drawable.ic_check_green : R.drawable.ic_check_gray);
+    }
+
+    @Override
+    public void updateSkipButton(boolean skipped) {
+        mSkip.setImageResource(skipped ? R.drawable.ic_skip_blue : R.drawable.ic_skip_gray);
     }
 
     /*public void update() {

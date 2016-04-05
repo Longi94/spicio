@@ -3,7 +3,6 @@ package com.tlongdev.spicio.domain.interactor.storage.impl;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.storage.CheckEpisodeInteractor;
-import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.util.Logger;
 
@@ -20,14 +19,16 @@ public class CheckEpisodeInteractorImpl extends AbstractInteractor implements Ch
     @Inject Logger mLogger;
     @Inject EpisodeDao mEpisodeDao;
 
+    private int mSeriesId;
     private int mEpisodeId;
-    private int mWatched;
+    private boolean mWatched;
     private Callback mCallback;
 
-    public CheckEpisodeInteractorImpl(SpicioApplication application, int episodeId,
-                                      @Watched.Enum int watched, Callback callback) {
+    public CheckEpisodeInteractorImpl(SpicioApplication application, int seriesId, int episodeId,
+                                      boolean watched, Callback callback) {
         super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
+        mSeriesId = seriesId;
         mEpisodeId = episodeId;
         mWatched = watched;
         mCallback = callback;
@@ -37,12 +38,11 @@ public class CheckEpisodeInteractorImpl extends AbstractInteractor implements Ch
     public void run() {
         mLogger.debug(LOG_TAG, "started");
 
-        int rowsUpdated = mEpisodeDao.setWatched(mEpisodeId, mWatched);
-        if (rowsUpdated == 0) {
+        if (mEpisodeDao.setWatched(mSeriesId, mEpisodeId, mWatched)) {
+            postFinish();
+        } else {
             mLogger.debug(LOG_TAG, "failed tu updated watched column");
             postError();
-        } else {
-            postFinish();
         }
 
         mLogger.debug(LOG_TAG, "ended");

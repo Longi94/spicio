@@ -142,9 +142,4 @@ public class SettingsPresenter implements Presenter<SettingsView>,DeleteAllDataI
             mView.startLoginActivity();
         }
     }
-
-    @Override
-    public void onFail() {
-
-    }
 }

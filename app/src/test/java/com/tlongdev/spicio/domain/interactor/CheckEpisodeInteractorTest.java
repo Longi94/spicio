@@ -3,9 +3,8 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.CheckEpisodeInteractor;
-import com.tlongdev.spicio.domain.model.Watched;
+import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
@@ -58,14 +57,14 @@ public class CheckEpisodeInteractorTest {
     @Test
     public void testCheck(){
 
-        when(mEpisodeDao.setWatched(0, Watched.WATCHED)).thenReturn(1);
+        when(mEpisodeDao.setWatched(0, 0, true)).thenReturn(true);
 
         CheckEpisodeInteractorImpl interactor = new CheckEpisodeInteractorImpl(
-                mApp, 0, Watched.WATCHED, mMockedCallback
+                mApp, 0, 0, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).setWatched(0, Watched.WATCHED);
+        verify(mEpisodeDao).setWatched(0, 0, true);
         verifyNoMoreInteractions(mEpisodeDao);
         verify(mMockedCallback).onEpisodeCheckFinish();
     }
@@ -73,14 +72,14 @@ public class CheckEpisodeInteractorTest {
     @Test
     public void testFail(){
 
-        when(mEpisodeDao.setWatched(0, Watched.WATCHED)).thenReturn(0);
+        when(mEpisodeDao.setWatched(0, 0, true)).thenReturn(false);
 
         CheckEpisodeInteractorImpl interactor = new CheckEpisodeInteractorImpl(
-                mApp, 0, Watched.WATCHED, mMockedCallback
+                mApp, 0, 0, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).setWatched(0, Watched.WATCHED);
+        verify(mEpisodeDao).setWatched(0, 0, true);
         verifyNoMoreInteractions(mEpisodeDao);
         verify(mMockedCallback).onEpisodeCheckFail();
     }

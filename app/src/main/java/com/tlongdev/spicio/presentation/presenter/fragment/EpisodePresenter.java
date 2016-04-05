@@ -4,11 +4,12 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.storage.CheckEpisodeInteractor;
 import com.tlongdev.spicio.domain.interactor.storage.LikeEpisodeInteractor;
 import com.tlongdev.spicio.domain.interactor.storage.LoadEpisodeDetailsInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.SkipEpisodeInteractor;
 import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LikeEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadEpisodeDetailsInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SkipEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
-import com.tlongdev.spicio.domain.model.Watched;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.EpisodeView;
 
@@ -18,7 +19,7 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.EpisodeView;
  */
 public class EpisodePresenter implements Presenter<EpisodeView>,
         LoadEpisodeDetailsInteractor.Callback, CheckEpisodeInteractor.Callback,
-        LikeEpisodeInteractor.Callback {
+        LikeEpisodeInteractor.Callback, SkipEpisodeInteractor.Callback {
 
     private EpisodeView mView;
 
@@ -64,36 +65,33 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
     }
 
     public void checkEpisode() {
-        int watched = mEpisode.isWatched() == Watched.WATCHED ? Watched.NONE : Watched.WATCHED;
-
-        mEpisode.setWatched(watched);
         CheckEpisodeInteractor interactor = new CheckEpisodeInteractorImpl(
-                mApplication, mEpisode.getTraktId(), watched, this
+                mApplication, mEpisode.getSeriesId(), mEpisode.getTraktId(), !mEpisode.isWatched(), this
         );
         interactor.execute();
     }
 
     public void likeEpisode() {
         LikeEpisodeInteractor interactor = new LikeEpisodeInteractorImpl(
-                mApplication, mEpisode.getTraktId(), !mEpisode.isLiked(), this
+                mApplication, mEpisode.getSeriesId(), mEpisode.getTraktId(), !mEpisode.isLiked(), this
         );
         interactor.execute();
     }
 
     public void skipEpisode() {
-        int watched = mEpisode.isWatched() == Watched.SKIPPED ? Watched.NONE : Watched.SKIPPED;
-
-        mEpisode.setWatched(watched);
-        CheckEpisodeInteractor interactor = new CheckEpisodeInteractorImpl(
-                mApplication, mEpisode.getTraktId(), watched, this
+        SkipEpisodeInteractor interactor = new SkipEpisodeInteractorImpl(
+                mApplication, mEpisode.getSeriesId(), mEpisode.getTraktId(), !mEpisode.isSkipped(), this
         );
         interactor.execute();
     }
 
     @Override
     public void onEpisodeCheckFinish() {
+        mEpisode.setWatched(!mEpisode.isWatched());
+        mEpisode.setSkipped(false);
         if (mView != null) {
             mView.updateCheckButton(mEpisode.isWatched());
+            mView.updateSkipButton(false);
         }
     }
 
@@ -112,6 +110,21 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
 
     @Override
     public void onEpisodeLikeFail() {
+
+    }
+
+    @Override
+    public void onEpisodeSkipFinish() {
+        mEpisode.setSkipped(!mEpisode.isSkipped());
+        mEpisode.setWatched(false);
+        if (mView != null) {
+            mView.updateSkipButton(mEpisode.isSkipped());
+            mView.updateCheckButton(false);
+        }
+    }
+
+    @Override
+    public void onEpisodeSkipFail() {
 
     }
 }

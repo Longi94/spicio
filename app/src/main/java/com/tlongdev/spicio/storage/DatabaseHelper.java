@@ -76,8 +76,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 EpisodesEntry.COLUMN_TVDB_RATING + " REAL, " +
                 EpisodesEntry.COLUMN_SCREENSHOT_FULL + " TEXT, " +
                 EpisodesEntry.COLUMN_SCREENSHOT_THUMB + " TEXT, " +
-                EpisodesEntry.COLUMN_WATCHED + " INTEGER NOT NULL DEFAULT 0, " +
-                EpisodesEntry.COLUMN_LIKED + " INTEGER NOT NULL DEFAULT 0, " +
 
                 "UNIQUE (" + EpisodesEntry.COLUMN_TRAKT_ID + ") ON CONFLICT REPLACE," +
                 "UNIQUE (" + EpisodesEntry.COLUMN_SERIES_ID + ", " + EpisodesEntry.COLUMN_SEASON +
@@ -99,12 +97,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 ActivityEntry.COLUMN_ACTIVITY_TYPE + " INTEGER NOT NULL, " +
                 ActivityEntry.COLUMN_TIMESTAMP + " INTEGER NOT NULL, " +
-                ActivityEntry.COLUMN_SERIES_ID + " INTEGER NOT NULL, " +
-                ActivityEntry.COLUMN_SEASON_NUMBER + " INTEGER, " +
-                ActivityEntry.COLUMN_EPISODE_NUMBER + " INTEGER, " +
+                ActivityEntry.COLUMN_SERIES_ID + " INTEGER, " +
+                ActivityEntry.COLUMN_EPISODE_ID + " INTEGER, " +
 
-                "UNIQUE (" + ActivityEntry.COLUMN_ACTIVITY_TYPE + ", " + ActivityEntry.COLUMN_SERIES_ID +
-                ActivityEntry.COLUMN_SEASON_NUMBER + ", " + ActivityEntry.COLUMN_EPISODE_NUMBER + ") ON CONFLICT REPLACE);";
+                "UNIQUE (" + ActivityEntry.COLUMN_ACTIVITY_TYPE + ", " + ActivityEntry.COLUMN_SERIES_ID + ", " +
+                ActivityEntry.COLUMN_EPISODE_ID + ") ON CONFLICT REPLACE);";
 
         final String SQL_CREATE_FEED_TABLE = "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
                 FeedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

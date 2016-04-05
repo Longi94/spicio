@@ -2,35 +2,35 @@ package com.tlongdev.spicio.domain.interactor.storage.impl;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
-import com.tlongdev.spicio.domain.interactor.storage.LikeEpisodeInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.SkipEpisodeInteractor;
 import com.tlongdev.spicio.storage.dao.EpisodeDao;
 import com.tlongdev.spicio.util.Logger;
 
 import javax.inject.Inject;
 
 /**
- * @author Long
- * @since 2016. 03. 11.
+ * @author longi
+ * @since 2016.04.02.
  */
-public class LikeEpisodeInteractorImpl extends AbstractInteractor implements LikeEpisodeInteractor {
+public class SkipEpisodeInteractorImpl extends AbstractInteractor implements SkipEpisodeInteractor {
 
-    private static final String LOG_TAG = LikeEpisodeInteractorImpl.class.getSimpleName();
+    private static final String LOG_TAG = SkipEpisodeInteractorImpl.class.getSimpleName();
 
     @Inject Logger mLogger;
     @Inject EpisodeDao mEpisodeDao;
 
     private int mSeriesId;
     private int mEpisodeId;
-    private boolean mLiked;
+    private boolean mSkipped;
     private Callback mCallback;
 
-    public LikeEpisodeInteractorImpl(SpicioApplication application, int seriesId, int episodeId,
-                                     boolean liked, Callback callback) {
+    public SkipEpisodeInteractorImpl(SpicioApplication application, int seriesId, int episodeId,
+                                     boolean skipped, Callback callback) {
         super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
         mSeriesId = seriesId;
         mEpisodeId = episodeId;
-        mLiked = liked;
+        mSkipped = skipped;
         mCallback = callback;
     }
 
@@ -38,10 +38,10 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
     public void run() {
         mLogger.debug(LOG_TAG, "started");
 
-        if (mEpisodeDao.setLiked(mSeriesId, mEpisodeId, mLiked)) {
+        if (mEpisodeDao.setSkipped(mSeriesId, mEpisodeId, mSkipped)) {
             postFinish();
         } else {
-            mLogger.debug(LOG_TAG, "failed tu updated liked column");
+            mLogger.debug(LOG_TAG, "failed tu updated watched column");
             postError();
         }
 
@@ -53,7 +53,7 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onEpisodeLikeFail();
+                    mCallback.onEpisodeSkipFail();
                 }
             });
         }
@@ -63,7 +63,7 @@ public class LikeEpisodeInteractorImpl extends AbstractInteractor implements Lik
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onEpisodeLikeFinish();
+                    mCallback.onEpisodeSkipFinish();
                 }
             });
         }

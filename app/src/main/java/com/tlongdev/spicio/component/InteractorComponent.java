@@ -18,6 +18,7 @@ import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeasonsInteractorI
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SkipEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktSearchInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktSeasonEpisodesInteractorImpl;
@@ -79,6 +80,8 @@ public interface InteractorComponent {
     void inject(SearchUsersInteractorImpl searchUsersInteractor);
 
     void inject(AddSeriesInteractorImpl addSeriesInteractor);
+
+    void inject(SkipEpisodeInteractorImpl skipEpisodeInteractor);
 
     void inject(SpicioSkipEpisodeInteractorImpl spicioSkipEpisodeInteractor);
 

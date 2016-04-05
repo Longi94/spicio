@@ -3,8 +3,8 @@ package com.tlongdev.spicio.domain.interactor;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
-import com.tlongdev.spicio.domain.interactor.storage.impl.LikeEpisodeInteractorImpl;
-import com.tlongdev.spicio.domain.interactor.storage.LikeEpisodeInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.SkipEpisodeInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SkipEpisodeInteractorImpl;
 import com.tlongdev.spicio.module.FakeAppModule;
 import com.tlongdev.spicio.module.FakeDaoModule;
 import com.tlongdev.spicio.module.FakeNetworkRepositoryModule;
@@ -22,17 +22,17 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
- * @author Long
- * @since 2016. 03. 11.
+ * @author longi
+ * @since 2016.04.02.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class LikeEpisodeInteractorTest {
+public class SkipEpisodeInteractorTest {
 
     @Mock
     private EpisodeDao mEpisodeDao;
 
     @Mock
-    private LikeEpisodeInteractor.Callback mMockedCallback;
+    private SkipEpisodeInteractor.Callback mMockedCallback;
 
     @Mock
     private SpicioApplication mApp;
@@ -57,30 +57,30 @@ public class LikeEpisodeInteractorTest {
     @Test
     public void testCheck(){
 
-        when(mEpisodeDao.setLiked(0, 0, true)).thenReturn(true);
+        when(mEpisodeDao.setSkipped(0, 0, true)).thenReturn(true);
 
-        LikeEpisodeInteractorImpl interactor = new LikeEpisodeInteractorImpl(
+        SkipEpisodeInteractorImpl interactor = new SkipEpisodeInteractorImpl(
                 mApp, 0, 0, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).setLiked(0, 0, true);
+        verify(mEpisodeDao).setSkipped(0, 0, true);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onEpisodeLikeFinish();
+        verify(mMockedCallback).onEpisodeSkipFinish();
     }
 
     @Test
     public void testFail(){
 
-        when(mEpisodeDao.setLiked(0, 0, true)).thenReturn(false);
+        when(mEpisodeDao.setSkipped(0, 0, true)).thenReturn(false);
 
-        LikeEpisodeInteractorImpl interactor = new LikeEpisodeInteractorImpl(
+        SkipEpisodeInteractorImpl interactor = new SkipEpisodeInteractorImpl(
                 mApp, 0, 0, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mEpisodeDao).setLiked(0, 0, true);
+        verify(mEpisodeDao).setSkipped(0, 0, true);
         verifyNoMoreInteractions(mEpisodeDao);
-        verify(mMockedCallback).onEpisodeLikeFail();
+        verify(mMockedCallback).onEpisodeSkipFail();
     }
 }
