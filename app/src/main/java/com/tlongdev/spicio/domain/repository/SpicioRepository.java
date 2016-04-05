@@ -23,9 +23,9 @@ public interface SpicioRepository {
 
     boolean addSeries(long userId, Series series);
 
-    boolean checkEpisode(long userId, int seriesId, Episode episode);
+    boolean checkEpisode(long userId, int seriesId, Episode episode, boolean checked);
 
-    boolean skipEpisode(long userId, int seriesId, Episode episode);
+    boolean skipEpisode(long userId, int seriesId, Episode episode, boolean skipped);
 
-    boolean likeEpisode(long userId, int seriesId, Episode episode);
+    boolean likeEpisode(long userId, int seriesId, Episode episode, boolean liked);
 }

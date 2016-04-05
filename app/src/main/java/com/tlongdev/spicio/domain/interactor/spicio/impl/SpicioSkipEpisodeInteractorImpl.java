@@ -22,20 +22,23 @@ public class SpicioSkipEpisodeInteractorImpl extends AbstractInteractor implemen
 
     private long mUserId;
     private Episode mEpisode;
+    private boolean mSkipped;
     private Callback mCallback;
 
-    public SpicioSkipEpisodeInteractorImpl(SpicioApplication application, long userId, Episode episode, Callback callback) {
+    public SpicioSkipEpisodeInteractorImpl(SpicioApplication application, long userId,
+                                           Episode episode, boolean skipped, Callback callback) {
         super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
         mUserId = userId;
         mEpisode = episode;
+        mSkipped = skipped;
         mCallback = callback;
     }
 
     @Override
     public void run() {
         mLogger.verbose(LOG_TAG, "started");
-        if (mRepository.skipEpisode(mUserId, mEpisode.getSeriesId(), mEpisode)) {
+        if (mRepository.skipEpisode(mUserId, mEpisode.getSeriesId(), mEpisode, mSkipped)) {
             postSuccess();
         } else {
             postFail();

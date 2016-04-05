@@ -140,12 +140,12 @@ public class SpicioRepositoryImpl implements SpicioRepository {
     }
 
     @Override
-    public boolean checkEpisode(long userId, int seriesId, Episode episode) {
+    public boolean checkEpisode(long userId, int seriesId, Episode episode, boolean checked) {
         try {
             SpicioEpisodeBody body = SpicioModelConverter.convertToEpisodeBody(episode);
-            body.setWatched(true);
 
-            Call<Void> call = mInterface.addEpisode(userId, seriesId, body);
+            Call<Void> call = checked ? mInterface.checkEpisode(userId, seriesId, body) :
+                    mInterface.unCheckEpisode(userId, seriesId, episode.getTraktId());
 
             mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<Void> response = call.execute();
@@ -163,12 +163,12 @@ public class SpicioRepositoryImpl implements SpicioRepository {
     }
 
     @Override
-    public boolean skipEpisode(long userId, int seriesId, Episode episode) {
+    public boolean skipEpisode(long userId, int seriesId, Episode episode, boolean skipped) {
         try {
             SpicioEpisodeBody body = SpicioModelConverter.convertToEpisodeBody(episode);
-            body.setSkipped(true);
 
-            Call<Void> call = mInterface.addEpisode(userId, seriesId, body);
+            Call<Void> call = skipped ? mInterface.skipEpisode(userId, seriesId, body) :
+                    mInterface.unSkipEpisode(userId, seriesId, episode.getTraktId());
 
             mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<Void> response = call.execute();
@@ -186,12 +186,12 @@ public class SpicioRepositoryImpl implements SpicioRepository {
     }
 
     @Override
-    public boolean likeEpisode(long userId, int seriesId, Episode episode) {
+    public boolean likeEpisode(long userId, int seriesId, Episode episode, boolean liked) {
         try {
             SpicioEpisodeBody body = SpicioModelConverter.convertToEpisodeBody(episode);
-            body.setLiked(true);
 
-            Call<Void> call = mInterface.addEpisode(userId, seriesId, body);
+            Call<Void> call = liked ? mInterface.likeEpisode(userId, seriesId, body) :
+                    mInterface.unLikeEpisode(userId, seriesId, episode.getTraktId());
 
             mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
             Response<Void> response = call.execute();

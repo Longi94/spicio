@@ -62,28 +62,28 @@ public class SpicioSkipEpisodeInteractorTest {
 
     @Test
     public void testSuccess() {
-        when(mRepository.skipEpisode(1L, 1, mEpisode)).thenReturn(true);
+        when(mRepository.skipEpisode(1L, 1, mEpisode, true)).thenReturn(true);
 
         SpicioSkipEpisodeInteractorImpl interactor = new SpicioSkipEpisodeInteractorImpl(
-                mApp, 1L, mEpisode, mMockedCallback
+                mApp, 1L, mEpisode, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).skipEpisode(1L, 1, mEpisode);
+        verify(mRepository).skipEpisode(1L, 1, mEpisode, true);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onSpicioSkipFinish();
     }
 
     @Test
     public void testFail() {
-        when(mRepository.skipEpisode(1L, 1, mEpisode)).thenReturn(false);
+        when(mRepository.skipEpisode(1L, 1, mEpisode, true)).thenReturn(false);
 
         SpicioSkipEpisodeInteractorImpl interactor = new SpicioSkipEpisodeInteractorImpl(
-                mApp, 1L, mEpisode, mMockedCallback
+                mApp, 1L, mEpisode, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).skipEpisode(1L, 1, mEpisode);
+        verify(mRepository).skipEpisode(1L, 1, mEpisode, true);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onSpicioSkipFail();
     }

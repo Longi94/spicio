@@ -84,7 +84,7 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
         mLogger.verbose(LOG_TAG, "sending check to server...");
         mView.showLoadingDialog();
         SpicioCheckEpisodeInteractor interactor = new SpicioCheckEpisodeInteractorImpl(
-                mApplication, mProfileManager.getId(), mEpisode, this
+                mApplication, mProfileManager.getId(), mEpisode, !mEpisode.isWatched(), this
         );
         interactor.execute();
     }
@@ -93,7 +93,7 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
         mLogger.verbose(LOG_TAG, "sending like to server...");
         mView.showLoadingDialog();
         SpicioLikeEpisodeInteractor interactor = new SpicioLikeEpisodeInteractorImpl(
-                mApplication, mProfileManager.getId(), mEpisode, this
+                mApplication, mProfileManager.getId(), mEpisode, !mEpisode.isLiked(), this
         );
         interactor.execute();
     }
@@ -102,7 +102,7 @@ public class EpisodePresenter implements Presenter<EpisodeView>,
         mLogger.verbose(LOG_TAG, "sending skip to server...");
         mView.showLoadingDialog();
         SpicioSkipEpisodeInteractor interactor = new SpicioSkipEpisodeInteractorImpl(
-                mApplication, mProfileManager.getId(), mEpisode, this
+                mApplication, mProfileManager.getId(), mEpisode, !mEpisode.isSkipped(), this
         );
         interactor.execute();
     }

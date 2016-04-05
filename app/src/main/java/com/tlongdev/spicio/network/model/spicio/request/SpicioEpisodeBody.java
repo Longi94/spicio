@@ -21,12 +21,6 @@ public class SpicioEpisodeBody {
 
     private Long timestamp;
 
-    private boolean watched;
-
-    private boolean skipped;
-
-    private boolean liked;
-
     public Integer getSeason() {
         return season;
     }
@@ -41,18 +35,6 @@ public class SpicioEpisodeBody {
 
     public Integer getTraktId() {
         return traktId;
-    }
-
-    public Boolean isWatched() {
-        return watched;
-    }
-
-    public Boolean isLiked() {
-        return liked;
-    }
-
-    public Boolean isSkipped() {
-        return skipped;
     }
 
     public String getThumb() {
@@ -85,17 +67,5 @@ public class SpicioEpisodeBody {
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public void setWatched(boolean watched) {
-        this.watched = watched;
-    }
-
-    public void setSkipped(boolean skipped) {
-        this.skipped = skipped;
-    }
-
-    public void setLiked(boolean liked) {
-        this.liked = liked;
     }
 }

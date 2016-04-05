@@ -22,20 +22,23 @@ public class SpicioCheckEpisodeInteractorImpl extends AbstractInteractor impleme
 
     private long mUserId;
     private Episode mEpisode;
+    private boolean mChecked;
     private Callback mCallback;
 
-    public SpicioCheckEpisodeInteractorImpl(SpicioApplication application, long userId, Episode episode, Callback callback) {
+    public SpicioCheckEpisodeInteractorImpl(SpicioApplication application, long userId,
+                                            Episode episode, boolean checked, Callback callback) {
         super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
         mUserId = userId;
         mEpisode = episode;
+        mChecked = checked;
         mCallback = callback;
     }
 
     @Override
     public void run() {
         mLogger.verbose(LOG_TAG, "started");
-        if (mRepository.checkEpisode(mUserId, mEpisode.getSeriesId(), mEpisode)) {
+        if (mRepository.checkEpisode(mUserId, mEpisode.getSeriesId(), mEpisode, mChecked)) {
             postSuccess();
         } else {
             postFail();

@@ -22,20 +22,23 @@ public class SpicioLikeEpisodeInteractorImpl extends AbstractInteractor implemen
 
     private long mUserId;
     private Episode mEpisode;
+    private boolean mLiked;
     private Callback mCallback;
 
-    public SpicioLikeEpisodeInteractorImpl(SpicioApplication application, long userId, Episode episode, Callback callback) {
+    public SpicioLikeEpisodeInteractorImpl(SpicioApplication application, long userId,
+                                           Episode episode, boolean liked, Callback callback) {
         super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
         mUserId = userId;
         mEpisode = episode;
+        mLiked = liked;
         mCallback = callback;
     }
 
     @Override
     public void run() {
         mLogger.verbose(LOG_TAG, "started");
-        if (mRepository.likeEpisode(mUserId, mEpisode.getSeriesId(), mEpisode)) {
+        if (mRepository.likeEpisode(mUserId, mEpisode.getSeriesId(), mEpisode, mLiked)) {
             postSuccess();
         } else {
             postFail();

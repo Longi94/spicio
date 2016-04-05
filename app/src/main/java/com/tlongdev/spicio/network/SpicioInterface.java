@@ -39,6 +39,21 @@ public interface SpicioInterface {
     @POST("users/{id}/series")
     Call<Void> addSeries(@Path("id") long id, @Body SpicioSeriesBody series);
 
-    @POST("users/{id}/series/{seriesId}/episodes")
-    Call<Void> addEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Body SpicioEpisodeBody episode);
+    @POST("users/{id}/series/{seriesId}/episodes/checks")
+    Call<Void> checkEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Body SpicioEpisodeBody episode);
+
+    @POST("users/{id}/series/{seriesId}/episodes/skips")
+    Call<Void> skipEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Body SpicioEpisodeBody episode);
+
+    @POST("users/{id}/series/{seriesId}/episodes/likes")
+    Call<Void> likeEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Body SpicioEpisodeBody episode);
+
+    @DELETE("users/{id}/series/{seriesId}/episodes/checks/{episodeId}")
+    Call<Void> unCheckEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Path("episodeId") int episodeId);
+
+    @DELETE("users/{id}/series/{seriesId}/episodes/skips/{episodeId}")
+    Call<Void> unSkipEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Path("episodeId") int episodeId);
+
+    @DELETE("users/{id}/series/{seriesId}/episodes/likes/{episodeId}")
+    Call<Void> unLikeEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Path("episodeId") int episodeId);
 }

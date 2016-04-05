@@ -62,28 +62,28 @@ public class SpicioLikeEpisodeInteractorTest {
 
     @Test
     public void testSuccess() {
-        when(mRepository.likeEpisode(1L, 1, mEpisode)).thenReturn(true);
+        when(mRepository.likeEpisode(1L, 1, mEpisode, true)).thenReturn(true);
 
         SpicioLikeEpisodeInteractorImpl interactor = new SpicioLikeEpisodeInteractorImpl(
-                mApp, 1L, mEpisode, mMockedCallback
+                mApp, 1L, mEpisode, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).likeEpisode(1L, 1, mEpisode);
+        verify(mRepository).likeEpisode(1L, 1, mEpisode, true);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onSpicioLikeFinish();
     }
 
     @Test
     public void testFail() {
-        when(mRepository.likeEpisode(1L, 1, mEpisode)).thenReturn(false);
+        when(mRepository.likeEpisode(1L, 1, mEpisode, true)).thenReturn(false);
 
         SpicioLikeEpisodeInteractorImpl interactor = new SpicioLikeEpisodeInteractorImpl(
-                mApp, 1L, mEpisode, mMockedCallback
+                mApp, 1L, mEpisode, true, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).likeEpisode(1L, 1, mEpisode);
+        verify(mRepository).likeEpisode(1L, 1, mEpisode, true);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onSpicioLikeFail();
     }
