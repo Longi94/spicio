@@ -6,6 +6,7 @@ import com.tlongdev.spicio.presentation.presenter.activity.LoginPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.SeriesPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.SeriesSearchDetailsPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.SettingsPresenter;
+import com.tlongdev.spicio.presentation.presenter.fragment.EpisodePresenter;
 
 import javax.inject.Singleton;
 
@@ -25,4 +26,6 @@ public interface PresenterComponent {
     void inject(SeriesSearchDetailsPresenter seriesSearchDetailsPresenter);
 
     void inject(SeriesPresenter seriesPresenter);
+
+    void inject(EpisodePresenter episodePresenter);
 }

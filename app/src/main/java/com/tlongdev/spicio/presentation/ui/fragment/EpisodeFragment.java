@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.presentation.ui.fragment;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,6 +45,8 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
     @Bind(R.id.check) ImageView mCheck;
     @Bind(R.id.like) ImageView mLike;
     @Bind(R.id.skip) ImageView mSkip;
+
+    private ProgressDialog mLoadingDialog;
 
     private int mEpisodeId;
 
@@ -148,7 +151,15 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
         mSkip.setImageResource(skipped ? R.drawable.ic_skip_blue : R.drawable.ic_skip_gray);
     }
 
-    /*public void update() {
-        mPresenter.loadEpisode(mEpisodeId);
-    }*/
+    @Override
+    public void showLoadingDialog() {
+        mLoadingDialog = ProgressDialog.show(getActivity(), null, "Sending to server...", true, false);
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+        if (mLoadingDialog != null) {
+            mLoadingDialog.dismiss();
+        }
+    }
 }

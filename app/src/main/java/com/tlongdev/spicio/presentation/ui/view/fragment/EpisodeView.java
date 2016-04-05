@@ -17,4 +17,8 @@ public interface EpisodeView extends BaseView {
     void updateSkipButton(boolean skipped);
 
     void updateLikeButton(boolean liked);
+
+    void showLoadingDialog();
+
+    void dismissLoadingDialog();
 }
