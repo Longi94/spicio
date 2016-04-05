@@ -4,7 +4,10 @@ import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.AddSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.SearchUsersInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioCheckEpisodeInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioLikeEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioLoginInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioSkipEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.DeleteAllDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LikeEpisodeInteractorImpl;
@@ -76,4 +79,10 @@ public interface InteractorComponent {
     void inject(SearchUsersInteractorImpl searchUsersInteractor);
 
     void inject(AddSeriesInteractorImpl addSeriesInteractor);
+
+    void inject(SpicioSkipEpisodeInteractorImpl spicioSkipEpisodeInteractor);
+
+    void inject(SpicioCheckEpisodeInteractorImpl spicioCheckEpisodeInteractor);
+
+    void inject(SpicioLikeEpisodeInteractorImpl spicioLikeEpisodeInteractor);
 }

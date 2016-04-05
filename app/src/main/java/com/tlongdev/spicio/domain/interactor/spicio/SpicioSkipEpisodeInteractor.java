@@ -6,10 +6,10 @@ import com.tlongdev.spicio.domain.interactor.Interactor;
  * @author Long
  * @since 2016. 04. 05.
  */
-public interface SpicioCheckEpisodeInteractor extends Interactor {
+public interface SpicioSkipEpisodeInteractor extends Interactor {
     interface Callback {
-        void onSpicioCheckFinish();
+        void onSpicioSkipFinish();
 
-        void onSpicioCheckFail();
+        void onSpicioSkipFail();
     }
 }
