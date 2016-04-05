@@ -1,10 +1,12 @@
 package com.tlongdev.spicio.network.converter;
 
+import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Image;
 import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserFull;
+import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
@@ -137,6 +139,17 @@ public class SpicioModelConverter {
         body.setFirstAired(series.getFirstAired().getMillis());
         body.setAirTimeZone(series.getAirTimeZone().getID());
         body.setGenres(Arrays.asList(series.getGenres()));
+        return body;
+    }
+
+    public static SpicioEpisodeBody convertToEpisodeBody(Episode episode) {
+        SpicioEpisodeBody body = new SpicioEpisodeBody();
+        body.setTraktId(episode.getTraktId());
+        body.setTitle(episode.getTitle());
+        body.setNumber(episode.getNumber());
+        body.setSeason(episode.getSeason());
+        body.setTimestamp(System.currentTimeMillis());
+        body.setThumb(episode.getImages().getThumb().getFull());
         return body;
     }
 }

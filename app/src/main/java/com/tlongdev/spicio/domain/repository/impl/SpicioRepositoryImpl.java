@@ -4,12 +4,14 @@ import android.content.ContentUris;
 import android.net.Uri;
 
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.network.SpicioInterface;
 import com.tlongdev.spicio.network.converter.SpicioModelConverter;
+import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
@@ -131,6 +133,75 @@ public class SpicioRepositoryImpl implements SpicioRepository {
                 mLogger.debug(LOG_TAG, "response code: " + code);
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkEpisode(long userId, int seriesId, Episode episode) {
+        try {
+            SpicioEpisodeBody body = SpicioModelConverter.convertToEpisodeBody(episode);
+            body.setWatched(true);
+
+            Call<Void> call = mInterface.addEpisode(userId, seriesId, body);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<Void> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                return true;
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean skipEpisode(long userId, int seriesId, Episode episode) {
+        try {
+            SpicioEpisodeBody body = SpicioModelConverter.convertToEpisodeBody(episode);
+            body.setSkipped(true);
+
+            Call<Void> call = mInterface.addEpisode(userId, seriesId, body);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<Void> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                return true;
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean likeEpisode(long userId, int seriesId, Episode episode) {
+        try {
+            SpicioEpisodeBody body = SpicioModelConverter.convertToEpisodeBody(episode);
+            body.setLiked(true);
+
+            Call<Void> call = mInterface.addEpisode(userId, seriesId, body);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<Void> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                return true;
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.domain.repository;
 
+import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserFull;
@@ -21,4 +22,10 @@ public interface SpicioRepository {
     UserFull getUser(long id, boolean full);
 
     boolean addSeries(long userId, Series series);
+
+    boolean checkEpisode(long userId, int seriesId, Episode episode);
+
+    boolean skipEpisode(long userId, int seriesId, Episode episode);
+
+    boolean likeEpisode(long userId, int seriesId, Episode episode);
 }

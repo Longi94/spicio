@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.network;
 
+import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
@@ -39,5 +40,5 @@ public interface SpicioInterface {
     Call<Void> addSeries(@Path("id") long id, @Body SpicioSeriesBody series);
 
     @POST("users/{id}/series/{seriesId}/episodes")
-    Call<Void> addEpisode(@Path("id") long id, @Path("seriesId") int seriesId);
+    Call<Void> addEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Body SpicioEpisodeBody episode);
 }
