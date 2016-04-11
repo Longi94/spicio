@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 public abstract class ActivityType {
 
-    @IntDef({WATCHED, SKIPPED, LIKED, BECAME_FRIENDS})
+    @IntDef({WATCHED, SKIPPED, LIKED, BECAME_FRIENDS, ADDED_SERIES})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Enum {}
 
@@ -19,4 +19,5 @@ public abstract class ActivityType {
     public static final int SKIPPED = 1;
     public static final int LIKED = 2;
     public static final int BECAME_FRIENDS = 3;
+    public static final int ADDED_SERIES = 4;
 }

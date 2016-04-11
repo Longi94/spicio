@@ -3,14 +3,17 @@ package com.tlongdev.spicio.network;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
+import com.tlongdev.spicio.network.model.spicio.response.UserEpisodesResponse;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -24,6 +27,8 @@ public interface SpicioInterface {
 
     String BASE_URL = "http://spicio-tlongdev.rhcloud.com/api/v1/";
 
+    // User interfaces
+
     @GET("users")
     Call<List<SpicioUserResponse>> searchUsers(@Query("query") String query);
 
@@ -36,8 +41,19 @@ public interface SpicioInterface {
     @DELETE("users/{id}")
     Call<Void> deleteUser(@Path("id") long id);
 
+    // Series interfaces
+
+    @GET("users/{id}/series")
+    Call<List<SpicioSeriesResponse>> getSeries(@Path("id") long id);
+
     @POST("users/{id}/series")
     Call<Void> addSeries(@Path("id") long id, @Body SpicioSeriesBody series);
+
+    @DELETE("users/{id}/series/{seriesId}")
+    Call<Void> removeSeries(@Path("id") long id, @Path("seriesId") int seriesId);
+
+    @DELETE("users/{id}/series/{seriesId}/episodes")
+    Call<UserEpisodesResponse> getEpisodes(@Path("id") long id, @Path("seriesId") int seriesId);
 
     @POST("users/{id}/series/{seriesId}/episodes/checks")
     Call<Void> checkEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Body SpicioEpisodeBody episode);
@@ -56,4 +72,29 @@ public interface SpicioInterface {
 
     @DELETE("users/{id}/series/{seriesId}/episodes/likes/{episodeId}")
     Call<Void> unLikeEpisode(@Path("id") long id, @Path("seriesId") int seriesId, @Path("episodeId") int episodeId);
+
+    // Friend interfaces
+
+    @GET("users/{userId}/friends")
+    Call<List<SpicioUserResponse>> getFriends(@Path("userId") long userId);
+
+    @POST("users/{userId}/friends")
+    Call<Void> addFriends(@Path("userId") long userId, @Field("friend_id") long friendId);
+
+    @DELETE("users/{userId}/friends/{friendId}")
+    Call<Void> removeFriend(@Path("userId") long userId, @Path("friendId") long friendId);
+
+    // User data interfaces
+
+    @GET("users/{id}/discover")
+    Call<Void> getRecommendations(@Path("userId") long userId);
+
+    @GET("users/{id}/discover")
+    Call<Void> ignoreRecommendation(@Path("userId") long userId, @Field("series_id") int seriesId);
+
+    @GET("users/{id}/feed")
+    Call<Void> getFeed(@Path("userId") long userId);
+
+    @GET("users/{id}/history")
+    Call<Void> getHistorys(@Path("userId") long userId);
 }
