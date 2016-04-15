@@ -7,18 +7,22 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.UserActivity;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.network.SpicioInterface;
 import com.tlongdev.spicio.network.converter.SpicioModelConverter;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioActivityResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
 import com.tlongdev.spicio.util.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -266,5 +270,43 @@ public class SpicioRepositoryImpl implements SpicioRepository {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<UserActivity> getHistory(long userId) {
+        try {
+            Call<List<SpicioActivityResponse>> call = mInterface.getHistory(userId);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<SpicioActivityResponse>> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                if (response.body() != null) {
+                    List<UserActivity> activities = new ArrayList<>();
+
+                    for (SpicioActivityResponse activityResponse : response.body()){
+                        activities.add(SpicioModelConverter.convertToUserActivity(activityResponse));
+                    }
+
+                    Collections.sort(activities, new Comparator<UserActivity>() {
+                        @Override
+                        public int compare(UserActivity lhs, UserActivity rhs) {
+                            // TODO: 2016.04.15.
+                            return 0;
+                        }
+                    });
+
+                    return activities;
+                } else {
+                    mLogger.debug(LOG_TAG, "get user returned null");
+                }
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

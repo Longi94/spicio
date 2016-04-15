@@ -3,6 +3,7 @@ package com.tlongdev.spicio.domain.repository;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.UserActivity;
 import com.tlongdev.spicio.domain.model.UserFull;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface SpicioRepository {
     boolean removeFriend(long userId, long friendId);
 
     boolean removeSeries(long userId, int seriesId);
+
+    List<UserActivity> getHistory(long userId);
 }

@@ -3,6 +3,7 @@ package com.tlongdev.spicio.network;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioActivityResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
@@ -87,14 +88,14 @@ public interface SpicioInterface {
     // User data interfaces
 
     @GET("users/{id}/discover")
-    Call<Void> getRecommendations(@Path("userId") long userId);
+    Call<List<SpicioSeriesResponse>> getRecommendations(@Path("userId") long userId);
 
     @GET("users/{id}/discover")
-    Call<Void> ignoreRecommendation(@Path("userId") long userId, @Field("series_id") int seriesId);
+    Call<List<SpicioSeriesResponse>> ignoreRecommendation(@Path("userId") long userId, @Field("series_id") int seriesId);
 
     @GET("users/{id}/feed")
-    Call<Void> getFeed(@Path("userId") long userId);
+    Call<List<SpicioActivityResponse>> getFeed(@Path("userId") long userId);
 
     @GET("users/{id}/history")
-    Call<Void> getHistorys(@Path("userId") long userId);
+    Call<List<SpicioActivityResponse>> getHistory(@Path("userId") long userId);
 }

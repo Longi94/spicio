@@ -6,10 +6,12 @@ import com.tlongdev.spicio.domain.model.Images;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.SeriesActivities;
+import com.tlongdev.spicio.domain.model.UserActivity;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioActivityResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
@@ -166,5 +168,11 @@ public class SpicioModelConverter {
         body.setTimestamp(System.currentTimeMillis());
         body.setThumb(episode.getImages().getThumb().getFull());
         return body;
+    }
+
+    public static UserActivity convertToUserActivity(SpicioActivityResponse activityResponse) {
+        UserActivity activity = new UserActivity();
+        // TODO: 2016.04.15.  
+        return activity;
     }
 }
