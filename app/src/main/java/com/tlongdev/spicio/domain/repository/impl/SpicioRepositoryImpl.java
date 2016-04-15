@@ -247,4 +247,24 @@ public class SpicioRepositoryImpl implements SpicioRepository {
         }
         return false;
     }
+
+    @Override
+    public boolean removeSeries(long userId, int seriesId) {
+        try {
+            Call<Void> call = mInterface.removeSeries(userId, seriesId);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<Void> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                return true;
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

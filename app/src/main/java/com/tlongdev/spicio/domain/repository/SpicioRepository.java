@@ -32,4 +32,6 @@ public interface SpicioRepository {
     boolean addFriend(long userId, long friendId);
 
     boolean removeFriend(long userId, long friendId);
+
+    boolean removeSeries(long userId, int seriesId);
 }
