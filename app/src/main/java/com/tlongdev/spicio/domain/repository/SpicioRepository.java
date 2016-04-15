@@ -4,6 +4,7 @@ import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserActivity;
+import com.tlongdev.spicio.domain.model.UserEpisodes;
 import com.tlongdev.spicio.domain.model.UserFull;
 
 import java.util.List;
@@ -43,4 +44,6 @@ public interface SpicioRepository {
     List<User> getFriends(long userId);
 
     List<Series> getSeries(long userId);
+
+    UserEpisodes getEpisodes(long userId, int seriesId);
 }

@@ -8,6 +8,7 @@ import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserActivity;
+import com.tlongdev.spicio.domain.model.UserEpisodes;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.network.SpicioInterface;
@@ -18,6 +19,7 @@ import com.tlongdev.spicio.network.model.spicio.response.SpicioActivityResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
+import com.tlongdev.spicio.network.model.spicio.response.UserEpisodesResponse;
 import com.tlongdev.spicio.util.Logger;
 
 import java.io.IOException;
@@ -393,6 +395,30 @@ public class SpicioRepositoryImpl implements SpicioRepository {
                     }
 
                     return series;
+                } else {
+                    mLogger.debug(LOG_TAG, "get user returned null");
+                }
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public UserEpisodes getEpisodes(long userId, int seriesId) {
+        try {
+            Call<UserEpisodesResponse> call = mInterface.getEpisodes(userId, seriesId);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<UserEpisodesResponse> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                if (response.body() != null) {
+                    return SpicioModelConverter.convertToUserEpisodes(response.body());
                 } else {
                     mLogger.debug(LOG_TAG, "get user returned null");
                 }

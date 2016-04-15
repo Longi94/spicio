@@ -7,6 +7,7 @@ import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.SeriesActivities;
 import com.tlongdev.spicio.domain.model.UserActivity;
+import com.tlongdev.spicio.domain.model.UserEpisodes;
 import com.tlongdev.spicio.domain.model.UserFull;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
@@ -15,6 +16,7 @@ import com.tlongdev.spicio.network.model.spicio.response.SpicioActivityResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
+import com.tlongdev.spicio.network.model.spicio.response.UserEpisodesResponse;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -174,5 +176,11 @@ public class SpicioModelConverter {
         UserActivity activity = new UserActivity();
         // TODO: 2016.04.15.  
         return activity;
+    }
+
+    public static UserEpisodes convertToUserEpisodes(UserEpisodesResponse response) {
+        UserEpisodes episodes = new UserEpisodes();
+        // TODO: 2016.04.15.
+        return episodes;
     }
 }
