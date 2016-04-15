@@ -207,4 +207,24 @@ public class SpicioRepositoryImpl implements SpicioRepository {
         }
         return false;
     }
+
+    @Override
+    public boolean addFriend(long userId, long friendId) {
+        try {
+            Call<Void> call = mInterface.addFriends(userId, friendId);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<Void> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                return true;
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

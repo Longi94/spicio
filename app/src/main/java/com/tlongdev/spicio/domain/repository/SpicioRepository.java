@@ -28,4 +28,6 @@ public interface SpicioRepository {
     boolean skipEpisode(long userId, int seriesId, Episode episode, boolean skipped);
 
     boolean likeEpisode(long userId, int seriesId, Episode episode, boolean liked);
+
+    boolean addFriend(long userId, long friendId);
 }

@@ -1,6 +1,7 @@
 package com.tlongdev.spicio.component;
 
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.AddFriendInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.AddSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.SearchUsersInteractorImpl;
@@ -91,4 +92,6 @@ public interface InteractorComponent {
     void inject(SpicioLikeEpisodeInteractorImpl spicioLikeEpisodeInteractor);
 
     void inject (SaveActivitiesInteractorImpl saveActivitiesInteractor);
+
+    void inject (AddFriendInteractorImpl addFriendInteractor);
 }
