@@ -41,4 +41,6 @@ public interface SpicioRepository {
     List<UserActivity> getFeed(long userId);
 
     List<User> getFriends(long userId);
+
+    List<Series> getSeries(long userId);
 }

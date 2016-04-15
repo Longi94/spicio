@@ -15,6 +15,7 @@ import com.tlongdev.spicio.network.converter.SpicioModelConverter;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioActivityResponse;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
 import com.tlongdev.spicio.util.Logger;
@@ -362,6 +363,36 @@ public class SpicioRepositoryImpl implements SpicioRepository {
                     }
 
                     return friends;
+                } else {
+                    mLogger.debug(LOG_TAG, "get user returned null");
+                }
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Series> getSeries(long userId) {
+        try {
+            Call<List<SpicioSeriesResponse>> call = mInterface.getSeries(userId);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<SpicioSeriesResponse>> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                if (response.body() != null) {
+                    List<Series> series = new ArrayList<>();
+
+                    for (SpicioSeriesResponse seriesResponse : response.body()){
+                        series.add(SpicioModelConverter.convertToSeries(seriesResponse));
+                    }
+
+                    return series;
                 } else {
                     mLogger.debug(LOG_TAG, "get user returned null");
                 }

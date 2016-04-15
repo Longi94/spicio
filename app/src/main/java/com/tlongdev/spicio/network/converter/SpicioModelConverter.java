@@ -77,7 +77,7 @@ public class SpicioModelConverter {
         return userFull;
     }
 
-    private static Series convertToSeries(SpicioSeriesResponse seriesResponse) {
+    public static Series convertToSeries(SpicioSeriesResponse seriesResponse) {
         Series series = new Series();
 
         series.setCertification(seriesResponse.getCertification());
