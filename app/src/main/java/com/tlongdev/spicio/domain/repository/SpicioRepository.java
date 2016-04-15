@@ -37,4 +37,6 @@ public interface SpicioRepository {
     boolean removeSeries(long userId, int seriesId);
 
     List<UserActivity> getHistory(long userId);
+
+    List<UserActivity> getFeed(long userId);
 }

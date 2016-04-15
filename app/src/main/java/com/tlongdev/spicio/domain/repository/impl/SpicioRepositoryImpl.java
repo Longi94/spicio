@@ -41,6 +41,14 @@ public class SpicioRepositoryImpl implements SpicioRepository {
     @Inject SpicioInterface mInterface;
     @Inject Logger mLogger;
 
+    private Comparator<UserActivity> sortByTime = new Comparator<UserActivity>() {
+        @Override
+        public int compare(UserActivity lhs, UserActivity rhs) {
+            // TODO: 2016.04.15.
+            return 0;
+        }
+    };
+
     public SpicioRepositoryImpl(SpicioApplication application) {
         application.getNetworkComponent().inject(this);
     }
@@ -289,13 +297,39 @@ public class SpicioRepositoryImpl implements SpicioRepository {
                         activities.add(SpicioModelConverter.convertToUserActivity(activityResponse));
                     }
 
-                    Collections.sort(activities, new Comparator<UserActivity>() {
-                        @Override
-                        public int compare(UserActivity lhs, UserActivity rhs) {
-                            // TODO: 2016.04.15.
-                            return 0;
-                        }
-                    });
+                    Collections.sort(activities, sortByTime);
+
+                    return activities;
+                } else {
+                    mLogger.debug(LOG_TAG, "get user returned null");
+                }
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserActivity> getFeed(long userId) {
+        try {
+            Call<List<SpicioActivityResponse>> call = mInterface.getFeed(userId);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<SpicioActivityResponse>> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                if (response.body() != null) {
+                    List<UserActivity> activities = new ArrayList<>();
+
+                    for (SpicioActivityResponse activityResponse : response.body()){
+                        activities.add(SpicioModelConverter.convertToUserActivity(activityResponse));
+                    }
+
+                    Collections.sort(activities, sortByTime);
 
                     return activities;
                 } else {
