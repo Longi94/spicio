@@ -343,4 +343,34 @@ public class SpicioRepositoryImpl implements SpicioRepository {
         }
         return null;
     }
+
+    @Override
+    public List<User> getFriends(long userId) {
+        try {
+            Call<List<SpicioUserResponse>> call = mInterface.getFriends(userId);
+
+            mLogger.debug(LOG_TAG, "calling " + call.request().url().toString());
+            Response<List<SpicioUserResponse>> response = call.execute();
+
+            int code = response.raw().code();
+            if (code == 200) {
+                if (response.body() != null) {
+                    List<User> friends = new ArrayList<>();
+
+                    for (SpicioUserResponse userResponse : response.body()){
+                        friends.add(SpicioModelConverter.convertToUser(userResponse));
+                    }
+
+                    return friends;
+                } else {
+                    mLogger.debug(LOG_TAG, "get user returned null");
+                }
+            } else {
+                mLogger.debug(LOG_TAG, "response code: " + code);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
