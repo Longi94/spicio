@@ -64,25 +64,26 @@ public class SpicioModelConverter {
         user.setFacebookId(body.getFacebookId());
         user.setGooglePlusId(body.getGoogleId());
 
-        List<Series> series = new LinkedList<>();
+        if (body.getSeries() != null) {
+            List<Series> series = new LinkedList<>();
+            Map<Integer, SeriesActivities> activitiesMap = new HashMap<>();
 
-        Map<Integer, SeriesActivities> activitiesMap = new HashMap<>();
+            for (SpicioSeriesResponse seriesResponse : body.getSeries()) {
+                series.add(SpicioModelConverter.convertToSeries(seriesResponse));
 
-        for (SpicioSeriesResponse seriesResponse : body.getSeries()) {
-            series.add(SpicioModelConverter.convertToSeries(seriesResponse));
-
-            if (seriesResponse.getUserEpisodes() != null) {
-                SeriesActivities activities = new SeriesActivities();
-                activities.getWatched().putAll(seriesResponse.getUserEpisodes().getWatched());
-                activities.getSkipped().putAll(seriesResponse.getUserEpisodes().getSkipped());
-                activities.getLiked().putAll(seriesResponse.getUserEpisodes().getLiked());
-                activitiesMap.put(seriesResponse.getTraktId(), activities);
+                if (seriesResponse.getUserEpisodes() != null) {
+                    SeriesActivities activities = new SeriesActivities();
+                    activities.getWatched().putAll(seriesResponse.getUserEpisodes().getWatched());
+                    activities.getSkipped().putAll(seriesResponse.getUserEpisodes().getSkipped());
+                    activities.getLiked().putAll(seriesResponse.getUserEpisodes().getLiked());
+                    activitiesMap.put(seriesResponse.getTraktId(), activities);
+                }
             }
+            userFull.setActivities(activitiesMap);
+            userFull.setSeries(series);
         }
 
-        userFull.setSeries(series);
         userFull.setUser(user);
-        userFull.setActivities(activitiesMap);
 
         return userFull;
     }

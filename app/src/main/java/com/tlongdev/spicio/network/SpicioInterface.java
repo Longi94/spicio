@@ -76,11 +76,11 @@ public interface SpicioInterface {
 
     // Friend interfaces
 
-    @GET("users/{userId}/friends")
-    Call<List<SpicioUserResponse>> getFriends(@Path("userId") long userId);
+    @GET("users/{id}/friends")
+    Call<List<SpicioUserResponse>> getFriends(@Path("id") long userId);
 
-    @POST("users/{userId}/friends")
-    Call<Void> addFriends(@Path("userId") long userId, @Field("friend_id") long friendId);
+    @POST("users/{id}/friends")
+    Call<Void> addFriends(@Path("id") long userId, @Field("friend_id") long friendId);
 
     @DELETE("users/{userId}/friends/{friendId}")
     Call<Void> removeFriend(@Path("userId") long userId, @Path("friendId") long friendId);
@@ -88,14 +88,14 @@ public interface SpicioInterface {
     // User data interfaces
 
     @GET("users/{id}/discover")
-    Call<List<SpicioSeriesResponse>> getRecommendations(@Path("userId") long userId);
+    Call<List<SpicioSeriesResponse>> getRecommendations(@Path("id") long userId);
 
     @GET("users/{id}/discover")
-    Call<List<SpicioSeriesResponse>> ignoreRecommendation(@Path("userId") long userId, @Field("series_id") int seriesId);
+    Call<List<SpicioSeriesResponse>> ignoreRecommendation(@Path("id") long userId, @Field("series_id") int seriesId);
 
     @GET("users/{id}/feed")
-    Call<List<SpicioActivityResponse>> getFeed(@Path("userId") long userId);
+    Call<List<SpicioActivityResponse>> getFeed(@Path("id") long userId);
 
     @GET("users/{id}/history")
-    Call<List<SpicioActivityResponse>> getHistory(@Path("userId") long userId);
+    Call<List<SpicioActivityResponse>> getHistory(@Path("id") long userId);
 }
