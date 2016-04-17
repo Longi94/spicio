@@ -13,7 +13,9 @@ import com.tlongdev.spicio.network.model.spicio.request.SpicioEpisodeBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioSeriesBody;
 import com.tlongdev.spicio.network.model.spicio.request.SpicioUserBody;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioActivityResponse;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioEpisodeSimpleResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesResponse;
+import com.tlongdev.spicio.network.model.spicio.response.SpicioSeriesSimpleResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserFullResponse;
 import com.tlongdev.spicio.network.model.spicio.response.SpicioUserResponse;
 import com.tlongdev.spicio.network.model.spicio.response.UserEpisodesResponse;
@@ -172,15 +174,46 @@ public class SpicioModelConverter {
         return body;
     }
 
-    public static UserActivity convertToUserActivity(SpicioActivityResponse activityResponse) {
+    public static UserActivity convertToUserActivity(SpicioActivityResponse response) {
         UserActivity activity = new UserActivity();
-        // TODO: 2016.04.15.  
+        activity.setCulprit(convertToUser(response.getCulprit()));
+        activity.setVictim(convertToUser(response.getVictim()));
+        activity.setEpisode(convertToEpisode(response.getEpisode()));
+        activity.setSeries(convertToSeries(response.getSeries()));
+        activity.setTimestamp(response.getTimestamp());
+        activity.setType(response.getType());
         return activity;
+    }
+
+    private static Series convertToSeries(SpicioSeriesSimpleResponse response) {
+        Series series = new Series();
+        series.setTitle(response.getTitle());
+        series.setTraktId(response.getTraktId());
+        series.setImages(new Images());
+        series.getImages().setPoster(new Image());
+        series.getImages().setThumb(new Image());
+        series.getImages().getPoster().setThumb(response.getPosterThumb());
+        series.getImages().getThumb().setFull(response.getThumb());
+        return series;
+    }
+
+    private static Episode convertToEpisode(SpicioEpisodeSimpleResponse response) {
+        Episode episode = new Episode();
+        episode.setTraktId(response.getTraktId());
+        episode.setNumber(response.getNumber());
+        episode.setSeason(response.getSeason());
+        episode.setTitle(response.getTitle());
+        episode.setImages(new Images());
+        episode.getImages().setThumb(new Image());
+        episode.getImages().getThumb().setFull(response.getThumb());
+        return episode;
     }
 
     public static UserEpisodes convertToUserEpisodes(UserEpisodesResponse response) {
         UserEpisodes episodes = new UserEpisodes();
-        // TODO: 2016.04.15.
+        episodes.setLiked(response.getLiked());
+        episodes.setSkipped(response.getSkipped());
+        episodes.setWatched(response.getWatched());
         return episodes;
     }
 }
