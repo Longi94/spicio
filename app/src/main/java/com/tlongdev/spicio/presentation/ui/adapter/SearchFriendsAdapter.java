@@ -22,6 +22,8 @@ public class SearchFriendsAdapter extends RecyclerView.Adapter<SearchFriendsAdap
 
     private List<User> mDataSet;
 
+    private OnItemClickListener mOnItemClickListener;
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_search_friends, parent, false);
@@ -31,9 +33,18 @@ public class SearchFriendsAdapter extends RecyclerView.Adapter<SearchFriendsAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mDataSet != null) {
-            User user = mDataSet.get(position);
+            final User user = mDataSet.get(position);
 
             holder.name.setText(user.getName());
+
+            holder.root.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(user);
+                    }
+                }
+            });
         }
     }
 
@@ -46,13 +57,24 @@ public class SearchFriendsAdapter extends RecyclerView.Adapter<SearchFriendsAdap
         mDataSet = dataSet;
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.name) TextView name;
 
+        View root;
+
         public ViewHolder(View view) {
             super(view);
+            root = view;
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(User user);
     }
 }

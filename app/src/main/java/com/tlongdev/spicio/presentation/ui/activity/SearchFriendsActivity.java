@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SearchFriendsActivity extends SpicioActivity implements SearchFriendsView {
+public class SearchFriendsActivity extends SpicioActivity implements SearchFriendsView, SearchFriendsAdapter.OnItemClickListener {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
@@ -42,6 +43,7 @@ public class SearchFriendsActivity extends SpicioActivity implements SearchFrien
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAdapter = new SearchFriendsAdapter();
+        mAdapter.setOnItemClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -68,5 +70,13 @@ public class SearchFriendsActivity extends SpicioActivity implements SearchFrien
     public void showResult(List<User> users) {
         mAdapter.setDataSet(users);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(User user) {
+        Intent intent = new Intent(this, UserActivity.class);
+        intent.putExtra(UserActivity.EXTRA_USER_ID, user.getId());
+        intent.putExtra(UserActivity.EXTRA_USER_NAME, user.getName());
+        startActivity(intent);
     }
 }
