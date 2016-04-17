@@ -9,6 +9,7 @@ import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFriendsInteractorImp
 import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.GetHistoryInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.GetSeriesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.spicio.impl.GetUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.RemoveFriendInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.RemoveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.SearchUsersInteractorImpl;
@@ -115,4 +116,6 @@ public interface InteractorComponent {
     void inject(GetSeriesInteractorImpl getSeriesInteractor);
 
     void inject(GetEpisodesInteractorImpl getEpisodesInteractor);
+
+    void inject(GetUserDataInteractorImpl getUserDataInteractor);
 }

@@ -11,6 +11,7 @@ import com.tlongdev.spicio.presentation.ui.view.activity.UserView;
 public class UserPresenter implements Presenter<UserView> {
 
     private UserView mView;
+
     private SpicioApplication mApplication;
 
     public UserPresenter(SpicioApplication application) {
@@ -25,5 +26,9 @@ public class UserPresenter implements Presenter<UserView> {
     @Override
     public void detachView() {
         mView = null;
+    }
+
+    public void getUserData() {
+
     }
 }
