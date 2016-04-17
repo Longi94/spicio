@@ -146,6 +146,10 @@ public class TraktModelConverter {
     }
 
     public static Episode convertToEpisode(TraktEpisode traktEpisode) {
+        if (traktEpisode == null) {
+            return null;
+        }
+
         Episode episode = new Episode();
 
         episode.setSeason(traktEpisode.getSeason());
@@ -173,6 +177,10 @@ public class TraktModelConverter {
     }
 
     public static Season convertToSeason(int seriesId, TraktSeason traktSeason) {
+        if (traktSeason == null) {
+            return null;
+        }
+
         Season season = new Season();
 
         season.setSeriesId(seriesId);

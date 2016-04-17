@@ -40,6 +40,9 @@ import java.util.Map;
 public class SpicioModelConverter {
 
     public static SpicioUserBody convertToUserBody(User user) {
+        if (user == null) {
+            return null;
+        }
         SpicioUserBody body = new SpicioUserBody();
         body.setName(user.getName());
         body.setEmail(user.getEmailAddress());
@@ -49,6 +52,9 @@ public class SpicioModelConverter {
     }
 
     public static UserFull convertToUserFull(SpicioUserFullResponse body) {
+        if (body == null) {
+            return null;
+        }
         UserFull userFull = new UserFull();
         User user = new User();
         user.setName(body.getName());
@@ -82,6 +88,10 @@ public class SpicioModelConverter {
     }
 
     public static Series convertToSeries(SpicioSeriesResponse seriesResponse) {
+        if (seriesResponse == null) {
+            return null;
+        }
+
         Series series = new Series();
 
         series.setCertification(seriesResponse.getCertification());
@@ -123,6 +133,10 @@ public class SpicioModelConverter {
     }
 
     public static User convertToUser(SpicioUserResponse userBody) {
+        if (userBody == null) {
+            return null;
+        }
+
         User user = new User();
         user.setId(userBody.getId());
         user.setName(userBody.getName());
@@ -132,6 +146,10 @@ public class SpicioModelConverter {
     }
 
     public static SpicioSeriesBody convertToSeriesBody(Series series) {
+        if (series == null) {
+            return null;
+        }
+
         SpicioSeriesBody body = new SpicioSeriesBody();
         body.setCertification(series.getCertification());
         body.setDayOfAiring(series.getDayOfAiring());
@@ -164,6 +182,10 @@ public class SpicioModelConverter {
     }
 
     public static SpicioEpisodeBody convertToEpisodeBody(Episode episode) {
+        if (episode == null) {
+            return null;
+        }
+
         SpicioEpisodeBody body = new SpicioEpisodeBody();
         body.setTraktId(episode.getTraktId());
         body.setTitle(episode.getTitle());
@@ -175,6 +197,10 @@ public class SpicioModelConverter {
     }
 
     public static UserActivity convertToUserActivity(SpicioActivityResponse response) {
+        if (response == null) {
+            return null;
+        }
+
         UserActivity activity = new UserActivity();
         activity.setCulprit(convertToUser(response.getCulprit()));
         activity.setVictim(convertToUser(response.getVictim()));
@@ -186,6 +212,10 @@ public class SpicioModelConverter {
     }
 
     private static Series convertToSeries(SpicioSeriesSimpleResponse response) {
+        if (response == null) {
+            return null;
+        }
+
         Series series = new Series();
         series.setTitle(response.getTitle());
         series.setTraktId(response.getTraktId());
@@ -198,6 +228,10 @@ public class SpicioModelConverter {
     }
 
     private static Episode convertToEpisode(SpicioEpisodeSimpleResponse response) {
+        if (response == null) {
+            return null;
+        }
+
         Episode episode = new Episode();
         episode.setTraktId(response.getTraktId());
         episode.setNumber(response.getNumber());
@@ -210,6 +244,10 @@ public class SpicioModelConverter {
     }
 
     public static UserEpisodes convertToUserEpisodes(UserEpisodesResponse response) {
+        if (response == null) {
+            return null;
+        }
+
         UserEpisodes episodes = new UserEpisodes();
         episodes.setLiked(response.getLiked());
         episodes.setSkipped(response.getSkipped());
