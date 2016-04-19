@@ -10,7 +10,7 @@ import com.tlongdev.spicio.SpicioApplication;
  * @author longi
  * @since 2016.04.19.
  */
-public class SpicioFragment extends Fragment {
+public abstract class SpicioFragment extends Fragment {
 
     protected SpicioApplication mApplication;
 

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.presentation.presenter.fragment.SeasonsPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeasonEpisodesActivity;
@@ -27,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeasonsFragment extends Fragment implements SeasonsView, SeasonsAdapter.OnItemSelectedListener {
+public class SeasonsFragment extends SpicioFragment implements SeasonsView, SeasonsAdapter.OnItemSelectedListener {
 
     private static final String ARG_PARAM_SERIES_ID = "series_id";
 
@@ -35,7 +34,7 @@ public class SeasonsFragment extends Fragment implements SeasonsView, SeasonsAda
 
     private SeasonsAdapter adapter;
 
-    private SeasonsPresenter presenter;
+    private SeasonsPresenter mPresenter;
     private int mSeriesId = -1;
 
     public SeasonsFragment() {
@@ -68,13 +67,12 @@ public class SeasonsFragment extends Fragment implements SeasonsView, SeasonsAda
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        presenter = new SeasonsPresenter((SpicioApplication) getActivity().getApplication());
-        presenter.attachView(this);
-
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_seasons, container, false);
         ButterKnife.bind(this, rootView);
+
+        mPresenter = new SeasonsPresenter(mApplication);
+        mPresenter.attachView(this);
 
         adapter = new SeasonsAdapter(getActivity());
         adapter.setListener(this);
@@ -88,13 +86,13 @@ public class SeasonsFragment extends Fragment implements SeasonsView, SeasonsAda
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.loadSeasons(mSeriesId);
+        mPresenter.loadSeasons(mSeriesId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        mPresenter.detachView();
     }
 
     @Override

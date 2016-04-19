@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.fragment.SeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesActivity;
@@ -29,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeriesFragment extends Fragment implements SeriesView, SeriesAdapter.OnItemSelectedListener {
+public class SeriesFragment extends SpicioFragment implements SeriesView, SeriesAdapter.OnItemSelectedListener {
 
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
 
@@ -44,7 +43,7 @@ public class SeriesFragment extends Fragment implements SeriesView, SeriesAdapte
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SeriesPresenter((SpicioApplication) getActivity().getApplication());
+        presenter = new SeriesPresenter(mApplication);
         presenter.attachView(this);
     }
 

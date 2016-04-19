@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.fragment.SeriesDetailsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesDetailsView;
@@ -34,7 +33,7 @@ import butterknife.OnClick;
  * Use the {@link SeriesDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SeriesDetailsFragment extends Fragment implements SeriesDetailsView {
+public class SeriesDetailsFragment extends SpicioFragment implements SeriesDetailsView {
 
     private static final String LOG_TAG = SeriesDetailsFragment.class.getSimpleName();
 
@@ -84,7 +83,7 @@ public class SeriesDetailsFragment extends Fragment implements SeriesDetailsView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new SeriesDetailsPresenter((SpicioApplication) getActivity().getApplication());
+        presenter = new SeriesDetailsPresenter(mApplication);
         presenter.attachView(this);
 
         // Inflate the layout for this fragment

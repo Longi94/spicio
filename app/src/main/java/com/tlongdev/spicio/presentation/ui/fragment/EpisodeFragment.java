@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.presentation.presenter.fragment.EpisodePresenter;
 import com.tlongdev.spicio.presentation.ui.view.fragment.EpisodeView;
@@ -33,7 +32,7 @@ import butterknife.OnClick;
  * Use the {@link EpisodeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EpisodeFragment extends Fragment implements EpisodeView {
+public class EpisodeFragment extends SpicioFragment implements EpisodeView {
 
     private static final String ARG_EPISODE_ID = "series_id";
 
@@ -70,7 +69,7 @@ public class EpisodeFragment extends Fragment implements EpisodeView {
         if (getArguments() != null) {
             mEpisodeId = getArguments().getInt(ARG_EPISODE_ID);
         }
-        mPresenter = new EpisodePresenter((SpicioApplication) getActivity().getApplication());
+        mPresenter = new EpisodePresenter(mApplication);
         mPresenter.attachView(this);
     }
 

@@ -4,7 +4,6 @@ package com.tlongdev.spicio.presentation.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tlongdev.spicio.R;
-import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.presentation.presenter.fragment.SearchSeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesSearchDetailsActivity;
@@ -37,7 +35,7 @@ import butterknife.ButterKnife;
  * @author Long
  * @since 2016. 02. 24.
  */
-public class SearchSeriesFragment extends Fragment implements SearchSeriesView, SearchSeriesAdapter.OnItemSelectedListener {
+public class SearchSeriesFragment extends SpicioFragment implements SearchSeriesView, SearchSeriesAdapter.OnItemSelectedListener {
 
     private static final String LOG_TAG = SearchSeriesFragment.class.getSimpleName();
 
@@ -55,7 +53,7 @@ public class SearchSeriesFragment extends Fragment implements SearchSeriesView, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new SearchSeriesPresenter((SpicioApplication) getActivity().getApplication());
+        mPresenter = new SearchSeriesPresenter(mApplication);
         mPresenter.attachView(this);
     }
 
