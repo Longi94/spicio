@@ -1,6 +1,9 @@
 package com.tlongdev.spicio.storage.dao;
 
+import android.net.Uri;
+
 import com.tlongdev.spicio.domain.model.SeriesActivities;
+import com.tlongdev.spicio.domain.model.User;
 
 import java.util.Map;
 
@@ -10,4 +13,8 @@ import java.util.Map;
  */
 public interface UserDao {
     int insertUserActivities(Map<Integer, SeriesActivities> user);
+
+    Uri addFriend(User friend);
+
+    int removeFriend(long id);
 }

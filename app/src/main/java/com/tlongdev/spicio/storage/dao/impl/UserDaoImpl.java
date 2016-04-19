@@ -2,14 +2,20 @@ package com.tlongdev.spicio.storage.dao.impl;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.ActivityType;
 import com.tlongdev.spicio.domain.model.SeriesActivities;
+import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.storage.DatabaseContract.ActivityEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
 import com.tlongdev.spicio.storage.dao.UserDao;
 import com.tlongdev.spicio.util.Logger;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -80,5 +86,59 @@ public class UserDaoImpl implements UserDao {
         mLogger.verbose(LOG_TAG, "inserted " + rowsInserted + " rows into activity table");
 
         return rowsInserted;
+    }
+
+    public List<User> getFriends() {
+        Cursor cursor = mContentResolver.query(
+                FriendsEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                FriendsEntry.COLUMN_NAME + " ASC"
+        );
+
+        List<User> friends = new LinkedList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                User user = new User();
+                user.setId(cursor.getLong(cursor.getColumnIndex(FriendsEntry.COLUMN_USER_ID)));
+                user.setName(cursor.getString(cursor.getColumnIndex(FriendsEntry.COLUMN_NAME)));
+
+                friends.add(user);
+            }
+        }
+
+        return friends;
+    }
+
+    @Override
+    public Uri addFriend(User friend) {
+        ContentValues values = new ContentValues();
+
+        values.put(FriendsEntry.COLUMN_USER_ID, friend.getId());
+        values.put(FriendsEntry.COLUMN_NAME, friend.getName());
+
+        Uri uri = mContentResolver.insert(FriendsEntry.CONTENT_URI, values);
+
+        if (uri != null) {
+            mLogger.verbose(LOG_TAG, "inserted 1 row into friends table");
+        } else {
+            mLogger.verbose(LOG_TAG, "failed to insert into friends table");
+        }
+
+        return uri;
+    }
+
+    @Override
+    public int removeFriend(long id) {
+        int rowsDeleted = mContentResolver.delete(
+                FriendsEntry.CONTENT_URI,
+                FriendsEntry.COLUMN_USER_ID + " = ?",
+                new String[]{String.valueOf(id)}
+        );
+
+        mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted  + " rows from friends table");
+
+        return rowsDeleted;
     }
 }
