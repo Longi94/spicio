@@ -20,6 +20,7 @@ import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioSkipEpisodeIntera
 import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.DeleteAllDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.DeleteFriendInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.IsFriendInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LikeEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadAllSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadEpisodeDetailsInteractorImpl;
@@ -127,4 +128,6 @@ public interface InteractorComponent {
     void inject(SaveFriendInteractorImpl saveFriendInteractor);
 
     void inject(DeleteFriendInteractorImpl deleteFriendInteractor);
+
+    void inject(IsFriendInteractorImpl isFriendInteractor);
 }

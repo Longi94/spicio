@@ -142,4 +142,24 @@ public class UserDaoImpl implements UserDao {
 
         return rowsDeleted;
     }
+
+    @Override
+    public boolean isFriend(long friendId) {
+        Cursor cursor = mContentResolver.query(
+                FriendsEntry.CONTENT_URI,
+                null,
+                FriendsEntry.COLUMN_USER_ID + " = ?",
+                new String[]{String.valueOf(friendId)},
+                null
+        );
+
+        if (cursor != null) {
+            if (cursor.getCount() == 1) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
+    }
 }

@@ -20,4 +20,6 @@ public interface UserDao {
     int removeFriend(long id);
 
     List<User> getFriends();
+
+    boolean isFriend(long friendId);
 }
