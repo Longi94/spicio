@@ -5,6 +5,7 @@ import android.net.Uri;
 import com.tlongdev.spicio.domain.model.SeriesActivities;
 import com.tlongdev.spicio.domain.model.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,4 +18,6 @@ public interface UserDao {
     Uri addFriend(User friend);
 
     int removeFriend(long id);
+
+    List<User> getFriends();
 }

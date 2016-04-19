@@ -19,14 +19,17 @@ import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioLoginInteractorIm
 import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioSkipEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.CheckEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.DeleteAllDataInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.DeleteFriendInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LikeEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadAllSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadEpisodeDetailsInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.LoadFriendsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeasonEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeasonsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.LoadSeriesDetailsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveActivitiesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveEpisodesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SaveFriendInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SkipEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
@@ -118,4 +121,10 @@ public interface InteractorComponent {
     void inject(GetEpisodesInteractorImpl getEpisodesInteractor);
 
     void inject(GetUserDataInteractorImpl getUserDataInteractor);
+
+    void inject(LoadFriendsInteractorImpl loadFriendsInteractor);
+
+    void inject(SaveFriendInteractorImpl saveFriendInteractor);
+
+    void inject(DeleteFriendInteractorImpl deleteFriendInteractor);
 }

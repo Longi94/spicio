@@ -106,6 +106,7 @@ public class UserDaoImpl implements UserDao {
 
                 friends.add(user);
             }
+            cursor.close();
         }
 
         return friends;
