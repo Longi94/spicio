@@ -11,12 +11,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.tlongdev.spicio.R;
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.presentation.presenter.activity.MainPresenter;
 import com.tlongdev.spicio.presentation.ui.fragment.FriendsFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
@@ -35,7 +37,7 @@ import butterknife.ButterKnife;
  * @author Long
  * @since 2016. 02. 23.
  */
-public class MainActivity extends SpicioActivity implements MainView,
+public class MainActivity extends AppCompatActivity implements MainView,
         NavigationView.OnNavigationItemSelectedListener {
 
     @Inject ProfileManager mProfileManager;
@@ -71,7 +73,7 @@ public class MainActivity extends SpicioActivity implements MainView,
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mApplication.getActivityComponent().inject(this);
+        ((SpicioApplication)getApplication()).getActivityComponent().inject(this);
 
         presenter = new MainPresenter();
         presenter.attachView(this);

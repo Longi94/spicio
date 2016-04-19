@@ -14,4 +14,10 @@ public interface UserView extends BaseView {
     void showUserData(User user, List<UserActivity> history);
 
     void showError();
+
+    void showErrorToast();
+
+    void friendDeleted();
+
+    void friendAdded();
 }

@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -35,8 +37,9 @@ public class UserActivity extends SpicioActivity implements UserView {
     @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
     @Bind(R.id.name) TextView mNameView;
     @Bind(R.id.fail_text) TextView mFailText;
+    @Bind(R.id.add_remove_friend) Button mAddRemoveButton;
 
-    @InjectExtra(EXTRA_USER_ID) long mUserId;
+    @InjectExtra(EXTRA_USER_ID) long mFriendId;
     @InjectExtra(EXTRA_USER_NAME) String mUserName;
 
     private UserPresenter mPresenter;
@@ -55,7 +58,7 @@ public class UserActivity extends SpicioActivity implements UserView {
 
         setTitle(mUserName + "'s profile");
 
-        mPresenter = new UserPresenter(mApplication, mUserId);
+        mPresenter = new UserPresenter(mApplication, mFriendId);
         mPresenter.attachView(this);
 
         mAdapter = new UserHistoryAdapter();
@@ -95,7 +98,7 @@ public class UserActivity extends SpicioActivity implements UserView {
 
     @OnClick(R.id.add_remove_friend)
     public void addOrRemoveFriend() {
-
+        mPresenter.addOrRemoveFriend();
     }
 
     @Override
@@ -113,5 +116,22 @@ public class UserActivity extends SpicioActivity implements UserView {
     public void showError() {
         mProgressBar.setVisibility(View.GONE);
         mFailText.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showErrorToast() {
+        Toast.makeText(this, "Failed!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void friendDeleted() {
+        Toast.makeText(this, "Removed!", Toast.LENGTH_LONG).show();
+        mAddRemoveButton.setText("Add friend");
+    }
+
+    @Override
+    public void friendAdded() {
+        Toast.makeText(this, "Added!", Toast.LENGTH_LONG).show();
+        mAddRemoveButton.setText("Remove friend");
     }
 }

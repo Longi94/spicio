@@ -15,6 +15,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -79,6 +80,7 @@ public interface SpicioInterface {
     @GET("users/{id}/friends")
     Call<List<SpicioUserResponse>> getFriends(@Path("id") long userId);
 
+    @FormUrlEncoded
     @POST("users/{id}/friends")
     Call<Void> addFriends(@Path("id") long userId, @Field("friend_id") long friendId);
 
