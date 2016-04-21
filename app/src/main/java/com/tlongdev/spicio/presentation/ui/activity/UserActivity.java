@@ -1,5 +1,6 @@
 package com.tlongdev.spicio.presentation.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,7 +89,9 @@ public class UserActivity extends SpicioActivity implements UserView {
 
     @OnClick(R.id.series)
     public void showSeries() {
-
+        Intent intent = new Intent(this, UserSeriesActivity.class);
+        intent.putExtra(UserSeriesActivity.EXTRA_USER_ID, mFriendId);
+        startActivity(intent);
     }
 
     @OnClick(R.id.friends)

@@ -92,6 +92,15 @@
         </activity>
         <activity android:name=".presentation.ui.activity.UserActivity">
         </activity>
+        <activity
+            android:name=".presentation.ui.activity.UserSeriesActivity"
+            android:label="@string/title_activity_user_series"
+            android:parentActivityName=".presentation.ui.activity.UserActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tlongdev.spicio.presentation.ui.activity.UserActivity"/>
+        </activity>
     </application>
 
 </manifest>
