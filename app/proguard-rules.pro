@@ -16,6 +16,10 @@
 -keep class retrofit2.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
+-keepattributes *Annotation*
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
 
 #Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
