@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -59,16 +60,16 @@ public class SearchUsersInteractorTest {
 
     @Test
     public void testSearch() {
-        List<User> users = mock(List.class);
+        List<User> users = new ArrayList<>();
 
-        when(mRepository.searchUser("test")).thenReturn(users);
+        when(mRepository.searchUser("test", 1L)).thenReturn(users);
 
         SearchUsersInteractorImpl interactor = new SearchUsersInteractorImpl(
-                mApp, "test", mMockedCallback
+                mApp, "test", 1L, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).searchUser("test");
+        verify(mRepository).searchUser("test", 1L);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onSearchFinished(users);
     }

@@ -63,28 +63,28 @@ public class GetFriendsInteractorTest {
     public void testSuccess() {
         List<User> friends = new ArrayList<>();
 
-        when(mRepository.getFriends(1L)).thenReturn(friends);
+        when(mRepository.getFriends(1L, 2L)).thenReturn(friends);
 
         GetFriendsInteractorImpl interactor = new GetFriendsInteractorImpl(
-                mApp, 1L, mMockedCallback
+                mApp, 1L, 2L, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).getFriends(1L);
+        verify(mRepository).getFriends(1L, 2L);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onGetFriendsFinish(friends);
     }
 
     @Test
     public void testFail() {
-        when(mRepository.getFriends(1L)).thenReturn(null);
+        when(mRepository.getFriends(1L, 2L)).thenReturn(null);
 
         GetFriendsInteractorImpl interactor = new GetFriendsInteractorImpl(
-                mApp, 1L, mMockedCallback
+                mApp, 1L, 2L, mMockedCallback
         );
         interactor.run();
 
-        verify(mRepository).getFriends(1L);
+        verify(mRepository).getFriends(1L, 2L);
         verifyNoMoreInteractions(mRepository);
         verify(mMockedCallback).onGetFriendsFail();
     }

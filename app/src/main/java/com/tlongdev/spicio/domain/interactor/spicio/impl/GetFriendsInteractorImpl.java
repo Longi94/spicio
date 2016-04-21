@@ -4,7 +4,6 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.interactor.AbstractInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.GetFriendsInteractor;
 import com.tlongdev.spicio.domain.model.User;
-import com.tlongdev.spicio.domain.model.UserActivity;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.util.Logger;
 
@@ -24,10 +23,12 @@ public class GetFriendsInteractorImpl extends AbstractInteractor implements GetF
     @Inject SpicioRepository mRepository;
 
     private long mUserId;
+    private long mIgnore;
     private Callback mCallback;
 
-    public GetFriendsInteractorImpl(SpicioApplication application, long userId, Callback callback) {
+    public GetFriendsInteractorImpl(SpicioApplication application, long userId, long ignore, Callback callback) {
         super(application.getInteractorComponent());
+        mIgnore = ignore;
         application.getInteractorComponent().inject(this);
         mUserId = userId;
         mCallback = callback;
@@ -36,7 +37,7 @@ public class GetFriendsInteractorImpl extends AbstractInteractor implements GetF
     @Override
     public void run() {
         mLogger.debug(LOG_TAG, "started");
-        List<User> friends = mRepository.getFriends(mUserId);
+        List<User> friends = mRepository.getFriends(mUserId, mIgnore);
 
         if (friends != null) {
             postFinish(friends);

@@ -17,7 +17,7 @@ public interface SpicioRepository {
 
     long login(User user);
 
-    List<User> searchUser(String query);
+    List<User> searchUser(String query, long ignore);
 
     boolean deleteUser(long id);
 
@@ -41,7 +41,7 @@ public interface SpicioRepository {
 
     List<UserActivity> getFeed(long userId);
 
-    List<User> getFriends(long userId);
+    List<User> getFriends(long userId, long ignore);
 
     List<Series> getSeries(long userId);
 

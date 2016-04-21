@@ -80,7 +80,7 @@ public class SpicioRepositoryImpl implements SpicioRepository {
     }
 
     @Override
-    public List<User> searchUser(String query) {
+    public List<User> searchUser(String query, long ignore) {
         try {
             Call<List<SpicioUserResponse>> call = mInterface.searchUsers(query);
 
@@ -90,7 +90,9 @@ public class SpicioRepositoryImpl implements SpicioRepository {
             if (response.body() != null) {
                 List<User> users = new ArrayList<>();
                 for (SpicioUserResponse userResponse : response.body()) {
-                    users.add(SpicioModelConverter.convertToUser(userResponse));
+                    if (userResponse.getId() != ignore) {
+                        users.add(SpicioModelConverter.convertToUser(userResponse));
+                    }
                 }
                 mLogger.verbose(LOG_TAG, "call returned " + users.size() + " users");
                 return users;
@@ -348,7 +350,7 @@ public class SpicioRepositoryImpl implements SpicioRepository {
     }
 
     @Override
-    public List<User> getFriends(long userId) {
+    public List<User> getFriends(long userId, long ignore) {
         try {
             Call<List<SpicioUserResponse>> call = mInterface.getFriends(userId);
 
@@ -361,7 +363,9 @@ public class SpicioRepositoryImpl implements SpicioRepository {
                     List<User> friends = new ArrayList<>();
 
                     for (SpicioUserResponse userResponse : response.body()){
-                        friends.add(SpicioModelConverter.convertToUser(userResponse));
+                        if (userResponse.getId() != ignore) {
+                            friends.add(SpicioModelConverter.convertToUser(userResponse));
+                        }
                     }
 
                     return friends;

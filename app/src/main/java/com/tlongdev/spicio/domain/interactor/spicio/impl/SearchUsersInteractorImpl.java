@@ -23,12 +23,14 @@ public class SearchUsersInteractorImpl extends AbstractInteractor implements Sea
     @Inject Logger mLogger;
 
     private String mQuery;
+    private long mIgnore;
     private Callback mCallback;
 
-    public SearchUsersInteractorImpl(SpicioApplication application, String query, Callback callback) {
+    public SearchUsersInteractorImpl(SpicioApplication application, String query, long ignore, Callback callback) {
         super(application.getInteractorComponent());
         application.getInteractorComponent().inject(this);
         mQuery = query;
+        mIgnore = ignore;
         mCallback = callback;
     }
 
@@ -36,7 +38,7 @@ public class SearchUsersInteractorImpl extends AbstractInteractor implements Sea
     public void run() {
         mLogger.verbose(LOG_TAG, "started");
 
-        List<User> users = mRepository.searchUser(mQuery);
+        List<User> users = mRepository.searchUser(mQuery, mIgnore);
         postResult(users);
 
         mLogger.verbose(LOG_TAG, "ended");
