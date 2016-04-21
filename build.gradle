@@ -3,11 +3,13 @@ apply plugin: 'jacoco'
 buildscript {
     repositories {
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0'
         classpath 'com.google.gms:google-services:2.0.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'io.fabric.tools:gradle:1.21.5'
     }
 }
 
@@ -16,6 +18,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url 'https://maven.fabric.io/public' }
     }
 }
 

@@ -101,6 +101,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tlongdev.spicio.presentation.ui.activity.UserActivity"/>
         </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b4c92b929954d1bf5ce57f368544cebb8ab16dec"/>
     </application>
 
 </manifest>

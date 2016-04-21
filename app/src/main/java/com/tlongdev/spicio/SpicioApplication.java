@@ -2,6 +2,8 @@ package com.tlongdev.spicio;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
 import com.facebook.FacebookSdk;
 import com.tlongdev.spicio.component.ActivityComponent;
 import com.tlongdev.spicio.component.DaggerActivityComponent;
@@ -24,6 +26,8 @@ import com.tlongdev.spicio.module.StorageModule;
 import com.tlongdev.spicio.module.ThreadingModule;
 
 import net.danlew.android.joda.JodaTimeAndroid;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * This is a subclass of {@link Application} used to provide shared objects for this app.
@@ -50,6 +54,8 @@ public class SpicioApplication extends Application {
         super.onCreate();
         JodaTimeAndroid.init(this);
         FacebookSdk.sdkInitialize(this);
+
+        Fabric.with(this, new Crashlytics(), new Answers());
 
         SpicioAppModule spicioAppModule = new SpicioAppModule(this);
         NetworkModule networkModule = new NetworkModule();
