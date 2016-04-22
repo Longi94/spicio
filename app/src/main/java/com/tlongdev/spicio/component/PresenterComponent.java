@@ -9,6 +9,7 @@ import com.tlongdev.spicio.presentation.presenter.activity.SeriesSearchDetailsPr
 import com.tlongdev.spicio.presentation.presenter.activity.SettingsPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.UserPresenter;
 import com.tlongdev.spicio.presentation.presenter.fragment.EpisodePresenter;
+import com.tlongdev.spicio.presentation.presenter.fragment.FeedPresenter;
 
 import javax.inject.Singleton;
 
@@ -34,4 +35,6 @@ public interface PresenterComponent {
     void inject(UserPresenter userPresenter);
 
     void inject(SearchFriendsPresenter searchFriendsPresenter);
+
+    void inject(FeedPresenter feedPresenter);
 }

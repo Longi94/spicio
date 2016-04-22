@@ -20,6 +20,7 @@ import android.view.View;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.presentation.presenter.activity.MainPresenter;
+import com.tlongdev.spicio.presentation.ui.fragment.FeedFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.FriendsFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SeriesFragment;
@@ -50,13 +51,15 @@ public class MainActivity extends AppCompatActivity implements MainView,
      */
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
+    public static final String FRAGMENT_TAG_FEED = "feed";
     public static final String FRAGMENT_TAG_SEARCH_SERIES = "search_series";
     public static final String FRAGMENT_TAG_SERIES = "series";
     public static final String FRAGMENT_TAG_FRIENDS = "friends";
 
-    public static final int NAV_SERIES = 0;
-    public static final int NAV_SEARCH_SERIES = 1;
-    public static final int NAV_FRIENDS = 2;
+    public static final int NAV_FEED = 0;
+    public static final int NAV_SERIES = 1;
+    public static final int NAV_SEARCH_SERIES = 2;
+    public static final int NAV_FRIENDS = 3;
 
     /**
      * The index of the current fragment.
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        switchFragment(NAV_SERIES);
+        switchFragment(NAV_FEED);
     }
 
     @Override
@@ -101,9 +104,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -142,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements MainView,
         int id = item.getItemId();
 
         switch (id) {
+            case R.id.nav_feed:
+                switchFragment(NAV_FEED);
+                break;
             case R.id.nav_search_series:
                 switchFragment(NAV_SEARCH_SERIES);
                 break;
@@ -156,8 +161,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -182,6 +186,13 @@ public class MainActivity extends AppCompatActivity implements MainView,
         Fragment newFragment;
 
         switch (position) {
+            case NAV_FEED:
+                newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_FEED);
+                if (newFragment == null) {
+                    newFragment = new FeedFragment();
+                }
+                transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_FEED);
+                break;
             case NAV_SEARCH_SERIES:
                 newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_SEARCH_SERIES);
                 if (newFragment == null) {
