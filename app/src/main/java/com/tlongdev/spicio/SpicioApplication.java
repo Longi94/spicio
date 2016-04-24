@@ -55,7 +55,9 @@ public class SpicioApplication extends Application {
         JodaTimeAndroid.init(this);
         FacebookSdk.sdkInitialize(this);
 
-        Fabric.with(this, new Crashlytics(), new Answers());
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics(), new Answers());
+        }
 
         SpicioAppModule spicioAppModule = new SpicioAppModule(this);
         NetworkModule networkModule = new NetworkModule();

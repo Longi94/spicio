@@ -214,6 +214,9 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                 mApplication, id, this
         );
         interactor.execute();
+        if (mView != null) {
+            mView.showLoadingAnim();
+        }
     }
 
     @Override
