@@ -149,13 +149,18 @@ public class DatabaseContract {
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_TIMESTAMP = "timestamp";
         public static final String COLUMN_CULPRIT_ID = "culprit_id";
+        public static final String COLUMN_CULPRIT_NAME = "culprit_name";
+        public static final String COLUMN_CULPRIT_IMAGE = "culprit_image";
         public static final String COLUMN_VICTIM_ID = "victim_id";
         public static final String COLUMN_VICTIM_NAME = "victim_name";
+        public static final String COLUMN_VICTIM_IMAGE = "victim_image";
         public static final String COLUMN_SERIES_ID = "series_id";
         public static final String COLUMN_SERIES_NAME = "series_name";
+        public static final String COLUMN_SERIES_IMAGE = "series_image";
         public static final String COLUMN_EPISODE_ID = "episode_id";
         public static final String COLUMN_EPISODE_NAME = "episode_name";
         public static final String COLUMN_EPISODE_NUMBER = "episode_number";
+        public static final String COLUMN_EPISODE_IMAGE = "episode_image";
         public static final String COLUMN_EPISODE_ABSOLUTE_NUMBER = "episode_absolute_number";
         public static final String COLUMN_SEASON_NUMBER = "season_number";
 

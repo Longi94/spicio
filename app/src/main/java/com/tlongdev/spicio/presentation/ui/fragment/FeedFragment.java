@@ -54,7 +54,7 @@ public class FeedFragment extends SpicioFragment implements FeedView, SwipeRefre
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mPresenter.getFeed();
+        mPresenter.loadFeed();
 
         return rootView;
     }

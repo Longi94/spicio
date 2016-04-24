@@ -7,9 +7,15 @@ import android.net.Uri;
 
 import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.domain.model.ActivityType;
+import com.tlongdev.spicio.domain.model.Episode;
+import com.tlongdev.spicio.domain.model.Image;
+import com.tlongdev.spicio.domain.model.Images;
+import com.tlongdev.spicio.domain.model.Series;
 import com.tlongdev.spicio.domain.model.SeriesActivities;
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.UserActivity;
 import com.tlongdev.spicio.storage.DatabaseContract.ActivityEntry;
+import com.tlongdev.spicio.storage.DatabaseContract.FeedEntry;
 import com.tlongdev.spicio.storage.DatabaseContract.FriendsEntry;
 import com.tlongdev.spicio.storage.dao.UserDao;
 import com.tlongdev.spicio.util.Logger;
@@ -88,6 +94,7 @@ public class UserDaoImpl implements UserDao {
         return rowsInserted;
     }
 
+    @Override
     public List<User> getFriends() {
         Cursor cursor = mContentResolver.query(
                 FriendsEntry.CONTENT_URI,
@@ -161,5 +168,127 @@ public class UserDaoImpl implements UserDao {
             cursor.close();
         }
         return false;
+    }
+
+    @Override
+    public List<UserActivity> getFeed() {
+        Cursor cursor = mContentResolver.query(
+                FeedEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                FeedEntry.COLUMN_TIMESTAMP + " DESC"
+        );
+
+        List<UserActivity> activities = new LinkedList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                activities.add(mapCursorToUserActivity(cursor));
+            }
+            cursor.close();
+        }
+        return activities;
+    }
+
+    @Override
+    public int insertFeed(List<UserActivity> activities) {
+        int rowsDeleted = mContentResolver.delete(FeedEntry.CONTENT_URI, null, null);
+
+        mLogger.verbose(LOG_TAG, "deleted " + rowsDeleted + " rows from feed table");
+
+        Vector<ContentValues> cVVector = new Vector<>();
+
+        for (UserActivity activity : activities) {
+            cVVector.add(createContentValues(activity));
+        }
+
+        int rowsInserted = 0;
+
+        if (cVVector.size() > 0) {
+            ContentValues[] cvArray = new ContentValues[cVVector.size()];
+            cVVector.toArray(cvArray);
+            //Insert all the data into the database
+            rowsInserted = mContentResolver.bulkInsert(FeedEntry.CONTENT_URI, cvArray);
+        }
+
+        mLogger.verbose(LOG_TAG, "inserted " + rowsInserted + " rows into feed table");
+
+        return rowsInserted;
+    }
+
+    private ContentValues createContentValues(UserActivity activity) {
+        ContentValues values = new ContentValues();
+
+        //values.put(FeedEntry.COLUMN_ITEM_ID, activity.getId());
+        values.put(FeedEntry.COLUMN_TYPE, activity.getType());
+        values.put(FeedEntry.COLUMN_TIMESTAMP, activity.getTimestamp());
+
+        if (activity.getCulprit() != null) {
+            values.put(FeedEntry.COLUMN_CULPRIT_ID, activity.getCulprit().getId());
+            values.put(FeedEntry.COLUMN_CULPRIT_NAME, activity.getCulprit().getName());
+            values.put(FeedEntry.COLUMN_CULPRIT_IMAGE, activity.getCulprit().getAvatarUrl());
+        }
+
+        if (activity.getVictim() != null) {
+            values.put(FeedEntry.COLUMN_VICTIM_ID, activity.getVictim().getId());
+            values.put(FeedEntry.COLUMN_VICTIM_NAME, activity.getVictim().getName());
+            values.put(FeedEntry.COLUMN_VICTIM_IMAGE, activity.getVictim().getAvatarUrl());
+        }
+
+        if (activity.getSeries() != null) {
+            values.put(FeedEntry.COLUMN_SERIES_ID, activity.getSeries().getTraktId());
+            values.put(FeedEntry.COLUMN_SERIES_NAME, activity.getSeries().getTitle());
+            values.put(FeedEntry.COLUMN_SERIES_IMAGE, activity.getSeries().getImages().getThumb().getFull());
+        }
+
+        if (activity.getEpisode() != null) {
+            values.put(FeedEntry.COLUMN_EPISODE_ID, activity.getEpisode().getTraktId());
+            values.put(FeedEntry.COLUMN_EPISODE_NAME, activity.getEpisode().getTitle());
+            values.put(FeedEntry.COLUMN_EPISODE_NUMBER, activity.getEpisode().getNumber());
+            values.put(FeedEntry.COLUMN_EPISODE_IMAGE, activity.getEpisode().getImages().getThumb().getFull());
+            values.put(FeedEntry.COLUMN_EPISODE_ABSOLUTE_NUMBER, activity.getEpisode().getAbsoluteNumber());
+            values.put(FeedEntry.COLUMN_SEASON_NUMBER, activity.getEpisode().getSeason());
+        }
+
+        return values;
+    }
+
+    @SuppressWarnings("WrongConstant")
+    private UserActivity mapCursorToUserActivity(Cursor cursor) {
+        UserActivity activity = new UserActivity();
+
+        activity.setType(cursor.getInt(cursor.getColumnIndex(FeedEntry.COLUMN_TYPE)));
+        activity.setTimestamp(cursor.getLong(cursor.getColumnIndex(FeedEntry.COLUMN_TIMESTAMP)));
+
+        Series series = new Series();
+        series.setTraktId(cursor.getInt(cursor.getColumnIndex(FeedEntry.COLUMN_SERIES_ID)));
+        series.setTitle(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_SERIES_NAME)));
+        series.setImages(new Images());
+        series.getImages().setThumb(new Image());
+        series.getImages().getThumb().setFull(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_SERIES_IMAGE)));
+        activity.setSeries(series);
+
+        Episode episode = new Episode();
+        episode.setTraktId(cursor.getInt(cursor.getColumnIndex(FeedEntry.COLUMN_EPISODE_ID)));
+        episode.setNumber(cursor.getInt(cursor.getColumnIndex(FeedEntry.COLUMN_EPISODE_NUMBER)));
+        episode.setSeason(cursor.getInt(cursor.getColumnIndex(FeedEntry.COLUMN_SEASON_NUMBER)));
+        episode.setTitle(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_EPISODE_NAME)));
+        episode.setImages(new Images());
+        episode.getImages().setThumb(new Image());
+        episode.getImages().getThumb().setFull(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_EPISODE_IMAGE)));
+        activity.setEpisode(episode);
+
+        User culprit = new User();
+        culprit.setId(cursor.getLong(cursor.getColumnIndex(FeedEntry.COLUMN_CULPRIT_ID)));
+        culprit.setName(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_CULPRIT_NAME)));
+        culprit.setAvatarUrl(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_CULPRIT_IMAGE)));
+        activity.setCulprit(culprit);
+
+        User victim = new User();
+        victim.setId(cursor.getLong(cursor.getColumnIndex(FeedEntry.COLUMN_VICTIM_ID)));
+        victim.setName(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_VICTIM_NAME)));
+        victim.setAvatarUrl(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_VICTIM_IMAGE)));
+        activity.setVictim(victim);
+        return activity;
     }
 }

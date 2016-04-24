@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.tlongdev.spicio.domain.model.SeriesActivities;
 import com.tlongdev.spicio.domain.model.User;
+import com.tlongdev.spicio.domain.model.UserActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -22,4 +23,8 @@ public interface UserDao {
     List<User> getFriends();
 
     boolean isFriend(long friendId);
+
+    List<UserActivity> getFeed();
+
+    int insertFeed(List<UserActivity> activities);
 }

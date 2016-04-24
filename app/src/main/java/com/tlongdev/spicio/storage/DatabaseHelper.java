@@ -106,21 +106,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_FEED_TABLE = "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
                 FeedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-                FeedEntry.COLUMN_ITEM_ID + " INTEGER NOT NULL, " +
+                //FeedEntry.COLUMN_ITEM_ID + " INTEGER NOT NULL, " +
                 FeedEntry.COLUMN_TYPE + " INTEGER, " +
                 FeedEntry.COLUMN_TIMESTAMP + " INTEGER, " +
                 FeedEntry.COLUMN_CULPRIT_ID + " INTEGER, " +
+                FeedEntry.COLUMN_CULPRIT_NAME + " TEXT, " +
+                FeedEntry.COLUMN_CULPRIT_IMAGE + " TEXT, " +
                 FeedEntry.COLUMN_VICTIM_ID + " INTEGER, " +
                 FeedEntry.COLUMN_VICTIM_NAME + " TEXT, " +
+                FeedEntry.COLUMN_VICTIM_IMAGE + " TEXT, " +
                 FeedEntry.COLUMN_SERIES_ID + " INTEGER, " +
                 FeedEntry.COLUMN_SERIES_NAME + " TEXT, " +
+                FeedEntry.COLUMN_SERIES_IMAGE + " TEXT, " +
                 FeedEntry.COLUMN_EPISODE_ID + " INTEGER, " +
                 FeedEntry.COLUMN_EPISODE_NAME + " TEXT, " +
                 FeedEntry.COLUMN_EPISODE_NUMBER + " INTEGER, " +
+                FeedEntry.COLUMN_EPISODE_IMAGE + " TEXT, " +
                 FeedEntry.COLUMN_EPISODE_ABSOLUTE_NUMBER + " INTEGER, " +
-                FeedEntry.COLUMN_SEASON_NUMBER + " INTEGER, " +
+                FeedEntry.COLUMN_SEASON_NUMBER + " INTEGER)";
 
-                "UNIQUE (" + FeedEntry.COLUMN_ITEM_ID + ") ON CONFLICT REPLACE);";
+                //"UNIQUE (" + FeedEntry.COLUMN_ITEM_ID + ") ON CONFLICT REPLACE);";
 
         final String SQL_CREATE_FRIENDS_TABLE = "CREATE TABLE " + FriendsEntry.TABLE_NAME + " (" +
                 FriendsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
