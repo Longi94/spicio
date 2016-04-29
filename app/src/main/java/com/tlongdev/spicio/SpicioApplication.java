@@ -7,11 +7,13 @@ import com.crashlytics.android.answers.Answers;
 import com.facebook.FacebookSdk;
 import com.tlongdev.spicio.component.ActivityComponent;
 import com.tlongdev.spicio.component.DaggerActivityComponent;
+import com.tlongdev.spicio.component.DaggerDrawerManagerComponent;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
 import com.tlongdev.spicio.component.DaggerPresenterComponent;
 import com.tlongdev.spicio.component.DaggerProfileManagerComponent;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
+import com.tlongdev.spicio.component.DrawerManagerComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.component.PresenterComponent;
@@ -48,6 +50,8 @@ public class SpicioApplication extends Application {
     private ActivityComponent mActivityComponent;
 
     private ProfileManagerComponent mProfileManagerComponent;
+
+    private DrawerManagerComponent mDrawerManagerComponent;
 
     @Override
     public void onCreate() {
@@ -97,6 +101,11 @@ public class SpicioApplication extends Application {
         mProfileManagerComponent = DaggerProfileManagerComponent.builder()
                 .spicioAppModule(spicioAppModule)
                 .build();
+
+        mDrawerManagerComponent = DaggerDrawerManagerComponent.builder()
+                .authenticationModule(authenticationModule)
+                .spicioAppModule(spicioAppModule)
+                .build();
     }
 
     public NetworkComponent getNetworkComponent() {
@@ -129,5 +138,9 @@ public class SpicioApplication extends Application {
 
     public void setProfileManagerComponent(ProfileManagerComponent profileManagerComponent) {
         mProfileManagerComponent = profileManagerComponent;
+    }
+
+    public DrawerManagerComponent getDrawerManagerComponent() {
+        return mDrawerManagerComponent;
     }
 }

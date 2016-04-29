@@ -16,7 +16,7 @@ public class ProfileManager {
 
     private static final String LOG_TAG = ProfileManager.class.getSimpleName();
 
-    private static String PREF_KEY_USER = "pref_user_data";
+    public static final String PREF_KEY_USER = "pref_user_data";
 
     @Inject SharedPreferences mPrefs;
     @Inject SharedPreferences.Editor mEditor;

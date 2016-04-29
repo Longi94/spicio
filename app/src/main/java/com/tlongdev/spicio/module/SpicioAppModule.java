@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.util.AndroidLogger;
 import com.tlongdev.spicio.util.Logger;
+import com.tlongdev.spicio.view.NavigationDrawerManager;
 
 import javax.inject.Singleton;
 
@@ -61,5 +63,11 @@ public class SpicioAppModule {
     @Singleton
     Gson provideGson() {
         return new Gson();
+    }
+
+    @Provides
+    @Singleton
+    NavigationDrawerManager provideNavigationDrawerManager(Application application) {
+        return new NavigationDrawerManager((SpicioApplication) application);
     }
 }

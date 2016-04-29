@@ -26,6 +26,7 @@ import com.tlongdev.spicio.presentation.ui.fragment.SearchSeriesFragment;
 import com.tlongdev.spicio.presentation.ui.fragment.SeriesFragment;
 import com.tlongdev.spicio.presentation.ui.view.activity.MainView;
 import com.tlongdev.spicio.util.ProfileManager;
+import com.tlongdev.spicio.view.NavigationDrawerManager;
 
 import javax.inject.Inject;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         NavigationView.OnNavigationItemSelectedListener {
 
     @Inject ProfileManager mProfileManager;
+    @Inject NavigationDrawerManager mNavigationDrawerManager;
 
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view) NavigationView mNavigationView;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
      */
     private int mCurrentSelectedPosition = -1;
 
-    private MainPresenter presenter;
+    private MainPresenter mPresenter;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -78,10 +80,12 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
         ((SpicioApplication)getApplication()).getActivityComponent().inject(this);
 
-        presenter = new MainPresenter();
-        presenter.attachView(this);
+        mPresenter = new MainPresenter();
+        mPresenter.attachView(this);
 
         mNavigationView.setNavigationItemSelectedListener(this);
+
+        mNavigationDrawerManager.attachView(mNavigationView.getHeaderView(0));
 
         switchFragment(NAV_FEED);
     }
@@ -99,7 +103,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        mPresenter.detachView();
+        mNavigationDrawerManager.detachView();
     }
 
     @Override
