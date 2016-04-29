@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -48,16 +47,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view) NavigationView mNavigationView;
 
-    /**
-     * Remember the position of the selected item.
-     */
-    private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-
-    public static final String FRAGMENT_TAG_FEED = "feed";
-    public static final String FRAGMENT_TAG_SEARCH_SERIES = "search_series";
-    public static final String FRAGMENT_TAG_SERIES = "series";
-    public static final String FRAGMENT_TAG_FRIENDS = "friends";
-
     public static final int NAV_FEED = 0;
     public static final int NAV_SERIES = 1;
     public static final int NAV_SEARCH_SERIES = 2;
@@ -78,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainView,
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        ((SpicioApplication)getApplication()).getActivityComponent().inject(this);
+        ((SpicioApplication) getApplication()).getActivityComponent().inject(this);
 
         mPresenter = new MainPresenter();
         mPresenter.attachView(this);
@@ -87,7 +76,9 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
         mNavigationDrawerManager.attachView(mNavigationView.getHeaderView(0));
 
-        switchFragment(NAV_FEED);
+        if (savedInstanceState == null) {
+            switchFragment(NAV_FEED);
+        }
     }
 
     @Override
@@ -188,37 +179,22 @@ public class MainActivity extends AppCompatActivity implements MainView,
         //Start handling fragment transactions
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Fragment newFragment;
 
         switch (position) {
             case NAV_FEED:
-                newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_FEED);
-                if (newFragment == null) {
-                    newFragment = new FeedFragment();
-                }
-                transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_FEED);
+                transaction.replace(R.id.container, new FeedFragment());
                 break;
             case NAV_SEARCH_SERIES:
-                newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_SEARCH_SERIES);
-                if (newFragment == null) {
-                    newFragment = new SearchSeriesFragment();
-                }
-                transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_SEARCH_SERIES);
+                transaction.replace(R.id.container, new SearchSeriesFragment());
                 break;
             case NAV_SERIES:
-                newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_SERIES);
-                if (newFragment == null) {
-                    newFragment = new SeriesFragment();
-                }
-                transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_SERIES);
+                transaction.replace(R.id.container, new SeriesFragment());
                 break;
             case NAV_FRIENDS:
-                newFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG_FRIENDS);
-                if (newFragment == null) {
-                    newFragment = new FriendsFragment();
-                }
-                transaction.replace(R.id.container, newFragment, FRAGMENT_TAG_FRIENDS);
+                transaction.replace(R.id.container, new FriendsFragment());
                 break;
+            default:
+                throw new IllegalArgumentException("Unknown fragment: " + position);
         }
 
         //Commit the transaction
