@@ -4,8 +4,10 @@ package com.tlongdev.spicio.presentation.ui.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +51,9 @@ public class FeedFragment extends SpicioFragment implements FeedView, SwipeRefre
 
         mPresenter = new FeedPresenter(mApplication);
         mPresenter.attachView(this);
+
+        //Set the toolbar to the main activity's action bar
+        ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
         mAdapter = new FeedAdapter();
 

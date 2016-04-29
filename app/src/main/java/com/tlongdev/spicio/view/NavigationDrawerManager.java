@@ -57,14 +57,18 @@ public class NavigationDrawerManager implements SharedPreferences.OnSharedPrefer
 
     public void update(User user) {
         //Set the name
-        mPrimaryText.setText(user.getName());
+        if (mPrimaryText != null) {
+            mPrimaryText.setText(user.getName());
+        }
 
         //Download the avatar (if needed) and set it
-        Glide.with(mContext)
-                .load(user.getAvatarUrl())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .transform(new CircleTransform(mContext))
-                .into(mAvatar);
+        if (mAvatar != null) {
+            Glide.with(mContext)
+                    .load(user.getAvatarUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .transform(new CircleTransform(mContext))
+                    .into(mAvatar);
+        }
     }
 
     @Override
