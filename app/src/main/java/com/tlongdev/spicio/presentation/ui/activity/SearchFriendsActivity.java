@@ -18,14 +18,14 @@ import com.tlongdev.spicio.presentation.ui.view.activity.SearchFriendsView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchFriendsActivity extends SpicioActivity implements SearchFriendsView, SearchFriendsAdapter.OnItemClickListener {
 
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
-    @Bind(R.id.search) EditText mSearch;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.search) EditText mSearch;
 
     private SearchFriendsPresenter mPresenter;
     private SearchFriendsAdapter mAdapter;

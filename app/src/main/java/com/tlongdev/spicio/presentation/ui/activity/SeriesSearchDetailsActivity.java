@@ -27,7 +27,7 @@ import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -38,14 +38,14 @@ public class SeriesSearchDetailsActivity extends SpicioActivity implements Serie
     public static final String EXTRA_TRAKT_ID = "trakt_id";
     public static final String EXTRA_POSTER = "poster";
 
-    @Bind(R.id.poster) ImageView poster;
-    @Bind(R.id.title) TextView title;
-    @Bind(R.id.rating) TextView rating;
-    @Bind(R.id.overview) TextView overview;
-    @Bind(R.id.trailer) Button trailer;
-    @Bind(R.id.genres) TextView genres;
-    @Bind(R.id.scroll_view) NestedScrollView scrollView;
-    @Bind(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.poster) ImageView poster;
+    @BindView(R.id.title) TextView title;
+    @BindView(R.id.rating) TextView rating;
+    @BindView(R.id.overview) TextView overview;
+    @BindView(R.id.trailer) Button trailer;
+    @BindView(R.id.genres) TextView genres;
+    @BindView(R.id.scroll_view) NestedScrollView scrollView;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     @InjectExtra(EXTRA_TRAKT_ID) int mTraktId;
     @InjectExtra(EXTRA_POSTER) @Nullable String mPoster;

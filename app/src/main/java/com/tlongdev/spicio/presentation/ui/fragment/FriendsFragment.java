@@ -25,19 +25,22 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.FriendsView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FriendsFragment extends SpicioFragment implements FriendsView, FriendsAdapter.OnItemClickListener {
 
-    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     private FriendsPresenter mPresenter;
 
     private FriendsAdapter mAdapter;
+
+    private Unbinder mUnbinder;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -54,7 +57,7 @@ public class FriendsFragment extends SpicioFragment implements FriendsView, Frie
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
 
         mPresenter = new FriendsPresenter(mApplication);
         mPresenter.attachView(this);
@@ -80,6 +83,7 @@ public class FriendsFragment extends SpicioFragment implements FriendsView, Frie
     public void onDestroyView() {
         super.onDestroyView();
         mPresenter.detachView();
+        mUnbinder.unbind();
     }
 
     @Override

@@ -20,8 +20,9 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.SeasonsView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,12 +31,14 @@ public class SeasonsFragment extends SpicioFragment implements SeasonsView, Seas
 
     private static final String ARG_PARAM_SERIES_ID = "series_id";
 
-    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     private SeasonsAdapter adapter;
 
     private SeasonsPresenter mPresenter;
     private int mSeriesId = -1;
+
+    private Unbinder mUnbinder;
 
     public SeasonsFragment() {
         // Required empty public constructor
@@ -69,7 +72,7 @@ public class SeasonsFragment extends SpicioFragment implements SeasonsView, Seas
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_seasons, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
 
         mPresenter = new SeasonsPresenter(mApplication);
         mPresenter.attachView(this);
@@ -93,6 +96,7 @@ public class SeasonsFragment extends SpicioFragment implements SeasonsView, Seas
     public void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+        mUnbinder.unbind();
     }
 
     @Override

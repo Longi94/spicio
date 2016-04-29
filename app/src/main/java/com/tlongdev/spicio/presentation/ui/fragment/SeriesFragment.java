@@ -22,19 +22,22 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SeriesFragment extends SpicioFragment implements SeriesView, SeriesAdapter.OnItemSelectedListener {
 
-    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
-    private SeriesPresenter presenter;
+    private SeriesPresenter mPresenter;
 
-    private SeriesAdapter adapter;
+    private SeriesAdapter mAdapter;
+
+    private Unbinder mUnbinder;
 
     public SeriesFragment() {
         // Required empty public constructor
@@ -43,8 +46,8 @@ public class SeriesFragment extends SpicioFragment implements SeriesView, Series
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SeriesPresenter(mApplication);
-        presenter.attachView(this);
+        mPresenter = new SeriesPresenter(mApplication);
+        mPresenter.attachView(this);
     }
 
     @Override
@@ -52,16 +55,16 @@ public class SeriesFragment extends SpicioFragment implements SeriesView, Series
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_series, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
 
         //Set the toolbar to the main activity's action bar
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
-        adapter = new SeriesAdapter(getActivity());
-        adapter.setListener(this);
+        mAdapter = new SeriesAdapter(getActivity());
+        mAdapter.setListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -69,19 +72,20 @@ public class SeriesFragment extends SpicioFragment implements SeriesView, Series
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.loadSeries();
+        mPresenter.loadSeries();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        mPresenter.detachView();
+        mUnbinder.unbind();
     }
 
     @Override
     public void showSeries(List<Series> series) {
-        adapter.setDataSet(series);
-        adapter.notifyDataSetChanged();
+        mAdapter.setDataSet(series);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

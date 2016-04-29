@@ -18,20 +18,23 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.FeedView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FeedFragment extends SpicioFragment implements FeedView, SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
-    @Bind(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private FeedPresenter mPresenter;
 
     private FeedAdapter mAdapter;
+
+    private Unbinder mUnbinder;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -42,7 +45,7 @@ public class FeedFragment extends SpicioFragment implements FeedView, SwipeRefre
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
 
         mPresenter = new FeedPresenter(mApplication);
         mPresenter.attachView(this);
@@ -63,6 +66,7 @@ public class FeedFragment extends SpicioFragment implements FeedView, SwipeRefre
     public void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+        mUnbinder.unbind();
     }
 
     @Override

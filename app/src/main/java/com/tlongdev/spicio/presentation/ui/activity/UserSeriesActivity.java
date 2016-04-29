@@ -17,15 +17,15 @@ import com.tlongdev.spicio.presentation.ui.view.activity.UserSeriesView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class UserSeriesActivity extends SpicioActivity implements UserSeriesView {
 
     public static final String EXTRA_USER_ID = "user_id";
 
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     @InjectExtra(EXTRA_USER_ID) long mUserId;
 

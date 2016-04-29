@@ -29,7 +29,7 @@ import com.tlongdev.spicio.util.ProfileManager;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
     @Inject ProfileManager mProfileManager;
 
-    @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @Bind(R.id.nav_view) NavigationView mNavigationView;
+    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+    @BindView(R.id.nav_view) NavigationView mNavigationView;
 
     /**
      * Remember the position of the selected item.

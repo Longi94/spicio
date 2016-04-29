@@ -10,14 +10,14 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.presentation.presenter.activity.LoginPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.LoginView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends SpicioActivity implements LoginView {
 
-    @Bind(R.id.facebook_login) LoginButton mFacebookLoginButton;
-    @Bind(R.id.google_login) SignInButton mGoogleLoginButton;
+    @BindView(R.id.facebook_login) LoginButton mFacebookLoginButton;
+    @BindView(R.id.google_login) SignInButton mGoogleLoginButton;
 
     private LoginPresenter mPresenter;
 

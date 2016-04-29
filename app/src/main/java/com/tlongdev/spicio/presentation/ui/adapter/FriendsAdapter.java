@@ -11,7 +11,7 @@ import com.tlongdev.spicio.domain.model.User;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -63,7 +63,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.name) TextView name;
+        @BindView(R.id.name) TextView name;
 
         View root;
 

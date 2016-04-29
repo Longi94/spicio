@@ -23,7 +23,7 @@ import com.tlongdev.spicio.presentation.ui.view.activity.UserView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,13 +32,13 @@ public class UserActivity extends SpicioActivity implements UserView {
     public static final String EXTRA_USER_ID = "user_id";
     public static final String EXTRA_USER_NAME = "user_name";
 
-    @Bind(R.id.data_layout) LinearLayout mDataLayout;
-    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
-    @Bind(R.id.name) TextView mNameView;
-    @Bind(R.id.fail_text) TextView mFailText;
-    @Bind(R.id.add_remove_friend) Button mAddRemoveButton;
+    @BindView(R.id.data_layout) LinearLayout mDataLayout;
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.name) TextView mNameView;
+    @BindView(R.id.fail_text) TextView mFailText;
+    @BindView(R.id.add_remove_friend) Button mAddRemoveButton;
 
     @InjectExtra(EXTRA_USER_ID) long mFriendId;
     @InjectExtra(EXTRA_USER_NAME) String mUserName;

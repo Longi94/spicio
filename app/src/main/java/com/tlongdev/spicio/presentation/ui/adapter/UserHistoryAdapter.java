@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -69,11 +69,11 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.type) TextView type;
-        @Bind(R.id.victim) TextView victim;
-        @Bind(R.id.series) TextView series;
-        @Bind(R.id.episode) TextView episode;
-        @Bind(R.id.timestamp) TextView timestamp;
+        @BindView(R.id.type) TextView type;
+        @BindView(R.id.victim) TextView victim;
+        @BindView(R.id.series) TextView series;
+        @BindView(R.id.episode) TextView episode;
+        @BindView(R.id.timestamp) TextView timestamp;
 
         public ViewHolder(View view) {
             super(view);

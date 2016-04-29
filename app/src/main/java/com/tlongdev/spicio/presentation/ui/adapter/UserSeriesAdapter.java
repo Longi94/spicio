@@ -15,7 +15,7 @@ import com.tlongdev.spicio.domain.model.Series;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -78,8 +78,8 @@ public class UserSeriesAdapter extends RecyclerView.Adapter<UserSeriesAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.thumb) ImageView thumb;
-        @Bind(R.id.title) TextView title;
+        @BindView(R.id.thumb) ImageView thumb;
+        @BindView(R.id.title) TextView title;
         View root;
 
         public ViewHolder(View view) {

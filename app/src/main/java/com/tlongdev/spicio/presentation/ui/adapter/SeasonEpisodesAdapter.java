@@ -15,7 +15,7 @@ import com.tlongdev.spicio.domain.model.Episode;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -77,8 +77,8 @@ public class SeasonEpisodesAdapter extends RecyclerView.Adapter<SeasonEpisodesAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.thumb) ImageView thumb;
-        @Bind(R.id.title) TextView title;
+        @BindView(R.id.thumb) ImageView thumb;
+        @BindView(R.id.title) TextView title;
 
         View root;
 

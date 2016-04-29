@@ -23,9 +23,10 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,20 +37,22 @@ public class EpisodeFragment extends SpicioFragment implements EpisodeView {
 
     private static final String ARG_EPISODE_ID = "series_id";
 
-    @Bind(R.id.screenshot) ImageView mScreenShot;
-    @Bind(R.id.title) TextView mTitle;
-    @Bind(R.id.aired) TextView mAired;
-    @Bind(R.id.rating) TextView mRating;
-    @Bind(R.id.overview) TextView mOverview;
-    @Bind(R.id.check) ImageView mCheck;
-    @Bind(R.id.like) ImageView mLike;
-    @Bind(R.id.skip) ImageView mSkip;
+    @BindView(R.id.screenshot) ImageView mScreenShot;
+    @BindView(R.id.title) TextView mTitle;
+    @BindView(R.id.aired) TextView mAired;
+    @BindView(R.id.rating) TextView mRating;
+    @BindView(R.id.overview) TextView mOverview;
+    @BindView(R.id.check) ImageView mCheck;
+    @BindView(R.id.like) ImageView mLike;
+    @BindView(R.id.skip) ImageView mSkip;
 
     private ProgressDialog mLoadingDialog;
 
     private int mEpisodeId;
 
     private EpisodePresenter mPresenter;
+
+    private Unbinder mUnbinder;
 
     public EpisodeFragment() {
         // Required empty public constructor
@@ -78,7 +81,7 @@ public class EpisodeFragment extends SpicioFragment implements EpisodeView {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_episode, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
 
         return rootView;
     }
@@ -93,6 +96,7 @@ public class EpisodeFragment extends SpicioFragment implements EpisodeView {
     public void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+        mUnbinder.unbind();
     }
 
     @Override

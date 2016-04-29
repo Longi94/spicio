@@ -24,9 +24,10 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesDetailsView;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,18 +40,20 @@ public class SeriesDetailsFragment extends SpicioFragment implements SeriesDetai
 
     private static final String ARG_PARAM_SERIES_ID = "series_id";
 
-    @Bind(R.id.poster) ImageView poster;
-    @Bind(R.id.title) TextView title;
-    @Bind(R.id.rating) TextView rating;
-    @Bind(R.id.overview) TextView overview;
-    @Bind(R.id.trailer) Button trailer;
-    @Bind(R.id.genres) TextView genres;
+    @BindView(R.id.poster) ImageView poster;
+    @BindView(R.id.title) TextView title;
+    @BindView(R.id.rating) TextView rating;
+    @BindView(R.id.overview) TextView overview;
+    @BindView(R.id.trailer) Button trailer;
+    @BindView(R.id.genres) TextView genres;
 
-    private SeriesDetailsPresenter presenter;
+    private SeriesDetailsPresenter mPresenter;
 
     private String trailerUrl;
 
     private int mSeriesId = -1;
+
+    private Unbinder mUnbinder;
 
     public SeriesDetailsFragment() {
         // Required empty public constructor
@@ -83,12 +86,12 @@ public class SeriesDetailsFragment extends SpicioFragment implements SeriesDetai
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new SeriesDetailsPresenter(mApplication);
-        presenter.attachView(this);
+        mPresenter = new SeriesDetailsPresenter(mApplication);
+        mPresenter.attachView(this);
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_series_search_details, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
 
         return rootView;
     }
@@ -96,13 +99,14 @@ public class SeriesDetailsFragment extends SpicioFragment implements SeriesDetai
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.loadSeasonDetails(mSeriesId);
+        mPresenter.loadSeasonDetails(mSeriesId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
+        mPresenter.detachView();
+        mUnbinder.unbind();
     }
 
     @Override

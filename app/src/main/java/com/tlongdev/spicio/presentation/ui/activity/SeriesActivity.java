@@ -15,7 +15,7 @@ import com.tlongdev.spicio.presentation.presenter.activity.SeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.adapter.SeriesPagerAdapter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SeriesActivity extends SpicioActivity implements SeriesView {
@@ -23,9 +23,9 @@ public class SeriesActivity extends SpicioActivity implements SeriesView {
     public static final String EXTRA_SERIES_ID = "series_id";
     public static final String EXTRA_SERIES_TITLE = "series_title";
 
-    @Bind(R.id.container) ViewPager mViewPager;
-    @Bind(R.id.tabs) TabLayout mTabLayout;
-    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.container) ViewPager mViewPager;
+    @BindView(R.id.tabs) TabLayout mTabLayout;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @InjectExtra(EXTRA_SERIES_ID) int mSeriesId;
     @InjectExtra(EXTRA_SERIES_TITLE) String mSeriesTitle;
