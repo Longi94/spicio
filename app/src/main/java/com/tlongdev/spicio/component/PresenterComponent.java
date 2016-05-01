@@ -2,6 +2,7 @@ package com.tlongdev.spicio.component;
 
 import com.tlongdev.spicio.module.AuthenticationModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
+import com.tlongdev.spicio.presentation.presenter.UserFriendsPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.LoginPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.SearchFriendsPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.SeriesPresenter;
@@ -37,4 +38,6 @@ public interface PresenterComponent {
     void inject(SearchFriendsPresenter searchFriendsPresenter);
 
     void inject(FeedPresenter feedPresenter);
+
+    void inject(UserFriendsPresenter userFriendsPresenter);
 }

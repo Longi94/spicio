@@ -95,12 +95,16 @@ public class UserActivity extends SpicioActivity implements UserView {
     public void showSeries() {
         Intent intent = new Intent(this, UserSeriesActivity.class);
         intent.putExtra(UserSeriesActivity.EXTRA_USER_ID, mFriendId);
+        intent.putExtra(UserSeriesActivity.EXTRA_USER_NAME, mUserName);
         startActivity(intent);
     }
 
     @OnClick(R.id.friends)
     public void showFriends() {
-
+        Intent intent = new Intent(this, UserFriendsActivity.class);
+        intent.putExtra(UserFriendsActivity.EXTRA_USER_ID, mFriendId);
+        intent.putExtra(UserFriendsActivity.EXTRA_USER_NAME, mUserName);
+        startActivity(intent);
     }
 
     @OnClick(R.id.add_remove_friend)

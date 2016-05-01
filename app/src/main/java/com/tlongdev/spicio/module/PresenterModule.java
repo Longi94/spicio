@@ -3,6 +3,7 @@ package com.tlongdev.spicio.module;
 import android.app.Application;
 
 import com.tlongdev.spicio.SpicioApplication;
+import com.tlongdev.spicio.presentation.presenter.UserFriendsPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.LoginPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.MainPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.SearchFriendsPresenter;
@@ -125,5 +126,11 @@ public class PresenterModule {
     @Singleton
     com.tlongdev.spicio.presentation.presenter.fragment.SeriesPresenter provideSeriesPresenter2(Application application) {
         return new com.tlongdev.spicio.presentation.presenter.fragment.SeriesPresenter((SpicioApplication) application);
+    }
+
+    @Provides
+    @Singleton
+    UserFriendsPresenter provideUserFriendsPresenter(Application application) {
+        return new UserFriendsPresenter((SpicioApplication) application);
     }
 }

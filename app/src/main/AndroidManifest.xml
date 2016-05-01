@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tlongdev.spicio">
+<manifest package="com.tlongdev.spicio"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Safe permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -105,6 +105,16 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b4c92b929954d1bf5ce57f368544cebb8ab16dec"/>
+
+        <activity
+            android:name=".presentation.ui.activity.UserFriendsActivity"
+            android:label="@string/title_activity_user_friends"
+            android:parentActivityName=".presentation.ui.activity.UserActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tlongdev.spicio.presentation.ui.activity.UserActivity"/>
+        </activity>
     </application>
 
 </manifest>
