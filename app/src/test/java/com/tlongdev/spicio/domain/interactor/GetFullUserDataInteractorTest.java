@@ -52,6 +52,9 @@ public class GetFullUserDataInteractorTest {
     private List<Series> mSeries;
 
     @Mock
+    private List<User> mFriends;
+
+    @Mock
     private Map<Integer, SeriesActivities> mActivitiesMap;
 
     @Mock
@@ -75,6 +78,7 @@ public class GetFullUserDataInteractorTest {
         when(mUserFull.getSeries()).thenReturn(mSeries);
         when(mUserFull.getUser()).thenReturn(mUser);
         when(mUserFull.getActivities()).thenReturn(mActivitiesMap);
+        when(mUserFull.getFriends()).thenReturn(mFriends);
     }
 
     @Test
@@ -88,7 +92,7 @@ public class GetFullUserDataInteractorTest {
 
         verify(mRepository).getUser(1L, true);
         verifyNoMoreInteractions(mRepository);
-        verify(mMockedCallback).onGetFullUserDataFinished(mUser, mSeries, mActivitiesMap);
+        verify(mMockedCallback).onGetFullUserDataFinished(mUser, mSeries, mActivitiesMap, mFriends);
     }
 
     @Test

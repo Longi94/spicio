@@ -83,6 +83,16 @@ public class SpicioModelConverter {
             userFull.setSeries(series);
         }
 
+        if (body.getFriends() != null) {
+            List<User> friends = new LinkedList<>();
+
+            for (SpicioUserResponse friend : body.getFriends()) {
+                friends.add(SpicioModelConverter.convertToUser(friend));
+            }
+
+            userFull.setFriends(friends);
+        }
+
         userFull.setUser(user);
 
         return userFull;

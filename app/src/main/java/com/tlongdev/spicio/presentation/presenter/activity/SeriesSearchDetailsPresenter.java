@@ -118,11 +118,6 @@ public class SeriesSearchDetailsPresenter implements Presenter<SeriesSearchDetai
     }
 
     @Override
-    public void onSaveSeriesFail() {
-        // TODO: 2016. 03. 11.
-    }
-
-    @Override
     public void onAddSeriesFinish() {
         mLogger.verbose(LOG_TAG, "sent series to server");
         SaveSeriesInteractor interactor = new SaveSeriesInteractorImpl(

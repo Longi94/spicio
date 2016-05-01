@@ -138,6 +138,34 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public int addFriends(List<User> friends) {
+
+        Vector<ContentValues> cVVector = new Vector<>();
+
+        for (User friend : friends) {
+            ContentValues values = new ContentValues();
+
+            values.put(FriendsEntry.COLUMN_USER_ID, friend.getId());
+            values.put(FriendsEntry.COLUMN_NAME, friend.getName());
+
+            cVVector.add(values);
+        }
+
+        int rowsInserted = 0;
+
+        if (cVVector.size() > 0) {
+            ContentValues[] cvArray = new ContentValues[cVVector.size()];
+            cVVector.toArray(cvArray);
+            //Insert all the data into the database
+            rowsInserted = mContentResolver.bulkInsert(FriendsEntry.CONTENT_URI, cvArray);
+        }
+
+        mLogger.verbose(LOG_TAG, "inserted " + rowsInserted + " rows into friends table");
+
+        return rowsInserted;
+    }
+
+    @Override
     public int removeFriend(long id) {
         int rowsDeleted = mContentResolver.delete(
                 FriendsEntry.CONTENT_URI,

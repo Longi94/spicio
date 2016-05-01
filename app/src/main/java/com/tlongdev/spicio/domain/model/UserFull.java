@@ -15,6 +15,8 @@ public class UserFull {
 
     private Map<Integer, SeriesActivities> activities;
 
+    private List<User> friends;
+
     public User getUser() {
         return user;
     }
@@ -37,5 +39,13 @@ public class UserFull {
 
     public void setActivities(Map<Integer, SeriesActivities> activities) {
         this.activities = activities;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
+
+    public List<User> getFriends() {
+        return friends;
     }
 }

@@ -60,19 +60,6 @@ public class SaveSeriesInteractorImpl extends AbstractInteractor implements Save
         mLogger.verbose(LOG_TAG, "finished");
     }
 
-    private void postError() {
-        if (mCallback == null) {
-            return;
-        }
-
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onSaveSeriesFail();
-            }
-        });
-    }
-
     private void postFinish() {
         if (mCallback == null) {
             return;

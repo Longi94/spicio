@@ -81,11 +81,4 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
             mView.hideLoading();
         }
     }
-
-    @Override
-    public void onSaveSeriesFail() {
-        if (mView != null) {
-            mView.hideLoading();
-        }
-    }
 }

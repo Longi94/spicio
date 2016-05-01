@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public interface GetFullUserDataInteractor extends Interactor {
     interface Callback {
-        void onGetFullUserDataFinished(User user, List<Series> series, Map<Integer, SeriesActivities> activities);
+        void onGetFullUserDataFinished(User user, List<Series> series, Map<Integer, SeriesActivities> activities, List<User> friends);
 
         void onGetFullUserDataFail();
     }

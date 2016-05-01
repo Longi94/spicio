@@ -24,6 +24,8 @@ public class SpicioUserFullResponse {
 
     private List<SpicioSeriesResponse> series;
 
+    private List<SpicioUserResponse> friends;
+
     public long getId() {
         return id;
     }
@@ -46,5 +48,9 @@ public class SpicioUserFullResponse {
 
     public List<SpicioSeriesResponse> getSeries() {
         return series;
+    }
+
+    public List<SpicioUserResponse> getFriends() {
+        return friends;
     }
 }

@@ -27,4 +27,6 @@ public interface UserDao {
     List<UserActivity> getFeed();
 
     int insertFeed(List<UserActivity> activities);
+
+    int addFriends(List<User> friends);
 }

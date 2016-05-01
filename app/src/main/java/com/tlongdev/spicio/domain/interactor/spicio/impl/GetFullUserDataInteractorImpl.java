@@ -42,7 +42,7 @@ public class GetFullUserDataInteractorImpl extends AbstractInteractor implements
         UserFull user = mRepository.getUser(mId, true);
 
         if (user != null) {
-            postFinish(user.getUser(), user.getSeries(), user.getActivities());
+            postFinish(user.getUser(), user.getSeries(), user.getActivities(), user.getFriends());
         } else {
             postFail();
         }
@@ -50,12 +50,12 @@ public class GetFullUserDataInteractorImpl extends AbstractInteractor implements
         mLogger.verbose(LOG_TAG, "ended");
     }
 
-    void postFinish(final User user, final List<Series> series, final Map<Integer, SeriesActivities> activities) {
+    void postFinish(final User user, final List<Series> series, final Map<Integer, SeriesActivities> activities, final List<User> friends) {
         if (mCallback != null) {
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onGetFullUserDataFinished(user, series, activities);
+                    mCallback.onGetFullUserDataFinished(user, series, activities, friends);
                 }
             });
         }

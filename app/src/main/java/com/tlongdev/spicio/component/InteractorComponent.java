@@ -33,6 +33,7 @@ import com.tlongdev.spicio.domain.interactor.storage.impl.SaveActivitiesInteract
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveEpisodesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveFeedInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveFriendInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SaveFriendsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SkipEpisodeInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
@@ -136,4 +137,6 @@ public interface InteractorComponent {
     void inject(LoadFeedInteractorImpl loadFeedInteractor);
 
     void inject(SaveFeedInteractorImpl saveFeedInteractor);
+
+    void inject(SaveFriendsInteractorImpl saveFriendsInteractor);
 }

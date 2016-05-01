@@ -26,16 +26,18 @@ import com.tlongdev.spicio.domain.interactor.spicio.SpicioLoginInteractor;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.GetFullUserDataInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.spicio.impl.SpicioLoginInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.SaveActivitiesInteractor;
+import com.tlongdev.spicio.domain.interactor.storage.SaveFriendsInteractor;
 import com.tlongdev.spicio.domain.interactor.storage.SaveSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveActivitiesInteractorImpl;
+import com.tlongdev.spicio.domain.interactor.storage.impl.SaveFriendsInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.storage.impl.SaveSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.interactor.trakt.TraktFullSeriesInteractor;
 import com.tlongdev.spicio.domain.interactor.trakt.impl.TraktFullSeriesInteractorImpl;
 import com.tlongdev.spicio.domain.model.Episode;
 import com.tlongdev.spicio.domain.model.Season;
 import com.tlongdev.spicio.domain.model.Series;
-import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.SeriesActivities;
+import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.presentation.presenter.Presenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.LoginView;
 import com.tlongdev.spicio.util.Logger;
@@ -55,7 +57,7 @@ import javax.inject.Inject;
  */
 public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, SpicioLoginInteractor.Callback, GetFullUserDataInteractor.Callback,
-        TraktFullSeriesInteractor.Callback, SaveSeriesInteractor.Callback, SaveActivitiesInteractor.Callback {
+        TraktFullSeriesInteractor.Callback, SaveSeriesInteractor.Callback, SaveActivitiesInteractor.Callback, SaveFriendsInteractor.Callback {
 
     private static final String LOG_TAG = LoginPresenter.class.getSimpleName();
 
@@ -71,7 +73,9 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
     private SpicioApplication mApplication;
     private Iterator<Series> mSeriesIterator;
     private Series mCurrentSeries;
-    private Map<Integer, SeriesActivities> mActivities;
+    private List<User> mFriends;
+    private List<Series> mSeries;
+    private User mUser;
 
     public LoginPresenter(SpicioApplication application) {
         application.getPresenterComponent().inject(this);
@@ -222,20 +226,37 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
     @Override
     public void onLoginFailed() {
         if (mView != null) {
-            mView.hideLoadingAnim();
+            mView.showError();
         }
     }
 
     @Override
-    public void onGetFullUserDataFinished(User user, List<Series> series, Map<Integer, SeriesActivities> activities) {
-        mActivities = activities;
-        mProfileManager.login(user);
+    public void onGetFullUserDataFinished(User user, List<Series> series, Map<Integer, SeriesActivities> activities, List<User> friends) {
+        mSeries = series;
+        mFriends = friends;
+        mUser = user;
 
-        mSeriesIterator = series.iterator();
+        SaveActivitiesInteractor interactor = new SaveActivitiesInteractorImpl(
+                mApplication, activities, this
+        );
+        interactor.execute();
+    }
+
+    @Override
+    public void onSaveActivitiesFinish() {
+        SaveFriendsInteractor interactor = new SaveFriendsInteractorImpl(
+                mApplication, mFriends, this
+        );
+        interactor.execute();
+    }
+
+    @Override
+    public void onSaveFriendsFinish() {
+        mSeriesIterator = mSeries.iterator();
 
         if (mView != null) {
             mView.hideLoadingAnim();
-            mView.showProgressDialog(series.size());
+            mView.showProgressDialog(mSeries.size());
         }
 
         onSaveSeriesFinish();
@@ -244,7 +265,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
     @Override
     public void onGetFullUserDataFail() {
         if (mView != null) {
-            mView.hideLoadingAnim();
+            mView.showError();
         }
     }
 
@@ -265,7 +286,9 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
 
     @Override
     public void onTraktFullSeriesFail() {
-
+        if (mView != null) {
+            mView.showError();
+        }
     }
 
     @Override
@@ -278,23 +301,11 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                 mView.updateProgress(mCurrentSeries.getTitle());
             }
         } else {
-            SaveActivitiesInteractor interactor = new SaveActivitiesInteractorImpl(
-                    mApplication, mActivities, this
-            );
-            interactor.execute();
-        }
-    }
-
-    @Override
-    public void onSaveSeriesFail() {
-
-    }
-
-    @Override
-    public void onSaveActivitiesFinish() {
-        if (mView != null) {
-            mView.hideLoadingAnim();
-            mView.onLogin();
+            mProfileManager.login(mUser);
+            if (mView != null) {
+                mView.hideLoadingAnim();
+                mView.onLogin();
+            }
         }
     }
 }

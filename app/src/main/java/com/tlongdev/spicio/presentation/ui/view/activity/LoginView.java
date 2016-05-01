@@ -20,4 +20,6 @@ public interface LoginView extends BaseView {
     void showProgressDialog(int max);
 
     void updateProgress(String title);
+
+    void showError();
 }

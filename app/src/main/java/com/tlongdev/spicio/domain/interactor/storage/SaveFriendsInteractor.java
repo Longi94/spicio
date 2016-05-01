@@ -3,11 +3,11 @@ package com.tlongdev.spicio.domain.interactor.storage;
 import com.tlongdev.spicio.domain.interactor.Interactor;
 
 /**
- * @author Long
- * @since 2016. 03. 05.
+ * @author lngtr
+ * @since 2016. 05. 01.
  */
-public interface SaveSeriesInteractor extends Interactor {
+public interface SaveFriendsInteractor extends Interactor {
     interface Callback {
-        void onSaveSeriesFinish();
+        void onSaveFriendsFinish();
     }
 }

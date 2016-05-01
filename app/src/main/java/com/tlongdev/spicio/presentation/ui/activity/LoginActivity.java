@@ -3,6 +3,7 @@ package com.tlongdev.spicio.presentation.ui.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
@@ -112,5 +113,13 @@ public class LoginActivity extends SpicioActivity implements LoginView {
     public void updateProgress(String title) {
         mProgressDialog.setMessage(title);
         mProgressDialog.incrementProgressBy(1);
+    }
+
+    @Override
+    public void showError() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+        Toast.makeText(this, "Fail!", Toast.LENGTH_SHORT).show();
     }
 }
