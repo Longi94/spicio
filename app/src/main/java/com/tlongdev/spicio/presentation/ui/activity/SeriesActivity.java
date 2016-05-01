@@ -15,6 +15,8 @@ import com.tlongdev.spicio.presentation.presenter.activity.SeriesPresenter;
 import com.tlongdev.spicio.presentation.ui.adapter.SeriesPagerAdapter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesView;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,14 +25,14 @@ public class SeriesActivity extends SpicioActivity implements SeriesView {
     public static final String EXTRA_SERIES_ID = "series_id";
     public static final String EXTRA_SERIES_TITLE = "series_title";
 
+    @Inject SeriesPresenter mPresenter;
+
     @BindView(R.id.container) ViewPager mViewPager;
     @BindView(R.id.tabs) TabLayout mTabLayout;
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @InjectExtra(EXTRA_SERIES_ID) int mSeriesId;
     @InjectExtra(EXTRA_SERIES_TITLE) String mSeriesTitle;
-
-    private SeriesPresenter mPresenter;
 
     private ProgressDialog mProgressDialog;
     private SeriesPagerAdapter mSeriesPagerAdapter;
@@ -42,7 +44,9 @@ public class SeriesActivity extends SpicioActivity implements SeriesView {
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mPresenter = new SeriesPresenter(mApplication, mSeriesId);
+        mApplication.getActivityComponent().inject(this);
+
+        mPresenter.setSeriesId(mSeriesId);
         mPresenter.attachView(this);
 
         setSupportActionBar(mToolbar);

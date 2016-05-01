@@ -26,6 +26,8 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.SearchSeriesView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -40,10 +42,10 @@ public class SearchSeriesFragment extends SpicioFragment implements SearchSeries
 
     private static final String LOG_TAG = SearchSeriesFragment.class.getSimpleName();
 
+    @Inject SearchSeriesPresenter mPresenter;
+
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.search) EditText mSearchText;
-
-    private SearchSeriesPresenter mPresenter;
 
     private SearchSeriesAdapter mAdapter;
 
@@ -56,8 +58,7 @@ public class SearchSeriesFragment extends SpicioFragment implements SearchSeries
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new SearchSeriesPresenter(mApplication);
-        mPresenter.attachView(this);
+        mApplication.getFragmentComponent().inject(this);
     }
 
     @Override
@@ -66,6 +67,8 @@ public class SearchSeriesFragment extends SpicioFragment implements SearchSeries
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_search_series, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
+
+        mPresenter.attachView(this);
 
         //Set the toolbar to the main activity's action bar
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));

@@ -20,6 +20,8 @@ import com.tlongdev.spicio.SpicioApplication;
 import com.tlongdev.spicio.presentation.presenter.activity.SettingsPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.SettingsView;
 
+import javax.inject.Inject;
+
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
  * handset devices, settings are presented as a single list. On tablets,
@@ -34,18 +36,19 @@ import com.tlongdev.spicio.presentation.ui.view.activity.SettingsView;
 public class SettingsActivity extends AppCompatPreferenceActivity implements SettingsView,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private SettingsPresenter mPresenter;
+    @Inject SettingsPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ((SpicioApplication) getApplication()).getActivityComponent().inject(this);
 
         //Set the color of the status bar
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
         }
 
-        mPresenter = new SettingsPresenter((SpicioApplication) getApplication());
         mPresenter.attachView(this);
 
         //Re-add actionbar that was removed in recent build tools.

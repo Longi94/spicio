@@ -27,6 +27,8 @@ import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,6 +39,8 @@ public class SeriesSearchDetailsActivity extends SpicioActivity implements Serie
 
     public static final String EXTRA_TRAKT_ID = "trakt_id";
     public static final String EXTRA_POSTER = "poster";
+
+    @Inject SeriesSearchDetailsPresenter mPresenter;
 
     @BindView(R.id.poster) ImageView poster;
     @BindView(R.id.title) TextView title;
@@ -49,8 +53,6 @@ public class SeriesSearchDetailsActivity extends SpicioActivity implements Serie
 
     @InjectExtra(EXTRA_TRAKT_ID) int mTraktId;
     @InjectExtra(EXTRA_POSTER) @Nullable String mPoster;
-
-    private SeriesSearchDetailsPresenter mPresenter;
 
     private String trailerUrl;
 
@@ -65,7 +67,8 @@ public class SeriesSearchDetailsActivity extends SpicioActivity implements Serie
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mPresenter = new SeriesSearchDetailsPresenter(mApplication);
+        mApplication.getActivityComponent().inject(this);
+
         mPresenter.attachView(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

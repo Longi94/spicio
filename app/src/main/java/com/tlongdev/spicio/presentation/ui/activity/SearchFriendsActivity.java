@@ -18,16 +18,18 @@ import com.tlongdev.spicio.presentation.ui.view.activity.SearchFriendsView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchFriendsActivity extends SpicioActivity implements SearchFriendsView, SearchFriendsAdapter.OnItemClickListener {
 
+    @Inject SearchFriendsPresenter mPresenter;
+
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.search) EditText mSearch;
-
-    private SearchFriendsPresenter mPresenter;
     private SearchFriendsAdapter mAdapter;
 
     @Override
@@ -36,7 +38,8 @@ public class SearchFriendsActivity extends SpicioActivity implements SearchFrien
         setContentView(R.layout.activity_search_user);
         ButterKnife.bind(this);
 
-        mPresenter = new SearchFriendsPresenter(mApplication);
+        mApplication.getActivityComponent().inject(this);
+
         mPresenter.attachView(this);
 
         setSupportActionBar(mToolbar);

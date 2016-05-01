@@ -23,6 +23,8 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,6 +39,8 @@ public class EpisodeFragment extends SpicioFragment implements EpisodeView {
 
     private static final String ARG_EPISODE_ID = "series_id";
 
+    @Inject EpisodePresenter mPresenter;
+
     @BindView(R.id.screenshot) ImageView mScreenShot;
     @BindView(R.id.title) TextView mTitle;
     @BindView(R.id.aired) TextView mAired;
@@ -49,8 +53,6 @@ public class EpisodeFragment extends SpicioFragment implements EpisodeView {
     private ProgressDialog mLoadingDialog;
 
     private int mEpisodeId;
-
-    private EpisodePresenter mPresenter;
 
     private Unbinder mUnbinder;
 
@@ -72,8 +74,7 @@ public class EpisodeFragment extends SpicioFragment implements EpisodeView {
         if (getArguments() != null) {
             mEpisodeId = getArguments().getInt(ARG_EPISODE_ID);
         }
-        mPresenter = new EpisodePresenter(mApplication);
-        mPresenter.attachView(this);
+        mApplication.getFragmentComponent().inject(this);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class EpisodeFragment extends SpicioFragment implements EpisodeView {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_episode, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
-
+        mPresenter.attachView(this);
         return rootView;
     }
 

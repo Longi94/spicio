@@ -20,6 +20,8 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.SeasonsView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -31,11 +33,11 @@ public class SeasonsFragment extends SpicioFragment implements SeasonsView, Seas
 
     private static final String ARG_PARAM_SERIES_ID = "series_id";
 
+    @Inject SeasonsPresenter mPresenter;
+
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     private SeasonsAdapter adapter;
-
-    private SeasonsPresenter mPresenter;
     private int mSeriesId = -1;
 
     private Unbinder mUnbinder;
@@ -65,6 +67,7 @@ public class SeasonsFragment extends SpicioFragment implements SeasonsView, Seas
         if (getArguments() != null) {
             mSeriesId = getArguments().getInt(ARG_PARAM_SERIES_ID);
         }
+        mApplication.getFragmentComponent().inject(this);
     }
 
     @Override
@@ -74,7 +77,6 @@ public class SeasonsFragment extends SpicioFragment implements SeasonsView, Seas
         View rootView = inflater.inflate(R.layout.fragment_seasons, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
 
-        mPresenter = new SeasonsPresenter(mApplication);
         mPresenter.attachView(this);
 
         adapter = new SeasonsAdapter(getActivity());

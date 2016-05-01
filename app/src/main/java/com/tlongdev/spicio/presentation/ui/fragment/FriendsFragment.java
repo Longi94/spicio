@@ -25,6 +25,8 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.FriendsView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -34,9 +36,9 @@ import butterknife.Unbinder;
  */
 public class FriendsFragment extends SpicioFragment implements FriendsView, FriendsAdapter.OnItemClickListener {
 
-    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    @Inject FriendsPresenter mPresenter;
 
-    private FriendsPresenter mPresenter;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     private FriendsAdapter mAdapter;
 
@@ -49,6 +51,7 @@ public class FriendsFragment extends SpicioFragment implements FriendsView, Frie
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication.getFragmentComponent().inject(this);
         setHasOptionsMenu(true);
     }
 
@@ -59,7 +62,6 @@ public class FriendsFragment extends SpicioFragment implements FriendsView, Frie
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
 
-        mPresenter = new FriendsPresenter(mApplication);
         mPresenter.attachView(this);
 
         //Set the toolbar to the main activity's action bar

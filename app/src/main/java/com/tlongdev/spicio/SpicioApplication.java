@@ -8,12 +8,14 @@ import com.facebook.FacebookSdk;
 import com.tlongdev.spicio.component.ActivityComponent;
 import com.tlongdev.spicio.component.DaggerActivityComponent;
 import com.tlongdev.spicio.component.DaggerDrawerManagerComponent;
+import com.tlongdev.spicio.component.DaggerFragmentComponent;
 import com.tlongdev.spicio.component.DaggerInteractorComponent;
 import com.tlongdev.spicio.component.DaggerNetworkComponent;
 import com.tlongdev.spicio.component.DaggerPresenterComponent;
 import com.tlongdev.spicio.component.DaggerProfileManagerComponent;
 import com.tlongdev.spicio.component.DaggerStorageComponent;
 import com.tlongdev.spicio.component.DrawerManagerComponent;
+import com.tlongdev.spicio.component.FragmentComponent;
 import com.tlongdev.spicio.component.InteractorComponent;
 import com.tlongdev.spicio.component.NetworkComponent;
 import com.tlongdev.spicio.component.PresenterComponent;
@@ -23,6 +25,7 @@ import com.tlongdev.spicio.module.AuthenticationModule;
 import com.tlongdev.spicio.module.DaoModule;
 import com.tlongdev.spicio.module.NetworkModule;
 import com.tlongdev.spicio.module.NetworkRepositoryModule;
+import com.tlongdev.spicio.module.PresenterModule;
 import com.tlongdev.spicio.module.SpicioAppModule;
 import com.tlongdev.spicio.module.StorageModule;
 import com.tlongdev.spicio.module.ThreadingModule;
@@ -53,6 +56,8 @@ public class SpicioApplication extends Application {
 
     private DrawerManagerComponent mDrawerManagerComponent;
 
+    private FragmentComponent mFragmentComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -70,6 +75,7 @@ public class SpicioApplication extends Application {
         NetworkRepositoryModule networkRepositoryModule = new NetworkRepositoryModule();
         ThreadingModule threadingModule = new ThreadingModule();
         AuthenticationModule authenticationModule = new AuthenticationModule();
+        PresenterModule presenterModule = new PresenterModule();
 
         mNetworkComponent = DaggerNetworkComponent.builder()
                 .spicioAppModule(spicioAppModule)
@@ -96,6 +102,7 @@ public class SpicioApplication extends Application {
         mActivityComponent = DaggerActivityComponent.builder()
                 .spicioAppModule(spicioAppModule)
                 .authenticationModule(authenticationModule)
+                .presenterModule(presenterModule)
                 .build();
 
         mProfileManagerComponent = DaggerProfileManagerComponent.builder()
@@ -105,6 +112,11 @@ public class SpicioApplication extends Application {
         mDrawerManagerComponent = DaggerDrawerManagerComponent.builder()
                 .authenticationModule(authenticationModule)
                 .spicioAppModule(spicioAppModule)
+                .build();
+
+        mFragmentComponent = DaggerFragmentComponent.builder()
+                .spicioAppModule(spicioAppModule)
+                .presenterModule(presenterModule)
                 .build();
     }
 
@@ -142,5 +154,9 @@ public class SpicioApplication extends Application {
 
     public DrawerManagerComponent getDrawerManagerComponent() {
         return mDrawerManagerComponent;
+    }
+
+    public FragmentComponent getFragmentComponent() {
+        return mFragmentComponent;
     }
 }

@@ -32,10 +32,9 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
 
     private int mSeriesId;
 
-    public SeriesPresenter(SpicioApplication application, int seriesId) {
+    public SeriesPresenter(SpicioApplication application) {
         application.getPresenterComponent().inject(this);
         mApplication = application;
-        mSeriesId = seriesId;
     }
 
     @Override
@@ -80,5 +79,9 @@ public class SeriesPresenter implements Presenter<SeriesView>,TraktFullSeriesInt
             mView.reloadData();
             mView.hideLoading();
         }
+    }
+
+    public void setSeriesId(int seriesId) {
+        mSeriesId = seriesId;
     }
 }

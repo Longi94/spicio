@@ -24,6 +24,8 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesDetailsView;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,14 +42,14 @@ public class SeriesDetailsFragment extends SpicioFragment implements SeriesDetai
 
     private static final String ARG_PARAM_SERIES_ID = "series_id";
 
+    @Inject SeriesDetailsPresenter mPresenter;
+
     @BindView(R.id.poster) ImageView poster;
     @BindView(R.id.title) TextView title;
     @BindView(R.id.rating) TextView rating;
     @BindView(R.id.overview) TextView overview;
     @BindView(R.id.trailer) Button trailer;
     @BindView(R.id.genres) TextView genres;
-
-    private SeriesDetailsPresenter mPresenter;
 
     private String trailerUrl;
 
@@ -80,19 +82,16 @@ public class SeriesDetailsFragment extends SpicioFragment implements SeriesDetai
         if (getArguments() != null) {
             mSeriesId = getArguments().getInt(ARG_PARAM_SERIES_ID);
         }
+        mApplication.getFragmentComponent().inject(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        mPresenter = new SeriesDetailsPresenter(mApplication);
-        mPresenter.attachView(this);
-
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_series_search_details, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
-
+        mPresenter.attachView(this);
         return rootView;
     }
 

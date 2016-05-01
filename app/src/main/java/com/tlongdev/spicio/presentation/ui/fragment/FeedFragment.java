@@ -2,6 +2,7 @@ package com.tlongdev.spicio.presentation.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.FeedView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -29,10 +32,10 @@ import butterknife.Unbinder;
  */
 public class FeedFragment extends SpicioFragment implements FeedView, SwipeRefreshLayout.OnRefreshListener {
 
+    @Inject FeedPresenter mPresenter;
+
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private FeedPresenter mPresenter;
 
     private FeedAdapter mAdapter;
 
@@ -43,13 +46,18 @@ public class FeedFragment extends SpicioFragment implements FeedView, SwipeRefre
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mApplication.getFragmentComponent().inject(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
 
-        mPresenter = new FeedPresenter(mApplication);
         mPresenter.attachView(this);
 
         //Set the toolbar to the main activity's action bar

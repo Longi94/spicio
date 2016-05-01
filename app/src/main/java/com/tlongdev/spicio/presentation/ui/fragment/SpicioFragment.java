@@ -19,5 +19,4 @@ public abstract class SpicioFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mApplication = (SpicioApplication) getActivity().getApplication();
     }
-
 }

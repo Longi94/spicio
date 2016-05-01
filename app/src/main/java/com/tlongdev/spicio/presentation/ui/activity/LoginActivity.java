@@ -11,16 +11,18 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.presentation.presenter.activity.LoginPresenter;
 import com.tlongdev.spicio.presentation.ui.view.activity.LoginView;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends SpicioActivity implements LoginView {
 
+    @Inject LoginPresenter mPresenter;
+
     @BindView(R.id.facebook_login) LoginButton mFacebookLoginButton;
     @BindView(R.id.google_login) SignInButton mGoogleLoginButton;
-
-    private LoginPresenter mPresenter;
 
     private ProgressDialog mProgressDialog;
 
@@ -32,7 +34,6 @@ public class LoginActivity extends SpicioActivity implements LoginView {
 
         mApplication.getActivityComponent().inject(this);
 
-        mPresenter = new LoginPresenter(mApplication);
         mPresenter.attachView(this);
 
         mFacebookLoginButton.setReadPermissions("email");

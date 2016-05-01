@@ -22,6 +22,8 @@ import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -31,9 +33,9 @@ import butterknife.Unbinder;
  */
 public class SeriesFragment extends SpicioFragment implements SeriesView, SeriesAdapter.OnItemSelectedListener {
 
-    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    @Inject SeriesPresenter mPresenter;
 
-    private SeriesPresenter mPresenter;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     private SeriesAdapter mAdapter;
 
@@ -46,8 +48,7 @@ public class SeriesFragment extends SpicioFragment implements SeriesView, Series
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new SeriesPresenter(mApplication);
-        mPresenter.attachView(this);
+        mApplication.getFragmentComponent().inject(this);
     }
 
     @Override
@@ -56,6 +57,8 @@ public class SeriesFragment extends SpicioFragment implements SeriesView, Series
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_series, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
+
+        mPresenter.attachView(this);
 
         //Set the toolbar to the main activity's action bar
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));

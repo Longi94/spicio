@@ -41,9 +41,12 @@ public class UserPresenter implements Presenter<UserView>,GetUserDataInteractor.
 
     private User mUser;
 
-    public UserPresenter(SpicioApplication application, long friendId) {
+    public UserPresenter(SpicioApplication application) {
         application.getPresenterComponent().inject(this);
         mApplication = application;
+    }
+
+    public void setFriendId(long friendId) {
         mFriendId = friendId;
     }
 

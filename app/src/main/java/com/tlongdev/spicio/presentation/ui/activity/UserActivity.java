@@ -23,6 +23,8 @@ import com.tlongdev.spicio.presentation.ui.view.activity.UserView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,6 +33,8 @@ public class UserActivity extends SpicioActivity implements UserView {
 
     public static final String EXTRA_USER_ID = "user_id";
     public static final String EXTRA_USER_NAME = "user_name";
+
+    @Inject UserPresenter mPresenter;
 
     @BindView(R.id.data_layout) LinearLayout mDataLayout;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
@@ -43,8 +47,6 @@ public class UserActivity extends SpicioActivity implements UserView {
     @InjectExtra(EXTRA_USER_ID) long mFriendId;
     @InjectExtra(EXTRA_USER_NAME) String mUserName;
 
-    private UserPresenter mPresenter;
-
     private UserHistoryAdapter mAdapter;
 
     @Override
@@ -54,12 +56,14 @@ public class UserActivity extends SpicioActivity implements UserView {
         ButterKnife.bind(this);
         Dart.inject(this);
 
+        mApplication.getActivityComponent().inject(this);
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle(mUserName + "'s profile");
 
-        mPresenter = new UserPresenter(mApplication, mFriendId);
+        mPresenter.setFriendId(mFriendId);
         mPresenter.attachView(this);
 
         mAdapter = new UserHistoryAdapter();

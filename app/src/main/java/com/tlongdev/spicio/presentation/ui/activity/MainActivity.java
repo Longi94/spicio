@@ -41,6 +41,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements MainView,
         NavigationView.OnNavigationItemSelectedListener {
 
+    @Inject MainPresenter mPresenter;
+
     @Inject ProfileManager mProfileManager;
     @Inject NavigationDrawerManager mNavigationDrawerManager;
 
@@ -57,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
      */
     private int mCurrentSelectedPosition = -1;
 
-    private MainPresenter mPresenter;
-
     private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements MainView,
 
         ((SpicioApplication) getApplication()).getActivityComponent().inject(this);
 
-        mPresenter = new MainPresenter();
         mPresenter.attachView(this);
 
         mNavigationView.setNavigationItemSelectedListener(this);
