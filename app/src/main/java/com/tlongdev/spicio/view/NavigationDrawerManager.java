@@ -27,11 +27,12 @@ public class NavigationDrawerManager implements SharedPreferences.OnSharedPrefer
 
     @Inject ProfileManager mProfileManager;
     @Inject SharedPreferences mPrefs;
-    @Inject Context mContext;
 
     @BindView(R.id.primary_text) TextView mPrimaryText;
     @BindView(R.id.secondary_text) TextView mSecondaryText;
     @BindView(R.id.avatar) ImageView mAvatar;
+
+    private Context mContext;
 
     public NavigationDrawerManager(SpicioApplication application) {
         application.getDrawerManagerComponent().inject(this);
@@ -73,7 +74,7 @@ public class NavigationDrawerManager implements SharedPreferences.OnSharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (!key.equals(ProfileManager.PREF_KEY_USER)) {
+        if (mContext == null || key == null || !key.equals(ProfileManager.PREF_KEY_USER)) {
             return;
         }
 

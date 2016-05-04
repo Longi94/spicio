@@ -20,6 +20,8 @@ public class SpicioUserBody {
     @SerializedName("google_id")
     private String googleId;
 
+    private String avatar;
+
     public String getName() {
         return name;
     }
@@ -50,5 +52,13 @@ public class SpicioUserBody {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

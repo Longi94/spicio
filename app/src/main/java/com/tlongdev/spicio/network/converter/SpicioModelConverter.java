@@ -48,6 +48,7 @@ public class SpicioModelConverter {
         body.setEmail(user.getEmailAddress());
         body.setFacebookId(user.getFacebookId());
         body.setGoogleId(user.getGooglePlusId());
+        body.setAvatar(user.getAvatarUrl());
         return body;
     }
 
@@ -63,6 +64,7 @@ public class SpicioModelConverter {
         user.setEmailAddress(body.getEmail());
         user.setFacebookId(body.getFacebookId());
         user.setGooglePlusId(body.getGoogleId());
+        user.setAvatarUrl(body.getAvatar());
 
         if (body.getSeries() != null) {
             List<Series> series = new LinkedList<>();
@@ -152,7 +154,7 @@ public class SpicioModelConverter {
         user.setId(userBody.getId());
         user.setName(userBody.getName());
         user.setEmailAddress(userBody.getEmail());
-        user.setAvatarUrl(null);// TODO: 2016. 03. 30.
+        user.setAvatarUrl(userBody.getAvatar());
         return user;
     }
 

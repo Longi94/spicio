@@ -128,6 +128,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                         user.setName(object.optString("name"));
                         user.setEmailAddress(object.optString("email"));
                         user.setFacebookId(facebookId);
+                        user.setAvatarUrl("http://graph.facebook.com/" + facebookId + "/picture?type=large");
                         spicioLogin(user);
                     }
                 });
@@ -165,6 +166,9 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                     user.setGooglePlusId(acct.getId());
                     user.setEmailAddress(acct.getEmail());
                     user.setName(acct.getDisplayName());
+                    if (acct.getPhotoUrl() != null) {
+                        user.setAvatarUrl(acct.getPhotoUrl().toString());
+                    }
                     spicioLogin(user);
                 } else {
                     mLogger.debug(LOG_TAG, "onActivityResult: null");

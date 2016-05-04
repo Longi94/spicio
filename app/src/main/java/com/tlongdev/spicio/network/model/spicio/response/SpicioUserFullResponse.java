@@ -8,13 +8,7 @@ import java.util.List;
  * @author longi
  * @since 2016.03.28.
  */
-public class SpicioUserFullResponse {
-
-    private long id;
-
-    private String name;
-
-    private String email;
+public class SpicioUserFullResponse extends SpicioUserResponse {
 
     @SerializedName("facebook_id")
     private String facebookId;
@@ -25,18 +19,6 @@ public class SpicioUserFullResponse {
     private List<SpicioSeriesResponse> series;
 
     private List<SpicioUserResponse> friends;
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 
     public String getFacebookId() {
         return facebookId;
