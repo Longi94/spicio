@@ -125,6 +125,7 @@ public class UserDaoImpl implements UserDao {
 
         values.put(FriendsEntry.COLUMN_USER_ID, friend.getId());
         values.put(FriendsEntry.COLUMN_NAME, friend.getName());
+        values.put(FriendsEntry.COLUMN_AVATAR, friend.getAvatarUrl());
 
         Uri uri = mContentResolver.insert(FriendsEntry.CONTENT_URI, values);
 
@@ -147,6 +148,7 @@ public class UserDaoImpl implements UserDao {
 
             values.put(FriendsEntry.COLUMN_USER_ID, friend.getId());
             values.put(FriendsEntry.COLUMN_NAME, friend.getName());
+            values.put(FriendsEntry.COLUMN_AVATAR, friend.getAvatarUrl());
 
             cVVector.add(values);
         }
