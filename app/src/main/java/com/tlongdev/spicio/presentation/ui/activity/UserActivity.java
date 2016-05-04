@@ -2,17 +2,19 @@ package com.tlongdev.spicio.presentation.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.tlongdev.spicio.R;
@@ -27,22 +29,20 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class UserActivity extends SpicioActivity implements UserView {
+public class UserActivity extends SpicioActivity implements UserView, UserHistoryAdapter.OnItemClickListener {
 
     public static final String EXTRA_USER_ID = "user_id";
     public static final String EXTRA_USER_NAME = "user_name";
 
     @Inject UserPresenter mPresenter;
 
-    @BindView(R.id.data_layout) LinearLayout mDataLayout;
+    @BindView(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
-    @BindView(R.id.name) TextView mNameView;
     @BindView(R.id.fail_text) TextView mFailText;
-    @BindView(R.id.add_remove_friend) Button mAddRemoveButton;
+    @BindView(R.id.avatar) ImageView mAvatar;
 
     @InjectExtra(EXTRA_USER_ID) long mFriendId;
     @InjectExtra(EXTRA_USER_NAME) String mUserName;
@@ -61,12 +61,13 @@ public class UserActivity extends SpicioActivity implements UserView {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setTitle(mUserName + "'s profile");
+        setTitle(mUserName);
 
         mPresenter.setFriendId(mFriendId);
         mPresenter.attachView(this);
 
         mAdapter = new UserHistoryAdapter();
+        mAdapter.setOnItemClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -91,36 +92,20 @@ public class UserActivity extends SpicioActivity implements UserView {
         }
     }
 
-    @OnClick(R.id.series)
-    public void showSeries() {
-        Intent intent = new Intent(this, UserSeriesActivity.class);
-        intent.putExtra(UserSeriesActivity.EXTRA_USER_ID, mFriendId);
-        intent.putExtra(UserSeriesActivity.EXTRA_USER_NAME, mUserName);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.friends)
-    public void showFriends() {
-        Intent intent = new Intent(this, UserFriendsActivity.class);
-        intent.putExtra(UserFriendsActivity.EXTRA_USER_ID, mFriendId);
-        intent.putExtra(UserFriendsActivity.EXTRA_USER_NAME, mUserName);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.add_remove_friend)
-    public void addOrRemoveFriend() {
-        mPresenter.addOrRemoveFriend();
-    }
-
     @Override
     public void showUserData(User user, List<com.tlongdev.spicio.domain.model.UserActivity> history) {
-        setTitle(user.getName() + "'s profile");
-        mNameView.setText(user.getName());
+        setTitle(user.getName());
         mAdapter.setDataSet(history);
         mAdapter.notifyDataSetChanged();
 
+        Glide.with(this)
+                .load(user.getAvatarUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(mAvatar);
+
         mProgressBar.setVisibility(View.GONE);
-        mDataLayout.setVisibility(View.VISIBLE);
+        mAppBarLayout.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -137,12 +122,35 @@ public class UserActivity extends SpicioActivity implements UserView {
     @Override
     public void friendDeleted() {
         Toast.makeText(this, "Removed!", Toast.LENGTH_LONG).show();
-        mAddRemoveButton.setText("Add friend");
+        mAdapter.setButtonText("Add friend");
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void friendAdded() {
         Toast.makeText(this, "Added!", Toast.LENGTH_LONG).show();
-        mAddRemoveButton.setText("Remove friend");
+        mAdapter.setButtonText("Remove friend");
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSeriesClick() {
+        Intent intent = new Intent(this, UserSeriesActivity.class);
+        intent.putExtra(UserSeriesActivity.EXTRA_USER_ID, mFriendId);
+        intent.putExtra(UserSeriesActivity.EXTRA_USER_NAME, mUserName);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onFriendsClick() {
+        Intent intent = new Intent(this, UserFriendsActivity.class);
+        intent.putExtra(UserFriendsActivity.EXTRA_USER_ID, mFriendId);
+        intent.putExtra(UserFriendsActivity.EXTRA_USER_NAME, mUserName);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onAddRemoveFriendClick() {
+        mPresenter.addOrRemoveFriend();
     }
 }
