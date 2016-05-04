@@ -110,6 +110,7 @@ public class UserDaoImpl implements UserDao {
                 User user = new User();
                 user.setId(cursor.getLong(cursor.getColumnIndex(FriendsEntry.COLUMN_USER_ID)));
                 user.setName(cursor.getString(cursor.getColumnIndex(FriendsEntry.COLUMN_NAME)));
+                user.setAvatarUrl(cursor.getString(cursor.getColumnIndex(FriendsEntry.COLUMN_AVATAR)));
 
                 friends.add(user);
             }

@@ -52,7 +52,7 @@ public class UserFriendsActivity extends SpicioActivity implements UserFriendsVi
 
         setTitle(mUserName + "' friends");
 
-        mAdapter = new UserFriendsAdapter();
+        mAdapter = new UserFriendsAdapter(this);
         mAdapter.setOnItemClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

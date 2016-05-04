@@ -30,6 +30,7 @@ public class SearchFriendsActivity extends SpicioActivity implements SearchFrien
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.search) EditText mSearch;
+
     private SearchFriendsAdapter mAdapter;
 
     @Override
@@ -45,7 +46,7 @@ public class SearchFriendsActivity extends SpicioActivity implements SearchFrien
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mAdapter = new SearchFriendsAdapter();
+        mAdapter = new SearchFriendsAdapter(this);
         mAdapter.setOnItemClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

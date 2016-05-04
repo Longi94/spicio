@@ -1,11 +1,15 @@
 package com.tlongdev.spicio.presentation.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.domain.model.User;
 
@@ -24,6 +28,12 @@ public class UserFriendsAdapter extends RecyclerView.Adapter<UserFriendsAdapter.
 
     private OnItemClickListener mOnItemClickListener;
 
+    private Context mContext;
+
+    public UserFriendsAdapter(Context context) {
+        mContext = context;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_search_friends, parent, false);
@@ -37,6 +47,11 @@ public class UserFriendsAdapter extends RecyclerView.Adapter<UserFriendsAdapter.
             final User user = mDataSet.get(position);
 
             holder.name.setText(user.getName());
+
+            Glide.with(mContext)
+                    .load(user.getAvatarUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.avatar);
 
             holder.root.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,6 +80,7 @@ public class UserFriendsAdapter extends RecyclerView.Adapter<UserFriendsAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.name) TextView name;
+        @BindView(R.id.avatar) ImageView avatar;
 
         View root;
 

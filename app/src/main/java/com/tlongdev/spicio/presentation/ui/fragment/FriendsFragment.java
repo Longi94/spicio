@@ -67,7 +67,7 @@ public class FriendsFragment extends SpicioFragment implements FriendsView, Frie
         //Set the toolbar to the main activity's action bar
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
-        mAdapter = new FriendsAdapter();
+        mAdapter = new FriendsAdapter(getActivity());
         mAdapter.setOnItemClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
