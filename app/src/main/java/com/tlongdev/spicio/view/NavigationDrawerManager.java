@@ -14,6 +14,8 @@ import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.util.CircleTransform;
 import com.tlongdev.spicio.util.ProfileManager;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -60,6 +62,11 @@ public class NavigationDrawerManager implements SharedPreferences.OnSharedPrefer
         //Set the name
         if (mPrimaryText != null) {
             mPrimaryText.setText(user.getName());
+        }
+
+        if (mSecondaryText != null) {
+            mSecondaryText.setText(String.format(Locale.ENGLISH,
+                    "%d series, %d episodes", user.getSeriesCount(), user.getEpisodeCount()));
         }
 
         //Download the avatar (if needed) and set it

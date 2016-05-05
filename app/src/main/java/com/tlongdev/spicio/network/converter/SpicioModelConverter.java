@@ -65,6 +65,8 @@ public class SpicioModelConverter {
         user.setFacebookId(body.getFacebookId());
         user.setGooglePlusId(body.getGoogleId());
         user.setAvatarUrl(body.getAvatar());
+        user.setSeriesCount(body.getSeriesCount() == null ? 0 : body.getSeriesCount());
+        user.setEpisodeCount(body.getEpisodeCount() == null ? 0 : body.getEpisodeCount());
 
         if (body.getSeries() != null) {
             List<Series> series = new LinkedList<>();
@@ -155,6 +157,8 @@ public class SpicioModelConverter {
         user.setName(userBody.getName());
         user.setEmailAddress(userBody.getEmail());
         user.setAvatarUrl(userBody.getAvatar());
+        user.setSeriesCount(userBody.getSeriesCount() == null ? 0 : userBody.getSeriesCount());
+        user.setEpisodeCount(userBody.getEpisodeCount() == null ? 0 : userBody.getEpisodeCount());
         return user;
     }
 

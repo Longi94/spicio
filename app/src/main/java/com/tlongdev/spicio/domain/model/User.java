@@ -26,6 +26,10 @@ public class User {
     @SerializedName("avatar")
     private String avatarUrl;
 
+    private int seriesCount;
+
+    private int episodeCount;
+
     public long getId() {
         return id;
     }
@@ -72,5 +76,21 @@ public class User {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public int getSeriesCount() {
+        return seriesCount;
+    }
+
+    public void setSeriesCount(int seriesCount) {
+        this.seriesCount = seriesCount;
+    }
+
+    public int getEpisodeCount() {
+        return episodeCount;
+    }
+
+    public void setEpisodeCount(int episodeCount) {
+        this.episodeCount = episodeCount;
     }
 }

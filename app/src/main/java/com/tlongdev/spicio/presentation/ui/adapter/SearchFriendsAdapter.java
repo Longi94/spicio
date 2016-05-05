@@ -14,6 +14,7 @@ import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.domain.model.User;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +47,7 @@ public class SearchFriendsAdapter extends RecyclerView.Adapter<SearchFriendsAdap
             final User user = mDataSet.get(position);
 
             holder.name.setText(user.getName());
+            holder.details.setText(String.format(Locale.ENGLISH, "%d series, %d episodes", user.getSeriesCount(), user.getEpisodeCount()));
 
             Glide.with(mContext)
                     .load(user.getAvatarUrl())
@@ -80,6 +82,7 @@ public class SearchFriendsAdapter extends RecyclerView.Adapter<SearchFriendsAdap
 
         @BindView(R.id.name) TextView name;
         @BindView(R.id.avatar) ImageView avatar;
+        @BindView(R.id.details) TextView details;
 
         View root;
 
