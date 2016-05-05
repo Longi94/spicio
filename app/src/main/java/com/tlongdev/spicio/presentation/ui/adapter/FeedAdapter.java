@@ -1,21 +1,29 @@
 package com.tlongdev.spicio.presentation.ui.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
 import com.tlongdev.spicio.domain.model.UserActivity;
-
-import org.joda.time.DateTime;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.tlongdev.spicio.domain.model.ActivityType.ADDED_SERIES;
+import static com.tlongdev.spicio.domain.model.ActivityType.BECAME_FRIENDS;
+import static com.tlongdev.spicio.domain.model.ActivityType.LIKED;
+import static com.tlongdev.spicio.domain.model.ActivityType.SKIPPED;
+import static com.tlongdev.spicio.domain.model.ActivityType.WATCHED;
 
 /**
  * @author longi
@@ -26,6 +34,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private List<UserActivity> mDataSet;
 
     private OnItemClickListener mOnItemClickListener;
+
+    private Context mContext;
+
+    public FeedAdapter(Context context) {
+        mContext = context;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,24 +53,67 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         if (mDataSet != null) {
             final UserActivity activity = mDataSet.get(position);
 
-            holder.type.setText(String.format("Type: %d", activity.getType()));
+            switch (activity.getType()) {
+                case ADDED_SERIES:
+                    holder.primary.setText(String.format("%s started watching %s",
+                            activity.getCulprit().getName(),
+                            activity.getSeries().getTitle()));
 
-            if (activity.getVictim() != null) {
-                holder.victim.setText(String.format("Victim: %s", activity.getVictim().getName()));
+                    Glide.with(mContext)
+                            .load(activity.getSeries().getImages().getPoster().getThumb())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(holder.image);
+                    break;
+                case BECAME_FRIENDS:
+                    holder.primary.setText(String.format("%s added %s",
+                            activity.getCulprit().getName(),
+                            activity.getVictim().getName()));
+
+                    Glide.with(mContext)
+                            .load(activity.getCulprit().getAvatarUrl())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(holder.image);
+                    break;
+                case LIKED:
+                    holder.primary.setText(String.format("%s likes %s S%dE%d (%s)",
+                            activity.getCulprit().getName(),
+                            activity.getSeries().getTitle(),
+                            activity.getEpisode().getSeason(),
+                            activity.getEpisode().getNumber(),
+                            activity.getEpisode().getTitle()));
+
+                    Glide.with(mContext)
+                            .load(activity.getSeries().getImages().getPoster().getThumb())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(holder.image);
+                    break;
+                case SKIPPED:
+                    holder.primary.setText(String.format("%s skipped %s S%dE%d (%s)",
+                            activity.getCulprit().getName(),
+                            activity.getSeries().getTitle(),
+                            activity.getEpisode().getSeason(),
+                            activity.getEpisode().getNumber(),
+                            activity.getEpisode().getTitle()));
+
+                    Glide.with(mContext)
+                            .load(activity.getSeries().getImages().getPoster().getThumb())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(holder.image);
+                    break;
+                case WATCHED:
+                    holder.primary.setText(String.format("%s watched %s S%dE%d (%s)",
+                            activity.getCulprit().getName(),
+                            activity.getSeries().getTitle(),
+                            activity.getEpisode().getSeason(),
+                            activity.getEpisode().getNumber(),
+                            activity.getEpisode().getTitle()));
+
+                    Glide.with(mContext)
+                            .load(activity.getSeries().getImages().getPoster().getThumb())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(holder.image);
+                    break;
             }
-
-            if (activity.getSeries() != null) {
-                holder.series.setText(String.format("Series: %s", activity.getSeries().getTitle()));
-            }
-
-            if (activity.getEpisode() != null) {
-                holder.episode.setText(String.format("Episode: S%dE%d",
-                        activity.getEpisode().getSeason(),
-                        activity.getEpisode().getNumber()));
-            }
-
-            DateTime time = new DateTime(activity.getTimestamp());
-            holder.timestamp.setText(String.format("Timestamp: %s", time.toString()));
 
             holder.root.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,11 +141,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.type) TextView type;
-        @BindView(R.id.victim) TextView victim;
-        @BindView(R.id.series) TextView series;
-        @BindView(R.id.episode) TextView episode;
-        @BindView(R.id.timestamp) TextView timestamp;
+        @BindView(R.id.primary_text) TextView primary;
+        @BindView(R.id.secondary_text) TextView secondary;
+        @BindView(R.id.image) ImageView image;
 
         View root;
 

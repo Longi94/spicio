@@ -63,7 +63,7 @@ public class FeedFragment extends SpicioFragment implements FeedView, SwipeRefre
         //Set the toolbar to the main activity's action bar
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) rootView.findViewById(R.id.toolbar));
 
-        mAdapter = new FeedAdapter();
+        mAdapter = new FeedAdapter(getActivity());
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
