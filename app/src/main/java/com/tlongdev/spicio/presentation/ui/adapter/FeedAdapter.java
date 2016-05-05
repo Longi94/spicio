@@ -3,6 +3,7 @@ package com.tlongdev.spicio.presentation.ui.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,6 +115,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                             .into(holder.image);
                     break;
             }
+
+            holder.secondary.setText(DateUtils.getRelativeTimeSpanString(activity.getTimestamp()));
 
             holder.root.setOnClickListener(new View.OnClickListener() {
                 @Override
