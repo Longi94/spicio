@@ -270,6 +270,7 @@ public class UserDaoImpl implements UserDao {
             values.put(FeedEntry.COLUMN_SERIES_ID, activity.getSeries().getTraktId());
             values.put(FeedEntry.COLUMN_SERIES_NAME, activity.getSeries().getTitle());
             values.put(FeedEntry.COLUMN_SERIES_IMAGE, activity.getSeries().getImages().getThumb().getFull());
+            values.put(FeedEntry.COLUMN_SERIES_POSTER, activity.getSeries().getImages().getPoster().getThumb());
         }
 
         if (activity.getEpisode() != null) {
@@ -296,7 +297,9 @@ public class UserDaoImpl implements UserDao {
         series.setTitle(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_SERIES_NAME)));
         series.setImages(new Images());
         series.getImages().setThumb(new Image());
+        series.getImages().setPoster(new Image());
         series.getImages().getThumb().setFull(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_SERIES_IMAGE)));
+        series.getImages().getPoster().setThumb(cursor.getString(cursor.getColumnIndex(FeedEntry.COLUMN_SERIES_POSTER)));
         activity.setSeries(series);
 
         Episode episode = new Episode();

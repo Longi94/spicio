@@ -118,6 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 FeedEntry.COLUMN_SERIES_ID + " INTEGER, " +
                 FeedEntry.COLUMN_SERIES_NAME + " TEXT, " +
                 FeedEntry.COLUMN_SERIES_IMAGE + " TEXT, " +
+                FeedEntry.COLUMN_SERIES_POSTER + " TEXT, " +
                 FeedEntry.COLUMN_EPISODE_ID + " INTEGER, " +
                 FeedEntry.COLUMN_EPISODE_NAME + " TEXT, " +
                 FeedEntry.COLUMN_EPISODE_NUMBER + " INTEGER, " +

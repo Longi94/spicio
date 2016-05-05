@@ -157,6 +157,7 @@ public class DatabaseContract {
         public static final String COLUMN_SERIES_ID = "series_id";
         public static final String COLUMN_SERIES_NAME = "series_name";
         public static final String COLUMN_SERIES_IMAGE = "series_image";
+        public static final String COLUMN_SERIES_POSTER = "series_poster";
         public static final String COLUMN_EPISODE_ID = "episode_id";
         public static final String COLUMN_EPISODE_NAME = "episode_name";
         public static final String COLUMN_EPISODE_NUMBER = "episode_number";

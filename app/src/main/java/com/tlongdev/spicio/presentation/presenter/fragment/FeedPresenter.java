@@ -53,10 +53,6 @@ public class FeedPresenter implements Presenter<FeedView>,GetFeedInteractor.Call
 
     @Override
     public void onGetFeedFinish(List<UserActivity> activities) {
-        if (mView != null) {
-            mView.hideLoadingAnimation();
-            mView.showFeed(activities);
-        }
         SaveFeedInteractor interactor = new SaveFeedInteractorImpl(mApplication, activities, this);
         interactor.execute();
     }
@@ -89,6 +85,9 @@ public class FeedPresenter implements Presenter<FeedView>,GetFeedInteractor.Call
 
     @Override
     public void onSaveFeedFinish() {
-
+        loadFeed();
+        if (mView != null) {
+            mView.hideLoadingAnimation();
+        }
     }
 }
