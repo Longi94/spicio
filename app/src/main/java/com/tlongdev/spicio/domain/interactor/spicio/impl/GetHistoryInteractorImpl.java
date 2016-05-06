@@ -7,6 +7,8 @@ import com.tlongdev.spicio.domain.model.UserActivity;
 import com.tlongdev.spicio.domain.repository.SpicioRepository;
 import com.tlongdev.spicio.util.Logger;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,6 +40,19 @@ public class GetHistoryInteractorImpl extends AbstractInteractor implements GetH
         List<UserActivity> activities = mRepository.getHistory(mUserId);
 
         if (activities != null) {
+            Collections.sort(activities, new Comparator<UserActivity>() {
+                @Override
+                public int compare(UserActivity lhs, UserActivity rhs) {
+                    long diff = rhs.getTimestamp() - lhs.getTimestamp();
+                    if (diff > 0L) {
+                        return 1;
+                    } else if (diff < 0L) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
             postFinish(activities);
         } else {
             postFail();
