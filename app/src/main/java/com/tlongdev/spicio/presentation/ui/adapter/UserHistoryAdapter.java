@@ -1,23 +1,33 @@
 package com.tlongdev.spicio.presentation.ui.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tlongdev.spicio.R;
+import com.tlongdev.spicio.domain.model.User;
 import com.tlongdev.spicio.domain.model.UserActivity;
-
-import org.joda.time.DateTime;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.tlongdev.spicio.domain.model.ActivityType.ADDED_SERIES;
+import static com.tlongdev.spicio.domain.model.ActivityType.BECAME_FRIENDS;
+import static com.tlongdev.spicio.domain.model.ActivityType.LIKED;
+import static com.tlongdev.spicio.domain.model.ActivityType.SKIPPED;
+import static com.tlongdev.spicio.domain.model.ActivityType.WATCHED;
 
 /**
  * @author longi
@@ -29,9 +39,16 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
     public static final int VIEW_TYPE_ACTIVITY = 1;
 
     private List<UserActivity> mDataSet;
+    private User mUser;
+
+    private Context mContext;
 
     private OnItemClickListener mListener;
     private String mButtonText = "";
+
+    public UserHistoryAdapter(Context context) {
+        mContext = context;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -86,24 +103,69 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
                 if (mDataSet != null) {
                     UserActivity activity = mDataSet.get(position - 1);
 
-                    holder.type.setText(String.format("Type: %d", activity.getType()));
+                    switch (activity.getType()) {
+                        case ADDED_SERIES:
+                            holder.primary.setText(String.format("%s started watching %s",
+                                    mUser.getName(),
+                                    activity.getSeries().getTitle()));
 
-                    if (activity.getVictim() != null) {
-                        holder.victim.setText(String.format("Victim: %s", activity.getVictim().getName()));
+                            Glide.with(mContext)
+                                    .load(activity.getSeries().getImages().getPoster().getThumb())
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(holder.image);
+                            break;
+                        case BECAME_FRIENDS:
+                            holder.primary.setText(String.format("%s added %s",
+                                    mUser.getName(),
+                                    activity.getVictim().getName()));
+
+                            Glide.with(mContext)
+                                    .load(mUser.getAvatarUrl())
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(holder.image);
+                            break;
+                        case LIKED:
+                            holder.primary.setText(String.format("%s likes %s S%dE%d (%s)",
+                                    mUser.getName(),
+                                    activity.getSeries().getTitle(),
+                                    activity.getEpisode().getSeason(),
+                                    activity.getEpisode().getNumber(),
+                                    activity.getEpisode().getTitle()));
+
+                            Glide.with(mContext)
+                                    .load(activity.getSeries().getImages().getPoster().getThumb())
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(holder.image);
+                            break;
+                        case SKIPPED:
+                            holder.primary.setText(String.format("%s skipped %s S%dE%d (%s)",
+                                    mUser.getName(),
+                                    activity.getSeries().getTitle(),
+                                    activity.getEpisode().getSeason(),
+                                    activity.getEpisode().getNumber(),
+                                    activity.getEpisode().getTitle()));
+
+                            Glide.with(mContext)
+                                    .load(activity.getSeries().getImages().getPoster().getThumb())
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(holder.image);
+                            break;
+                        case WATCHED:
+                            holder.primary.setText(String.format("%s watched %s S%dE%d (%s)",
+                                    mUser.getName(),
+                                    activity.getSeries().getTitle(),
+                                    activity.getEpisode().getSeason(),
+                                    activity.getEpisode().getNumber(),
+                                    activity.getEpisode().getTitle()));
+
+                            Glide.with(mContext)
+                                    .load(activity.getSeries().getImages().getPoster().getThumb())
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(holder.image);
+                            break;
                     }
 
-                    if (activity.getSeries() != null) {
-                        holder.series.setText(String.format("Series: %s", activity.getSeries().getTitle()));
-                    }
-
-                    if (activity.getEpisode() != null) {
-                        holder.episode.setText(String.format("Episode: S%dE%d",
-                                activity.getEpisode().getSeason(),
-                                activity.getEpisode().getNumber()));
-                    }
-
-                    DateTime time = new DateTime(activity.getTimestamp());
-                    holder.timestamp.setText(String.format("Timestamp: %s", time.toString()));
+                    holder.secondary.setText(DateUtils.getRelativeTimeSpanString(activity.getTimestamp()));
                 }
                 break;
         }
@@ -119,8 +181,9 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
         return (mDataSet == null ? 0 : mDataSet.size()) + 1;
     }
 
-    public void setDataSet(List<UserActivity> dataSet) {
+    public void setDataSet(List<UserActivity> dataSet, User user) {
         mDataSet = dataSet;
+        mUser = user;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -133,21 +196,33 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
 
     public interface OnItemClickListener {
         void onSeriesClick();
+
         void onFriendsClick();
+
         void onAddRemoveFriendClick();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Nullable @BindView(R.id.type) TextView type;
-        @Nullable @BindView(R.id.victim) TextView victim;
-        @Nullable @BindView(R.id.series) TextView series;
-        @Nullable @BindView(R.id.episode) TextView episode;
-        @Nullable @BindView(R.id.timestamp) TextView timestamp;
+        @Nullable
+        @BindView(R.id.primary_text)
+        TextView primary;
+        @Nullable
+        @BindView(R.id.secondary_text)
+        TextView secondary;
+        @Nullable
+        @BindView(R.id.image)
+        ImageView image;
 
-        @Nullable @BindView(R.id.series_button) Button seriesButton;
-        @Nullable @BindView(R.id.friends) Button friends;
-        @Nullable @BindView(R.id.add_remove_friend) Button addRemoveFriend;
+        @Nullable
+        @BindView(R.id.series_button)
+        Button seriesButton;
+        @Nullable
+        @BindView(R.id.friends)
+        Button friends;
+        @Nullable
+        @BindView(R.id.add_remove_friend)
+        Button addRemoveFriend;
 
         public ViewHolder(View view) {
             super(view);

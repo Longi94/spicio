@@ -66,7 +66,7 @@ public class UserActivity extends SpicioActivity implements UserView, UserHistor
         mPresenter.setFriendId(mFriendId);
         mPresenter.attachView(this);
 
-        mAdapter = new UserHistoryAdapter();
+        mAdapter = new UserHistoryAdapter(this);
         mAdapter.setOnItemClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -95,7 +95,7 @@ public class UserActivity extends SpicioActivity implements UserView, UserHistor
     @Override
     public void showUserData(User user, List<com.tlongdev.spicio.domain.model.UserActivity> history) {
         setTitle(user.getName());
-        mAdapter.setDataSet(history);
+        mAdapter.setDataSet(history, user);
         mAdapter.notifyDataSetChanged();
 
         Glide.with(this)
