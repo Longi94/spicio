@@ -1,7 +1,6 @@
 package com.tlongdev.spicio.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,10 +24,9 @@ import butterknife.ButterKnife;
  * @author longi
  * @since 2016.04.29.
  */
-public class NavigationDrawerManager implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class NavigationDrawerManager implements ProfileManager.OnLoginListener {
 
     @Inject ProfileManager mProfileManager;
-    @Inject SharedPreferences mPrefs;
 
     @BindView(R.id.primary_text) TextView mPrimaryText;
     @BindView(R.id.secondary_text) TextView mSecondaryText;
@@ -38,8 +36,7 @@ public class NavigationDrawerManager implements SharedPreferences.OnSharedPrefer
 
     public NavigationDrawerManager(SpicioApplication application) {
         application.getDrawerManagerComponent().inject(this);
-        //mProfileManager.addOnProfileUpdateListener(this);
-        mPrefs.registerOnSharedPreferenceChangeListener(this);
+        mProfileManager.addOnLoginListener(this);
     }
 
     public void attachView(View header) {
@@ -80,13 +77,9 @@ public class NavigationDrawerManager implements SharedPreferences.OnSharedPrefer
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (mContext == null || key == null || !key.equals(ProfileManager.PREF_KEY_USER)) {
-            return;
-        }
-
-        if (mProfileManager.isLoggedIn()) {
-            update(mProfileManager.getUser());
+    public void OnLogin(User user) {
+        if (mContext != null) {
+            update(user);
         }
     }
 }

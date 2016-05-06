@@ -41,7 +41,7 @@ public class ProfileManagerTest {
 
         application.setProfileManagerComponent(component);
 
-        mProfileManager = new ProfileManager(application);
+        mProfileManager = ProfileManager.getInstance(application);
 
         mUser = new User();
         mUser.setFacebookId("facebook_id");

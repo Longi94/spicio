@@ -46,6 +46,6 @@ public class AuthenticationModule {
     @Provides
     @Singleton
     ProfileManager provideProfileManager(Application application) {
-        return new ProfileManager((SpicioApplication) application);
+        return ProfileManager.getInstance((SpicioApplication) application);
     }
 }
