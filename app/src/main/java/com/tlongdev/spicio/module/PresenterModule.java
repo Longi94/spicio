@@ -13,7 +13,6 @@ import com.tlongdev.spicio.presentation.presenter.activity.SeriesSearchDetailsPr
 import com.tlongdev.spicio.presentation.presenter.activity.SettingsPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.UserPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.UserSeriesPresenter;
-import com.tlongdev.spicio.presentation.presenter.fragment.EpisodePresenter;
 import com.tlongdev.spicio.presentation.presenter.fragment.FeedPresenter;
 import com.tlongdev.spicio.presentation.presenter.fragment.FriendsPresenter;
 import com.tlongdev.spicio.presentation.presenter.fragment.SearchSeriesPresenter;
@@ -84,12 +83,6 @@ public class PresenterModule {
     @Singleton
     UserSeriesPresenter provideUserSeriesPresenter(Application application) {
         return new UserSeriesPresenter((SpicioApplication) application);
-    }
-
-    @Provides
-    @Singleton
-    EpisodePresenter provideEpisodePresenter(Application application) {
-        return new EpisodePresenter((SpicioApplication) application);
     }
 
     @Provides
