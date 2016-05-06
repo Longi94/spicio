@@ -50,7 +50,7 @@ public class ProfileManagerTest {
 
     @Test
     public void testLogin() {
-        mProfileManager.login(mUser);
+        mProfileManager.save(mUser);
 
         assertEquals("facebook_id", mProfileManager.getFacebookId());
         assertEquals("google_id", mProfileManager.getGoogleId());
@@ -59,7 +59,7 @@ public class ProfileManagerTest {
 
     @Test
     public void testLogout() throws Exception {
-        mProfileManager.login(mUser);
+        mProfileManager.save(mUser);
 
         assertTrue(mProfileManager.isLoggedIn());
 

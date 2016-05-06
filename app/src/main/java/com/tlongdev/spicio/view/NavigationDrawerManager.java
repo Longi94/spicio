@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  * @author longi
  * @since 2016.04.29.
  */
-public class NavigationDrawerManager implements ProfileManager.OnLoginListener {
+public class NavigationDrawerManager implements ProfileManager.OnUserUpdateListener {
 
     @Inject ProfileManager mProfileManager;
 
@@ -36,7 +36,7 @@ public class NavigationDrawerManager implements ProfileManager.OnLoginListener {
 
     public NavigationDrawerManager(SpicioApplication application) {
         application.getDrawerManagerComponent().inject(this);
-        mProfileManager.addOnLoginListener(this);
+        mProfileManager.addOnUserUpdateListener(this);
     }
 
     public void attachView(View header) {
@@ -77,7 +77,7 @@ public class NavigationDrawerManager implements ProfileManager.OnLoginListener {
     }
 
     @Override
-    public void OnLogin(User user) {
+    public void OnUserUpdate(User user) {
         if (mContext != null) {
             update(user);
         }

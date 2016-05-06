@@ -37,7 +37,7 @@ public class ProfileManager {
 
     private User mUser;
 
-    private List<OnLoginListener> mListeners = new LinkedList<>();
+    private List<OnUserUpdateListener> mListeners = new LinkedList<>();
 
     private ProfileManager(SpicioApplication application) {
         application.getProfileManagerComponent().inject(this);
@@ -54,7 +54,7 @@ public class ProfileManager {
         mUser = null;
     }
 
-    public void login(User user) {
+    public void save(User user) {
         if (user != null) {
             String json = mGson.toJson(user);
 
@@ -64,9 +64,9 @@ public class ProfileManager {
             mEditor.apply();
             mUser = user;
 
-            for (OnLoginListener listener : mListeners) {
+            for (OnUserUpdateListener listener : mListeners) {
                 if (listener != null) {
-                    listener.OnLogin(user);
+                    listener.OnUserUpdate(user);
                 }
             }
         }
@@ -110,15 +110,15 @@ public class ProfileManager {
         return getUser().getId();
     }
 
-    public boolean addOnLoginListener(OnLoginListener listener) {
+    public boolean addOnUserUpdateListener(OnUserUpdateListener listener) {
         return mListeners.add(listener);
     }
 
-    public boolean removeOnLoginListener(OnLoginListener listener) {
+    public boolean removeOnUserUpdateListener(OnUserUpdateListener listener) {
         return mListeners.remove(listener);
     }
 
-    public interface OnLoginListener {
-        void OnLogin(User user);
+    public interface OnUserUpdateListener {
+        void OnUserUpdate(User user);
     }
 }

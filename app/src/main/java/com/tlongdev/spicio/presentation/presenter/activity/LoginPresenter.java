@@ -305,7 +305,7 @@ public class LoginPresenter implements Presenter<LoginView>, GoogleApiClient.Con
                 mView.updateProgress(mCurrentSeries.getTitle());
             }
         } else {
-            mProfileManager.login(mUser);
+            mProfileManager.save(mUser);
             if (mView != null) {
                 mView.hideLoadingAnim();
                 mView.onLogin();
