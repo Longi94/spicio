@@ -17,8 +17,6 @@ import com.tlongdev.spicio.presentation.ui.view.activity.UserSeriesView;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,13 +25,13 @@ public class UserSeriesActivity extends SpicioActivity implements UserSeriesView
     public static final String EXTRA_USER_ID = "user_id";
     public static final String EXTRA_USER_NAME = "user_name";
 
-    @Inject UserSeriesPresenter mPresenter;
-
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     @InjectExtra(EXTRA_USER_ID) long mUserId;
     @InjectExtra(EXTRA_USER_NAME) String mUserName;
+
+    private UserSeriesPresenter mPresenter;
 
     private UserSeriesAdapter mAdapter;
 
@@ -44,8 +42,7 @@ public class UserSeriesActivity extends SpicioActivity implements UserSeriesView
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mApplication.getActivityComponent().inject(this);
-
+        mPresenter = new UserSeriesPresenter(mApplication);
         mPresenter.attachView(this);
 
         setSupportActionBar(mToolbar);

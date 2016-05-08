@@ -10,9 +10,6 @@ import com.tlongdev.spicio.presentation.ui.activity.SeasonEpisodesActivity;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesActivity;
 import com.tlongdev.spicio.presentation.ui.activity.SeriesSearchDetailsActivity;
 import com.tlongdev.spicio.presentation.ui.activity.SettingsActivity;
-import com.tlongdev.spicio.presentation.ui.activity.UserActivity;
-import com.tlongdev.spicio.presentation.ui.activity.UserFriendsActivity;
-import com.tlongdev.spicio.presentation.ui.activity.UserSeriesActivity;
 
 import javax.inject.Singleton;
 
@@ -38,10 +35,4 @@ public interface ActivityComponent {
     void inject(SeriesSearchDetailsActivity seriesSearchDetailsActivity);
 
     void inject(SettingsActivity settingsActivity);
-
-    void inject(UserActivity userActivity);
-
-    void inject(UserSeriesActivity userSeriesActivity);
-
-    void inject(UserFriendsActivity userFriendsActivity);
 }

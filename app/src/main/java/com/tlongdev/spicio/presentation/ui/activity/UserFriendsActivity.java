@@ -18,8 +18,6 @@ import com.tlongdev.spicio.presentation.ui.view.activity.UserFriendsView;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,12 +26,12 @@ public class UserFriendsActivity extends SpicioActivity implements UserFriendsVi
     public static final String EXTRA_USER_ID = "user_id";
     public static final String EXTRA_USER_NAME = "user_name";
 
-    @Inject UserFriendsPresenter mPresenter;
-
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     @InjectExtra(EXTRA_USER_ID) long mUserId;
     @InjectExtra(EXTRA_USER_NAME) String mUserName;
+
+    private UserFriendsPresenter mPresenter;
 
     private UserFriendsAdapter mAdapter;
 
@@ -44,8 +42,7 @@ public class UserFriendsActivity extends SpicioActivity implements UserFriendsVi
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mApplication.getActivityComponent().inject(this);
-
+        mPresenter = new UserFriendsPresenter(mApplication);
         mPresenter.attachView(this);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
