@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.tlongdev.spicio"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.tlongdev.spicio">
 
     <!-- Safe permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -12,9 +12,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/FACEBOOK_APP_ID"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b4c92b929954d1bf5ce57f368544cebb8ab16dec"/>
 
         <activity
             android:name=".presentation.ui.activity.MainActivity"
@@ -43,6 +47,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
         </activity>
+
         <activity
             android:name=".presentation.ui.activity.SeriesActivity"
             android:parentActivityName=".presentation.ui.activity.MainActivity"
@@ -51,6 +56,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
         </activity>
+
         <activity
             android:name=".presentation.ui.activity.SeasonEpisodesActivity"
             android:parentActivityName=".presentation.ui.activity.SeriesActivity"
@@ -59,6 +65,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tlongdev.spicio.presentation.ui.activity.SeriesActivity"/>
         </activity>
+
         <activity
             android:name=".presentation.ui.activity.LoginActivity"
             android:parentActivityName=".presentation.ui.activity.MainActivity"
@@ -67,11 +74,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
         </activity>
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
         <activity
             android:name=".presentation.ui.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -81,6 +90,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
         </activity>
+
         <activity
             android:name=".presentation.ui.activity.SearchFriendsActivity"
             android:label="@string/title_activity_search_user"
@@ -90,31 +100,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tlongdev.spicio.presentation.ui.activity.MainActivity"/>
         </activity>
-        <activity android:name=".presentation.ui.activity.UserActivity">
+
+        <activity
+            android:name=".presentation.ui.activity.UserActivity"
+            android:theme="@style/AppTheme">
         </activity>
+
         <activity
             android:name=".presentation.ui.activity.UserSeriesActivity"
             android:label="@string/title_activity_user_series"
-            android:parentActivityName=".presentation.ui.activity.UserActivity"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tlongdev.spicio.presentation.ui.activity.UserActivity"/>
         </activity>
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="b4c92b929954d1bf5ce57f368544cebb8ab16dec"/>
 
         <activity
             android:name=".presentation.ui.activity.UserFriendsActivity"
             android:label="@string/title_activity_user_friends"
-            android:parentActivityName=".presentation.ui.activity.UserActivity"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tlongdev.spicio.presentation.ui.activity.UserActivity"/>
         </activity>
+
     </application>
 
 </manifest>
