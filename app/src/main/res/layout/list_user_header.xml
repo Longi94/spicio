@@ -3,25 +3,74 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="horizontal"
+    android:baselineAligned="false">
 
-    <Button
+    <LinearLayout
         android:id="@+id/friends"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Friends"/>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <Button
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:src="@drawable/account_multiple_ic"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Friends"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/series_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Watched series"/>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <Button
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:src="@drawable/television_ic"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Watched series"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/add_remove_friend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add friend"/>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:src="@drawable/account_add_ic"/>
+
+        <TextView
+            android:id="@+id/add_remove_friend_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add friend"/>
+
+    </LinearLayout>
 
 </LinearLayout>

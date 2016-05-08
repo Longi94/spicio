@@ -8,8 +8,8 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -89,7 +89,7 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
                     }
                 });
 
-                holder.addRemoveFriend.setText(mButtonText);
+                holder.addRemoveFriendText.setText(mButtonText);
                 holder.addRemoveFriend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -216,13 +216,16 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
 
         @Nullable
         @BindView(R.id.series_button)
-        Button seriesButton;
+        LinearLayout seriesButton;
         @Nullable
         @BindView(R.id.friends)
-        Button friends;
+        LinearLayout friends;
         @Nullable
         @BindView(R.id.add_remove_friend)
-        Button addRemoveFriend;
+        LinearLayout addRemoveFriend;
+        @Nullable
+        @BindView(R.id.add_remove_friend_text)
+        TextView addRemoveFriendText;
 
         public ViewHolder(View view) {
             super(view);
