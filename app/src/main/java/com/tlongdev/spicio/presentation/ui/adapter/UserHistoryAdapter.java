@@ -44,7 +44,8 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
     private Context mContext;
 
     private OnItemClickListener mListener;
-    private String mButtonText = "";
+
+    private boolean mFriend = false;
 
     public UserHistoryAdapter(Context context) {
         mContext = context;
@@ -89,7 +90,14 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
                     }
                 });
 
-                holder.addRemoveFriendText.setText(mButtonText);
+                if (mFriend) {
+                    holder.addRemoveFriendText.setText("Remove friend");
+                    holder.addRemoveFriendImage.setImageResource(R.drawable.account_remove_ic);
+                } else {
+                    holder.addRemoveFriendText.setText("Add friend");
+                    holder.addRemoveFriendImage.setImageResource(R.drawable.account_add_ic);
+                }
+
                 holder.addRemoveFriend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -115,7 +123,7 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
                                     .into(holder.image);
                             break;
                         case BECAME_FRIENDS:
-                            holder.primary.setText(String.format("%s added %s",
+                            holder.primary.setText(String.format("%s became friends with %s",
                                     mUser.getName(),
                                     activity.getVictim().getName()));
 
@@ -190,8 +198,8 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
         mListener = listener;
     }
 
-    public void setButtonText(String buttonText) {
-        mButtonText = buttonText;
+    public void setFriend(boolean friend) {
+        mFriend = friend;
     }
 
     public interface OnItemClickListener {
@@ -226,6 +234,9 @@ public class UserHistoryAdapter extends RecyclerView.Adapter<UserHistoryAdapter.
         @Nullable
         @BindView(R.id.add_remove_friend_text)
         TextView addRemoveFriendText;
+        @Nullable
+        @BindView(R.id.add_remove_friend_image)
+        ImageView addRemoveFriendImage;
 
         public ViewHolder(View view) {
             super(view);

@@ -38,6 +38,7 @@ public class UserPresenter implements Presenter<UserView>,GetUserDataInteractor.
 
     private SpicioApplication mApplication;
     private long mFriendId;
+    private boolean mFriend = false;
 
     private User mUser;
 
@@ -84,6 +85,8 @@ public class UserPresenter implements Presenter<UserView>,GetUserDataInteractor.
         if (mView != null) {
             mView.showUserData(mUser, history);
         }
+        IsFriendInteractor interactor = new IsFriendInteractorImpl(mApplication, mFriendId, this);
+        interactor.execute();
     }
 
     @Override
@@ -94,14 +97,8 @@ public class UserPresenter implements Presenter<UserView>,GetUserDataInteractor.
     }
 
     public void addOrRemoveFriend() {
-        IsFriendInteractor interactor = new IsFriendInteractorImpl(mApplication, mFriendId, this);
-        interactor.execute();
-    }
-
-    @Override
-    public void onIsFriendFinish(boolean friend) {
         Interactor interactor;
-        if (friend) {
+        if (mFriend) {
             interactor = new RemoveFriendInteractorImpl(
                     mApplication, mProfileManager.getId(), mFriendId, this
             );
@@ -111,6 +108,14 @@ public class UserPresenter implements Presenter<UserView>,GetUserDataInteractor.
             );
         }
         interactor.execute();
+    }
+
+    @Override
+    public void onIsFriendFinish(boolean friend) {
+        mFriend = friend;
+        if (mView != null) {
+            mView.friend(friend);
+        }
     }
 
     @Override

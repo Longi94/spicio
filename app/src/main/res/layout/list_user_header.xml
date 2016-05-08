@@ -61,6 +61,7 @@
         android:padding="8dp">
 
         <ImageView
+            android:id="@+id/add_remove_friend_image"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:src="@drawable/account_add_ic"/>

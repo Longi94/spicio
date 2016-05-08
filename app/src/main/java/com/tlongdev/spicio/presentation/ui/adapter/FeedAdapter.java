@@ -66,7 +66,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                             .into(holder.image);
                     break;
                 case BECAME_FRIENDS:
-                    holder.primary.setText(String.format("%s added %s",
+                    holder.primary.setText(String.format("%s became friends with %s",
                             activity.getCulprit().getName(),
                             activity.getVictim().getName()));
 

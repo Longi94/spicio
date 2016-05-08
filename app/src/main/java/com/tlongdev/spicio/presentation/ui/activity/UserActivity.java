@@ -25,8 +25,6 @@ import com.tlongdev.spicio.presentation.ui.view.activity.UserView;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,8 +32,6 @@ public class UserActivity extends SpicioActivity implements UserView, UserHistor
 
     public static final String EXTRA_USER_ID = "user_id";
     public static final String EXTRA_USER_NAME = "user_name";
-
-    @Inject UserPresenter mPresenter;
 
     @BindView(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
@@ -47,6 +43,8 @@ public class UserActivity extends SpicioActivity implements UserView, UserHistor
     @InjectExtra(EXTRA_USER_ID) long mFriendId;
     @InjectExtra(EXTRA_USER_NAME) String mUserName;
 
+    private UserPresenter mPresenter;
+
     private UserHistoryAdapter mAdapter;
 
     @Override
@@ -56,13 +54,12 @@ public class UserActivity extends SpicioActivity implements UserView, UserHistor
         ButterKnife.bind(this);
         Dart.inject(this);
 
-        mApplication.getActivityComponent().inject(this);
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle(mUserName);
 
+        mPresenter = new UserPresenter(mApplication);
         mPresenter.setFriendId(mFriendId);
         mPresenter.attachView(this);
 
@@ -120,16 +117,22 @@ public class UserActivity extends SpicioActivity implements UserView, UserHistor
     }
 
     @Override
+    public void friend(boolean friend) {
+        mAdapter.setFriend(friend);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void friendDeleted() {
         Toast.makeText(this, "Removed!", Toast.LENGTH_LONG).show();
-        mAdapter.setButtonText("Add friend");
+        mAdapter.setFriend(false);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void friendAdded() {
         Toast.makeText(this, "Added!", Toast.LENGTH_LONG).show();
-        mAdapter.setButtonText("Remove friend");
+        mAdapter.setFriend(true);
         mAdapter.notifyDataSetChanged();
     }
 

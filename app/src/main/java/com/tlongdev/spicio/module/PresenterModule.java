@@ -11,7 +11,6 @@ import com.tlongdev.spicio.presentation.presenter.activity.SeasonEpisodesPresent
 import com.tlongdev.spicio.presentation.presenter.activity.SeriesPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.SeriesSearchDetailsPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.SettingsPresenter;
-import com.tlongdev.spicio.presentation.presenter.activity.UserPresenter;
 import com.tlongdev.spicio.presentation.presenter.activity.UserSeriesPresenter;
 import com.tlongdev.spicio.presentation.presenter.fragment.FeedPresenter;
 import com.tlongdev.spicio.presentation.presenter.fragment.FriendsPresenter;
@@ -71,12 +70,6 @@ public class PresenterModule {
     @Singleton
     SettingsPresenter provideSettingsPresenter(Application application) {
         return new SettingsPresenter((SpicioApplication) application);
-    }
-
-    @Provides
-    @Singleton
-    UserPresenter provideUserPresenter(Application application) {
-        return new UserPresenter((SpicioApplication) application);
     }
 
     @Provides

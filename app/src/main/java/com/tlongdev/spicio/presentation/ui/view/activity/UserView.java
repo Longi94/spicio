@@ -20,4 +20,6 @@ public interface UserView extends BaseView {
     void friendDeleted();
 
     void friendAdded();
+
+    void friend(boolean friend);
 }
