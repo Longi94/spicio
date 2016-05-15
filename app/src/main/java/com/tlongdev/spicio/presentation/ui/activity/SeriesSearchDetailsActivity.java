@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,6 @@ import com.tlongdev.spicio.presentation.presenter.activity.SeriesSearchDetailsPr
 import com.tlongdev.spicio.presentation.ui.view.activity.SeriesSearchDetailsView;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -102,7 +102,7 @@ public class SeriesSearchDetailsActivity extends SpicioActivity implements Serie
 
         title.setText(series.getTitle());
         overview.setText(series.getOverview());
-        genres.setText(String.format("Genres: %s", Arrays.toString(series.getGenres())));
+        genres.setText(TextUtils.join(", ", series.getGenres()));
 
         trailerUrl = series.getTrailer();
         if (trailerUrl == null) {
@@ -148,14 +148,14 @@ public class SeriesSearchDetailsActivity extends SpicioActivity implements Serie
     }
 
     @OnClick(R.id.trailer)
-    public void openTrailer(Button button) {
+    public void openTrailer() {
         Log.d(LOG_TAG, "clicked on trailer button");
         Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl));
         startActivity(myIntent);
     }
 
     @OnClick(R.id.save)
-    public void saveSeries(Button button) {
+    public void saveSeries() {
         Log.d(LOG_TAG, "clicked on save button");
         mPresenter.saveSeries(mSeries);
     }

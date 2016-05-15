@@ -89,7 +89,7 @@ public class SeriesDetailsFragment extends SpicioFragment implements SeriesDetai
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_series_search_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_series_details, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         mPresenter.attachView(this);
         return rootView;
