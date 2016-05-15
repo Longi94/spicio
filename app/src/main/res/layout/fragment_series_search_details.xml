@@ -1,74 +1,189 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             tools:context="com.tlongdev.spicio.presentation.ui.fragment.SeriesDetailsFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    android:id="@+id/scroll_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:scrollbars="vertical"
+    tools:context="com.tlongdev.spicio.presentation.ui.fragment.SeriesDetailsFragment">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.percent.PercentFrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/poster"
-                    android:scaleType="fitCenter"
-                    app:layout_aspectRatio="68%"
-                    app:layout_widthPercent="100%"/>
-
-            </android.support.percent.PercentFrameLayout>
+            android:layout_marginBottom="4dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardBackgroundColor="@color/card_color">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:baselineAligned="false"
+                android:minHeight="84dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/poster"
+                    android:layout_width="84dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:textSize="16sp"/>
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:minHeight="84dp"
+                    android:scaleType="fitCenter"/>
 
-                <TextView
-                    android:id="@+id/rating"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/overview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"/>
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text"
+                        android:textSize="20sp"/>
 
-                <Button
-                    android:id="@+id/trailer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Trailer"/>
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="18sp"/>
 
-                <TextView
-                    android:id="@+id/genres"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"/>
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-    </android.support.v4.widget.NestedScrollView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            card_view:cardBackgroundColor="@color/card_color">
 
-</FrameLayout>
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="16dp"
+                    android:text="Overview"
+                    android:textColor="@color/accent"
+                    android:textSize="16sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider"/>
+
+                <TextView
+                    android:id="@+id/overview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textColor="@color/primary_text"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            card_view:cardBackgroundColor="@color/card_color">
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="16dp"
+                    android:text="Genres"
+                    android:textColor="@color/accent"
+                    android:textSize="16sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider"/>
+
+                <TextView
+                    android:id="@+id/genres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textColor="@color/primary_text"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            card_view:cardBackgroundColor="@color/card_color">
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="16dp"
+                    android:text="Links"
+                    android:textColor="@color/accent"
+                    android:textSize="16sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider"/>
+
+                <Button
+                    android:id="@+id/trailer"
+                    style="?buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="Trailer"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

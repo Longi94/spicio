@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,6 @@ import com.tlongdev.spicio.presentation.presenter.fragment.SeriesDetailsPresente
 import com.tlongdev.spicio.presentation.ui.view.fragment.SeriesDetailsView;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -120,7 +120,7 @@ public class SeriesDetailsFragment extends SpicioFragment implements SeriesDetai
 
         title.setText(series.getTitle());
         overview.setText(series.getOverview());
-        genres.setText(String.format("Genres: %s", Arrays.toString(series.getGenres())));
+        genres.setText(TextUtils.join(", ", series.getGenres()));
 
         trailerUrl = series.getTrailer();
         if (trailerUrl == null) {

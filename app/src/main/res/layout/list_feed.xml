@@ -15,21 +15,14 @@
         android:minHeight="84dp"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:id="@+id/icon_background"
+        <ImageView
+            android:id="@+id/image"
             android:layout_width="84dp"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="84dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:minHeight="84dp"
-                android:scaleType="fitCenter"/>
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:minHeight="84dp"
+            android:scaleType="fitCenter"/>
 
         <LinearLayout
             android:layout_width="0dp"
