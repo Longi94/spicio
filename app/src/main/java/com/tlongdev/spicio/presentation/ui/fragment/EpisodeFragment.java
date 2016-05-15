@@ -124,17 +124,17 @@ public class EpisodeFragment extends SpicioFragment implements EpisodeView {
 
     }
 
-    @OnClick(R.id.check)
+    @OnClick(R.id.check_button)
     public void checkEpisode() {
         mPresenter.checkEpisode();
     }
 
-    @OnClick(R.id.like)
+    @OnClick(R.id.like_button)
     public void likeEpisode() {
         mPresenter.likeEpisode();
     }
 
-    @OnClick(R.id.skip)
+    @OnClick(R.id.skip_button)
     public void skipEpisode() {
         mPresenter.skipEpisode();
     }
