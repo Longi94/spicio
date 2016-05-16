@@ -49,6 +49,12 @@ public class SearchSeriesAdapter extends RecyclerView.Adapter<SearchSeriesAdapte
 
             holder.text.setText(series.getTitle());
 
+            if (series.getImages().getPoster().getFull() != null) {
+                holder.poster.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            } else {
+                holder.poster.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            }
+
             Glide.with(mContext)
                     .load(series.getImages().getPoster().getFull())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
